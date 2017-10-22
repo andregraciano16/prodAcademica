@@ -1,0 +1,22 @@
+.titulo-centro-grande{
+	font-size: xx-large;
+    text-align: center;
+    color: #FFF;
+    background-color: #30a5ff;
+}
+
+.alinhar-centro{
+	text-align: center;
+}
+
+.alinhar-esquerda{
+	text-align: left;
+}
+
+.alinhar-direita{
+	text-align: right;
+}
+
+.minha-row{
+	padding: 5px; 
+}
