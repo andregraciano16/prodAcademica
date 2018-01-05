@@ -86,5 +86,7 @@ public class Endereco {
 	public void setNumero(Integer numero) {
 		this.numero = numero;
 	}
+	
+	//Teste para commit
 
 }
