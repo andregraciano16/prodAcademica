@@ -87,6 +87,5 @@ public class Endereco {
 		this.numero = numero;
 	}
 	
-	//Teste para commit
 
 }
