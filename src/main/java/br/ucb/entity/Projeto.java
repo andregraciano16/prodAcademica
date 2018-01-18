@@ -33,6 +33,7 @@ public class Projeto {
 	@JoinColumn(name = "idTipoProjeto")
 	private TipoProjeto tipoProjeto;
 	
+	@ManyToOne
 	@JoinColumn(name = "idLinhaPesquisa")
 	private LinhaPesquisa linhaPesquisa;
 
