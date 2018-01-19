@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -29,11 +29,11 @@ public class Comentario {
 	@Column(name = "titulo")
 	private String titulo;
 	
-    @ManyToMany
+    @ManyToOne()
     @JoinColumn(name = "idAluno")
 	private Aluno aluno;
     
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "idDocente")
 	private Docente docente;
 	
