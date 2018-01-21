@@ -18,46 +18,46 @@ public class ProducaoAcademica {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idProducaoAcademica;
-	
+
 	@Column(name = "titulo")
 	private String titulo;
-	
+
 	@Column(name = "descricao")
 	private String descricao;
-	
+
 	@Column(name = "nomeRevista")
 	private String nomeRevista;
-	
+
 	@Column(name = "paginaInicial")
 	private Integer paginaIncial;
-	
-	@Column(name  = "paginaFinal")
+
+	@Column(name = "paginaFinal")
 	private Integer paginaFinal;
-	
+
 	@Column(name = "ano")
 	private Integer ano;
-	
+
 	@Column(name = "ISSN")
 	private Integer ISSN;
-	
+
 	@Column(name = "conceitoQualis")
 	private String conceitoQualis;
-	
+
 	@Column(name = "arquivo")
 	private String arquivo;
-	
+
 	@Column(name = "dataCadastro")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCadastro;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idTipoProducao")
 	private TipoProducao tipoProducao;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idLinhaPesquisa")
 	private LinhaPesquisa linhaPesquisa;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idStatusProducao")
 	private StatusProducao statusProducao;
@@ -173,7 +173,5 @@ public class ProducaoAcademica {
 	public void setStatusProducao(StatusProducao statusProducao) {
 		this.statusProducao = statusProducao;
 	}
-	
-	
-	
+
 }

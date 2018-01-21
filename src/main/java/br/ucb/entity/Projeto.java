@@ -1,6 +1,5 @@
 package br.ucb.entity;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,30 +8,29 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-
 @Entity
 public class Projeto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idProjeto;
-	
+
 	@Column(name = "nome")
 	private String nome;
-	
+
 	@Column(name = "descricao")
 	private String descricao;
-	
+
 	@Column(name = "orgaoFinanciador")
 	private String orgaoFinanciador;
-	
+
 	@Column(name = "dadosOficiais")
 	private String dadosOficiais;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idTipoProjeto")
 	private TipoProjeto tipoProjeto;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idLinhaPesquisa")
 	private LinhaPesquisa linhaPesquisa;
@@ -92,6 +90,5 @@ public class Projeto {
 	public void setLinhaPesquisa(LinhaPesquisa linhaPesquisa) {
 		this.linhaPesquisa = linhaPesquisa;
 	}
-	
-	
+
 }

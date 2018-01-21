@@ -12,7 +12,7 @@ public class Curso {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idCurso;
-	
+
 	@Column(name = "nome")
 	private String nome;
 
@@ -31,5 +31,5 @@ public class Curso {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 }

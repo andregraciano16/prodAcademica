@@ -8,14 +8,14 @@ import javax.persistence.Id;
 
 @Entity
 public class TipoProjeto {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idTipoProjeto;
-	
+
 	@Column(name = "tipo")
 	private String tipo;
-	
+
 	@Column(name = "descricao")
 	private String descricao;
 
@@ -42,7 +42,5 @@ public class TipoProjeto {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
-	
 
 }

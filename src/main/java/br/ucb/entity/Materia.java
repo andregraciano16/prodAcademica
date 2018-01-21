@@ -10,14 +10,14 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Materia {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idMateria;
-	
+
 	@Column(name = "descricao")
 	private String descricao;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idLinhaPesquisa")
 	private LinhaPesquisa linhaPesquisa;
@@ -45,7 +45,5 @@ public class Materia {
 	public void setLinhaPesquisa(LinhaPesquisa linhaPesquisa) {
 		this.linhaPesquisa = linhaPesquisa;
 	}
-	
-	
 
 }

@@ -20,50 +20,50 @@ public class Docente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idDocente;
-	
+
 	@Column(name = "matricula")
 	private String matricula;
-	
+
 	@Column(name = "nome")
 	private String nome;
-	
+
 	@Column(name = "situacao")
 	private String situacao;
-	
+
 	@Column(name = "sexo")
 	private char sexo;
-	
-	@Column(name  = "celular")
+
+	@Column(name = "celular")
 	private String celular;
-	
+
 	@Column(name = "telefoneFixo")
 	private String telefoneFixo;
-	
+
 	@Column(name = "email")
 	private String email;
-	
+
 	@Column(name = "ativo")
 	private boolean ativo;
-	
+
 	@Column(name = "dataNascimento")
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
-	
+
 	@Column(name = "raml")
 	private String ramal;
-	
+
 	@Column(name = "dataCadastro")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCadastro;
-	
+
 	@ManyToOne
 	@JoinColumn
 	private TipoDocente tipoDocente;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idEndereco")
 	private Endereco endereco;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idCurso")
 	private Curso curso;
@@ -187,5 +187,5 @@ public class Docente {
 	public void setCurso(Curso curso) {
 		this.curso = curso;
 	}
-	
+
 }
