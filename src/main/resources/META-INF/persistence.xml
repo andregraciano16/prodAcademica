@@ -11,6 +11,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!-- Aqui são listadas todas as entidades -->
+        <class>br.ucb.entity.StatusAluno</class>
 
         <properties>    
             <!-- Propriedades JDBC -->

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Status Aluno</title>
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="datepicker3.css" />
+	<h:outputStylesheet library="css" name="styles.css" />
+	<h:outputStylesheet library="css" name="myStyle.css" />
+	
+	
+	
+	
+
+</h:head>
+<h:body>
+	<h:form>
+		<div class="row">
+			<div
+				class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+				<div class="login-panel panel panel-default">
+					<div class="titulo-centro-grande">Status Aluno</div>
+
+					<div class="panel-body">
+						<h:form role="form">
+							<fieldset>
+								<div class="row">
+									<div class="col-md-6">
+										<h4>Descrição:</h4>
+										<h:inputText value="#{statusAlunoBean.statusAluno.descricao}"
+											class="form-control" autofocus="" />
+									</div>
+								</div>
+
+								<br /> Descrição: #{statusAlunoBean.statusAluno.descricao} <br />
+								<h:commandButton value="Cadastrar" class="btn btn-primary"
+									action="#{statusAlunoBean.cadastrarStatusAluno(statusAlunoBean.statusAluno)}" />
+								&nbsp;&nbsp;
+								<h:commandButton value="Pesquisar" name="btnPesquisar"
+									class="btn btn-primary-cinza"
+									action="#{statusAlunoBean.buscaStatusPesquisa(statusAlunoBean.statusAluno)}" />
+								&nbsp;&nbsp;
+								<h:commandButton value="Mostrar Todos" class="btn btn-primary"
+									action="#{statusAlunoBean.buscaVariosStatus}" />
+
+								<br />
+								<br />
+								<br />
+								
+								<h:dataTable value="#{statusAlunoBean.variosStatus}" var="item"
+									border="3" rendered="#{not empty statusAlunoBean.variosStatus}" width="500px" 
+									styleClass="tabela" headerClass="cabecalhoTabela" columnClasses="colunaTabelaEsquerda, colunaTabelaDireita">
+									<h:column>
+										<f:facet name="header">
+											Descrição
+										</f:facet>
+										<h:outputText value="#{item.descricao}" />
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											Ações
+										</f:facet>
+										<h:commandButton value="Alterar" class="btn btn-primary"
+											action="#{statusAlunoBean.editaStatusAluno(item)}" />
+											&nbsp;&nbsp;
+										<h:commandButton value="Excluir" class="btn btn-primary-cinza"
+											action="#{statusAlunoBean.excluiStatusAluno(item)}" />
+									</h:column>
+								</h:dataTable>
+							</fieldset>
+						</h:form>
+					</div>
+				</div>
+			</div>
+			<!-- /.col-->
+		</div>
+		<!-- /.row -->
+
+		<h:outputStylesheet library="js" name="jquery-1.11.1.min.js" />
+		<h:outputStylesheet library="js" name="bootstrap.min.js" />
+	</h:form>
+</h:body>
+</html>

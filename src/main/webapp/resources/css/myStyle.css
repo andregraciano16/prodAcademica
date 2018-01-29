@@ -20,3 +20,22 @@
 .minha-row{
 	padding: 5px; 
 }
+
+.tabela{
+	font-family: Arial;
+	font-size: 18px;
+}
+
+.cabecalhoTabela{
+	color: #FFF;
+    background-color: #30a5ff;
+    text-align: center;
+}
+
+.colunaTabelaEsquerda{
+	font-size: 15px;
+}
+
+.colunaTabelaDireita{
+	text-align: center;
+}
