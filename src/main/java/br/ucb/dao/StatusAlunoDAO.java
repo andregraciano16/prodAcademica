@@ -1,4 +1,4 @@
-package br.ucb.DAO;
+package br.ucb.dao;
 
 import java.util.List;
 
