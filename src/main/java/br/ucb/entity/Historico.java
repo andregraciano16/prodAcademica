@@ -3,20 +3,24 @@ package br.ucb.entity;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "Historico")
 public class Historico {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id_historico;
+	private int idHistorico;
 
 	@Column(name = "data_alteracao")
-	private Date data_alteracao;
+	private Date dataAlteracao;
 
 	@ManyToOne
 	@JoinColumn(name = "idAluno")
@@ -34,20 +38,20 @@ public class Historico {
 	@JoinColumn(name = "idProjeto")
 	private Projeto projeto;
 
-	public int getId_historico() {
-		return id_historico;
+	public int getIdHistorico() {
+		return this.idHistorico;
 	}
 
-	public void setId_historico(int id_historico) {
-		this.id_historico = id_historico;
+	public void setIdHistorico(int idHistorico) {
+		this.idHistorico = idHistorico;
 	}
 
-	public Date getData_alteracao() {
-		return data_alteracao;
+	public Date getDataAlteracao() {
+		return this.dataAlteracao;
 	}
 
-	public void setData_alteracao(Date data_alteracao) {
-		this.data_alteracao = data_alteracao;
+	public void setDataAlteracao(Date dataAlteracao) {
+		this.dataAlteracao = dataAlteracao;
 	}
 
 	public Aluno getAluno() {
