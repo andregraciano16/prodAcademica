@@ -12,7 +12,20 @@
 
         <!-- Aqui são listadas todas as entidades -->
         <class>br.ucb.entity.StatusAluno</class>
-
+		<class>br.ucb.entity.Aluno</class>
+		<class>br.ucb.entity.Comentario</class>
+		<class>br.ucb.entity.Curso</class>
+		<class>br.ucb.entity.Docente</class>
+		<class>br.ucb.entity.Endereco</class>
+		<class>br.ucb.entity.Historico</class>
+		<class>br.ucb.entity.LinhaPesquisa</class>
+		<class>br.ucb.entity.Materia</class>
+		<class>br.ucb.entity.ProducaoAcademica</class>
+		<class>br.ucb.entity.Projeto</class>
+		<class>br.ucb.entity.StatusProducao</class>
+		<class>br.ucb.entity.TipoDocente</class>
+		<class>br.ucb.entity.TipoProducao</class>
+		<class>br.ucb.entity.TipoProjeto</class>
         <properties>    
             <!-- Propriedades JDBC -->
             <property name="javax.persistence.jdbc.driver" 
