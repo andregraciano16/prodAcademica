@@ -7,7 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class TipoDocente {
+public class TipoDocente extends EntidadeBase {
+
+	private static final long serialVersionUID = -398265338503322519L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
