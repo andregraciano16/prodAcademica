@@ -7,8 +7,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import br.ucb.entity.StatusAluno;
+import br.ucb.util.JPAUtil;
 
-public class StatusAlunoDAO {
+public class StatusAlunoDao {
 	
 	public void cadastrar(StatusAluno statusAluno){
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("prodAc");
@@ -53,8 +54,9 @@ public class StatusAlunoDAO {
 	
 	public List<StatusAluno> buscaTodosStatus(){
 		
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("prodAc");
-		EntityManager em = emf.createEntityManager();
+		//EntityManagerFactory emf = Persistence.createEntityManagerFactory("prodAc");
+		//EntityManager em = emf.createEntityManager();
+		EntityManager em = JPAUtil.getEntityManaged();
 		
 		List<StatusAluno> variosStatus = em.createQuery("from StatusAluno",StatusAluno.class).getResultList();
 		
