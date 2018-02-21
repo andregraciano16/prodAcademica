@@ -1,17 +1,18 @@
-package br.ucb.controller;
+package br.ucb.MB;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
-import br.ucb.DAO.StatusAlunoDAO;
+import br.ucb.dao.StatusAlunoDao;
 import br.ucb.entity.StatusAluno;
 
 @ManagedBean
-@ApplicationScoped
-public class StatusAlunoBean {
+@ViewScoped
+public class StatusAlunoMB {
 
 	private StatusAluno statusAluno;
 	private List<StatusAluno> variosStatus;
@@ -19,7 +20,7 @@ public class StatusAlunoBean {
 	
 	
 
-	public StatusAlunoBean() {
+	public StatusAlunoMB() {
 		this.statusAluno = new StatusAluno();
 		this.setVariosStatus(new ArrayList<StatusAluno>());
 	}
@@ -50,7 +51,7 @@ public class StatusAlunoBean {
 	
 	
 	public void cadastrarStatusAluno(StatusAluno statusAluno) {
-		StatusAlunoDAO statusAlunoDAO = new StatusAlunoDAO();
+		StatusAlunoDao statusAlunoDAO = new StatusAlunoDao();
 		if(variosStatus.contains(statusAluno)){
 			statusAlunoDAO.alterar(statusAluno);
 		}else{
@@ -61,13 +62,13 @@ public class StatusAlunoBean {
 
 	
 	public void buscaVariosStatus(){
-		StatusAlunoDAO statusAlunoDAO = new StatusAlunoDAO();
+		StatusAlunoDao statusAlunoDAO = new StatusAlunoDao();
 		this.variosStatus = statusAlunoDAO.buscaTodosStatus();
 	}
 	
 	
 	public void excluiStatusAluno(StatusAluno statusAluno){
-		StatusAlunoDAO statusAlunoDAO = new StatusAlunoDAO();
+		StatusAlunoDao statusAlunoDAO = new StatusAlunoDao();
 		statusAlunoDAO.excluir(statusAluno);
 		buscaVariosStatus();
 	}
@@ -78,7 +79,7 @@ public class StatusAlunoBean {
 
 	
 	public void buscaStatusPesquisa(StatusAluno statusAluno){
-		StatusAlunoDAO statusAlunoDAO = new StatusAlunoDAO();
+		StatusAlunoDao statusAlunoDAO = new StatusAlunoDao();
 		this.variosStatus = statusAlunoDAO.buscaStatusPorPesquisa(statusAluno.getDescricao());
 	}
 }

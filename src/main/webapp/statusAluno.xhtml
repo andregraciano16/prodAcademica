@@ -29,28 +29,28 @@
 								<div class="row">
 									<div class="col-md-6">
 										<h4>Descrição:</h4>
-										<h:inputText value="#{statusAlunoBean.statusAluno.descricao}"
+										<h:inputText value="#{statusAlunoMB.statusAluno.descricao}"
 											class="form-control" autofocus="" />
 									</div>
 								</div>
 
 								<br /> Descrição: #{statusAlunoBean.statusAluno.descricao} <br />
 								<h:commandButton value="Cadastrar" class="btn btn-primary"
-									action="#{statusAlunoBean.cadastrarStatusAluno(statusAlunoBean.statusAluno)}" />
+									action="#{statusAlunoMB.cadastrarStatusAluno(statusAlunoMB.statusAluno)}" />
 								&nbsp;&nbsp;
 								<h:commandButton value="Pesquisar" name="btnPesquisar"
 									class="btn btn-primary-cinza"
-									action="#{statusAlunoBean.buscaStatusPesquisa(statusAlunoBean.statusAluno)}" />
+									action="#{statusAlunoMB.buscaStatusPesquisa(statusAlunoMB.statusAluno)}" />
 								&nbsp;&nbsp;
 								<h:commandButton value="Mostrar Todos" class="btn btn-primary"
-									action="#{statusAlunoBean.buscaVariosStatus}" />
+									action="#{statusAlunoMB.buscaVariosStatus}" />
 
 								<br />
 								<br />
 								<br />
 								
-								<h:dataTable value="#{statusAlunoBean.variosStatus}" var="item"
-									border="3" rendered="#{not empty statusAlunoBean.variosStatus}" width="500px" 
+								<h:dataTable value="#{statusAlunoMB.variosStatus}" var="item"
+									border="3" rendered="#{not empty statusAlunoMB.variosStatus}" width="500px" 
 									styleClass="tabela" headerClass="cabecalhoTabela" columnClasses="colunaTabelaEsquerda, colunaTabelaDireita">
 									<h:column>
 										<f:facet name="header">
@@ -63,10 +63,10 @@
 											Ações
 										</f:facet>
 										<h:commandButton value="Alterar" class="btn btn-primary"
-											action="#{statusAlunoBean.editaStatusAluno(item)}" />
+											action="#{statusAlunoMB.editaStatusAluno(item)}" />
 											&nbsp;&nbsp;
 										<h:commandButton value="Excluir" class="btn btn-primary-cinza"
-											action="#{statusAlunoBean.excluiStatusAluno(item)}" />
+											action="#{statusAlunoMB.excluiStatusAluno(item)}" />
 									</h:column>
 								</h:dataTable>
 							</fieldset>
