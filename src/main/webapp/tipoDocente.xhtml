@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				template="./template.xhtml" 
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:p="http://primefaces.prime.com.tr/ui"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns="http://www.w3.org/1999/xhtml" >
+	<ui:define name="Conteudo">
+		<div class="row">
+			<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+				<div class="login-panel panel panel-default">
+					<div class="titulo-centro-grande">Tipo Docente </div>
+					<div class="panel-body">
+<!-- 						<h:form id="form"> -->
+							
+								<div class="row">
+									<div class="col-md-6">
+										<h4>Descrição:</h4>
+										<h:inputText value="#{tipoDocenteMB.descricao}" 
+										             class= "form-control" 
+										             maxlength="10"/>
+									</div>
+								</div>
+                                <br/>
+								<h:commandButton value="Cadastrar" 
+								                 class="btn btn-primary" 
+								                 action="#{tipoDocenteMB.cadastrar()}" />
+								&nbsp;&nbsp;
+								<h:commandButton value="Pesquisar" 
+								                 name="btnPesquisar" 
+								                 class="btn btn-primary-cinza"
+									             action="#{tipoDocenteMB.buscar()}" />
+								&nbsp;&nbsp;
+								<p:commandButton value="Limpar" 
+								                 title="Limpar"
+								                 class="btn btn-primary"
+									             actionListener="#{tipoDocenteMB.limpar()}" 
+									             immediate="true" 
+									             update="@form">
+							    </p:commandButton>
+								<br />
+								<br />
+								<br />
+								<h:dataTable value="#{tipoDocenteMB.tipos}" var="item"  border="3" 
+								             rendered="#{not empty tipoDocenteMB.tipos}" width="50%" 
+									         styleClass="tabela" headerClass="cabecalhoTabela" 
+									         columnClasses="colunaTabelaEsquerda, colunaTabelaDireita">
+									<h:column>
+										<f:facet name="header">
+											Descriçao
+										</f:facet>
+										<h:outputText value="#{item.descricao}" />
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											Ação
+										</f:facet>
+										<h:commandButton value="Alterar" 
+										                 class="btn btn-primary"
+											             action="#{tipoDocenteMB.editar(item)}" />
+											&nbsp;&nbsp;
+										<h:commandButton value="Excluir" 
+										                 class="btn btn-primary-cinza"
+											             action="#{tipoDocenteMB.excluir(item)}" />
+									</h:column>
+								</h:dataTable>
+<!-- 						</h:form> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
