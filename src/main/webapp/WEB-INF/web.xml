@@ -25,10 +25,11 @@
     "midnight", "mint-choc", "overcast", "pepper-grinder", "redmond", "rocket", "sam",
     "smoothness", "south-street", "start", "sunny", "swanky-purse", "trontastic", 
     "twitter bootstrap", "ui-darkness", "ui-lightness", "vader" -->
+
 	<context-param>
 			<param-name>primefaces.THEME</param-name>
-			<param-value>adamantium</param-value>
-	</context-param>
+			<param-value>start</param-value>
+		</context-param>
   
   
     <!-- Configuração do JSF -->
