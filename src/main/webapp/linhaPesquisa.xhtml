@@ -10,7 +10,7 @@
 			<ui:define name="Conteudo">
 <h:head>
 
-	<title>Status Aluno</title>
+	<title>Linha de Pesquisa</title>
 	<h:outputStylesheet library="css" name="bootstrap.min.css" />
 	<h:outputStylesheet library="css" name="datepicker3.css" />
 	<h:outputStylesheet library="css" name="styles.css" />
@@ -26,7 +26,7 @@
 			<div
 				class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-3 col-md-8 col-md-offset-3">
 				<div class="login-panel panel panel-default">
-					<div class="titulo-centro-grande">Status Aluno</div>
+					<div class="titulo-centro-grande">Linha de Pesquisa</div>
 
 					<div class="panel-body">
 						<h:form role="form">
@@ -36,7 +36,7 @@
 									<h:messages showSummary="false" showDetail="true" styleClass="form-messages" 
 									errorClass="error" infoClass="info"/>
 										<h4>Descrição:</h4>
-										<h:inputText value="#{statusAlunoMB.statusAluno.descricao}"
+										<h:inputText value="#{linhaPesquisaMB.linhaPesquisa.descricao}"
 											class="form-control" autofocus=""  required="true" requiredMessage=" O campo Descrição é necessário." 
 											validatorMessage="A descrição não pode ser maior que 45 caracteres.">
 											<f:validateLength maximum="45" />
@@ -50,21 +50,21 @@
 								
 								
 								<h:commandButton value="Cadastrar" class="btn btn-primary"
-									action="#{statusAlunoMB.cadastrarStatusAluno(statusAlunoMB.statusAluno)}" icon="ui-icon-disk" />
+									action="#{linhaPesquisaMB.cadastrarLinhaPesquisa(linhaPesquisaMB.linhaPesquisa)}" icon="ui-icon-disk" />
 							
 							
 									
 								&nbsp;&nbsp;
 								<h:commandButton value="Pesquisar" class="btn btn-primary-cinza"
-									action="#{statusAlunoMB.buscaStatusPesquisa(statusAlunoMB.statusAluno)}" />
+									action="#{linhaPesquisaMB.buscaLinhaPesquisa(linhaPesquisaMB.linhaPesquisa)}" />
 									
 								&nbsp;&nbsp;
 								<h:button value="Limpar" class="btn btn-primary-cinzaS"
-									outcome="statusAluno" immediate="true"/>
+									outcome="linhaPesquisa" immediate="true"/>
 									
 								&nbsp;&nbsp;
-								<h:commandButton value="Mostrar Todos" class="btn btn-primary"
-									action="#{statusAlunoMB.buscaVariosStatus}" immediate="true"/>
+								<h:commandButton value="Mostrar Todas" class="btn btn-primary"
+									action="#{linhaPesquisaMB.buscaLinhasPesquisa}" immediate="true"/>
 									
 								
 
@@ -72,8 +72,8 @@
 								<br />
 								<br />
 								
-								<h:dataTable value="#{statusAlunoMB.variosStatus}" var="item" 
-									border="3" rendered="#{not empty statusAlunoMB.variosStatus}" width="100%" 
+								<h:dataTable value="#{linhaPesquisaMB.linhasPesquisa}" var="item" 
+									border="3" rendered="#{not empty linhaPesquisaMB.linhasPesquisa}" width="100%" 
 									styleClass="tabela" headerClass="cabecalhoTabela" 
 									columnClasses="colunaTabelaEsquerda, colunaTabelaDireita">
 									<h:column>
@@ -88,10 +88,10 @@
 											Ações
 										</f:facet>
 										<h:commandButton image="images/edit-icon.png" 
-											action="#{statusAlunoMB.editaStatusAluno(item)}"  immediate="true"/>
+											action="#{linhaPesquisaMB.editaLinhaPesquisa(item)}"  immediate="true"/>
 											&nbsp;&nbsp;
 										<h:commandButton image="images/close-icon.png" 
-											action="#{statusAlunoMB.excluiStatusAluno(item)}"  immediate="true"/>
+											action="#{linhaPesquisaMB.excluiLinhaPesquisa(item)}"  immediate="true"/>
 											
 									</h:column>
 								</h:dataTable>

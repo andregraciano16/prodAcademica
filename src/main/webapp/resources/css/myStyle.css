@@ -34,8 +34,23 @@
 
 .colunaTabelaEsquerda{
 	font-size: 15px;
+	max-width: 75%;
 }
 
 .colunaTabelaDireita{
 	text-align: center;
+	max-width: 25%;
+}
+
+.form-messages{
+	padding-left: 20px;
+}
+
+
+.form-messages .error{
+	color: #e81f1f;
+}
+
+.form-messages .info{
+	color: #156b2a;
 }

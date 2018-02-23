@@ -25,10 +25,12 @@
 		"midnight", "mint-choc", "overcast", "pepper-grinder", "redmond", "rocket", 
 		"sam", "smoothness", "south-street", "start", "sunny", "swanky-purse", "trontastic", 
 		"twitter bootstrap", "ui-darkness", "ui-lightness", "vader" -->
-<!-- 	<context-param> -->
-<!-- 		<param-name>primefaces.THEME</param-name> -->
-<!-- 		<param-value>adamantium</param-value> -->
-<!-- 	</context-param> -->
+
+	<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>start</param-value>
+	</context-param>
+
 
 	<!-- Configuração do JSF -->
 	<!-- Nesta parte da configuração nós dissemos para o JSF que todo arquivo 
@@ -40,11 +42,13 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+
 	<!-- Tipo de arquivo que será filtrado pelo Faces Servlet. -->
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
+
 
 	<mime-mapping>
 		<extension>woff2</extension>
