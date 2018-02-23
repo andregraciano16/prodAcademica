@@ -43,10 +43,10 @@
 		</dependency>
 
 		<!-- Primefaces -->
-		<dependency> 
-		<groupId>org.primefaces</groupId>
-		<artifactId>primefaces</artifactId>
-		<version>6.0</version>
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>6.0</version>
 		</dependency>
 
 		<!--Todos os temas gratuitos do Primefaces -->
@@ -55,8 +55,8 @@
 			<artifactId>all-themes</artifactId>
 			<version>1.0.10</version>
 		</dependency>
-		
-		
+
+
 		<!-- MSQL - Connector 6.0.4 -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -79,5 +79,13 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+	<repositories>
+		<repository>
+			<id>prime-repo</id>
+			<name>PrimeFaces Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
 
 </project>
