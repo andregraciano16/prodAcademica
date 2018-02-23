@@ -1,18 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
 				template="./template.xhtml" 
 				xmlns:h="http://java.sun.com/jsf/html"
-				xmlns:p="http://primefaces.prime.com.tr/ui"
 				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.prime.com.tr/ui"
 				xmlns="http://www.w3.org/1999/xhtml" >
 	<ui:define name="Conteudo">
+		<h:head>
+			<title>Tipo Docente</title>
+		</h:head>
+		<h:body>
+		<h:form>
 		<div class="row">
 			<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
 				<div class="login-panel panel panel-default">
 					<div class="titulo-centro-grande">Tipo Docente </div>
 					<div class="panel-body">
-<!-- 						<h:form id="form"> -->
-							
 								<div class="row">
 									<div class="col-md-6">
 										<h4>Descrição:</h4>
@@ -64,10 +67,11 @@
 											             action="#{tipoDocenteMB.excluir(item)}" />
 									</h:column>
 								</h:dataTable>
-<!-- 						</h:form> -->
 					</div>
 				</div>
 			</div>
 		</div>
+		</h:form>
+		</h:body>
 	</ui:define>
 </ui:composition>
