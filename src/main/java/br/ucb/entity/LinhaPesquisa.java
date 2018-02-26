@@ -36,5 +36,24 @@ public class LinhaPesquisa implements Serializable {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	
+	
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof LinhaPesquisa))
+			return false;
+		LinhaPesquisa other = (LinhaPesquisa) obj;
+		if (idLinhaPesquisa == null){
+			if (other.idLinhaPesquisa != null)
+				return false;
+		} else if (!idLinhaPesquisa.equals(other.idLinhaPesquisa))
+			return false;
+		return true;
+	}
 
 }

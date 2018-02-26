@@ -9,7 +9,7 @@
 	<ui:define name="Conteudo">
 		<h:head>
 
-			<title>Status Aluno</title>
+			<title>Matéria</title>
 			<h:outputStylesheet library="css" name="bootstrap.min.css" />
 			<h:outputStylesheet library="css" name="datepicker3.css" />
 			<h:outputStylesheet library="css" name="styles.css" />
@@ -21,18 +21,18 @@
 
 		</h:head>
 		<h:body>
-			<h:form id="form">
+			<h:form id="form" >
 			
 				<div class="rowDown">
 					<div
 						class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-3 col-md-8 col-md-offset-3">
 						<div class="login-panel panel panel-default">
 
-							<div class="titulo-centro-grande">Status Aluno</div>
+							<div class="titulo-centro-grande">Matéria</div>
 
 
 							<div class="panel-body" id="test">
-								<h:form id="formSeg">
+								<h:form id="formSeg" >
 										<div class="row">
 											<div class="col-md-12" >
 
@@ -41,12 +41,19 @@
 												
 												<h4 id="lblDescricao">Descrição:</h4>
 												
-												<h:inputText value="#{statusAlunoMB.statusAluno.descricao}" id="txtDescricao"
+												<h:inputText value="#{materiaMB.materia.descricao}" id="txtDescricao"
 													class="form-control" autofocus="" required="true"
 													requiredMessage=" O campo Descrição é necessário."
 													validatorMessage="A descrição não pode ser maior que 45 caracteres.">
 													<f:validateLength maximum="45" />
 												</h:inputText>
+
+												<br/>
+												<h4 id="lblLinha">Linha de Pesquisa:</h4>
+												<p:selectOneMenu value="#{materiaMB.materia.linhaPesquisa}" id="dropLinhas">
+													<f:selectItems value="#{materiaMB.linhasPesquisa}"
+													var="linha" itemValue="#{linha}" itemLabel="#{linha.descricao}"/>
+												</p:selectOneMenu>
 
 
 											</div>
@@ -58,28 +65,28 @@
 
 
 										<h:commandButton value="Cadastrar" class="btn btn-primary" id="btnCadastrar"
-											action="#{statusAlunoMB.cadastrarStatusAluno(statusAlunoMB.statusAluno)}" />
+											action="#{materiaMB.cadastrarMateria(materiaMB.materia)}" />
 										&nbsp;&nbsp;
 										<h:commandButton value="Pesquisar" id="btnPesquisar"
 											class="btn btn-primary-cinza"
-											action="#{statusAlunoMB.buscaStatusPesquisa(statusAlunoMB.statusAluno)}" />
+											action="#{materiaMB.buscaMateria(materiaMB.materia)}" />
 										&nbsp;&nbsp;
 										<h:button value="Limpar" class="btn btn-primary-cinza" id="btnLimpar"
-											outcome="statusAluno" immediate="true" />
+											outcome="materia" immediate="true" />
 										&nbsp;&nbsp;
 										<h:commandButton value="Mostrar Todos" class="btn btn-primary" id="btnMostrar"
-											action="#{statusAlunoMB.buscaVariosStatus}" immediate="true" />
+											action="#{materiaMB.buscaMaterias}" immediate="true" />
 
 
 										<br /> <br /> <br />
 
 
 										<p:growl id="msg" />
-										<p:dataTable value="#{statusAlunoMB.variosStatus}" var="item" rows="4" paginator="true" editable="true"
-											rendered="#{not empty statusAlunoMB.variosStatus}" width="100%">
+										<p:dataTable value="#{materiaMB.materias}" var="item" rows="4" paginator="true" editable="true"
+											rendered="#{not empty materiaMB.materias}" width="100%">
 											
-											<p:ajax event="rowEdit" listener="#{statusAlunoMB.editaStatusAluno}" update=":form:formSeg:msg"/>
-											<p:ajax event="rowEditCancel" listener="#{statusAlunoMB.cancelaEdit}" update=":form:formSeg:msg"/>
+											<p:ajax event="rowEdit" listener="#{materiaMB.editaMateria}" update=":form:formSeg:msg"/>
+											<p:ajax event="rowEditCancel" listener="#{materiaMB.cancelaEdit}" update=":form:formSeg:msg"/>
 											
 											<p:column headerText="Descrição" >
 											
@@ -90,7 +97,7 @@
 													</f:facet>
 											
 													<f:facet name="input">
-														<h:inputText value="#{statusAlunoMB.editavel.descricao}" required="true"
+														<h:inputText value="#{materiaMB.editavel.descricao}" required="true"
 														requiredMessage=" O campo descrição é necessário."
 														validatorMessage="A descrição não pode ser maior que 45 caracteres.">
 															<f:validateLength maximum="45" />
@@ -101,12 +108,32 @@
 												
 											</p:column>
 											
-
+											
+											<p:column headerText="Linha de Pesquisa" >
+											
+												<p:cellEditor>
+											
+													<f:facet name="output">
+														<h:outputText value="#{item.linhaPesquisa.descricao}" />
+													</f:facet>
+											
+													<f:facet name="input">
+														<p:selectOneMenu value="#{materiaMB.editavel.linhaPesquisa}" id="dropLinhasEdit">
+															<f:selectItems value="#{materiaMB.linhasPesquisa}"
+															var="linha" itemValue="#{linha}" itemLabel="#{linha.descricao}"/>
+														</p:selectOneMenu>
+													</f:facet>
+											
+												</p:cellEditor>
+												
+											</p:column>
+											
+											
 											<p:column headerText="Ações" styleClass="coluna-acao">
 												<p:rowEditor/>
 												&nbsp;
 												<p:commandButton icon="ui-icon-trash"
-													action="#{statusAlunoMB.excluiStatusAluno(item)}"
+													action="#{materiaMB.excluiMateria(item)}"
 													immediate="true" update="form">
 												<p:confirm message="Tem certeza que deseja apagar?" header="Aviso"  icon="ui-icon-alert"/>
 												</p:commandButton>

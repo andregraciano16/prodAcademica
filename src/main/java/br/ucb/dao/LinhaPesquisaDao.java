@@ -1,79 +1,93 @@
 package br.ucb.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import br.ucb.dao.impl.DaoGenericoImpl;
 import br.ucb.entity.LinhaPesquisa;
 import br.ucb.util.JPAUtil;
 
 public class LinhaPesquisaDao {
-	
-	public void cadastrar(LinhaPesquisa linhaPesquisa) {
-		
-		EntityManager em = JPAUtil.getEntityManaged();
-		
-		em.getTransaction().begin();
-		em.merge(linhaPesquisa);
-		em.getTransaction().commit();
-		em.close();
-		
-		
-		/*
-		DaoGenerico<Serializable, LinhaPesquisa> linhaPesquisaDAO = new DaoGenericoImpl<>();
-		linhaPesquisaDAO.save(linhaPesquisa);
-		
-		*/
-		
-	}
 
-	public void alterar(LinhaPesquisa linhaPesquisa) {
+	public String cadastrar(LinhaPesquisa linhaPesquisa) {
+
 		EntityManager em = JPAUtil.getEntityManaged();
 
-		LinhaPesquisa alterarLinhaPesquisa = em.find(LinhaPesquisa.class, linhaPesquisa.getIdLinhaPesquisa());
-		if (alterarLinhaPesquisa != null) {
+		try {
 			em.getTransaction().begin();
-			alterarLinhaPesquisa.setDescricao(linhaPesquisa.getDescricao());
+			em.merge(linhaPesquisa);
 			em.getTransaction().commit();
-
+			em.close();
+		} catch (Exception ex) {
+			return ex.getMessage();
 		}
+		return "Cadastrado com sucesso!";
 
-		em.close();
-		
 		/*
-		DaoGenerico<Serializable, LinhaPesquisa> linhaPesquisaDAO = new DaoGenericoImpl<>();
-		linhaPesquisaDAO.update(linhaPesquisa);*/
+		 * DaoGenerico<Serializable, LinhaPesquisa> linhaPesquisaDAO = new
+		 * DaoGenericoImpl<>(); linhaPesquisaDAO.save(linhaPesquisa);
+		 * 
+		 */
+
 	}
 
-	public void excluir(LinhaPesquisa linhaPesquisa) {
-		
+	public String alterar(LinhaPesquisa linhaPesquisa) {
 		EntityManager em = JPAUtil.getEntityManaged();
 
-		LinhaPesquisa excluirLinhaPesquisa = em.find(LinhaPesquisa.class, linhaPesquisa.getIdLinhaPesquisa());
-		if (excluirLinhaPesquisa != null) {
-			em.getTransaction().begin();
-			em.remove(excluirLinhaPesquisa);
-			em.getTransaction().commit();
+		try {
+			LinhaPesquisa alterarLinhaPesquisa = em.find(LinhaPesquisa.class, linhaPesquisa.getIdLinhaPesquisa());
+			if (alterarLinhaPesquisa != null) {
+				em.getTransaction().begin();
+				alterarLinhaPesquisa.setDescricao(linhaPesquisa.getDescricao());
+				em.getTransaction().commit();
 
+			}
+			em.close();
+		} catch (Exception ex) {
+			return ex.getMessage();
 		}
-		em.close();
+		return "Atualizado com sucesso!";
+
 		/*
-		DaoGenerico<Serializable, LinhaPesquisa> linhaPesquisaDAO = new DaoGenericoImpl<>();
-		linhaPesquisaDAO.remove(linhaPesquisa);*/
+		 * DaoGenerico<Serializable, LinhaPesquisa> linhaPesquisaDAO = new
+		 * DaoGenericoImpl<>(); linhaPesquisaDAO.update(linhaPesquisa);
+		 */
 	}
 
-	public List<LinhaPesquisa> buscaTodosStatus() {
+	public String excluir(LinhaPesquisa linhaPesquisa) {
 
-		
-		 EntityManager em = JPAUtil.getEntityManaged();
-		 List<LinhaPesquisa> linhasPesquisa = em.createQuery("from LinhaPesquisa", LinhaPesquisa.class).getResultList();
+		EntityManager em = JPAUtil.getEntityManaged();
 
-		return  linhasPesquisa;
+		try {
+
+			LinhaPesquisa excluirLinhaPesquisa = em.find(LinhaPesquisa.class, linhaPesquisa.getIdLinhaPesquisa());
+			if (excluirLinhaPesquisa != null) {
+				em.getTransaction().begin();
+				em.remove(excluirLinhaPesquisa);
+				em.getTransaction().commit();
+				em.close();
+			}
+
+		} catch (Exception ex) {			
+			return ex.getMessage();
+		}
+		return "Excluido com sucesso.";
+
+		/*
+		 * DaoGenerico<Serializable, LinhaPesquisa> linhaPesquisaDAO = new
+		 * DaoGenericoImpl<>(); linhaPesquisaDAO.remove(linhaPesquisa);
+		 */
 	}
 
-	public List<LinhaPesquisa> buscaStatusPorPesquisa(String descricao) {
+	public List<LinhaPesquisa> buscaTodos() {
+
+		EntityManager em = JPAUtil.getEntityManaged();
+		List<LinhaPesquisa> linhasPesquisa = em.createQuery("from LinhaPesquisa", LinhaPesquisa.class).getResultList();
+
+		return linhasPesquisa;
+	}
+
+	public List<LinhaPesquisa> buscaLinhaPorPesquisa(String descricao) {
 
 		EntityManager em = JPAUtil.getEntityManaged();
 
@@ -82,6 +96,16 @@ public class LinhaPesquisaDao {
 				.getResultList();
 
 		return linhasPesquisa;
+	}
+
+	public LinhaPesquisa buscaLinhaPorId(int id) {
+
+		EntityManager em = JPAUtil.getEntityManaged();
+
+		List<LinhaPesquisa> linhasPesquisa = em
+				.createQuery("from LinhaPesquisa where idLinhaPesquisa = " + id, LinhaPesquisa.class).getResultList();
+
+		return linhasPesquisa.get(0);
 	}
 
 }
