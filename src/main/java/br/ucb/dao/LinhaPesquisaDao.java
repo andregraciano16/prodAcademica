@@ -35,7 +35,7 @@ public class LinhaPesquisaDao {
 		EntityManager em = JPAUtil.getEntityManaged();
 
 		try {
-			LinhaPesquisa alterarLinhaPesquisa = em.find(LinhaPesquisa.class, linhaPesquisa.getIdLinhaPesquisa());
+			LinhaPesquisa alterarLinhaPesquisa = em.find(LinhaPesquisa.class, linhaPesquisa.getId_linhaPesquisa());
 			if (alterarLinhaPesquisa != null) {
 				em.getTransaction().begin();
 				alterarLinhaPesquisa.setDescricao(linhaPesquisa.getDescricao());
@@ -60,7 +60,7 @@ public class LinhaPesquisaDao {
 
 		try {
 
-			LinhaPesquisa excluirLinhaPesquisa = em.find(LinhaPesquisa.class, linhaPesquisa.getIdLinhaPesquisa());
+			LinhaPesquisa excluirLinhaPesquisa = em.find(LinhaPesquisa.class, linhaPesquisa.getId_linhaPesquisa());
 			if (excluirLinhaPesquisa != null) {
 				em.getTransaction().begin();
 				em.remove(excluirLinhaPesquisa);
@@ -71,7 +71,7 @@ public class LinhaPesquisaDao {
 		} catch (Exception ex) {			
 			return ex.getMessage();
 		}
-		return "Excluido com sucesso.";
+		return "Excluído com sucesso.";
 
 		/*
 		 * DaoGenerico<Serializable, LinhaPesquisa> linhaPesquisaDAO = new

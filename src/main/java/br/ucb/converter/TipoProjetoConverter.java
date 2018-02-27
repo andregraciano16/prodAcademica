@@ -5,19 +5,20 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import br.ucb.dao.LinhaPesquisaDao;
-import br.ucb.entity.LinhaPesquisa;
+import br.ucb.dao.TipoProjetoDao;
+import br.ucb.entity.TipoProjeto;
 
-@FacesConverter(forClass=LinhaPesquisa.class)
-public class LinhaPesquisaConverter implements Converter {
 
+@FacesConverter(forClass=TipoProjeto.class)
+public class TipoProjetoConverter implements Converter{
+	
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		LinhaPesquisa retorno = null;
+		TipoProjeto retorno = null;
 		
 		if(value != null){
-			LinhaPesquisaDao linhaPesquisaDao = new LinhaPesquisaDao();
-			retorno = linhaPesquisaDao.buscaLinhaPorId(new Integer(value));
+			TipoProjetoDao tipoProjetoDao = new TipoProjetoDao();
+			retorno = tipoProjetoDao.buscaTipoPorId(new Integer(value));
 		}
 		
 		return retorno;
@@ -26,8 +27,9 @@ public class LinhaPesquisaConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if(value !=null){
-			return ((LinhaPesquisa) value).getId_linhaPesquisa().toString();
+			return ((TipoProjeto) value).getId_tipoProjeto().toString();
 		} return null;
 	}
+
 
 }

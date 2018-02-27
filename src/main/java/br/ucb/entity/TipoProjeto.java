@@ -11,7 +11,7 @@ public class TipoProjeto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idTipoProjeto;
+	private Integer id_tipoProjeto;
 
 	@Column(name = "tipo")
 	private String tipo;
@@ -19,12 +19,14 @@ public class TipoProjeto {
 	@Column(name = "descricao")
 	private String descricao;
 
-	public Integer getIdTipoProjeto() {
-		return idTipoProjeto;
+	
+
+	public Integer getId_tipoProjeto() {
+		return id_tipoProjeto;
 	}
 
-	public void setIdTipoProjeto(Integer idTipoProjeto) {
-		this.idTipoProjeto = idTipoProjeto;
+	public void setId_tipoProjeto(Integer id_tipoProjeto) {
+		this.id_tipoProjeto = id_tipoProjeto;
 	}
 
 	public String getTipo() {
@@ -42,5 +44,24 @@ public class TipoProjeto {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof TipoProjeto))
+			return false;
+		TipoProjeto other = (TipoProjeto) obj;
+		if (id_tipoProjeto == null){
+			if (other.id_tipoProjeto != null)
+				return false;
+		} else if (!id_tipoProjeto.equals(other.id_tipoProjeto))
+			return false;
+		return true;
+	}
+
+	
 
 }

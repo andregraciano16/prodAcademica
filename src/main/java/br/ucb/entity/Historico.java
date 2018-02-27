@@ -17,33 +17,35 @@ public class Historico {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idHistorico;
+	private int id_historico;
 
-	@Column(name = "data_alteracao")
+	@Column(name = "dataAlteracao")
 	private Date dataAlteracao;
 
 	@ManyToOne
-	@JoinColumn(name = "idAluno")
+	@JoinColumn(name = "id_aluno")
 	private Aluno aluno;
 
 	@ManyToOne
-	@JoinColumn(name = "idDocente")
+	@JoinColumn(name = "id_docente")
 	private Docente docente;
 
 	@ManyToOne
-	@JoinColumn(name = "idProducaoAcademica")
+	@JoinColumn(name = "id_producaoAcademica")
 	private ProducaoAcademica producaoAcademica;
 
 	@ManyToOne
-	@JoinColumn(name = "idProjeto")
+	@JoinColumn(name = "id_projeto")
 	private Projeto projeto;
 
-	public int getIdHistorico() {
-		return this.idHistorico;
+	
+
+	public int getId_historico() {
+		return id_historico;
 	}
 
-	public void setIdHistorico(int idHistorico) {
-		this.idHistorico = idHistorico;
+	public void setId_historico(int id_historico) {
+		this.id_historico = id_historico;
 	}
 
 	public Date getDataAlteracao() {

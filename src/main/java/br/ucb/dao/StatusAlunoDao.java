@@ -33,7 +33,7 @@ public class StatusAlunoDao {
 		EntityManager em = JPAUtil.getEntityManaged();
 
 		try {
-			StatusAluno alterarStatus = em.find(StatusAluno.class, statusAluno.getIdStatusAluno());
+			StatusAluno alterarStatus = em.find(StatusAluno.class, statusAluno.getId_statusAluno());
 			if (alterarStatus != null) {
 				em.getTransaction().begin();
 				alterarStatus.setDescricao(statusAluno.getDescricao());
@@ -56,7 +56,7 @@ public class StatusAlunoDao {
 		EntityManager em = JPAUtil.getEntityManaged();
 
 		try {
-			StatusAluno excluirStatus = em.find(StatusAluno.class, statusAluno.getIdStatusAluno());
+			StatusAluno excluirStatus = em.find(StatusAluno.class, statusAluno.getId_statusAluno());
 			if (excluirStatus != null) {
 				em.getTransaction().begin();
 				em.remove(excluirStatus);
@@ -66,7 +66,7 @@ public class StatusAlunoDao {
 		} catch (Exception ex) {
 			return ex.getMessage();
 		}
-		return "Excluido com sucesso!";
+		return "Excluído com sucesso!";
 
 		/*
 		 * DaoGenerico<Serializable, StatusAluno> statusAlunoDAO = new

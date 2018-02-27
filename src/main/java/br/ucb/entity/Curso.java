@@ -11,17 +11,18 @@ public class Curso {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idCurso;
+	private Integer id_curso;
 
 	@Column(name = "nome")
 	private String nome;
 
-	public Integer getIdCurso() {
-		return this.idCurso;
+	
+	public Integer getId_curso() {
+		return id_curso;
 	}
 
-	public void setIdCurso(Integer idCurso) {
-		this.idCurso = idCurso;
+	public void setId_curso(Integer id_curso) {
+		this.id_curso = id_curso;
 	}
 
 	public String getNome() {

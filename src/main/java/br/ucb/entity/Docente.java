@@ -1,7 +1,6 @@
 package br.ucb.entity;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -19,7 +17,7 @@ public class Docente {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idDocente;
+	private Integer id_docente;
 
 	@Column(name = "matricula")
 	private String matricula;
@@ -49,7 +47,7 @@ public class Docente {
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 
-	@Column(name = "raml")
+	@Column(name = "ramal")
 	private String ramal;
 
 	@Column(name = "dataCadastro")
@@ -61,19 +59,20 @@ public class Docente {
 	private TipoDocente tipoDocente;
 
 	@ManyToOne
-	@JoinColumn(name = "idEndereco")
+	@JoinColumn(name = "id_endereco")
 	private Endereco endereco;
 
 	@ManyToOne
-	@JoinColumn(name = "idCurso")
+	@JoinColumn(name = "id_curso")
 	private Curso curso;
 
-	public Integer getIdDocente() {
-		return this.idDocente;
+	
+	public Integer getId_docente() {
+		return id_docente;
 	}
 
-	public void setIdDocente(Integer idDocente) {
-		this.idDocente = idDocente;
+	public void setId_docente(Integer id_docente) {
+		this.id_docente = id_docente;
 	}
 
 	public String getMatricula() {

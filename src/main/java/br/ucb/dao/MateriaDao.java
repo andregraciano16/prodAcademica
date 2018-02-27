@@ -36,7 +36,7 @@ public class MateriaDao {
 		EntityManager em = JPAUtil.getEntityManaged();
 
 		try {
-			Materia alterarMateria = em.find(Materia.class, materia.getIdMateria());
+			Materia alterarMateria = em.find(Materia.class, materia.getId_materia());
 			if (alterarMateria != null) {
 				em.getTransaction().begin();
 				alterarMateria.setDescricao(materia.getDescricao());
@@ -47,7 +47,7 @@ public class MateriaDao {
 		} catch (Exception ex) {
 			return ex.getMessage();
 		}
-		return "Cadastrado com sucesso!";
+		return "Atualizado com sucesso!";
 
 		/*
 		 * DaoGenerico<Serializable, Materia> materiaDAO = new
@@ -60,7 +60,7 @@ public class MateriaDao {
 		EntityManager em = JPAUtil.getEntityManaged();
 		
 		try {
-			Materia excluirMateria = em.find(Materia.class, materia.getIdMateria());
+			Materia excluirMateria = em.find(Materia.class, materia.getId_materia());
 			if (excluirMateria != null) {
 				em.getTransaction().begin();
 				em.remove(excluirMateria);
@@ -72,7 +72,7 @@ public class MateriaDao {
 			
 			return ex.getMessage();
 		}
-		return "Cadastrado com sucesso!";
+		return "Excluído com sucesso!";
 
 		/*
 		 * DaoGenerico<Serializable, Materia> materiaDAO = new

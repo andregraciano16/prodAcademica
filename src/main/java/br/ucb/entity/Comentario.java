@@ -17,7 +17,7 @@ public class Comentario {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idComentario;
+	private Integer id_comentario;
 
 	@Column(name = "dataCadastro")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -30,19 +30,21 @@ public class Comentario {
 	private String titulo;
 
 	@ManyToOne()
-	@JoinColumn(name = "idAluno")
+	@JoinColumn(name = "id_aluno")
 	private Aluno aluno;
 
 	@ManyToOne
-	@JoinColumn(name = "idDocente")
+	@JoinColumn(name = "id_docente")
 	private Docente docente;
 
-	public Integer getIdComentario() {
-		return this.idComentario;
+	
+
+	public Integer getId_comentario() {
+		return id_comentario;
 	}
 
-	public void setIdComentario(Integer idComentario) {
-		this.idComentario = idComentario;
+	public void setId_comentario(Integer id_comentario) {
+		this.id_comentario = id_comentario;
 	}
 
 	public Date getDataCadastro() {

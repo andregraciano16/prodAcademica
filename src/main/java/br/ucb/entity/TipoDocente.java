@@ -13,17 +13,19 @@ public class TipoDocente extends EntidadeBase {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idTipoDocente;
+	private Integer id_tipoDocente;
 
 	@Column(name = "tipo")
 	private String tipo;
 
-	public Integer getIdTipoDocente() {
-		return this.idTipoDocente;
+	
+
+	public Integer getId_tipoDocente() {
+		return id_tipoDocente;
 	}
 
-	public void setIdTipoDocente(Integer tipoDocente) {
-		this.idTipoDocente = tipoDocente;
+	public void setId_tipoDocente(Integer id_tipoDocente) {
+		this.id_tipoDocente = id_tipoDocente;
 	}
 
 	public String getTipo() {

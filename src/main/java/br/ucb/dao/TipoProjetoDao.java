@@ -35,7 +35,7 @@ public class TipoProjetoDao {
 		EntityManager em = JPAUtil.getEntityManaged();
 
 		try {
-			TipoProjeto alterarTipoProjeto = em.find(TipoProjeto.class, tipoProjeto.getIdTipoProjeto());
+			TipoProjeto alterarTipoProjeto = em.find(TipoProjeto.class, tipoProjeto.getId_tipoProjeto());
 			if (alterarTipoProjeto != null) {
 				em.getTransaction().begin();
 				alterarTipoProjeto.setTipo(tipoProjeto.getTipo());
@@ -46,7 +46,7 @@ public class TipoProjetoDao {
 		} catch (Exception ex) {
 			return ex.getMessage();
 		}
-		return "Cadastrado com sucesso!";
+		return "Atualizado com sucesso!";
 
 		/*
 		 * DaoGenerico<Serializable, TipoProjeto> tipoProjetoDAO = new
@@ -59,7 +59,7 @@ public class TipoProjetoDao {
 		EntityManager em = JPAUtil.getEntityManaged();
 
 		try {
-			TipoProjeto excluirTipoProjeto = em.find(TipoProjeto.class, tipoProjeto.getIdTipoProjeto());
+			TipoProjeto excluirTipoProjeto = em.find(TipoProjeto.class, tipoProjeto.getId_tipoProjeto());
 			if (excluirTipoProjeto != null) {
 				em.getTransaction().begin();
 				em.remove(excluirTipoProjeto);
@@ -69,7 +69,7 @@ public class TipoProjetoDao {
 		} catch (Exception ex) {
 			return ex.getMessage();
 		}
-		return "Cadastrado com sucesso!";
+		return "Excluído com sucesso!";
 
 		/*
 		 * DaoGenerico<Serializable, TipoProjeto> tipoProjetoDAO = new
@@ -95,6 +95,15 @@ public class TipoProjetoDao {
 				.getResultList();
 
 		return tiposProjeto;
+	}
+
+	public TipoProjeto buscaTipoPorId(int id) {
+		EntityManager em = JPAUtil.getEntityManaged();
+
+		List<TipoProjeto> tiposProjeto = em
+				.createQuery("from TipoProjeto where idTipoProjeto = " + id, TipoProjeto.class).getResultList();
+
+		return tiposProjeto.get(0);
 	}
 
 }
