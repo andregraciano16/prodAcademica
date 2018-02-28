@@ -13,21 +13,22 @@ public class Materia {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idMateria;
+	private Integer id_materia;
 
 	@Column(name = "descricao")
 	private String descricao;
 
 	@ManyToOne
-	@JoinColumn(name = "idLinhaPesquisa")
+	@JoinColumn(name = "id_linhaPesquisa")
 	private LinhaPesquisa linhaPesquisa;
 
-	public Integer getIdMateria() {
-		return idMateria;
+ 
+	public Integer getId_materia() {
+		return id_materia;
 	}
 
-	public void setIdMateria(Integer idMateria) {
-		this.idMateria = idMateria;
+	public void setId_materia(Integer id_materia) {
+		this.id_materia = id_materia;
 	}
 
 	public String getDescricao() {

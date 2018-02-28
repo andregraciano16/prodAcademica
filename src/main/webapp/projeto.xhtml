@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="./template.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:define name="Conteudo">
+		<h:head>
+
+			<title>Projeto</title>
+			<h:outputStylesheet library="css" name="bootstrap.min.css" />
+			<h:outputStylesheet library="css" name="datepicker3.css" />
+			<h:outputStylesheet library="css" name="styles.css" />
+			<h:outputStylesheet library="css" name="myStyle.css" />
+			<h:outputStylesheet library="js" name="jquery-1.11.1.min.js" />
+			<h:outputStylesheet library="js" name="bootstrap.min.js" />
+
+
+
+		</h:head>
+		<h:body>
+			<h:form id="form" >
+			
+				<div class="rowDown">
+					<div
+						class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-3 col-md-8 col-md-offset-3">
+						<div class="login-panel panel panel-default">
+
+							<div class="titulo-centro-grande">Projeto</div>
+
+
+							<div class="panel-body" id="test">
+								<h:form id="formSeg" >
+										<div class="row">
+											<div class="col-md-12" >
+
+
+												<h:messages showSummary="false" showDetail="true" styleClass="form-messages" errorClass="error" infoClass="info" id="msgInfo" />
+												
+												<h4 id="lblNome">Nome:</h4>
+												
+												<h:inputText value="#{projetoMB.projeto.nome}" id="txtNome"
+													class="form-control" autofocus="" required="true"
+													requiredMessage=" O campo Nome é necessário."
+													validatorMessage="O Nome não pode ser maior que 200 caracteres.">
+													<f:validateLength maximum="200" />
+												</h:inputText>
+												
+												<h4 id="lblDescricao">Descrição:</h4>
+												
+												<h:inputText value="#{projetoMB.projeto.descricao}" id="txtDescricao"
+													class="form-control" autofocus="" required="true"
+													requiredMessage=" O campo Descrição é necessário."
+													validatorMessage="A descrição não pode ser maior que 45 caracteres.">
+													<f:validateLength maximum="45" />
+												</h:inputText>
+												
+												<h4 id="lblOrgFin">Orgão financiador:</h4>
+												
+												<h:inputText value="#{projetoMB.projeto.orgaoFinanciador}" id="txtOrgaoFinanciador"
+													class="form-control" autofocus="" required="true"
+													requiredMessage=" O campo Orgão financiador é necessário."
+													validatorMessage="O campo orgão financiador não pode ser maior que 45 caracteres.">
+													<f:validateLength maximum="45" />
+												</h:inputText>
+												
+												<h4 id="lblDadOfi">Dados oficiais:</h4>
+												
+												<h:inputText value="#{projetoMB.projeto.dadosOficiais}" id="txtDadosOficiais"
+													class="form-control" autofocus="" required="true"
+													requiredMessage=" O campo Dados oficiais é necessário."
+													validatorMessage="O campo dados oficiais não pode ser maior que 45 caracteres.">
+													<f:validateLength maximum="45" />
+												</h:inputText>
+												
+												<br/>
+												<h4 id="lblTipoProjeto">Tipo do Projeto:</h4>
+												<p:selectOneMenu value="#{projetoMB.projeto.tipoProjeto}" id="dropProjetos">
+													<f:selectItems value="#{projetoMB.tiposProjeto}"
+													var="linhaP" itemValue="#{linhaP}" itemLabel="#{linhaP.tipo}"/>
+												</p:selectOneMenu>
+
+												<br/>
+												<h4 id="lblLinhaPesquisa">Linha de Pesquisa:</h4>
+												<p:selectOneMenu value="#{projetoMB.projeto.linhaPesquisa}" id="dropLinhas">
+													<f:selectItems value="#{projetoMB.linhasPesquisa}"
+													var="linhaL" itemValue="#{linhaL}" itemLabel="#{linhaL.descricao}"/>
+												</p:selectOneMenu>
+
+
+											</div>
+										</div>
+
+										<br /> <br />
+
+
+
+
+										<h:commandButton value="Cadastrar" class="btn btn-primary" id="btnCadastrar"
+											action="#{projetoMB.cadastrarProjeto(projetoMB.projeto)}" />
+										&nbsp;&nbsp;
+										<h:commandButton value="Pesquisar" id="btnPesquisar"
+											class="btn btn-primary-cinza"
+											action="#{projetoMB.buscaProjeto(projetoMB.projeto)}" />
+										&nbsp;&nbsp;
+										<h:button value="Limpar" class="btn btn-primary-cinza" id="btnLimpar"
+											outcome="projeto" immediate="true" />
+										&nbsp;&nbsp;
+										<h:commandButton value="Mostrar Todos" class="btn btn-primary" id="btnMostrar"
+											action="#{projetoMB.buscaProjetos}" immediate="true" />
+
+
+										<br /> <br /> <br />
+
+
+										<p:growl id="msg" />
+										<p:dataTable value="#{projetoMB.projetos}" var="item" rows="4" paginator="true" editable="true"
+											rendered="#{not empty projetoMB.projetos}" width="100%">
+											
+											<p:ajax event="rowEdit" listener="#{projetoMB.editaProjeto}" update=":form:formSeg:msg"/>
+											<p:ajax event="rowEditCancel" listener="#{projetoMB.cancelaEdit}" update=":form:formSeg:msg"/>
+											
+											<p:column headerText="Nome" >
+											
+												<p:cellEditor>
+											
+													<f:facet name="output">
+														<h:outputText value="#{item.nome}" />
+													</f:facet>
+											
+													<f:facet name="input">
+														<h:inputText value="#{projetoMB.editavel.nome}" required="true"
+														requiredMessage=" O campo nome é necessário."
+														validatorMessage="A nome não pode ser maior que 200 caracteres.">
+															<f:validateLength maximum="200" />
+														</h:inputText>
+													</f:facet>
+											
+												</p:cellEditor>
+												
+											</p:column>
+											
+											
+											
+											<p:column headerText="Descrição" >
+											
+												<p:cellEditor>
+											
+													<f:facet name="output">
+														<h:outputText value="#{item.descricao}" />
+													</f:facet>
+											
+													<f:facet name="input">
+														<h:inputText value="#{projetoMB.editavel.descricao}" required="true"
+														requiredMessage=" O campo descrição é necessário."
+														validatorMessage="A descrição não pode ser maior que 45 caracteres.">
+															<f:validateLength maximum="45" />
+														</h:inputText>
+													</f:facet>
+											
+												</p:cellEditor>
+												
+											</p:column>
+											
+											<p:column headerText="Orgão Financiador" >
+											
+												<p:cellEditor>
+											
+													<f:facet name="output">
+														<h:outputText value="#{item.orgaoFinanciador}" />
+													</f:facet>
+											
+													<f:facet name="input">
+														<h:inputText value="#{projetoMB.editavel.orgaoFinanciador}" required="true"
+														requiredMessage=" O campo Orgão Financiador é necessário."
+														validatorMessage="O campo Orgão financiador não pode ser maior que 45 caracteres.">
+															<f:validateLength maximum="45" />
+														</h:inputText>
+													</f:facet>
+											
+												</p:cellEditor>
+												
+											</p:column>
+											
+											<p:column headerText="Dados Oficiais" >
+											
+												<p:cellEditor>
+											
+													<f:facet name="output">
+														<h:outputText value="#{item.dadosOficiais}" />
+													</f:facet>
+											
+													<f:facet name="input">
+														<h:inputText value="#{projetoMB.editavel.dadosOficiais}" required="true"
+														requiredMessage=" O campo Dados Oficiais é necessário."
+														validatorMessage="O campo Dados oficiais não pode ser maior que 45 caracteres.">
+															<f:validateLength maximum="45" />
+														</h:inputText>
+													</f:facet>
+											
+												</p:cellEditor>
+												
+											</p:column>
+											
+											<p:column headerText="Tipo de Projeto" >
+											
+												<p:cellEditor>
+											
+													<f:facet name="output">
+														<h:outputText value="#{item.tipoProjeto.tipo}" />
+													</f:facet>
+											
+													<f:facet name="input">
+														<p:selectOneMenu value="#{projetoMB.editavel.tipoProjeto}" id="dropTiposEdit">
+															<f:selectItems value="#{projetoMB.tiposProjeto}"
+															var="linhaTP" itemValue="#{linhaTP}" itemLabel="#{linhaTP.tipo}"/>
+														</p:selectOneMenu>
+													</f:facet>
+											
+												</p:cellEditor>
+												
+											</p:column>
+											
+											<p:column headerText="Linha de Pesquisa" >
+											
+												<p:cellEditor>
+											
+													<f:facet name="output">
+														<h:outputText value="#{item.linhaPesquisa.descricao}" />
+													</f:facet>
+											
+													<f:facet name="input">
+														<p:selectOneMenu value="#{projetoMB.editavel.linhaPesquisa}" id="dropLinhasEdit">
+															<f:selectItems value="#{projetoMB.linhasPesquisa}"
+															var="linhaLP" itemValue="#{linhaLP}" itemLabel="#{linhaLP.descricao}"/>
+														</p:selectOneMenu>
+													</f:facet>
+											
+												</p:cellEditor>
+												
+											</p:column>
+											
+											
+											<p:column headerText="Ações" styleClass="coluna-acao">
+												<p:rowEditor/>
+												&nbsp;
+												<p:commandButton icon="ui-icon-trash"
+													action="#{projetoMB.excluiProjeto(item)}"
+													immediate="true" update="form">
+												<p:confirm message="Tem certeza que deseja apagar?" header="Aviso"  icon="ui-icon-alert"/>
+												</p:commandButton>
+
+											</p:column>
+										</p:dataTable>
+										<p:confirmDialog global="true">
+											<p:commandButton value="Sim" type="button" icon="ui-icon-check"
+											styleClass="ui-confirmdialog-yes"/>
+											<p:commandButton value="Não" type="button" icon="ui-icon-close"
+											styleClass="ui-confirmdialog-no"/>
+										</p:confirmDialog>
+
+								</h:form>
+							</div>
+						</div>
+					</div>
+					<!-- /.col-->
+				</div>
+				<!-- /.row -->
+
+
+			</h:form>
+		</h:body>
+
+
+	</ui:define>
+</ui:composition>

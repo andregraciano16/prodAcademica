@@ -15,7 +15,7 @@ public class Aluno {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idAluno;
+	private int id_aluno;
 
 	@Column(name = "nome")
 	private String nome;
@@ -50,12 +50,14 @@ public class Aluno {
 	@JoinColumn(name = "id_statusAluno")
 	private StatusAluno statusAluno;
 
-	public int getIdAluno() {
-		return idAluno;
+	
+
+	public int getId_aluno() {
+		return id_aluno;
 	}
 
-	public void setIdAluno(int idAluno) {
-		this.idAluno = idAluno;
+	public void setId_aluno(int id_aluno) {
+		this.id_aluno = id_aluno;
 	}
 
 	public String getNome() {

@@ -13,7 +13,7 @@ public class Projeto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idProjeto;
+	private Integer id_projeto;
 
 	@Column(name = "nome")
 	private String nome;
@@ -28,19 +28,21 @@ public class Projeto {
 	private String dadosOficiais;
 
 	@ManyToOne
-	@JoinColumn(name = "idTipoProjeto")
+	@JoinColumn(name = "id_tipoProjeto")
 	private TipoProjeto tipoProjeto;
 
 	@ManyToOne
-	@JoinColumn(name = "idLinhaPesquisa")
+	@JoinColumn(name = "id_linhaPesquisa")
 	private LinhaPesquisa linhaPesquisa;
 
-	public Integer getIdProjeto() {
-		return idProjeto;
+	
+
+	public Integer getId_projeto() {
+		return id_projeto;
 	}
 
-	public void setIdProjeto(Integer idProjeto) {
-		this.idProjeto = idProjeto;
+	public void setId_projeto(Integer id_projeto) {
+		this.id_projeto = id_projeto;
 	}
 
 	public String getNome() {

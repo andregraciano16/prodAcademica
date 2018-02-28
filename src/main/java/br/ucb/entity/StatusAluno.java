@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+
 
 @Entity
 public class StatusAluno implements Serializable {
@@ -16,17 +16,18 @@ public class StatusAluno implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idStatusAluno;
+	private int id_statusAluno;
 
 	@Column(name = "descricao")
 	private String descricao;
 
-	public int getIdStatusAluno() {
-		return idStatusAluno;
+
+	public int getId_statusAluno() {
+		return id_statusAluno;
 	}
 
-	public void setIdStatusAluno(int idStatusAluno) {
-		this.idStatusAluno = idStatusAluno;
+	public void setId_statusAluno(int id_statusAluno) {
+		this.id_statusAluno = id_statusAluno;
 	}
 
 	public String getDescricao() {

@@ -11,7 +11,7 @@ public class Endereco {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idEndereco;
+	private Integer id_endereco;
 
 	@Column(name = "estado")
 	private String estado;
@@ -31,12 +31,13 @@ public class Endereco {
 	@Column(name = "numero")
 	private Integer numero;
 
-	public Integer getIdEndereco() {
-		return this.idEndereco;
+
+	public Integer getId_endereco() {
+		return id_endereco;
 	}
 
-	public void setIdEndereco(Integer idEndereco) {
-		this.idEndereco = idEndereco;
+	public void setId_endereco(Integer id_endereco) {
+		this.id_endereco = id_endereco;
 	}
 
 	public String getEstado() {

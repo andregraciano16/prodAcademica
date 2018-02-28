@@ -1,114 +1,137 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-				xmlns:ui="http://java.sun.com/jsf/facelets"
-				template="./template.xhtml" 
-				xmlns:h="http://java.sun.com/jsf/html"
-				xmlns:p="http://primefaces.org/ui"
-				xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="./template.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:define name="Conteudo">
+		<h:head>
+
+			<title>Linha de Pesquisa</title>
+			<h:outputStylesheet library="css" name="bootstrap.min.css" />
+			<h:outputStylesheet library="css" name="datepicker3.css" />
+			<h:outputStylesheet library="css" name="styles.css" />
+			<h:outputStylesheet library="css" name="myStyle.css" />
+			<h:outputStylesheet library="js" name="jquery-1.11.1.min.js" />
+			<h:outputStylesheet library="js" name="bootstrap.min.js" />
+
+
+
+		</h:head>
+		<h:body>
+			<h:form id="form">
 			
-			<ui:define name="Conteudo">
-<h:head>
+				<div class="rowDown">
+					<div
+						class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-3 col-md-8 col-md-offset-3">
+						<div class="login-panel panel panel-default">
 
-	<title>Linha de Pesquisa</title>
-	<h:outputStylesheet library="css" name="bootstrap.min.css" />
-	<h:outputStylesheet library="css" name="datepicker3.css" />
-	<h:outputStylesheet library="css" name="styles.css" />
-	<h:outputStylesheet library="css" name="myStyle.css" />
-	
-	
-	
+							<div class="titulo-centro-grande">Linha de Pesquisa</div>
 
-</h:head>
-<h:body>
-	<h:form>
-		<div class="rowDown">
-			<div
-				class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-3 col-md-8 col-md-offset-3">
-				<div class="login-panel panel panel-default">
-					<div class="titulo-centro-grande">Linha de Pesquisa</div>
 
-					<div class="panel-body">
-						<h:form role="form">
-							<fieldset>
-								<div class="row">
-									<div class="col-md-12">
-									<h:messages showSummary="false" showDetail="true" styleClass="form-messages" 
-									errorClass="error" infoClass="info"/>
-										<h4>Descrição:</h4>
-										<h:inputText value="#{linhaPesquisaMB.linhaPesquisa.descricao}"
-											class="form-control" autofocus=""  required="true" requiredMessage=" O campo Descrição é necessário." 
-											validatorMessage="A descrição não pode ser maior que 45 caracteres.">
-											<f:validateLength maximum="45" />
-											</h:inputText>
-									</div>
-								</div>
+							<div class="panel-body" id="test">
+								<h:form id="formSeg">
+										<div class="row">
+											<div class="col-md-12" >
 
-								<br /><br />
-								
-								
-								
-								
-								<h:commandButton value="Cadastrar" class="btn btn-primary"
-									action="#{linhaPesquisaMB.cadastrarLinhaPesquisa(linhaPesquisaMB.linhaPesquisa)}" icon="ui-icon-disk" />
-							
-							
-									
-								&nbsp;&nbsp;
-								<h:commandButton value="Pesquisar" class="btn btn-primary-cinza"
-									action="#{linhaPesquisaMB.buscaLinhaPesquisa(linhaPesquisaMB.linhaPesquisa)}" />
-									
-								&nbsp;&nbsp;
-								<h:button value="Limpar" class="btn btn-primary-cinzaS"
-									outcome="linhaPesquisa" immediate="true"/>
-									
-								&nbsp;&nbsp;
-								<h:commandButton value="Mostrar Todas" class="btn btn-primary"
-									action="#{linhaPesquisaMB.buscaLinhasPesquisa}" immediate="true"/>
-									
-								
 
-								<br />
-								<br />
-								<br />
-								
-								<h:dataTable value="#{linhaPesquisaMB.linhasPesquisa}" var="item" 
-									border="3" rendered="#{not empty linhaPesquisaMB.linhasPesquisa}" width="100%" 
-									styleClass="tabela" headerClass="cabecalhoTabela" 
-									columnClasses="colunaTabelaEsquerda, colunaTabelaDireita">
-									<h:column>
-										<f:facet name="header">
-											Descrição
-										</f:facet>
-										<h:inputHidden value="#{item.descricao}"/>
-										<h:outputText value="#{item.descricao}" />
-									</h:column>
-									<h:column>
-										<f:facet name="header">
-											Ações
-										</f:facet>
-										<h:commandButton image="images/edit-icon.png" 
-											action="#{linhaPesquisaMB.editaLinhaPesquisa(item)}"  immediate="true"/>
-											&nbsp;&nbsp;
-										<h:commandButton image="images/close-icon.png" 
-											action="#{linhaPesquisaMB.excluiLinhaPesquisa(item)}"  immediate="true"/>
+												<h:messages showSummary="false" showDetail="true" styleClass="form-messages" errorClass="error" infoClass="info" id="msgInfo" />
+												
+												<h4 id="lblDescricao">Descrição:</h4>
+												
+												<h:inputText value="#{linhaPesquisaMB.linhaPesquisa.descricao}" id="txtDescricao"
+													class="form-control" autofocus="" required="true"
+													requiredMessage=" O campo Descrição é necessário."
+													validatorMessage="A descrição não pode ser maior que 45 caracteres.">
+													<f:validateLength maximum="45" />
+												</h:inputText>
+
+
+											</div>
+										</div>
+
+										<br /> <br />
+
+
+
+
+										<h:commandButton value="Cadastrar" class="btn btn-primary" id="btnCadastrar"
+											action="#{linhaPesquisaMB.cadastrarLinhaPesquisa(linhaPesquisaMB.linhaPesquisa)}" />
+										&nbsp;&nbsp;
+										<h:commandButton value="Pesquisar" id="btnPesquisar"
+											class="btn btn-primary-cinza"
+											action="#{linhaPesquisaMB.buscaStatusPesquisa(linhaPesquisaMB.linhaPesquisa)}" />
+										&nbsp;&nbsp;
+										<h:button value="Limpar" class="btn btn-primary-cinza" id="btnLimpar"
+											outcome="linhaPesquisa" immediate="true" />
+										&nbsp;&nbsp;
+										<h:commandButton value="Mostrar Todos" class="btn btn-primary" id="btnMostrar"
+											action="#{linhaPesquisaMB.buscaLinhasPesquisa}" immediate="true" />
+
+
+										<br /> <br /> <br />
+
+
+										<p:growl id="msg" />
+										<p:dataTable value="#{linhaPesquisaMB.linhasPesquisa}" var="item" rows="4" paginator="true" editable="true"
+											rendered="#{not empty linhaPesquisaMB.linhasPesquisa}" width="100%">
 											
-									</h:column>
-								</h:dataTable>
-							</fieldset>
-						</h:form>
+											<p:ajax event="rowEdit" listener="#{linhaPesquisaMB.editaLinhaPesquisa}" update=":form:formSeg:msg"/>
+											<p:ajax event="rowEditCancel" listener="#{linhaPesquisaMB.cancelaEdit}" update=":form:formSeg:msg"/>
+											
+											<p:column headerText="Descrição" >
+											
+												<p:cellEditor>
+											
+													<f:facet name="output">
+														<h:outputText value="#{item.descricao}" />
+													</f:facet>
+											
+													<f:facet name="input">
+														<h:inputText value="#{linhaPesquisaMB.editavel.descricao}" required="true"
+														requiredMessage=" O campo descrição é necessário."
+														validatorMessage="A descrição não pode ser maior que 45 caracteres.">
+															<f:validateLength maximum="45" />
+														</h:inputText>
+													</f:facet>
+											
+												</p:cellEditor>
+												
+											</p:column>
+											
+
+											<p:column headerText="Ações" styleClass="coluna-acao">
+												<p:rowEditor/>
+												&nbsp;
+												<p:commandButton icon="ui-icon-trash"
+													action="#{linhaPesquisaMB.excluiLinhaPesquisa(item)}"
+													immediate="true" update="form">
+												<p:confirm message="Tem certeza que deseja apagar?" header="Aviso"  icon="ui-icon-alert"/>
+												</p:commandButton>
+
+											</p:column>
+										</p:dataTable>
+										<p:confirmDialog global="true">
+											<p:commandButton value="Sim" type="button" icon="ui-icon-check"
+											styleClass="ui-confirmdialog-yes"/>
+											<p:commandButton value="Não" type="button" icon="ui-icon-close"
+											styleClass="ui-confirmdialog-no"/>
+										</p:confirmDialog>
+
+								</h:form>
+							</div>
+						</div>
 					</div>
+					<!-- /.col-->
 				</div>
-			</div>
-			<!-- /.col-->
-		</div>
-		<!-- /.row -->
-
-		<h:outputStylesheet library="js" name="jquery-1.11.1.min.js" />
-		<h:outputStylesheet library="js" name="bootstrap.min.js" />
-	</h:form>
-</h:body>
+				<!-- /.row -->
 
 
-</ui:define>
+			</h:form>
+		</h:body>
+
+
+	</ui:define>
 </ui:composition>

@@ -9,20 +9,24 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.RowEditEvent;
+
 import br.ucb.dao.StatusAlunoDao;
 import br.ucb.entity.StatusAluno;
 
 @ManagedBean
 @ViewScoped
-public class StatusAlunoMB implements Serializable{
+public class StatusAlunoMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private StatusAluno statusAluno;
 	private List<StatusAluno> variosStatus;
+	private StatusAluno editavel;
 
 	public StatusAlunoMB() {
 		this.statusAluno = new StatusAluno();
 		this.setVariosStatus(new ArrayList<StatusAluno>());
+		this.editavel = new StatusAluno();
 	}
 
 	public StatusAluno getStatusAluno() {
@@ -41,18 +45,22 @@ public class StatusAlunoMB implements Serializable{
 		this.variosStatus = variosStatus;
 	}
 
+	public StatusAluno getEditavel() {
+		return editavel;
+	}
+
+	public void setEditavel(StatusAluno editavel) {
+		this.editavel = editavel;
+	}
+
 	public void cadastrarStatusAluno(StatusAluno statusAluno) {
+		String msg;
 		StatusAlunoDao statusAlunoDAO = new StatusAlunoDao();
-		if (variosStatus.contains(statusAluno)) {
-			statusAlunoDAO.alterar(statusAluno);
-		} else {
-			statusAlunoDAO.cadastrar(getStatusAluno());
-		}
-		
-		String msg = "Cadastrado com sucesso!.";
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-		
+
+		msg = statusAlunoDAO.cadastrar(getStatusAluno());
+
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+
 		buscaVariosStatus();
 	}
 
@@ -62,20 +70,34 @@ public class StatusAlunoMB implements Serializable{
 	}
 
 	public void excluiStatusAluno(StatusAluno statusAluno) {
+		String msg;
 		StatusAlunoDao statusAlunoDAO = new StatusAlunoDao();
-		statusAlunoDAO.excluir(statusAluno);
+		msg = statusAlunoDAO.excluir(statusAluno);
+
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+
 		buscaVariosStatus();
 	}
 
-	public void editaStatusAluno(StatusAluno statusAluno) {
-		
-		this.statusAluno = statusAluno;
-		String msg = "Altere o valor como desejar e clique em cadastrar.";
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-		
+	public void editaStatusAluno(RowEditEvent event) {
+		String msg;
+		StatusAluno statusAluno = (StatusAluno) event.getObject();
+		statusAluno.setDescricao(editavel.getDescricao());
+
+		StatusAlunoDao statusAlunoDAO = new StatusAlunoDao();
+		msg = statusAlunoDAO.alterar(statusAluno);
+		buscaVariosStatus();
+
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
 	}
 
+	public void cancelaEdit(RowEditEvent event) {
+
+		String msg = "Atualização cancelada.";
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+	}
+
+	
 	public void buscaStatusPesquisa(StatusAluno statusAluno) {
 		StatusAlunoDao statusAlunoDAO = new StatusAlunoDao();
 		this.variosStatus = statusAlunoDAO.buscaStatusPorPesquisa(statusAluno.getDescricao());

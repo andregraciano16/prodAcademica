@@ -54,3 +54,20 @@
 .form-messages .info{
 	color: #156b2a;
 }
+
+.coluna-acao {
+    width: 100px; 
+    white-space: nowrap; 
+}
+.coluna-acao div.ui-row-editor {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+.ui-growl{
+    position:fixed;
+    top:50%;
+    right:30%;
+    width:301px;
+}

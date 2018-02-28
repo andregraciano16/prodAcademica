@@ -17,7 +17,7 @@ public class ProducaoAcademica {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idProducaoAcademica;
+	private Integer id_producaoAcademica;
 
 	@Column(name = "titulo")
 	private String titulo;
@@ -51,23 +51,25 @@ public class ProducaoAcademica {
 	private Date dataCadastro;
 
 	@ManyToOne
-	@JoinColumn(name = "idTipoProducao")
+	@JoinColumn(name = "id_tipoProducao")
 	private TipoProducao tipoProducao;
 
 	@ManyToOne
-	@JoinColumn(name = "idLinhaPesquisa")
+	@JoinColumn(name = "id_linhaPesquisa")
 	private LinhaPesquisa linhaPesquisa;
 
 	@ManyToOne
-	@JoinColumn(name = "idStatusProducao")
+	@JoinColumn(name = "id_statusProducao")
 	private StatusProducao statusProducao;
 
-	public Integer getIdProducaoAcademica() {
-		return this.idProducaoAcademica;
+	
+
+	public Integer getId_producaoAcademica() {
+		return id_producaoAcademica;
 	}
 
-	public void setIdProducaoAcademica(Integer idProducaoAcademica) {
-		this.idProducaoAcademica = idProducaoAcademica;
+	public void setId_producaoAcademica(Integer id_producaoAcademica) {
+		this.id_producaoAcademica = id_producaoAcademica;
 	}
 
 	public String getTitulo() {
