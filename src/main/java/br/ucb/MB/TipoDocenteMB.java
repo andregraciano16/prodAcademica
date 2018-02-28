@@ -24,23 +24,24 @@ public class TipoDocenteMB extends BaseMB {
 
 	@PostConstruct
 	public void init() {
-		this.tipos = new ArrayList<TipoDocente>();
-		this.tipoDocente = new TipoDocente();
-		this.descricao = null;
+		this.tipos          = new ArrayList<TipoDocente>();
+		this.tipoDocente    = new TipoDocente();
+		this.descricao      = new String();
 		this.tipoDocenteDao = new TipoDocenteDaoImpl();
+		buscar();
 	}
 
 	public void cadastrar() {
-		if(this.descricao != null && !this.descricao.isEmpty()){
+		if (this.descricao != null && !this.descricao.isEmpty()) {
 			montarTipoDocente();
 			this.tipoDocenteDao.save(this.tipoDocente);
-		}else{
-			//informe a descrição!
+		} else {
+			// informe a descrição!
 		}
 	}
 
 	private void montarTipoDocente() {
-		if(this.tipoDocente == null){
+		if (this.tipoDocente == null) {
 			this.tipoDocente = new TipoDocente();
 		}
 		this.tipoDocente.setIdTipoDocente(null);
@@ -48,13 +49,23 @@ public class TipoDocenteMB extends BaseMB {
 	}
 
 	public void excluir(TipoDocente tipoDocente) {
+		this.tipoDocenteDao.remove(tipoDocente);
+		buscar();
 	}
 
 	public void editar(TipoDocente tipoDocente) {
-
+		this.tipoDocenteDao.update(tipoDocente);
+		buscar();
 	}
 
-	public void buscar(String descricao) {
+	public void buscar() {
+		if (this.descricao != null) {
+			if (!this.descricao.isEmpty()) {
+				this.tipos = this.tipoDocenteDao.findByTipo(this.descricao);
+			} else if (this.descricao.isEmpty()) {
+				this.tipos = this.tipoDocenteDao.list();
+			}
+		}
 	}
 
 	public void limpar() {
