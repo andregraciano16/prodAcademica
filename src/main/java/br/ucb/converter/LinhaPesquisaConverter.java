@@ -26,7 +26,7 @@ public class LinhaPesquisaConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if(value !=null){
-			return ((LinhaPesquisa) value).getId_linhaPesquisa().toString();
+			return ((LinhaPesquisa) value).getIdLinhaPesquisa().toString();
 		} return null;
 	}
 

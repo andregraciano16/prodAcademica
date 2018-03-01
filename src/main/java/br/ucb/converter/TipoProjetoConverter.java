@@ -27,7 +27,7 @@ public class TipoProjetoConverter implements Converter{
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if(value !=null){
-			return ((TipoProjeto) value).getId_tipoProjeto().toString();
+			return ((TipoProjeto) value).getIdTipoProjeto().toString();
 		} return null;
 	}
 

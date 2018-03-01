@@ -35,7 +35,7 @@ public class LinhaPesquisaDao {
 		EntityManager em = JPAUtil.getEntityManaged();
 
 		try {
-			LinhaPesquisa alterarLinhaPesquisa = em.find(LinhaPesquisa.class, linhaPesquisa.getId_linhaPesquisa());
+			LinhaPesquisa alterarLinhaPesquisa = em.find(LinhaPesquisa.class, linhaPesquisa.getIdLinhaPesquisa());
 			if (alterarLinhaPesquisa != null) {
 				em.getTransaction().begin();
 				alterarLinhaPesquisa.setDescricao(linhaPesquisa.getDescricao());
@@ -60,7 +60,7 @@ public class LinhaPesquisaDao {
 
 		try {
 
-			LinhaPesquisa excluirLinhaPesquisa = em.find(LinhaPesquisa.class, linhaPesquisa.getId_linhaPesquisa());
+			LinhaPesquisa excluirLinhaPesquisa = em.find(LinhaPesquisa.class, linhaPesquisa.getIdLinhaPesquisa());
 			if (excluirLinhaPesquisa != null) {
 				em.getTransaction().begin();
 				em.remove(excluirLinhaPesquisa);

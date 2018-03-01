@@ -35,7 +35,7 @@ public class ProjetoDao {
 		EntityManager em = JPAUtil.getEntityManaged();
 
 		try {
-			Projeto alterarProjeto = em.find(Projeto.class, projeto.getId_projeto());
+			Projeto alterarProjeto = em.find(Projeto.class, projeto.getIdProjeto());
 			if (alterarProjeto != null) {
 				em.getTransaction().begin();
 				alterarProjeto.setNome(projeto.getNome());
@@ -63,7 +63,7 @@ public class ProjetoDao {
 		EntityManager em = JPAUtil.getEntityManaged();
 		
 		try {
-			Projeto excluirProjeto = em.find(Projeto.class, projeto.getId_projeto());
+			Projeto excluirProjeto = em.find(Projeto.class, projeto.getIdProjeto());
 			if (excluirProjeto != null) {
 				em.getTransaction().begin();
 				em.remove(excluirProjeto);

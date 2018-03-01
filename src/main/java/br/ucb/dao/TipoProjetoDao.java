@@ -35,7 +35,7 @@ public class TipoProjetoDao {
 		EntityManager em = JPAUtil.getEntityManaged();
 
 		try {
-			TipoProjeto alterarTipoProjeto = em.find(TipoProjeto.class, tipoProjeto.getId_tipoProjeto());
+			TipoProjeto alterarTipoProjeto = em.find(TipoProjeto.class, tipoProjeto.getIdTipoProjeto());
 			if (alterarTipoProjeto != null) {
 				em.getTransaction().begin();
 				alterarTipoProjeto.setTipo(tipoProjeto.getTipo());
@@ -59,7 +59,7 @@ public class TipoProjetoDao {
 		EntityManager em = JPAUtil.getEntityManaged();
 
 		try {
-			TipoProjeto excluirTipoProjeto = em.find(TipoProjeto.class, tipoProjeto.getId_tipoProjeto());
+			TipoProjeto excluirTipoProjeto = em.find(TipoProjeto.class, tipoProjeto.getIdTipoProjeto());
 			if (excluirTipoProjeto != null) {
 				em.getTransaction().begin();
 				em.remove(excluirTipoProjeto);
