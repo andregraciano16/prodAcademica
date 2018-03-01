@@ -11,7 +11,7 @@ public class TipoProducao {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id_tipoProducao;
+	private Integer idTipoProducao;
 
 	@Column(name = "tipo")
 	private String tipo;
@@ -19,14 +19,12 @@ public class TipoProducao {
 	@Column(name = "descricao")
 	private String descricao;
 
-	
-
-	public Integer getId_tipoProducao() {
-		return id_tipoProducao;
+	public Integer getIdTipoProducao() {
+		return this.idTipoProducao;
 	}
 
-	public void setId_tipoProducao(Integer id_tipoProducao) {
-		this.id_tipoProducao = id_tipoProducao;
+	public void setIdTipoProducao(Integer idTipoProducao) {
+		this.idTipoProducao = idTipoProducao;
 	}
 
 	public String getTipo() {

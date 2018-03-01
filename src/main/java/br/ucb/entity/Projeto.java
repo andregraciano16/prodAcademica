@@ -13,7 +13,7 @@ public class Projeto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id_projeto;
+	private Integer idProjeto;
 
 	@Column(name = "nome")
 	private String nome;
@@ -35,14 +35,12 @@ public class Projeto {
 	@JoinColumn(name = "id_linhaPesquisa")
 	private LinhaPesquisa linhaPesquisa;
 
-	
-
-	public Integer getId_projeto() {
-		return id_projeto;
+	public Integer getIdProjeto() {
+		return this.idProjeto;
 	}
 
-	public void setId_projeto(Integer id_projeto) {
-		this.id_projeto = id_projeto;
+	public void setIdProjeto(Integer idProjeto) {
+		this.idProjeto = idProjeto;
 	}
 
 	public String getNome() {
