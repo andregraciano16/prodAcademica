@@ -7,7 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Endereco {
+public class Endereco extends EntidadeBase{
+
+	private static final long serialVersionUID = -5144079654456437059L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

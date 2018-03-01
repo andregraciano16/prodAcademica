@@ -13,7 +13,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Comentario {
+public class Comentario extends EntidadeBase {
+
+	private static final long serialVersionUID = -7958875195005963451L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

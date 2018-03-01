@@ -13,7 +13,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class ProducaoAcademica {
+public class ProducaoAcademica extends EntidadeBase {
+
+	private static final long serialVersionUID = 5005969022033064082L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
