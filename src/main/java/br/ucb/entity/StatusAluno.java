@@ -16,7 +16,7 @@ public class StatusAluno implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idStatusAluno;
+	private int idStatusAluno;
 
 	@Column(name = "descricao")
 	private String descricao;
@@ -39,3 +39,4 @@ public class StatusAluno implements Serializable {
 	}
 
 }
+

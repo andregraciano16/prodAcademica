@@ -45,7 +45,7 @@ public class StatusAlunoMB extends BaseMB{
 		if(this.statusAluno == null){
 			this.statusAluno = new StatusAluno();
 		}
-		this.statusAluno.setId_statusAluno(null);
+		this.statusAluno.setIdstatusAluno(null);
 		this.statusAluno.setDescricao(this.descricao);
 	}
 

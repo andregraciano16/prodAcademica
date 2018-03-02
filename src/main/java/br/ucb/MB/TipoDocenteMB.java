@@ -44,7 +44,7 @@ public class TipoDocenteMB extends BaseMB {
 		if (this.tipoDocente == null) {
 			this.tipoDocente = new TipoDocente();
 		}
-		this.tipoDocente.setId_tipoDocente(null);
+		this.tipoDocente.setIdtipoDocente(null);
 		this.tipoDocente.setTipo(this.descricao);
 	}
 

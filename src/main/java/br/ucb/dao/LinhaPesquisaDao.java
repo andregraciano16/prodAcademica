@@ -1,3 +1,4 @@
+
 package br.ucb.dao;
 
 import java.util.List;
@@ -103,9 +104,10 @@ public class LinhaPesquisaDao {
 		EntityManager em = JPAUtil.getEntityManaged();
 
 		List<LinhaPesquisa> linhasPesquisa = em
-				.createQuery("from LinhaPesquisa where id_linhaPesquisa = " + id, LinhaPesquisa.class).getResultList();
+				.createQuery("from LinhaPesquisa where idLinhaPesquisa = " + id, LinhaPesquisa.class).getResultList();
 
 		return linhasPesquisa.get(0);
 	}
 
 }
+

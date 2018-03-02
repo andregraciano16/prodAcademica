@@ -1,3 +1,4 @@
+
 package br.ucb.entity;
 
 import java.util.Date;
@@ -87,3 +88,4 @@ public class Historico {
 	}
 
 }
+
