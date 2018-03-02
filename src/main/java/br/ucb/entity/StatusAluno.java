@@ -16,17 +16,18 @@ public class StatusAluno implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idStatusAluno;
+	@Column(name = "id_statusAluno")
+	private Integer idStatusAluno;
 
 	@Column(name = "descricao")
 	private String descricao;
 
 
-	public int getId_statusAluno() {
+	public Integer getId_statusAluno() {
 		return idStatusAluno;
 	}
 
-	public void setIdStatusAluno(int idStatusAluno) {
+	public void setIdStatusAluno(Integer idStatusAluno) {
 		this.idStatusAluno = idStatusAluno;
 	}
 

@@ -14,29 +14,33 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Historico")
-public class Historico {
+public class Historico extends EntidadeBase{
+
+
+	private static final long serialVersionUID = -8742364435906286825L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_historico")
 	private int idHistorico;
 
 	@Column(name = "dataAlteracao")
 	private Date dataAlteracao;
 
 	@ManyToOne
-	@JoinColumn(name = "idAluno")
+	@JoinColumn(name = "id_aluno")
 	private Aluno aluno;
 
 	@ManyToOne
-	@JoinColumn(name = "idDocente")
+	@JoinColumn(name = "id_docente")
 	private Docente docente;
 
 	@ManyToOne
-	@JoinColumn(name = "idProducaoAcademica")
+	@JoinColumn(name = "id_producaoAcademica")
 	private ProducaoAcademica producaoAcademica;
 
 	@ManyToOne
-	@JoinColumn(name = "idProjeto")
+	@JoinColumn(name = "id_projeto")
 	private Projeto projeto;
 
 	public int getIdHistorico() {

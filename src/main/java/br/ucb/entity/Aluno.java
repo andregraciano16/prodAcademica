@@ -15,6 +15,7 @@ public class Aluno {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_aluno")
 	private int idAluno;
 
 	@Column(name = "nome")
@@ -39,15 +40,15 @@ public class Aluno {
 	private Date dataCadastro;
 
 	@ManyToOne
-	@JoinColumn(name = "idEndereco")
+	@JoinColumn(name = "id_endereco")
 	private Endereco endereco;
 
 	@ManyToOne
-	@JoinColumn(name = "idCurso")
+	@JoinColumn(name = "id_curso")
 	private Curso curso;
 
 	@ManyToOne
-	@JoinColumn(name = "idStatusAluno")
+	@JoinColumn(name = "id_statusAluno")
 	private StatusAluno statusAluno;
 
 	public int getIdAluno() {

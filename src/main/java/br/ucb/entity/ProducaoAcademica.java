@@ -19,6 +19,7 @@ public class ProducaoAcademica extends EntidadeBase {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_producaoAcademica")
 	private Integer idProducaoAcademica;
 
 	@Column(name = "titulo")
@@ -53,15 +54,15 @@ public class ProducaoAcademica extends EntidadeBase {
 	private Date dataCadastro;
 
 	@ManyToOne
-	@JoinColumn(name = "idTipoProducao")
+	@JoinColumn(name = "id_tipoProducao")
 	private TipoProducao tipoProducao;
 
 	@ManyToOne
-	@JoinColumn(name = "idLinhaPesquisa")
+	@JoinColumn(name = "id_linhaPesquisa")
 	private LinhaPesquisa linhaPesquisa;
 
 	@ManyToOne
-	@JoinColumn(name = "idStatusProducao")
+	@JoinColumn(name = "id_statusProducao")
 	private StatusProducao statusProducao;
 
 	public Integer getIdProducaoAcademica() {
