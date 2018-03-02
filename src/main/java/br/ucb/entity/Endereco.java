@@ -7,11 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Endereco {
+public class Endereco extends EntidadeBase{
+
+	private static final long serialVersionUID = -5144079654456437059L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id_endereco;
+	private Integer idEndereco;
 
 	@Column(name = "estado")
 	private String estado;
@@ -32,12 +34,12 @@ public class Endereco {
 	private Integer numero;
 
 
-	public Integer getId_endereco() {
-		return id_endereco;
+	public Integer getIdEndereco() {
+		return idEndereco;
 	}
 
-	public void setId_endereco(Integer id_endereco) {
-		this.id_endereco = id_endereco;
+	public void setIdEndereco(Integer idEndereco) {
+		this.idEndereco = idEndereco;
 	}
 
 	public String getEstado() {

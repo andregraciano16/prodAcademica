@@ -2,7 +2,6 @@ package br.ucb.MB;
 
 import java.io.Serializable;
 
-import javax.annotation.PostConstruct;
 
 public abstract class BaseMB implements Serializable{
 

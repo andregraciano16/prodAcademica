@@ -7,22 +7,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Curso {
+public class Curso extends EntidadeBase{
+
+	private static final long serialVersionUID = -8630276346310370218L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id_curso;
+	private Integer idCurso;
 
 	@Column(name = "nome")
 	private String nome;
 
 	
-	public Integer getId_curso() {
-		return id_curso;
+	public Integer getIdCurso() {
+		return idCurso;
 	}
 
-	public void setId_curso(Integer id_curso) {
-		this.id_curso = id_curso;
+	public void setIdCurso(Integer id_curso) {
+		this.idCurso = id_curso;
 	}
 
 	public String getNome() {

@@ -36,7 +36,7 @@ public class MateriaDao {
 		EntityManager em = JPAUtil.getEntityManaged();
 
 		try {
-			Materia alterarMateria = em.find(Materia.class, materia.getId_materia());
+			Materia alterarMateria = em.find(Materia.class, materia.getIdMateria());
 			if (alterarMateria != null) {
 				em.getTransaction().begin();
 				alterarMateria.setDescricao(materia.getDescricao());
@@ -60,7 +60,7 @@ public class MateriaDao {
 		EntityManager em = JPAUtil.getEntityManaged();
 		
 		try {
-			Materia excluirMateria = em.find(Materia.class, materia.getId_materia());
+			Materia excluirMateria = em.find(Materia.class, materia.getIdMateria());
 			if (excluirMateria != null) {
 				em.getTransaction().begin();
 				em.remove(excluirMateria);

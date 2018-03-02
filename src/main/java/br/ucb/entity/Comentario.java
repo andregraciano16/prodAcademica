@@ -13,11 +13,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Comentario {
+public class Comentario extends EntidadeBase {
+
+	private static final long serialVersionUID = -7958875195005963451L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id_comentario;
+	private Integer idComentario;
 
 	@Column(name = "dataCadastro")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -30,21 +32,19 @@ public class Comentario {
 	private String titulo;
 
 	@ManyToOne()
-	@JoinColumn(name = "id_aluno")
+	@JoinColumn(name = "idAluno")
 	private Aluno aluno;
 
 	@ManyToOne
-	@JoinColumn(name = "id_docente")
+	@JoinColumn(name = "idDocente")
 	private Docente docente;
 
-	
-
-	public Integer getId_comentario() {
-		return id_comentario;
+	public Integer getIdComentario() {
+		return this.idComentario;
 	}
 
-	public void setId_comentario(Integer id_comentario) {
-		this.id_comentario = id_comentario;
+	public void setIdComentario(Integer idComentario) {
+		this.idComentario = idComentario;
 	}
 
 	public Date getDataCadastro() {

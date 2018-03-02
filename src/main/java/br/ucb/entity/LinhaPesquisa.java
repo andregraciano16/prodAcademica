@@ -11,23 +11,21 @@ import javax.persistence.Id;
 @Entity
 public class LinhaPesquisa implements Serializable {
 
-
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id_linhaPesquisa;
-	
+	private Integer idLinhaPesquisa;
+
 	@Column(name = "descricao")
 	private String descricao;
 
-	
-	public Integer getId_linhaPesquisa() {
-		return id_linhaPesquisa;
+	public Integer getIdLinhaPesquisa() {
+		return this.idLinhaPesquisa;
 	}
 
-	public void setId_linhaPesquisa(Integer id_linhaPesquisa) {
-		this.id_linhaPesquisa = id_linhaPesquisa;
+	public void setIdLinhaPesquisa(Integer idLinhaPesquisa) {
+		this.idLinhaPesquisa = idLinhaPesquisa;
 	}
 
 	public String getDescricao() {
@@ -37,9 +35,7 @@ public class LinhaPesquisa implements Serializable {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
-	
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -49,10 +45,10 @@ public class LinhaPesquisa implements Serializable {
 		if (!(obj instanceof LinhaPesquisa))
 			return false;
 		LinhaPesquisa other = (LinhaPesquisa) obj;
-		if (id_linhaPesquisa == null){
-			if (other.id_linhaPesquisa != null)
+		if (idLinhaPesquisa == null) {
+			if (other.idLinhaPesquisa != null)
 				return false;
-		} else if (!id_linhaPesquisa.equals(other.id_linhaPesquisa))
+		} else if (!idLinhaPesquisa.equals(other.idLinhaPesquisa))
 			return false;
 		return true;
 	}
