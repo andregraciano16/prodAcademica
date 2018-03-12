@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				template="./template.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"  
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+	<ui:define name="Conteudo">
+		<h:head>
+			<title>Tipo Docente</title>
+		</h:head>
+		<h:body>
+			<h:form id="idFormulario">
+					<div class="col-sm-9 col-sm-offset-3 col-lg-11 col-lg-offset-2 main">
+							<div class="titulo-centro-grande"> Docente </div>
+							<div class="panel-body">
+								  <div class="row">
+									   <div class="col-md-4">
+											<h4>Matricula:</h4>
+											<h:inputText value="#{docenteMB.docente.matricula}" 
+												         class= "form-control" 
+												         maxlength="10"/>
+										</div>
+										<div class="col-md-4">
+											<h4>Nome:</h4>
+											<h:inputText value="#{docenteMB.docente.nome}" 
+												         class= "form-control" 
+												         maxlength="10"/>
+										</div>
+										<div class="col-md-4">
+											<h4>Situação:</h4>
+											<h:inputText value="#{docenteMB.docente.situacao}" 
+												         class= "form-control" 
+												         maxlength="10"/>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-3">
+										    <div class="form-group">
+												<p:outputLabel for="idSelSex" value="Sexo:" />
+										        <p:selectOneMenu id="idSelSex" value="#{docenteMB.docente.sexo}" styleClass="form-control">
+										            <f:selectItem itemLabel="Masculino" itemValue="M" />
+										            <f:selectItem itemLabel="Feminino" itemValue="F" />
+										        </p:selectOneMenu>
+									        </div>
+								        </div>
+								        <div class="col-md-3">
+											<h4>Celular:</h4>
+											<h:inputText value="#{docenteMB.docente.celular}" 
+												         class= "form-control" 
+												         maxlength="10"/>
+										</div>
+										<div class="col-md-3">
+											<h4>Fixo:</h4>
+											<h:inputText value="#{docenteMB.docente.telefoneFixo}" 
+												         class= "form-control" 
+												         maxlength="10"/>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-3">
+											<h4>E-mail:</h4>
+											<h:inputText value="#{docenteMB.docente.email}" 
+												         class= "form-control" 
+												         maxlength="10"/>
+										</div>
+										<div class="col-md-3">
+											<p:outputLabel for="idAtivo" value="Ativo:" />
+									        <p:selectOneMenu id="idAtivo" value="#{docenteMB.docente.ativo}">
+									            <f:selectItem itemLabel="Sim" itemValue="S" />
+									            <f:selectItem itemLabel="Não" itemValue="N" />
+									        </p:selectOneMenu>
+								        </div>
+								        <div class="col-md-3"> 	
+									        <p:outputLabel for="idDataNasc" value="Data Nascimento: " />
+									        <p:calendar id="idDataNasc" value="#{docenteMB.docente.dataNascimento}" />
+								        </div>
+									</div>
+									<div class="row">
+										<div class="col-md-3">
+											<h4>Ramal:</h4>
+											<h:inputText value="#{docenteMB.docente.ramal}" 
+												         class= "form-control" 
+												         maxlength="10"/>
+	                               		</div>	
+	                               		<div class="col-md-3">
+											<p:outputLabel for="idTipo" value="Tipo Docente:" />
+									        <p:selectOneMenu id="idTipo" value="#{docenteMB.tipoDocente}">
+												<f:selectItems itemLabel="#{tipo.tipo}" itemValue="#{tipo.idTipoDocente}" var="tipo" value="#{docenteMB.getTipoDocentes()}"/>
+									        </p:selectOneMenu>
+								        </div>							
+									</div>
+									
+		                            <br/>
+		                            <div class="form-group">
+											<p:commandButton value="Cadastrar" 
+											                 class="btn-primary btn-md" 
+											                 action="#{docenteMB.cadastrar()}" 
+											                 update="@form"
+											                 styleClass="btn btn-primary" />
+		
+											<p:commandButton value="Pesquisar" 
+											                 name="btnPesquisar" 
+											                 class="btn btn-primary-cinza"
+												             action="#{docenteMB.buscar()}"
+												             update="@form" />
+		
+											<p:commandButton value="Limpar" 
+											                 title="Limpar"
+											                 class="btn-primary btn-md"
+												             actionListener="#{docenteMB.limpar()}" 
+												             update="@form"
+												             styleClass="btn btn-primary"/>
+									</div>
+									<br />
+									<br />
+									<br />
+
+									
+							</div>
+						</div>
+		    </h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>

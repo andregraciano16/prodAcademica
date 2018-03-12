@@ -18,7 +18,7 @@ public class DaoGenericoImpl<T extends Serializable, Key> implements DaoGenerico
 		try {
 			manager = JPAUtil.getEntityManaged();
 			manager.getTransaction().begin();
-			manager.persist(t);
+			manager.persist(manager.merge(t));
 			manager.getTransaction().commit();
 		} catch (PersistenceException e) {
 			e.printStackTrace();

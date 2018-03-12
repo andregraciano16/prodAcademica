@@ -18,6 +18,11 @@
 		<param-value>Development</param-value>
 	</context-param>
 
+	<mime-mapping>
+		<extension>js</extension>
+		<mime-type>application/javascript</mime-type>
+	</mime-mapping>
+
 	<!-- Tema do PrimeFaces -->
 	<!-- "afterdark", "afternoon", "afterwork", "aristo", "black-tie", "blitzer", 
 		"bluesky", "casablanca", "cruze", "cupertino", "dark-hive", "dot-luv", "eggplant", 
@@ -28,7 +33,7 @@
 
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>none</param-value>
+		<param-value>bootstrap</param-value>
 	</context-param>
 
 
@@ -48,7 +53,6 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
-
 
 	<mime-mapping>
 		<extension>woff2</extension>

@@ -10,6 +10,10 @@
 	<h:outputStylesheet library="css" name="datepicker3.css"      />
 	<h:outputStylesheet library="css" name="styles.css"           />
     <h:outputStylesheet library="css" name="myStyle.css"          />
+	<h:outputStylesheet href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" />
+	
+	<link rel="icon" type="imagem/x-ico" href="resources/fonte/images/ucb.ico" />
+	<title>ProdAc</title>
 </h:head>
 
 <h:body>
@@ -102,24 +106,14 @@
 		<ui:insert name = "Conteudo"></ui:insert>
 	</div>
 
-	<h:outputStylesheet library="js" name="jquery-1.11.1.min.js"    />
-	<h:outputStylesheet library="js" name="bootstrap.min.js"        />
-	<h:outputStylesheet library="js" name="chart.min.js"            />
-	<h:outputStylesheet library="js" name="chart-data.js"           />
-	<h:outputStylesheet library="js" name="easypiechart.js"         />
-	<h:outputStylesheet library="js" name="easypiechart-data.js"    />
-	<h:outputStylesheet library="js" name="bootstrap-datepicker.js" />
-	<h:outputStylesheet library="js" name="custom.js"               />
-	
-	<script type="text/javaScript"> 
-    	window.onload = function () { 
-        var chart1 = document.getElementById("line-chart").getContext("2d");  
-    	window.myLine = new Chart(chart1).Line(
-    	    	lineChartData, { 
-                    responsive true,  scaleLineColor: "rgba(0,0,0,.2)",  scaleGridLineColor: 
-              } "rgba(0,0,0,.05)",  scaleFontColor: "#c5c7cc"  });  
-        }; 
- 	</script>
+	<h:outputScript library="js" name="jquery-1.11.1.min.js"    />
+	<h:outputScript library="js" name="bootstrap.min.js"        />
+	<h:outputScript library="js" name="chart.min.js"            />
+	<h:outputScript library="js" name="chart-data.js"           />
+	<h:outputScript library="js" name="easypiechart.js"         />
+	<h:outputScript library="js" name="easypiechart-data.js"    />
+	<h:outputScript library="js" name="bootstrap-datepicker.js" />
+	<h:outputScript library="js" name="custom.js"               />
 
 	<script type="text/javascript">
 	  WebFontConfig = {

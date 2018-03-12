@@ -1,6 +1,5 @@
 package br.ucb.MB;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -24,7 +23,6 @@ public class TipoDocenteMB extends BaseMB {
 
 	@PostConstruct
 	public void init() {
-		this.tipos          = new ArrayList<TipoDocente>();
 		this.tipoDocente    = new TipoDocente();
 		this.descricao      = new String();
 		this.tipoDocenteDao = new TipoDocenteDaoImpl();
@@ -44,7 +42,7 @@ public class TipoDocenteMB extends BaseMB {
 		if (this.tipoDocente == null) {
 			this.tipoDocente = new TipoDocente();
 		}
-		this.tipoDocente.setId_tipoDocente(null);
+		this.tipoDocente.setIdTipoDocente(null);
 		this.tipoDocente.setTipo(this.descricao);
 	}
 

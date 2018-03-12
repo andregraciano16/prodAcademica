@@ -1,77 +1,80 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-				template="./template.xhtml" 
+				template="./template.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"  
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:f="http://java.sun.com/jsf/core"
-				xmlns:p="http://primefaces.prime.com.tr/ui"
-				xmlns="http://www.w3.org/1999/xhtml" >
+				xmlns:p="http://primefaces.org/ui">
 	<ui:define name="Conteudo">
-		<h:head>
-			<title>Tipo Docente</title>
-		</h:head>
-		<h:body>
-		<h:form>
-		<div class="row">
-			<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
-				<div class="login-panel panel panel-default">
-					<div class="titulo-centro-grande">Tipo Docente </div>
-					<div class="panel-body">
-								<div class="row">
-									<div class="col-md-6">
-										<h4>Descrição:</h4>
-										<h:inputText value="#{tipoDocenteMB.descricao}" 
-										             class= "form-control" 
-										             maxlength="10"/>
+			<h:form id="idFormulario">
+					<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main" >
+						<div class = "row">
+						   <ol class="breadcrumb" style="color:blue;background: #30a5ff">
+							   <div class="titulo-centro-grande">Tipo Docente </div>
+						  </ol>
+						</div>
+							<div class="panel-body">
+								  <div class="row">
+									   <div class="col-md-4">
+											<h4>Descrição:</h4>
+											<h:inputText value="#{tipoDocenteMB.descricao}" 
+												         class= "form-control" 
+												         maxlength="10"/>
+										</div>
 									</div>
-								</div>
-                                <br/>
-								<h:commandButton value="Cadastrar" 
-								                 class="btn btn-primary" 
-								                 action="#{tipoDocenteMB.cadastrar()}" />
-								&nbsp;&nbsp;
-								<h:commandButton value="Pesquisar" 
-								                 name="btnPesquisar" 
-								                 class="btn btn-primary-cinza"
-									             action="#{tipoDocenteMB.buscar()}" />
-								&nbsp;&nbsp;
-								<p:commandButton value="Limpar" 
-								                 title="Limpar"
-								                 class="btn btn-primary"
-									             actionListener="#{tipoDocenteMB.limpar()}" 
-									             immediate="true" 
-									             update="@form">
-							    </p:commandButton>
-								<br />
-								<br />
-								<br />
-								<h:dataTable value="#{tipoDocenteMB.tipos}" var="item"  border="3" 
-								             rendered="#{not empty tipoDocenteMB.tipos}" width="50%" 
-									         styleClass="tabela" headerClass="cabecalhoTabela" 
-									         columnClasses="colunaTabelaEsquerda, colunaTabelaDireita">
-									<h:column>
-										<f:facet name="header">
-											Descriçao
-										</f:facet>
-										<h:outputText value="#{item.descricao}" />
-									</h:column>
-									<h:column>
-										<f:facet name="header">
-											Ação
-										</f:facet>
-										<h:commandButton value="Alterar" 
-										                 class="btn btn-primary"
-											             action="#{tipoDocenteMB.editar(item)}" />
-											&nbsp;&nbsp;
-										<h:commandButton value="Excluir" 
-										                 class="btn btn-primary-cinza"
-											             action="#{tipoDocenteMB.excluir(item)}" />
-									</h:column>
-								</h:dataTable>
-					</div>
-				</div>
-			</div>
-		</div>
-		</h:form>
-		</h:body>
+		                            <br/>
+		                            <div class="form-group">
+											<p:commandButton value="Cadastrar" 
+											                 class="btn btn-primary" 
+											                 action="#{tipoDocenteMB.cadastrar()}" 
+											                 update="@form"/>
+		
+											<p:commandButton value="Pesquisar" 
+											                 name="btnPesquisar" 
+											                 class="btn btn-primary-cinza"
+												             action="#{tipoDocenteMB.buscar()}"
+												             update="@form" />
+		
+											<p:commandButton value="Limpar" 
+											                 title="Limpar"
+											                 class="btn btn-primary"
+												             actionListener="#{tipoDocenteMB.limpar()}" 
+												             update="@form">
+											</p:commandButton>
+									</div>
+									<br />
+									<br />
+									<br />
+									<p:dataTable id="tabelaDocente" var="item" value="#{tipoDocenteMB.tipos}" editable="true" 
+						             tableStyleClass="table table-striped" >
+								       <f:facet name="header">
+								           Descrição
+								       </f:facet>
+ 
+								       <p:ajax event="rowEdit" listener="#{tipoDocenteMB.editar(item)}" />
+								       <p:ajax event="rowEditCancel"/>
+ 
+								       <p:column headerText="Descrição">
+								           <p:cellEditor>
+								               <f:facet name="output"><h:outputText id="idOutputTipo" value="#{item.tipo}" /></f:facet>
+								               <f:facet name="input"><p:inputText id="modelInput" value="#{item.tipo}" style="width:100%"/></f:facet>
+								           </p:cellEditor>
+								       </p:column>
+									   <p:column>
+											<f:facet name="header">Editar</f:facet>									    
+												<p:rowEditor />
+									   </p:column>
+									   <p:column>
+									   		  <f:facet name="header">Remover</f:facet>
+											   <h:commandLink action="#{tipoDocenteMB.excluir(item)}"  update="@form">
+												   <span class="ui-icon ui-icon-close" aria-hidden="true"/>
+											   </h:commandLink>
+									    </p:column>
+									</p:dataTable>
+									
+									
+							</div>
+						</div>
+		    </h:form>
 	</ui:define>
 </ui:composition>

@@ -18,7 +18,7 @@ public class TipoDocente extends EntidadeBase {
 	@Column(name = "tipo")
 	private String tipo;
 
-	public Integer getId_tipoDocente() {
+	public Integer getIdTipoDocente() {
 		return idTipoDocente;
 	}
 
