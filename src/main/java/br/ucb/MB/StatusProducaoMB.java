@@ -1,5 +1,7 @@
 package br.ucb.MB;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -16,11 +18,13 @@ public class StatusProducaoMB extends BaseMB {
 
 	private StatusProducaoDao statusProducaoDao;
 	private StatusProducao statusProducao;
+	private List<StatusProducao> status;
 
 	@PostConstruct
 	public void init() {
 		this.statusProducaoDao = new StatusProducaoDaoImpl();
 		this.statusProducao = new StatusProducao();
+		this.status = this.statusProducaoDao.list();
 	}
 
 	public void cadastrar() {
@@ -36,9 +40,7 @@ public class StatusProducaoMB extends BaseMB {
 	}
 
 	public void buscar() {
-		// this.docentes =
-		// this.docenteDao.findByDescricaoAndTipo(tipoProducao.getTipo(),
-		// tipoProducao.getDescricao());
+		this.status = this.statusProducaoDao.findByDescricaoAndTipo(statusProducao.getTipo(), statusProducao.getDescricao());
 	}
 
 	public void limpar() {
@@ -51,6 +53,14 @@ public class StatusProducaoMB extends BaseMB {
 
 	public void setStatusProducao(StatusProducao statusProducao) {
 		this.statusProducao = statusProducao;
+	}
+
+	public List<StatusProducao> getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(List<StatusProducao> status) {
+		this.status = status;
 	}
 
 }

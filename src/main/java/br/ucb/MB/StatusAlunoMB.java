@@ -13,7 +13,7 @@ import org.primefaces.event.RowEditEvent;
 
 import br.ucb.dao.LinhaPesquisaDao;
 import br.ucb.dao.StatusAlunoDao;
-import br.ucb.dao.impl.StatusAlunoDaoImpl;
+import br.ucb.dao.impl.StatusProducaoDaoImpl;
 import br.ucb.entity.LinhaPesquisa;
 import br.ucb.entity.StatusAluno;
 
@@ -36,7 +36,7 @@ public class StatusAlunoMB extends BaseMB {
 		this.variosStatus = new ArrayList<StatusAluno>();
 		this.statusAluno = new StatusAluno();
 		this.descricao = null;
-		this.statusAlunoDao = new StatusAlunoDaoImpl();
+	//	this.statusAlunoDao = new StatusAlunoDaoImpl();
 		this.editavel = new StatusAluno();
 	}
 

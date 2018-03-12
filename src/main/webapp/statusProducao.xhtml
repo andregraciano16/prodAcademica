@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				template="./template.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"  
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+	<ui:define name="Conteudo">
+
+	<h:form id="idFormulario">
+		<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+				<div class = "row">
+					<ol class="breadcrumb" style="color:blue;background: #30a5ff">
+						<div class="titulo-centro-grande">Tipo Produção </div>
+					</ol>	
+				</div>
+				<div class="panel-body">
+					  <div class="row">
+						   <div class="col-md-4">
+								<h4>Tipo:</h4>
+								<h:inputText value="#{statusProducaoMB.statusProducao.tipo}" 
+									         class= "form-control" 
+									         maxlength="10"/>
+							</div>
+							<div class="col-md-4">
+								<h4>Descrição:</h4>
+								<h:inputText value="#{statusProducaoMB.statusProducao.descricao}" 
+									         class= "form-control" 
+									         maxlength="10"/>
+							</div>
+						</div>
+			                    <br/>
+			                    <div class="form-group">
+								<p:commandButton value="Cadastrar" 
+								                 class="btn-primary btn-md" 
+								                 action="#{statusProducaoMB.cadastrar()}" 
+								                 update="@form"
+								                 styleClass="btn btn-primary" />
+			
+								<p:commandButton value="Pesquisar" 
+								                 name="btnPesquisar" 
+								                 class="btn btn-primary-cinza"
+									             action="#{statusProducaoMB.buscar()}"
+									             update="@form" />
+			
+								<p:commandButton value="Limpar" 
+								                 title="Limpar"
+								                 class="btn-primary btn-md"
+									             actionListener="#{statusProducaoMB.limpar()}" 
+									             update="@form"
+									             styleClass="btn btn-primary"/>
+						</div>
+						<br />
+						<br />
+						<br />
+						
+						<p:dataTable id="tabelaDocente" var="item" value="#{statusProducaoMB.status}" editable="true" 
+			             tableStyleClass="table table-striped" >
+					       <f:facet name="header">
+					           Descrição
+					       </f:facet>
+	 
+					       <p:ajax event="rowEdit" listener="#{statusProducaoMB.editar(item)}" />
+					       <p:ajax event="rowEditCancel"/>
+	 
+					       <p:column headerText="Descrição">
+					           <p:cellEditor>
+					               <f:facet name="output"><h:outputText id="idOutput" value="#{item.descricao}" /></f:facet>
+					               <f:facet name="input"><p:inputText id="modelInput" value="#{item.descricao}" style="width:100%"/></f:facet>
+					           </p:cellEditor>
+					       </p:column>
+					       <p:column headerText="Tipo">
+					           <p:cellEditor>
+					               <f:facet name="output"><h:outputText id="idOutputTipo" value="#{item.tipo}" /></f:facet>
+					               <f:facet name="input"><p:inputText id="modelInputTipo" value="#{item.tipo}" style="width:100%"/></f:facet>
+					           </p:cellEditor>
+					       </p:column>
+							<p:column>
+								<f:facet name="header">Editar</f:facet>
+									<p:rowEditor />
+							</p:column>
+							<p:column>
+								<f:facet name="header">Excluir</f:facet>
+								<p:commandLink action="#{statusProducaoMB.excluir(item)}" 
+									           update="@form">
+									   <span class="ui-icon ui-icon-close" aria-hidden="true"/>
+								 </p:commandLink>
+						    </p:column>
+						    	
+						</p:dataTable>		
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
