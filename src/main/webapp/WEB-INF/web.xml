@@ -33,7 +33,11 @@
 
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
+<<<<<<< HEAD
 		<param-value>bootstrap</param-value>
+=======
+		<param-value>start</param-value>
+>>>>>>> branch 'master' of https://github.com/andregraciano16/prodAcademica.git
 	</context-param>
 
 
@@ -58,5 +62,6 @@
 		<extension>woff2</extension>
 		<mime-type>application/font-woff2</mime-type>
 	</mime-mapping>
+
 
 </web-app>

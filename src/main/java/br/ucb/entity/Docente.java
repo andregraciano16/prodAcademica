@@ -19,6 +19,7 @@ public class Docente extends EntidadeBase {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_Docente")
 	private Integer idDocente;
 
 	@Column(name = "matricula")
@@ -57,7 +58,7 @@ public class Docente extends EntidadeBase {
 	private Date dataCadastro;
 
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(name = "id_tipoDocente")
 	private TipoDocente tipoDocente;
 
 	@ManyToOne

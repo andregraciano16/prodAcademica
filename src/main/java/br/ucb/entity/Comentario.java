@@ -19,6 +19,7 @@ public class Comentario extends EntidadeBase {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_Comentario")
 	private Integer idComentario;
 
 	@Column(name = "dataCadastro")
@@ -32,11 +33,11 @@ public class Comentario extends EntidadeBase {
 	private String titulo;
 
 	@ManyToOne()
-	@JoinColumn(name = "idAluno")
+	@JoinColumn(name = "id_aluno")
 	private Aluno aluno;
 
 	@ManyToOne
-	@JoinColumn(name = "idDocente")
+	@JoinColumn(name = "id_docente")
 	private Docente docente;
 
 	public Integer getIdComentario() {

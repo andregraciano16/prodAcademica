@@ -15,6 +15,7 @@ public class LinhaPesquisa implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_linhaPesquisa")
 	private Integer idLinhaPesquisa;
 
 	@Column(name = "descricao")

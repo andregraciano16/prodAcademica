@@ -1,3 +1,4 @@
+
 package br.ucb.dao;
 
 import java.util.List;
@@ -109,3 +110,4 @@ public class LinhaPesquisaDao {
 	}
 
 }
+

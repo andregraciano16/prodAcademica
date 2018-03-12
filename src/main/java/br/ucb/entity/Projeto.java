@@ -13,6 +13,7 @@ public class Projeto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_projeto")
 	private Integer idProjeto;
 
 	@Column(name = "nome")

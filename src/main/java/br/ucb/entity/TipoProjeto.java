@@ -11,6 +11,7 @@ public class TipoProjeto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_tipoProjeto")
 	private Integer idTipoProjeto;
 
 	@Column(name = "tipo")

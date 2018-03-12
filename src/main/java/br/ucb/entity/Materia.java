@@ -13,13 +13,14 @@ public class Materia {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_materia")
 	private Integer idMateria;
 
 	@Column(name = "descricao")
 	private String descricao;
 
 	@ManyToOne
-	@JoinColumn(name = "idLinhaPesquisa")
+	@JoinColumn(name = "id_linhaPesquisa")
 	private LinhaPesquisa linhaPesquisa;
 
 	public Integer getIdMateria() {

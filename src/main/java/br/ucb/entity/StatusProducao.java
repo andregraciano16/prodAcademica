@@ -13,6 +13,7 @@ public class StatusProducao extends EntidadeBase {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_statusProducao")
 	private Integer idStatusProducao;
 
 	@Column(name = "tipo")

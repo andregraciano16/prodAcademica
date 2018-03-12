@@ -13,6 +13,7 @@ public class Endereco extends EntidadeBase{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_endereco")
 	private Integer idEndereco;
 
 	@Column(name = "estado")

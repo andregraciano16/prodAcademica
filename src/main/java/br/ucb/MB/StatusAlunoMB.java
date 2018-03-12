@@ -1,9 +1,9 @@
 package br.ucb.MB;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -11,38 +11,110 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.RowEditEvent;
 
+import br.ucb.dao.LinhaPesquisaDao;
 import br.ucb.dao.StatusAlunoDao;
+import br.ucb.dao.impl.StatusAlunoDaoImpl;
+import br.ucb.entity.LinhaPesquisa;
 import br.ucb.entity.StatusAluno;
 
-@ManagedBean
+
+@ManagedBean(name = "statusAlunoMB")
 @ViewScoped
-public class StatusAlunoMB implements Serializable {
+public class StatusAlunoMB extends BaseMB {
 
 	private static final long serialVersionUID = 1L;
-	private StatusAluno statusAluno;
-	private List<StatusAluno> variosStatus;
-	private StatusAluno editavel;
 
-	public StatusAlunoMB() {
+	private List<StatusAluno> variosStatus;
+	private StatusAluno statusAluno;
+	private String descricao;
+	private StatusAlunoDao statusAlunoDao;
+	private String msg;
+	private StatusAluno editavel;
+	
+
+	@PostConstruct public void init() {
+		this.variosStatus = new ArrayList<StatusAluno>();
 		this.statusAluno = new StatusAluno();
-		this.setVariosStatus(new ArrayList<StatusAluno>());
+		this.descricao = null;
+		this.statusAlunoDao = new StatusAlunoDaoImpl();
 		this.editavel = new StatusAluno();
 	}
 
-	public StatusAluno getStatusAluno() {
-		return statusAluno;
+	public void cadastrar() {
+		if (this.descricao != null && !this.descricao.isEmpty()) {
+			montarStatusAluno();
+			this.statusAlunoDao.save(this.statusAluno);
+		} else {
+			msg = "Descrição não pode ficar vazia.";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+		}
+		buscar();
 	}
 
-	public void setStatusAluno(StatusAluno statusAluno) {
-		this.statusAluno = statusAluno;
+	private void montarStatusAluno() {
+		if (this.statusAluno == null) {
+			this.statusAluno = new StatusAluno();
+		}
+		this.statusAluno.setIdStatusAluno(null);
+		this.statusAluno.setDescricao(this.descricao);
 	}
+
+	public void excluir(StatusAluno statusAluno) {
+	}
+
+	public void editar(StatusAluno statusAluno, RowEditEvent event) {
+		
+		LinhaPesquisa linhaPesquisa = (LinhaPesquisa) event.getObject();
+		linhaPesquisa.setDescricao(editavel.getDescricao());
+		
+		LinhaPesquisaDao linhaPesquisaDAO = new LinhaPesquisaDao();
+		msg = linhaPesquisaDAO.alterar(linhaPesquisa);
+		//buscaLinhasPesquisa();
+		
+		if (this.descricao != null && !this.descricao.isEmpty()) {
+			montarStatusAluno();
+			this.statusAlunoDao.save(this.statusAluno);
+		} else {
+			msg = "Descrição não pode ficar vazia.";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+		}
+	}
+
+	public void buscar() {
+		
+		if (this.descricao != null) {
+			if (!this.descricao.isEmpty()) {
+				//this.descricao = this.tipoDocenteDao.findByTipo(this.descricao);
+			} else if (this.descricao.isEmpty()) {
+				this.variosStatus = this.statusAlunoDao.list();
+			}
+		}
+		this.variosStatus = this.statusAlunoDao.list();
+	}
+
+	public void limpar() {
+		init();
+	}
+
+	
+	
+	
+	
 
 	public List<StatusAluno> getVariosStatus() {
-		return this.variosStatus;
+		return variosStatus;
 	}
 
 	public void setVariosStatus(List<StatusAluno> variosStatus) {
 		this.variosStatus = variosStatus;
+	}
+
+	public StatusAlunoDao getStatusAlunoDao() {
+		return statusAlunoDao;
+	}
+
+	public void setStatusAlunoDao(StatusAlunoDao statusAlunoDao) {
+		this.statusAlunoDao = statusAlunoDao;
 	}
 
 	public StatusAluno getEditavel() {
@@ -53,53 +125,20 @@ public class StatusAlunoMB implements Serializable {
 		this.editavel = editavel;
 	}
 
-	public void cadastrarStatusAluno(StatusAluno statusAluno) {
-		String msg;
-		StatusAlunoDao statusAlunoDAO = new StatusAlunoDao();
-
-		msg = statusAlunoDAO.cadastrar(getStatusAluno());
-
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-
-		buscaVariosStatus();
+	public StatusAluno getStatusAluno() {
+		return this.statusAluno;
 	}
 
-	public void buscaVariosStatus() {
-		StatusAlunoDao statusAlunoDAO = new StatusAlunoDao();
-		this.variosStatus = statusAlunoDAO.buscaTodosStatus();
+	public void setStatusAluno(StatusAluno statusAluno) {
+		this.statusAluno = statusAluno;
 	}
 
-	public void excluiStatusAluno(StatusAluno statusAluno) {
-		String msg;
-		StatusAlunoDao statusAlunoDAO = new StatusAlunoDao();
-		msg = statusAlunoDAO.excluir(statusAluno);
-
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-
-		buscaVariosStatus();
+	public String getDescricao() {
+		return this.descricao;
 	}
 
-	public void editaStatusAluno(RowEditEvent event) {
-		String msg;
-		StatusAluno statusAluno = (StatusAluno) event.getObject();
-		statusAluno.setDescricao(editavel.getDescricao());
-
-		StatusAlunoDao statusAlunoDAO = new StatusAlunoDao();
-		msg = statusAlunoDAO.alterar(statusAluno);
-		buscaVariosStatus();
-
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
-	public void cancelaEdit(RowEditEvent event) {
-
-		String msg = "Atualização cancelada.";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-	}
-
-	
-	public void buscaStatusPesquisa(StatusAluno statusAluno) {
-		StatusAlunoDao statusAlunoDAO = new StatusAlunoDao();
-		this.variosStatus = statusAlunoDAO.buscaStatusPorPesquisa(statusAluno.getDescricao());
-	}
 }

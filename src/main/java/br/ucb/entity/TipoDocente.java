@@ -13,6 +13,7 @@ public class TipoDocente extends EntidadeBase {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_tipoDocente")
 	private Integer idTipoDocente;
 
 	@Column(name = "tipo")
