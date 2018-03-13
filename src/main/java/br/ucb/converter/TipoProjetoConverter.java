@@ -7,6 +7,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 import br.ucb.dao.TipoProjetoDao;
+import br.ucb.dao.impl.TipoProjetoDaoImpl;
 import br.ucb.entity.TipoProjeto;
 
 
@@ -18,8 +19,8 @@ public class TipoProjetoConverter implements Converter{
 		TipoProjeto retorno = null;
 		
 		if(value != null){
-			TipoProjetoDao tipoProjetoDao = new TipoProjetoDao();
-			retorno = tipoProjetoDao.buscaTipoPorId(new Integer(value));
+			TipoProjetoDao tipoProjetoDao = new TipoProjetoDaoImpl();
+			retorno = tipoProjetoDao.findById(new Integer(value));
 		}
 		
 		return retorno;

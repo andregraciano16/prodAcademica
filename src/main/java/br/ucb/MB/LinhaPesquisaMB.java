@@ -1,9 +1,9 @@
 package br.ucb.MB;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -12,37 +12,120 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.RowEditEvent;
 
 import br.ucb.dao.LinhaPesquisaDao;
+import br.ucb.dao.impl.LinhaPesquisaDaoImpl;
 import br.ucb.entity.LinhaPesquisa;
 
-@ManagedBean
+@ManagedBean(name = "linhaPesquisaMB")
 @ViewScoped
-public class LinhaPesquisaMB implements Serializable {
+public class LinhaPesquisaMB extends BaseMB {
 
 	private static final long serialVersionUID = 1L;
-	private LinhaPesquisa linhaPesquisa;
+
 	private List<LinhaPesquisa> linhasPesquisa;
+	private LinhaPesquisa linhaPesquisa;
+	private LinhaPesquisaDao linhaPesquisaDao;
+	private String msg;
 	private LinhaPesquisa editavel;
 
-	public LinhaPesquisaMB() {
+	@PostConstruct
+	public void init() {
+		this.linhasPesquisa = new ArrayList<LinhaPesquisa>();
 		this.linhaPesquisa = new LinhaPesquisa();
-		this.setLinhasPesquisa(new ArrayList<LinhaPesquisa>());
+		this.linhaPesquisa.setDescricao("");
+		this.linhaPesquisaDao = new LinhaPesquisaDaoImpl();
 		this.editavel = new LinhaPesquisa();
+		buscar();
 	}
 
-	public LinhaPesquisa getLinhaPesquisa() {
-		return linhaPesquisa;
+	public void cadastrar(LinhaPesquisa linhaPesquisa) {
+		if (this.linhaPesquisa.getDescricao() != null && !this.linhaPesquisa.getDescricao().trim().isEmpty()) {
+			if (this.linhasPesquisa.contains(this.linhaPesquisa)) {
+				msg = "Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.";
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+			} else {
+				montarLinhaPesquisa();
+				this.linhaPesquisaDao.save(this.linhaPesquisa);
+				msg = "Cadastrado com sucesso.";
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+			}
+		} else {
+			msg = "Preencha os campos corretamente.";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+		}
+		init();
 	}
 
-	public void setLinhaPesquisa(LinhaPesquisa linhaPesquisa) {
-		this.linhaPesquisa = linhaPesquisa;
+	private void montarLinhaPesquisa() {
+		if (this.linhaPesquisa == null) {
+			this.linhaPesquisa = new LinhaPesquisa();
+		}
+		this.linhaPesquisa.setIdLinhaPesquisa(null);
+		this.linhaPesquisa.setDescricao(this.linhaPesquisa.getDescricao().trim());
+	}
+
+	public void excluir(LinhaPesquisa linhaPesquisa) {
+		this.linhaPesquisaDao.remove(linhaPesquisa);
+		msg = "Excluído com sucesso.";
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+		init();
+	}
+
+	public void editar(RowEditEvent event) {
+
+		if (this.editavel.getDescricao() != null && !this.editavel.getDescricao().isEmpty()) {
+
+			linhaPesquisa = (LinhaPesquisa) event.getObject();
+			linhaPesquisa.setDescricao(editavel.getDescricao());
+			this.linhaPesquisaDao.update(this.linhaPesquisa);
+			msg = "Atualizado com sucesso.";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+
+		} else {
+			msg = "Descrição não pode ficar vazia.";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+		}
+		init();
+
+	}
+
+	public void cancela(RowEditEvent event) {
+
+		String msg = "Atualização cancelada.";
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+	}
+
+	public void buscar() {
+
+		if (this.linhaPesquisa.getDescricao() != null) {
+			if (!this.linhaPesquisa.getDescricao().isEmpty()) {
+				this.linhasPesquisa = this.linhaPesquisaDao.findByDescricao(this.linhaPesquisa.getDescricao());
+			} else if (this.linhaPesquisa.getDescricao().isEmpty()) {
+				this.linhasPesquisa = this.linhaPesquisaDao.list();
+			}
+		}
+
+	}
+
+	public void limpar() {
+		init();
 	}
 
 	public List<LinhaPesquisa> getLinhasPesquisa() {
-		return this.linhasPesquisa;
+		return linhasPesquisa;
 	}
 
 	public void setLinhasPesquisa(List<LinhaPesquisa> linhasPesquisa) {
 		this.linhasPesquisa = linhasPesquisa;
+	}
+
+	public LinhaPesquisaDao getLinhaPesquisaDao() {
+		return linhaPesquisaDao;
+	}
+
+	public void setLinhaPesquisaDao(LinhaPesquisaDao linhaPesquisaDao) {
+		this.linhaPesquisaDao = linhaPesquisaDao;
 	}
 
 	public LinhaPesquisa getEditavel() {
@@ -53,56 +136,12 @@ public class LinhaPesquisaMB implements Serializable {
 		this.editavel = editavel;
 	}
 
-	public void cadastrarLinhaPesquisa(LinhaPesquisa linhaPesquisa) {
-		String msg;
-		LinhaPesquisaDao linhaPesquisaDAO = new LinhaPesquisaDao();
-		if (linhasPesquisa.contains(linhaPesquisa)) {
-			msg = linhaPesquisaDAO.alterar(linhaPesquisa);
-		} else {
-			msg = linhaPesquisaDAO.cadastrar(getLinhaPesquisa());
-		}
-
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-
-		buscaLinhasPesquisa();
+	public LinhaPesquisa getLinhaPesquisa() {
+		return this.linhaPesquisa;
 	}
 
-	public void buscaLinhasPesquisa() {
-		LinhaPesquisaDao linhaPesquisaDAO = new LinhaPesquisaDao();
-		this.linhasPesquisa = linhaPesquisaDAO.buscaTodos();
-	}
-
-	public void excluiLinhaPesquisa(LinhaPesquisa linhaPesquisa) {
-		String msg;
-		LinhaPesquisaDao linhaPesquisaDAO = new LinhaPesquisaDao();
-		msg = linhaPesquisaDAO.excluir(linhaPesquisa);
-
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-
-		buscaLinhasPesquisa();
-	}
-
-	public void editaLinhaPesquisa(RowEditEvent event) {
-		String msg;
-		LinhaPesquisa linhaPesquisa = (LinhaPesquisa) event.getObject();
-		linhaPesquisa.setDescricao(editavel.getDescricao());
-
-		LinhaPesquisaDao linhaPesquisaDAO = new LinhaPesquisaDao();
-		msg = linhaPesquisaDAO.alterar(linhaPesquisa);
-		buscaLinhasPesquisa();
-
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-	}
-
-	public void cancelaEdit(RowEditEvent event) {
-
-		String msg = "Atualização cancelada.";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-	}
-
-	public void buscaLinhaPesquisa(LinhaPesquisa linhaPesquisa) {
-		LinhaPesquisaDao linhaPesquisaDAO = new LinhaPesquisaDao();
-		this.linhasPesquisa = linhaPesquisaDAO.buscaLinhaPorPesquisa(linhaPesquisa.getDescricao());
+	public void setLinhaPesquisa(LinhaPesquisa linhaPesquisa) {
+		this.linhaPesquisa = linhaPesquisa;
 	}
 
 }

@@ -1,5 +1,7 @@
 package br.ucb.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,7 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class TipoProjeto {
+public class TipoProjeto implements Serializable {
+
+	private static final long serialVersionUID = 3638173486990990569L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,19 +50,35 @@ public class TipoProjeto {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+
+		int flag = 0;
+		if (obj instanceof TipoProjeto) {
+			TipoProjeto outroTipoProjeto = (TipoProjeto) obj;
+			if (outroTipoProjeto.getDescricao().trim().equals(this.getDescricao().trim())
+					&& outroTipoProjeto.getTipo().trim().equals(this.getTipo().trim())) {
+				flag = 1;
+			}
+		}
+		if (flag == 1) {
+
 			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof TipoProjeto))
-			return false;
-		TipoProjeto other = (TipoProjeto) obj;
-		if (idTipoProjeto == null) {
-			if (other.idTipoProjeto != null)
+
+		} else {
+
+			if (this == obj)
+				return true;
+			if (obj == null)
 				return false;
-		} else if (!idTipoProjeto.equals(other.idTipoProjeto))
-			return false;
-		return true;
+			if (!(obj instanceof TipoProjeto))
+				return false;
+			TipoProjeto other = (TipoProjeto) obj;
+			if (idTipoProjeto == null) {
+				if (other.idTipoProjeto != null)
+					return false;
+			} else if (!idTipoProjeto.equals(other.idTipoProjeto))
+				return false;
+			return true;
+		}
 	}
 
 }

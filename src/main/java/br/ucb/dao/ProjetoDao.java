@@ -2,13 +2,14 @@ package br.ucb.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import br.ucb.entity.Projeto;
-import br.ucb.util.JPAUtil;
 
-public class ProjetoDao {
+
+public interface ProjetoDao extends DaoGenerico<Projeto, Integer>{
 	
+	public List<Projeto> findByDescricao(String descricao);
+	
+	/*
 	public String cadastrar(Projeto projeto) {
 
 		EntityManager em = JPAUtil.getEntityManaged();
@@ -27,7 +28,7 @@ public class ProjetoDao {
 		 * DaoGenerico<Serializable, Projeto> projetoDAO = new
 		 * DaoGenericoImpl<>(); projetoDAO.save(projeto);
 		 * 
-		 */
+		
 
 	}
 
@@ -52,10 +53,7 @@ public class ProjetoDao {
 		}
 		return "Atualizado com sucesso!";
 
-		/*
-		 * DaoGenerico<Serializable, Projeto> projetoDAO = new
-		 * DaoGenericoImpl<>(); projetoDAO.update(projeto);
-		 */
+
 	}
 
 	public String excluir(Projeto projeto) {
@@ -77,10 +75,7 @@ public class ProjetoDao {
 		}
 		return "Excluído com sucesso!";
 
-		/*
-		 * DaoGenerico<Serializable, Projeto> projetoDAO = new
-		 * DaoGenericoImpl<>(); projetoDAO.remove(projeto);
-		 */
+
 	}
 
 	public List<Projeto> buscaTodos() {
@@ -100,6 +95,6 @@ public class ProjetoDao {
 
 		return projetos;
 	}
-
+	 */
 }
 

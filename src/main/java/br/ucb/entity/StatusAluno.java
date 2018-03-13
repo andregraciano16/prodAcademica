@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-
 @Entity
 public class StatusAluno implements Serializable {
 
@@ -21,7 +20,6 @@ public class StatusAluno implements Serializable {
 
 	@Column(name = "descricao")
 	private String descricao;
-
 
 	public Integer getId_statusAluno() {
 		return idStatusAluno;
@@ -39,5 +37,39 @@ public class StatusAluno implements Serializable {
 		this.descricao = descricao;
 	}
 
-}
+	@Override
+	public boolean equals(Object obj) {
 
+		int flag = 0;
+		if (obj instanceof StatusAluno) {
+			StatusAluno outroStatusAluno = (StatusAluno) obj;
+			if (outroStatusAluno.getDescricao().trim().equals(this.getDescricao().trim())) {
+				flag = 1;
+			}
+		}
+		if (flag == 1) {
+
+			return true;
+
+		} else {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (!(obj instanceof StatusAluno))
+				return false;
+			StatusAluno other = (StatusAluno) obj;
+			if (idStatusAluno == null) {
+				if (other.idStatusAluno != null)
+					return false;
+			} else if (!idStatusAluno.equals(other.idStatusAluno))
+				return false;
+			return true;
+		}
+
+	}
+
+	public int hashCode() {
+		return this.getDescricao().hashCode();
+	}
+}

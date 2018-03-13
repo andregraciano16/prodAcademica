@@ -39,19 +39,38 @@ public class LinhaPesquisa implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+
+		int flag = 0;
+		if (obj instanceof LinhaPesquisa) {
+			LinhaPesquisa outroLinhaPesquisa = (LinhaPesquisa) obj;
+			if (outroLinhaPesquisa.getDescricao().trim().equals(this.getDescricao().trim())) {
+				flag = 1;
+			}
+		}
+		if (flag == 1) {
+
 			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof LinhaPesquisa))
-			return false;
-		LinhaPesquisa other = (LinhaPesquisa) obj;
-		if (idLinhaPesquisa == null) {
-			if (other.idLinhaPesquisa != null)
+
+		} else {
+			if (this == obj)
+				return true;
+			if (obj == null)
 				return false;
-		} else if (!idLinhaPesquisa.equals(other.idLinhaPesquisa))
-			return false;
-		return true;
+			if (!(obj instanceof LinhaPesquisa))
+				return false;
+			LinhaPesquisa other = (LinhaPesquisa) obj;
+			if (idLinhaPesquisa == null) {
+				if (other.idLinhaPesquisa != null)
+					return false;
+			} else if (!idLinhaPesquisa.equals(other.idLinhaPesquisa))
+				return false;
+			return true;
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.getDescricao().hashCode();
 	}
 
 }

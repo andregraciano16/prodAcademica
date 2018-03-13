@@ -10,12 +10,7 @@
 		<h:head>
 
 			<title>Status Aluno</title>
-			<h:outputStylesheet library="css" name="bootstrap.min.css" />
-			<h:outputStylesheet library="css" name="datepicker3.css" />
-			<h:outputStylesheet library="css" name="styles.css" />
-			<h:outputStylesheet library="css" name="myStyle.css" />
-			<h:outputStylesheet library="js" name="jquery-1.11.1.min.js" />
-			<h:outputStylesheet library="js" name="bootstrap.min.js" />
+
 
 
 
@@ -28,7 +23,7 @@
 						class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-3 col-md-8 col-md-offset-3">
 						<div class="login-panel panel panel-default">
 
-							<div class="titulo-centro-grande">Status Aluno</div>
+							<div class="titulo-centro-grande">Status do Aluno</div>
 
 
 							<div class="panel-body" id="test">
@@ -54,22 +49,20 @@
 
 										<br /> <br />
 
-
-
-
 										<h:commandButton value="Cadastrar" class="btn btn-primary" id="btnCadastrar"
-											action="#{statusAlunoMB.cadastrarStatusAluno(statusAlunoMB.statusAluno)}" />
+											action="#{statusAlunoMB.cadastrar(statusAlunoMB.statusAluno)}" />
 										&nbsp;&nbsp;
+										
 										<h:commandButton value="Pesquisar" id="btnPesquisar"
 											class="btn btn-primary-cinza"
-											action="#{statusAlunoMB.buscaStatusPesquisa(statusAlunoMB.statusAluno)}" />
+											action="#{statusAlunoMB.buscar}" />
 										&nbsp;&nbsp;
+										
 										<h:button value="Limpar" class="btn btn-primary-cinza" id="btnLimpar"
-											outcome="statusAluno" immediate="true" />
+											action="#{statusAlunoMB.limpar}" immediate="true" />
 										&nbsp;&nbsp;
-										<h:commandButton value="Mostrar Todos" class="btn btn-primary" id="btnMostrar"
-											action="#{statusAlunoMB.buscar}" immediate="true" />
-
+										
+										
 
 										<br /> <br /> <br />
 
@@ -78,8 +71,8 @@
 										<p:dataTable value="#{statusAlunoMB.variosStatus}" var="item" rows="4" paginator="true" editable="true"
 											rendered="#{not empty statusAlunoMB.variosStatus}" width="100%">
 											
-											<p:ajax event="rowEdit" listener="#{statusAlunoMB.editaStatusAluno}" update=":form:formSeg:msg"/>
-											<p:ajax event="rowEditCancel" listener="#{statusAlunoMB.cancelaEdit}" update=":form:formSeg:msg"/>
+											<p:ajax event="rowEdit" listener="#{statusAlunoMB.editar}" update=":form:formSeg:msg"/>
+											<p:ajax event="rowEditCancel" listener="#{statusAlunoMB.cancela}" update=":form:formSeg:msg"/>
 											
 											<p:column headerText="Descrição" >
 											
@@ -106,7 +99,7 @@
 												<p:rowEditor/>
 												&nbsp;
 												<p:commandButton icon="ui-icon-trash"
-													action="#{statusAlunoMB.excluiStatusAluno(item)}"
+													action="#{statusAlunoMB.excluir(item)}"
 													immediate="true" update="form">
 												<p:confirm message="Tem certeza que deseja apagar?" header="Aviso"  icon="ui-icon-alert"/>
 												</p:commandButton>
