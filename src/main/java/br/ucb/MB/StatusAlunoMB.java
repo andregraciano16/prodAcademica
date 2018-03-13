@@ -10,13 +10,9 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.RowEditEvent;
-
-import br.ucb.dao.LinhaPesquisaDao;
 import br.ucb.dao.StatusAlunoDao;
 import br.ucb.dao.impl.StatusAlunoDaoImpl;
-import br.ucb.entity.LinhaPesquisa;
 import br.ucb.entity.StatusAluno;
-
 
 @ManagedBean(name = "statusAlunoMB")
 @ViewScoped
@@ -26,29 +22,38 @@ public class StatusAlunoMB extends BaseMB {
 
 	private List<StatusAluno> variosStatus;
 	private StatusAluno statusAluno;
-	private String descricao;
 	private StatusAlunoDao statusAlunoDao;
 	private String msg;
 	private StatusAluno editavel;
-	
 
-	@PostConstruct public void init() {
+	@PostConstruct
+	public void init() {
 		this.variosStatus = new ArrayList<StatusAluno>();
 		this.statusAluno = new StatusAluno();
-		this.descricao = null;
+		this.statusAluno.setDescricao("");
 		this.statusAlunoDao = new StatusAlunoDaoImpl();
 		this.editavel = new StatusAluno();
+		buscar();
 	}
 
-	public void cadastrar() {
-		if (this.descricao != null && !this.descricao.isEmpty()) {
-			montarStatusAluno();
-			this.statusAlunoDao.save(this.statusAluno);
+	public void cadastrar(StatusAluno statusAluno) {
+		if (this.statusAluno.getDescricao() != null && !this.statusAluno.getDescricao().trim().isEmpty()) {
+			if (this.variosStatus.contains(this.statusAluno)) {
+				msg = "Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.";
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+			} else {
+				montarStatusAluno();
+				this.statusAlunoDao.save(this.statusAluno);
+				msg = "Cadastrado com sucesso.";
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+			}
 		} else {
 			msg = "Descrição não pode ficar vazia.";
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
 		}
-		buscar();
+		init();
 	}
 
 	private void montarStatusAluno() {
@@ -56,50 +61,55 @@ public class StatusAlunoMB extends BaseMB {
 			this.statusAluno = new StatusAluno();
 		}
 		this.statusAluno.setIdStatusAluno(null);
-		this.statusAluno.setDescricao(this.descricao);
+		this.statusAluno.setDescricao(this.statusAluno.getDescricao().trim());
 	}
 
 	public void excluir(StatusAluno statusAluno) {
+		this.statusAlunoDao.remove(statusAluno);
+		msg = "Excluído com sucesso.";
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+		init();
 	}
 
-	public void editar(StatusAluno statusAluno, RowEditEvent event) {
-		
-		LinhaPesquisa linhaPesquisa = (LinhaPesquisa) event.getObject();
-		linhaPesquisa.setDescricao(editavel.getDescricao());
-		
-		LinhaPesquisaDao linhaPesquisaDAO = new LinhaPesquisaDao();
-		msg = linhaPesquisaDAO.alterar(linhaPesquisa);
-		//buscaLinhasPesquisa();
-		
-		if (this.descricao != null && !this.descricao.isEmpty()) {
-			montarStatusAluno();
-			this.statusAlunoDao.save(this.statusAluno);
+	public void editar(RowEditEvent event) {
+
+		if (this.editavel.getDescricao() != null && !this.editavel.getDescricao().isEmpty()) {
+
+			statusAluno = (StatusAluno) event.getObject();
+			statusAluno.setDescricao(editavel.getDescricao());
+			this.statusAlunoDao.update(this.statusAluno);
+			msg = "Atualizado com sucesso.";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+
 		} else {
 			msg = "Descrição não pode ficar vazia.";
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
 		}
+		init();
+
+	}
+
+	public void cancela(RowEditEvent event) {
+
+		String msg = "Atualização cancelada.";
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
 	}
 
 	public void buscar() {
-		
-		if (this.descricao != null) {
-			if (!this.descricao.isEmpty()) {
-				//this.descricao = this.tipoDocenteDao.findByTipo(this.descricao);
-			} else if (this.descricao.isEmpty()) {
+
+		if (this.statusAluno.getDescricao() != null) {
+			if (!this.statusAluno.getDescricao().isEmpty()) {
+				this.variosStatus = this.statusAlunoDao.findByDescricao(this.statusAluno.getDescricao());
+			} else if (this.statusAluno.getDescricao().isEmpty()) {
 				this.variosStatus = this.statusAlunoDao.list();
 			}
 		}
-		this.variosStatus = this.statusAlunoDao.list();
+
 	}
 
 	public void limpar() {
 		init();
 	}
-
-	
-	
-	
-	
 
 	public List<StatusAluno> getVariosStatus() {
 		return variosStatus;
@@ -131,14 +141,6 @@ public class StatusAlunoMB extends BaseMB {
 
 	public void setStatusAluno(StatusAluno statusAluno) {
 		this.statusAluno = statusAluno;
-	}
-
-	public String getDescricao() {
-		return this.descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
 	}
 
 }
