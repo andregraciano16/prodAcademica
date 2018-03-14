@@ -33,6 +33,7 @@ public class DocenteMB extends BaseMB{
 		this.docenteDao     = new DocenteDaoImpl();
 		this.tipoDocenteDao = new TipoDocenteDaoImpl();
 		this.docente        = new Docente();
+		this.tipoDocente    = new TipoDocente(); 
 	}
 
 	public void cadastrar() {

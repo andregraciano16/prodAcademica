@@ -1,5 +1,7 @@
 package br.ucb.MB;
 
+import java.util.Date;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -23,6 +25,7 @@ public class ComentarioMB extends BaseMB {
 	}
 
 	public void cadastrar() {
+		this.comentario.setDataCadastro(new Date());
 		this.comentarioDao.save(this.comentario);
 	}
 

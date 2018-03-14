@@ -6,89 +6,153 @@
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:p="http://primefaces.org/ui">
 	<ui:define name="Conteudo">
-		<h:head>
-			<title>Tipo Docente</title>
-		</h:head>
-		<h:body>
 			<h:form id="idFormulario">
-					<div class="col-sm-9 col-sm-offset-3 col-lg-11 col-lg-offset-2 main">
-							<div class="titulo-centro-grande"> Docente </div>
+			         
+					<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+			            <div class="col-lg-12">
+			                <div class="panel panel-default">
+			                <div class="panel-heading">
+					        <div class = "row">
+								<ol class="breadcrumb" style="color:blue;background: #30a5ff">
+									<div class="titulo-centro-grande"> Docente </div>
+							    </ol>
+							</div>
+							</div>
 							<div class="panel-body">
 								  <div class="row">
 									   <div class="col-md-4">
-											<h4>Matricula:</h4>
+										    <p:outputLabel for="idMatricula" value="Matricula:" styleClass="control-label"/>
 											<h:inputText value="#{docenteMB.docente.matricula}" 
 												         class= "form-control" 
-												         maxlength="10"/>
+												         maxlength="10"
+												         id="idMatricula"/>
 										</div>
 										<div class="col-md-4">
-											<h4>Nome:</h4>
+										    <p:outputLabel for="idNome" value="Nome:" styleClass="control-label"/>
 											<h:inputText value="#{docenteMB.docente.nome}" 
 												         class= "form-control" 
-												         maxlength="10"/>
+												         maxlength="10"
+												         id="idNome"/>
 										</div>
 										<div class="col-md-4">
-											<h4>Situação:</h4>
+										    <p:outputLabel for="idSituacao" value="Situação:" styleClass="control-label"/>
 											<h:inputText value="#{docenteMB.docente.situacao}" 
 												         class= "form-control" 
-												         maxlength="10"/>
+												         maxlength="10"
+												         id="idSituacao"/>
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-md-3">
+										<div class="col-md-4">
 										    <div class="form-group">
-												<p:outputLabel for="idSelSex" value="Sexo:" />
-										        <p:selectOneMenu id="idSelSex" value="#{docenteMB.docente.sexo}" styleClass="form-control">
-										            <f:selectItem itemLabel="Masculino" itemValue="M" />
-										            <f:selectItem itemLabel="Feminino" itemValue="F" />
-										        </p:selectOneMenu>
+										    <p:outputLabel for="idSelSex" value="Sexo:" styleClass="control-label"/>
+										       <h:selectOneMenu id="idSelSex"  value="#{docenteMB.docente.sexo}" styleClass="form-control">
+										           <f:selectItem itemLabel="Masculino" itemValue="M" />
+										           <f:selectItem itemLabel="Feminino" itemValue="F" />
+										       </h:selectOneMenu>
 									        </div>
 								        </div>
-								        <div class="col-md-3">
-											<h4>Celular:</h4>
+								        <div class="col-md-4">
+										    <p:outputLabel for="idCelular" value="Celular:" styleClass="control-label"/>
 											<h:inputText value="#{docenteMB.docente.celular}" 
 												         class= "form-control" 
-												         maxlength="10"/>
+												         maxlength="10"
+												         id="idCelular"/>
 										</div>
-										<div class="col-md-3">
-											<h4>Fixo:</h4>
+										<div class="col-md-4">
+										    <p:outputLabel for="idFixo" value="Telefone Fixo:" styleClass="control-label"/>
 											<h:inputText value="#{docenteMB.docente.telefoneFixo}" 
 												         class= "form-control" 
-												         maxlength="10"/>
+												         maxlength="10"
+												         id="idFixo"/>
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-md-3">
-											<h4>E-mail:</h4>
+										<div class="col-md-4">
+											<p:outputLabel for="idEmail" value="E-Mail:" styleClass="control-label"/>
 											<h:inputText value="#{docenteMB.docente.email}" 
 												         class= "form-control" 
-												         maxlength="10"/>
+												         maxlength="10"
+												         id="idEmail"/>
 										</div>
-										<div class="col-md-3">
-											<p:outputLabel for="idAtivo" value="Ativo:" />
-									        <p:selectOneMenu id="idAtivo" value="#{docenteMB.docente.ativo}">
-									            <f:selectItem itemLabel="Sim" itemValue="S" />
-									            <f:selectItem itemLabel="Não" itemValue="N" />
-									        </p:selectOneMenu>
+										<div class="col-md-4">
+										    <div class="form-group">
+												<p:outputLabel for="idAtivo" value="Ativo:" styleClass="control-label"/>
+										        <h:selectOneMenu id="idAtivo" value="#{docenteMB.docente.ativo}" styleClass="form-control">
+										            <f:selectItem itemLabel="Sim" itemValue="S" />
+										            <f:selectItem itemLabel="Não" itemValue="N" />
+										        </h:selectOneMenu>
+										     </div>
 								        </div>
-								        <div class="col-md-3"> 	
-									        <p:outputLabel for="idDataNasc" value="Data Nascimento: " />
-									        <p:calendar id="idDataNasc" value="#{docenteMB.docente.dataNascimento}" />
+								        <div class="col-md-4"> 	
+									        <p:outputLabel for="idDataNasc" value="Data Nascimento: " styleClass="control-label" />
+									        <p:calendar id="idDataNasc" value="#{docenteMB.docente.dataNascimento}" styleClass="form-control" />
 								        </div>
 									</div>
 									<div class="row">
-										<div class="col-md-3">
-											<h4>Ramal:</h4>
+										<div class="col-md-4">
+											<p:outputLabel for="idRamal" value="Ramal" styleClass="control-label"/>
 											<h:inputText value="#{docenteMB.docente.ramal}" 
 												         class= "form-control" 
-												         maxlength="10"/>
+												         maxlength="10"
+												         id="idRamal"/>
 	                               		</div>	
-	                               		<div class="col-md-3">
-											<p:outputLabel for="idTipo" value="Tipo Docente:" />
-									        <p:selectOneMenu id="idTipo" value="#{docenteMB.tipoDocente}">
-												<f:selectItems itemLabel="#{tipo.tipo}" itemValue="#{tipo.idTipoDocente}" var="tipo" value="#{docenteMB.getTipoDocentes()}"/>
-									        </p:selectOneMenu>
+	                               		<div class="col-md-4">
+	                               		    <div class="form-group">
+												<p:outputLabel for="idTipo" value="Tipo Docente:" styleClass="control-label" />
+										        <h:selectOneMenu id="idTipo" value="#{docenteMB.tipoDocente}" styleClass="form-control">
+													<f:selectItems itemLabel="#{tipo.tipo}" itemValue="#{tipo.idTipoDocente}" var="tipo" 
+													               value="#{docenteMB.getTipoDocentes()}" />
+										        </h:selectOneMenu>
+									        </div>
 								        </div>							
+									</div>
+									<div class = "row">
+										<div class="col-md-4">
+										    <p:outputLabel for="idEstado" value="Estado" styleClass="control-label"/>
+											<h:inputText value="#{enderecoMB.endereco.estado}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idEstado"/>
+										</div>
+										<div class="col-md-4">
+										    <p:outputLabel for="idCidade" value="Cidade:" styleClass="control-label"/>
+											<h:inputText value="#{enderecoMB.endereco.cidade}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idCidade"/>
+										</div>
+										<div class="col-md-4">
+										    <p:outputLabel for="idBairro" value="Bairro:" styleClass="control-label"/>
+											<h:inputText value="#{enderecoMB.endereco.bairro}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idBairro"/>
+										</div>
+									</div>
+									
+									<div class = "row">
+										<div class="col-md-4">
+										    <p:outputLabel for="idEndRua" value="Rua:" styleClass="control-label"/>
+											<h:inputText value="#{enderecoMB.endereco.rua}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idEndRua"/>
+										</div>
+										<div class="col-md-4">
+										    <p:outputLabel for="idEndCompl" value="Complemento:" styleClass="control-label"/>
+											<h:inputText value="#{enderecoMB.endereco.complemento}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idEndCompl"/>
+										</div>
+										<div class="col-md-4">
+										    <p:outputLabel for="idEndNum" value="Número" styleClass="control-label"/>
+											<h:inputText value="#{enderecoMB.endereco.numero}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idEndNum"/>
+										</div>
 									</div>
 									
 		                            <br/>
@@ -99,27 +163,21 @@
 											                 update="@form"
 											                 styleClass="btn btn-primary" />
 		
-											<p:commandButton value="Pesquisar" 
-											                 name="btnPesquisar" 
-											                 class="btn btn-primary-cinza"
-												             action="#{docenteMB.buscar()}"
-												             update="@form" />
-		
 											<p:commandButton value="Limpar" 
 											                 title="Limpar"
-											                 class="btn-primary btn-md"
+											                 class="btn btn-primary-cinza"
 												             actionListener="#{docenteMB.limpar()}" 
 												             update="@form"
 												             styleClass="btn btn-primary"/>
 									</div>
 									<br />
+									<br /> 
 									<br />
-									<br />
-
-									
+                                   
+								</div>	
 							</div>
 						</div>
+					</div>
 		    </h:form>
-		</h:body>
 	</ui:define>
 </ui:composition>
