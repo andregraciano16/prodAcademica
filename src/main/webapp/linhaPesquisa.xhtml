@@ -54,22 +54,20 @@
 
 										<br /> <br />
 
-
-
-
 										<h:commandButton value="Cadastrar" class="btn btn-primary" id="btnCadastrar"
-											action="#{linhaPesquisaMB.cadastrarLinhaPesquisa(linhaPesquisaMB.linhaPesquisa)}" />
+											action="#{linhaPesquisaMB.cadastrar(linhaPesquisaMB.linhaPesquisa)}" />
 										&nbsp;&nbsp;
+										
 										<h:commandButton value="Pesquisar" id="btnPesquisar"
 											class="btn btn-primary-cinza"
-											action="#{linhaPesquisaMB.buscaStatusPesquisa(linhaPesquisaMB.linhaPesquisa)}" />
+											action="#{linhaPesquisaMB.buscar}" />
 										&nbsp;&nbsp;
+										
 										<h:button value="Limpar" class="btn btn-primary-cinza" id="btnLimpar"
-											outcome="linhaPesquisa" immediate="true" />
+											action="#{linhaPesquisaMB.limpar}" immediate="true" />
 										&nbsp;&nbsp;
-										<h:commandButton value="Mostrar Todos" class="btn btn-primary" id="btnMostrar"
-											action="#{linhaPesquisaMB.buscaLinhasPesquisa}" immediate="true" />
-
+										
+										
 
 										<br /> <br /> <br />
 
@@ -78,8 +76,8 @@
 										<p:dataTable value="#{linhaPesquisaMB.linhasPesquisa}" var="item" rows="4" paginator="true" editable="true"
 											rendered="#{not empty linhaPesquisaMB.linhasPesquisa}" width="100%">
 											
-											<p:ajax event="rowEdit" listener="#{linhaPesquisaMB.editaLinhaPesquisa}" update=":form:formSeg:msg"/>
-											<p:ajax event="rowEditCancel" listener="#{linhaPesquisaMB.cancelaEdit}" update=":form:formSeg:msg"/>
+											<p:ajax event="rowEdit" listener="#{linhaPesquisaMB.editar}" update=":form:formSeg:msg"/>
+											<p:ajax event="rowEditCancel" listener="#{linhaPesquisaMB.cancela}" update=":form:formSeg:msg"/>
 											
 											<p:column headerText="Descrição" >
 											
@@ -106,7 +104,7 @@
 												<p:rowEditor/>
 												&nbsp;
 												<p:commandButton icon="ui-icon-trash"
-													action="#{linhaPesquisaMB.excluiLinhaPesquisa(item)}"
+													action="#{linhaPesquisaMB.excluir(item)}"
 													immediate="true" update="form">
 												<p:confirm message="Tem certeza que deseja apagar?" header="Aviso"  icon="ui-icon-alert"/>
 												</p:commandButton>

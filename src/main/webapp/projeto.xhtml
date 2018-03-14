@@ -10,18 +10,11 @@
 		<h:head>
 
 			<title>Projeto</title>
-			<h:outputStylesheet library="css" name="bootstrap.min.css" />
-			<h:outputStylesheet library="css" name="datepicker3.css" />
-			<h:outputStylesheet library="css" name="styles.css" />
-			<h:outputStylesheet library="css" name="myStyle.css" />
-			<h:outputStylesheet library="js" name="jquery-1.11.1.min.js" />
-			<h:outputStylesheet library="js" name="bootstrap.min.js" />
-
 
 
 		</h:head>
 		<h:body>
-			<h:form id="form" >
+			<h:form id="form" accept-charset="UTF-8">
 			
 				<div class="rowDown">
 					<div
@@ -78,6 +71,7 @@
 												<br/>
 												<h4 id="lblTipoProjeto">Tipo do Projeto:</h4>
 												<p:selectOneMenu value="#{projetoMB.projeto.tipoProjeto}" id="dropProjetos">
+													<f:selectItem  itemLabel="--Selecione--" itemValue=""/>
 													<f:selectItems value="#{projetoMB.tiposProjeto}"
 													var="linhaP" itemValue="#{linhaP}" itemLabel="#{linhaP.tipo}"/>
 												</p:selectOneMenu>
@@ -85,6 +79,7 @@
 												<br/>
 												<h4 id="lblLinhaPesquisa">Linha de Pesquisa:</h4>
 												<p:selectOneMenu value="#{projetoMB.projeto.linhaPesquisa}" id="dropLinhas">
+													<f:selectItem  itemLabel="--Selecione--" itemValue=""/>
 													<f:selectItems value="#{projetoMB.linhasPesquisa}"
 													var="linhaL" itemValue="#{linhaL}" itemLabel="#{linhaL.descricao}"/>
 												</p:selectOneMenu>
@@ -99,17 +94,15 @@
 
 
 										<h:commandButton value="Cadastrar" class="btn btn-primary" id="btnCadastrar"
-											action="#{projetoMB.cadastrarProjeto(projetoMB.projeto)}" />
+											action="#{projetoMB.cadastrar(projetoMB.projeto)}" />
 										&nbsp;&nbsp;
 										<h:commandButton value="Pesquisar" id="btnPesquisar"
 											class="btn btn-primary-cinza"
-											action="#{projetoMB.buscaProjeto(projetoMB.projeto)}" />
+											action="#{projetoMB.buscar}" />
 										&nbsp;&nbsp;
 										<h:button value="Limpar" class="btn btn-primary-cinza" id="btnLimpar"
-											outcome="projeto" immediate="true" />
+											action="#{projetoMB.limpar}" immediate="true" />
 										&nbsp;&nbsp;
-										<h:commandButton value="Mostrar Todos" class="btn btn-primary" id="btnMostrar"
-											action="#{projetoMB.buscaProjetos}" immediate="true" />
 
 
 										<br /> <br /> <br />
@@ -119,8 +112,8 @@
 										<p:dataTable value="#{projetoMB.projetos}" var="item" rows="4" paginator="true" editable="true"
 											rendered="#{not empty projetoMB.projetos}" width="100%">
 											
-											<p:ajax event="rowEdit" listener="#{projetoMB.editaProjeto}" update=":form:formSeg:msg"/>
-											<p:ajax event="rowEditCancel" listener="#{projetoMB.cancelaEdit}" update=":form:formSeg:msg"/>
+											<p:ajax event="rowEdit" listener="#{projetoMB.editar}" update=":form:formSeg:msg"/>
+											<p:ajax event="rowEditCancel" listener="#{projetoMB.cancela}" update=":form:formSeg:msg"/>
 											
 											<p:column headerText="Nome" >
 											
@@ -247,7 +240,7 @@
 												<p:rowEditor/>
 												&nbsp;
 												<p:commandButton icon="ui-icon-trash"
-													action="#{projetoMB.excluiProjeto(item)}"
+													action="#{projetoMB.excluir(item)}"
 													immediate="true" update="form">
 												<p:confirm message="Tem certeza que deseja apagar?" header="Aviso"  icon="ui-icon-alert"/>
 												</p:commandButton>

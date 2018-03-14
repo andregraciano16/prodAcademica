@@ -1,5 +1,7 @@
 package br.ucb.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Projeto {
+public class Projeto implements Serializable{
+
+	private static final long serialVersionUID = -5861079694379582651L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -90,6 +94,46 @@ public class Projeto {
 
 	public void setLinhaPesquisa(LinhaPesquisa linhaPesquisa) {
 		this.linhaPesquisa = linhaPesquisa;
+	}
+	
+	public boolean equals(Object obj) {
+
+		int flag = 0;
+		if (obj instanceof Projeto) {
+			Projeto outroProjeto = (Projeto) obj;
+			if (outroProjeto.getDescricao().trim().equals(this.getDescricao().trim()) 
+					&& outroProjeto.getNome().trim().equals(this.getNome().trim())
+					&& outroProjeto.getDadosOficiais().trim().equals(this.getDadosOficiais().trim())
+					&& outroProjeto.getOrgaoFinanciador().trim().equals(this.getOrgaoFinanciador().trim())
+					&& outroProjeto.getLinhaPesquisa().equals(this.getLinhaPesquisa()) 
+					&& outroProjeto.getTipoProjeto().equals(this.getTipoProjeto())) {
+				flag = 1;
+			}
+		}
+		if (flag == 1) {
+
+			return true;
+
+		} else {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (!(obj instanceof Projeto))
+				return false;
+			Projeto other = (Projeto) obj;
+			if (idProjeto == null) {
+				if (other.idProjeto != null)
+					return false;
+			} else if (!idProjeto.equals(other.idProjeto))
+				return false;
+			return true;
+		}
+
+	}
+
+	public int hashCode() {
+		return this.getDescricao().hashCode();
 	}
 
 }

@@ -14,44 +14,154 @@ import org.primefaces.event.RowEditEvent;
 import br.ucb.dao.LinhaPesquisaDao;
 import br.ucb.dao.ProjetoDao;
 import br.ucb.dao.TipoProjetoDao;
+import br.ucb.dao.impl.LinhaPesquisaDaoImpl;
+import br.ucb.dao.impl.ProjetoDaoImpl;
+import br.ucb.dao.impl.TipoProjetoDaoImpl;
 import br.ucb.entity.LinhaPesquisa;
 import br.ucb.entity.Projeto;
 import br.ucb.entity.TipoProjeto;
 
-@ManagedBean
+
+@ManagedBean(name="projetoMB")
 @ViewScoped
-public class ProjetoMB {
+public class ProjetoMB extends BaseMB{
 	
-	private Projeto projeto;
+	private static final long serialVersionUID = 1645825813671808166L;
+	
 	private List<Projeto> projetos;
+	private Projeto projeto;
+	private ProjetoDao projetoDao;
+	private String msg;
 	private Projeto editavel;
-	private List<TipoProjeto> tiposProjeto;
 	private List<LinhaPesquisa> linhasPesquisa;
-
+	private LinhaPesquisaDao linhaPesquisaDao;
+	private List<TipoProjeto> tiposProjeto;
+	private TipoProjetoDao tipoProjetoDao;
 	
 	
-	public ProjetoMB() {
+	@PostConstruct
+	public void init() {
+		this.projetos = new ArrayList<Projeto>();
 		this.projeto = new Projeto();
-		this.setProjetos(new ArrayList<Projeto>());
+		this.projeto.setDescricao("");
+		this.projeto.setNome("");
+		this.projeto.setOrgaoFinanciador("");
+		this.projeto.setDadosOficiais("");
+		this.projetoDao = new ProjetoDaoImpl();
 		this.editavel = new Projeto();
-		this.setLinhasPesquisa(new ArrayList<LinhaPesquisa>());
-		this.setTiposProjeto(new ArrayList<TipoProjeto>());
+		this.linhasPesquisa = new ArrayList<LinhaPesquisa>();
+		this.linhaPesquisaDao = new LinhaPesquisaDaoImpl();
+		this.tiposProjeto = new ArrayList<TipoProjeto>();
+		this.tipoProjetoDao = new TipoProjetoDaoImpl();
+		buscar();
 	}
 
-	public Projeto getProjeto() {
-		return projeto;
+	public void cadastrar(Projeto projeto) {
+		if (this.projeto.getDescricao() != null && !this.projeto.getDescricao().trim().isEmpty() &&
+				this.projeto.getNome() != null && !this.projeto.getNome().trim().isEmpty() &&
+				this.projeto.getOrgaoFinanciador() != null && !this.projeto.getOrgaoFinanciador().trim().isEmpty() &&
+				this.projeto.getDadosOficiais() != null && !this.projeto.getDadosOficiais().trim().isEmpty() &&
+				this.projeto.getLinhaPesquisa() != null && this.projeto.getTipoProjeto() != null) {
+			if (this.projetos.contains(this.projeto)) {
+				msg = "Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.";
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+			} else {
+				montarProjeto();
+				this.projetoDao.save(this.projeto);
+				msg = "Cadastrado com sucesso.";
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+			}
+		} else {
+			msg = "Preencha os campos corretamente.";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+		}
+		init();
 	}
 
-	public void setProjeto(Projeto projeto) {
-		this.projeto = projeto;
+	private void montarProjeto() {
+		if (this.projeto == null) {
+			this.projeto = new Projeto();
+		}
+		this.projeto.setIdProjeto(null);
+		this.projeto.setDescricao(this.projeto.getDescricao().trim());
+		this.projeto.setNome(this.projeto.getNome().trim());
+		this.projeto.setDadosOficiais(this.projeto.getDadosOficiais().trim());
+		this.projeto.setOrgaoFinanciador(this.projeto.getOrgaoFinanciador().trim());
+		this.projeto.setLinhaPesquisa(this.projeto.getLinhaPesquisa());
+		this.projeto.setTipoProjeto(this.projeto.getTipoProjeto());
+	}
+
+	public void excluir(Projeto projeto) {
+		this.projetoDao.remove(projeto);
+		msg = "Excluído com sucesso.";
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+		init();
+	}
+
+	public void editar(RowEditEvent event) {
+
+		if (this.editavel.getDescricao() != null && !this.editavel.getDescricao().isEmpty()) {
+
+			projeto = (Projeto) event.getObject();
+			projeto.setDescricao(editavel.getDescricao());
+			projeto.setNome(editavel.getNome());
+			projeto.setDadosOficiais(editavel.getDadosOficiais());
+			projeto.setOrgaoFinanciador(editavel.getOrgaoFinanciador());
+			projeto.setLinhaPesquisa(editavel.getLinhaPesquisa());
+			projeto.setTipoProjeto(editavel.getTipoProjeto());
+			this.projetoDao.update(this.projeto);
+			msg = "Atualizado com sucesso.";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+
+		} else {
+			msg = "Preencha os campos corretamente.";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+		}
+		init();
+
+	}
+
+	public void cancela(RowEditEvent event) {
+
+		String msg = "Atualização cancelada.";
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+	}
+
+	public void buscar() {
+
+		if (this.projeto.getDescricao() != null) {
+			if (!this.projeto.getDescricao().isEmpty()) {
+				this.projetos = this.projetoDao.findByDescricao(this.projeto.getDescricao());
+				this.linhasPesquisa = this.linhaPesquisaDao.list();
+			} else if (this.projeto.getDescricao().isEmpty()) {
+				this.projetos = this.projetoDao.list();
+				this.linhasPesquisa = this.linhaPesquisaDao.list();
+				this.tiposProjeto = this.tipoProjetoDao.list();
+			}
+		}
+
+	}
+
+	public void limpar() {
+		init();
 	}
 
 	public List<Projeto> getProjetos() {
-		return this.projetos;
+		return projetos;
 	}
 
 	public void setProjetos(List<Projeto> projetos) {
 		this.projetos = projetos;
+	}
+
+	public ProjetoDao getProjetoDao() {
+		return projetoDao;
+	}
+
+	public void setProjetoDao(ProjetoDao projetoDao) {
+		this.projetoDao = projetoDao;
 	}
 
 	public Projeto getEditavel() {
@@ -62,6 +172,14 @@ public class ProjetoMB {
 		this.editavel = editavel;
 	}
 
+	public Projeto getProjeto() {
+		return this.projeto;
+	}
+
+	public void setProjeto(Projeto projeto) {
+		this.projeto = projeto;
+	}
+
 	public List<LinhaPesquisa> getLinhasPesquisa() {
 		return linhasPesquisa;
 	}
@@ -69,7 +187,23 @@ public class ProjetoMB {
 	public void setLinhasPesquisa(List<LinhaPesquisa> linhasPesquisa) {
 		this.linhasPesquisa = linhasPesquisa;
 	}
-	
+
+	public LinhaPesquisaDao getLinhaPesquisaDao() {
+		return linhaPesquisaDao;
+	}
+
+	public void setLinhaPesquisaDao(LinhaPesquisaDao linhaPesquisaDao) {
+		this.linhaPesquisaDao = linhaPesquisaDao;
+	}
+
+	public TipoProjetoDao getTipoProjetoDao() {
+		return tipoProjetoDao;
+	}
+
+	public void setTipoProjetoDao(TipoProjetoDao tipoProjetoDao) {
+		this.tipoProjetoDao = tipoProjetoDao;
+	}
+
 	public List<TipoProjeto> getTiposProjeto() {
 		return tiposProjeto;
 	}
@@ -77,71 +211,5 @@ public class ProjetoMB {
 	public void setTiposProjeto(List<TipoProjeto> tiposProjeto) {
 		this.tiposProjeto = tiposProjeto;
 	}
-
-
-	@PostConstruct
-	public void init() {
-		LinhaPesquisaDao linhaPesquisaDao = new LinhaPesquisaDao();
-		this.linhasPesquisa = linhaPesquisaDao.buscaTodos();
-		TipoProjetoDao tipoProjetoDao = new TipoProjetoDao();
-		this.tiposProjeto = tipoProjetoDao.buscaTodos();
-	}
-
-	public void cadastrarProjeto(Projeto projeto) {
-		String msg;
-		ProjetoDao projetoDAO = new ProjetoDao();
-		if (projetos.contains(projeto)) {
-			msg = projetoDAO.alterar(projeto);
-		} else {
-			msg = projetoDAO.cadastrar(getProjeto());
-		}
-
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-
-		buscaProjetos();
-	}
-
-	public void buscaProjetos() {
-		ProjetoDao projetoDAO = new ProjetoDao();
-		this.projetos = projetoDAO.buscaTodos();
-	}
-
-	public void excluiProjeto(Projeto projeto) {
-		String msg;
-		ProjetoDao projetoDAO = new ProjetoDao();
-		msg = projetoDAO.excluir(projeto);
-
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-
-		buscaProjetos();
-	}
-
-	public void editaProjeto(RowEditEvent event) {
-		String msg;
-		Projeto projeto = (Projeto) event.getObject();
-		projeto.setNome(editavel.getNome());
-		projeto.setDescricao(editavel.getDescricao());
-		projeto.setOrgaoFinanciador(editavel.getOrgaoFinanciador());
-		projeto.setDadosOficiais(editavel.getDadosOficiais());
-		projeto.setTipoProjeto(editavel.getTipoProjeto());
-		projeto.setLinhaPesquisa(editavel.getLinhaPesquisa());
-		ProjetoDao projetoDAO = new ProjetoDao();
-		msg = projetoDAO.alterar(projeto);
-		buscaProjetos();
-
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-	}
-
-	public void cancelaEdit(RowEditEvent event) {
-
-		String msg = "Atualização cancelada.";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-	}
-
-	public void buscaProjeto(Projeto projeto) {
-		ProjetoDao projetoDAO = new ProjetoDao();
-		this.projetos = projetoDAO.buscaProjetoPorPesquisa(projeto.getDescricao());
-	}
-
 
 }

@@ -10,15 +10,8 @@
 		<h:head>
 
 			<title>Matéria</title>
-			<h:outputStylesheet library="css" name="bootstrap.min.css" />
-			<h:outputStylesheet library="css" name="datepicker3.css" />
-			<h:outputStylesheet library="css" name="styles.css" />
-			<h:outputStylesheet library="css" name="myStyle.css" />
-			<h:outputStylesheet library="js" name="jquery-1.11.1.min.js" />
-			<h:outputStylesheet library="js" name="bootstrap.min.js" />
-
-
-
+			
+			
 		</h:head>
 		<h:body>
 			<h:form id="form"  accept-charset="UTF-8">
@@ -51,6 +44,7 @@
 												<br/>
 												<h4 id="lblLinha">Linha de Pesquisa:</h4>
 												<p:selectOneMenu value="#{materiaMB.materia.linhaPesquisa}" id="dropLinhas">
+													<f:selectItem  itemLabel="--Selecione--" itemValue=""/>
 													<f:selectItems value="#{materiaMB.linhasPesquisa}"
 													var="linha" itemValue="#{linha}" itemLabel="#{linha.descricao}"/>
 												</p:selectOneMenu>
@@ -65,18 +59,15 @@
 
 
 										<h:commandButton value="Cadastrar" class="btn btn-primary" id="btnCadastrar"
-											action="#{materiaMB.cadastrarMateria(materiaMB.materia)}" />
+											action="#{materiaMB.cadastrar(materiaMB.materia)}" />
 										&nbsp;&nbsp;
 										<h:commandButton value="Pesquisar" id="btnPesquisar"
 											class="btn btn-primary-cinza"
-											action="#{materiaMB.buscaMateria(materiaMB.materia)}" />
+											action="#{materiaMB.buscar}" />
 										&nbsp;&nbsp;
 										<h:button value="Limpar" class="btn btn-primary-cinza" id="btnLimpar"
-											outcome="materia" immediate="true" />
+											action="#{statusAlunoMB.limpar}" immediate="true" />
 										&nbsp;&nbsp;
-										<h:commandButton value="Mostrar Todos" class="btn btn-primary" id="btnMostrar"
-											action="#{materiaMB.buscaMaterias}" immediate="true" />
-
 
 										<br /> <br /> <br />
 
@@ -85,8 +76,8 @@
 										<p:dataTable value="#{materiaMB.materias}" var="item" rows="4" paginator="true" editable="true"
 											rendered="#{not empty materiaMB.materias}" width="100%">
 											
-											<p:ajax event="rowEdit" listener="#{materiaMB.editaMateria}" update=":form:formSeg:msg"/>
-											<p:ajax event="rowEditCancel" listener="#{materiaMB.cancelaEdit}" update=":form:formSeg:msg"/>
+											<p:ajax event="rowEdit" listener="#{materiaMB.editar}" update=":form:formSeg:msg"/>
+											<p:ajax event="rowEditCancel" listener="#{materiaMB.cancela}" update=":form:formSeg:msg"/>
 											
 											<p:column headerText="Descrição" >
 											
@@ -133,7 +124,7 @@
 												<p:rowEditor/>
 												&nbsp;
 												<p:commandButton icon="ui-icon-trash"
-													action="#{materiaMB.excluiMateria(item)}"
+													action="#{materiaMB.excluir(item)}"
 													immediate="true" update="form">
 												<p:confirm message="Tem certeza que deseja apagar?" header="Aviso"  icon="ui-icon-alert"/>
 												</p:commandButton>
