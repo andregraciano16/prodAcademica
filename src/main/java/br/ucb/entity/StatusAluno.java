@@ -21,7 +21,7 @@ public class StatusAluno implements Serializable {
 	@Column(name = "descricao")
 	private String descricao;
 
-	public Integer getId_statusAluno() {
+	public Integer getIdStatusAluno() {
 		return idStatusAluno;
 	}
 

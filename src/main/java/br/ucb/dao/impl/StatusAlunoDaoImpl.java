@@ -18,4 +18,13 @@ public class StatusAlunoDaoImpl extends DaoGenericoImpl<StatusAluno, Integer> im
 
 	}
 
+	@Override
+	public StatusAluno findById(Integer id) {
+		
+		Query query = getManager().createQuery(" from StatusAluno st  WHERE st.idStatusAluno like ?1 ");
+		query.setParameter(1,id);
+		
+		return (StatusAluno) query.getResultList().get(0);
+	}
+
 }
