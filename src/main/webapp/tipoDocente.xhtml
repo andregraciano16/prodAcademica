@@ -8,49 +8,54 @@
 	<ui:define name="Conteudo">
 			<h:form id="idFormulario">
 					<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main" >
-						<div class = "row">
-						   <ol class="breadcrumb" style="color:blue;background: #30a5ff">
-							   <div class="titulo-centro-grande">Tipo Docente </div>
-						  </ol>
-						</div>
+					    <div class="col-lg-12">
+						<div class="panel panel-default">
+				                <div class="panel-heading">
+								   <ol class="breadcrumb" style="color:blue;background: #30a5ff">
+									   <div class="titulo-centro-grande">Tipo Docente </div>
+								  </ol>
+								</div>
 							<div class="panel-body">
+							      <p:messages id="message" globalOnly="true" closable="true" />
+							      <br/>
+							      <br/>
 								  <div class="row">
 									   <div class="col-md-4">
-											<h4>Descrição:</h4>
+											<h:outputLabel value="Descrição:" styleClass="control-label"></h:outputLabel>
 											<h:inputText value="#{tipoDocenteMB.descricao}" 
 												         class= "form-control" 
 												         maxlength="10"/>
 										</div>
 									</div>
 		                            <br/>
-		                            <div class="form-group">
+		                            <div class="form-group" style="padding-top:90px;text-align:right;">
 											<p:commandButton value="Cadastrar" 
-											                 class="btn btn-primary" 
+											                 class="btn btn-md btn-primary" 
 											                 action="#{tipoDocenteMB.cadastrar()}" 
 											                 update="@form"/>
 		
 											<p:commandButton value="Pesquisar" 
 											                 name="btnPesquisar" 
-											                 class="btn btn-primary-cinza"
+											                 class="btn btn-md btn-primary-cinza"
 												             action="#{tipoDocenteMB.buscar()}"
 												             update="@form" />
 		
 											<p:commandButton value="Limpar" 
 											                 title="Limpar"
-											                 class="btn btn-primary"
+											                 styleClass="btn btn-md btn-primary"
 												             actionListener="#{tipoDocenteMB.limpar()}" 
 												             update="@form">
 											</p:commandButton>
 									</div>
-									<br />
-									<br />
-									<br />
+									
+									</div>
+								</div>
+									
+									<div class="panel panel-default">
+									<div class="panel-body">
 									<p:dataTable id="tabelaDocente" var="item" value="#{tipoDocenteMB.tipos}" editable="true" 
-						             tableStyleClass="table table-striped" >
-								       <f:facet name="header">
-								           Descrição
-								       </f:facet>
- 
+						             tableStyleClass="table table-striped" paginator="true" rowsPerPageLabel="10" >
+								        
 								       <p:ajax event="rowEdit" listener="#{tipoDocenteMB.editar(item)}" />
 								       <p:ajax event="rowEditCancel"/>
  
@@ -71,10 +76,10 @@
 											   </h:commandLink>
 									    </p:column>
 									</p:dataTable>
-									
-									
-							</div>
+							</div>	
 						</div>
+					</div>
+				</div>
 		    </h:form>
 	</ui:define>
 </ui:composition>

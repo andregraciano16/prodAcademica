@@ -33,9 +33,11 @@ public class TipoDocenteMB extends BaseMB {
 		if (this.descricao != null && !this.descricao.isEmpty()) {
 			montarTipoDocente();
 			this.tipoDocenteDao.save(this.tipoDocente);
+			setMessageSuccess("Cadastrado com sucesso!");
 		} else {
-			// informe a descrição!
+		    setMessageError("Informe a descrição! ");
 		}
+		limpar();
 	}
 
 	private void montarTipoDocente() {
@@ -48,11 +50,13 @@ public class TipoDocenteMB extends BaseMB {
 
 	public void excluir(TipoDocente tipoDocente) {
 		this.tipoDocenteDao.remove(tipoDocente);
+		setMessageSuccess("Excluido com sucesso!");
 		buscar();
 	}
 
 	public void editar(TipoDocente tipoDocente) {
 		this.tipoDocenteDao.update(tipoDocente);
+		setMessageSuccess("Alterado com sucesso!");
 		buscar();
 	}
 
