@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "Historico")
@@ -22,9 +24,10 @@ public class Historico extends EntidadeBase{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_historico")
-	private int idHistorico;
+	private Integer idHistorico;
 
 	@Column(name = "dataAlteracao")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataAlteracao;
 
 	@ManyToOne
@@ -43,11 +46,11 @@ public class Historico extends EntidadeBase{
 	@JoinColumn(name = "id_projeto")
 	private Projeto projeto;
 
-	public int getIdHistorico() {
+	public Integer getIdHistorico() {
 		return this.idHistorico;
 	}
 
-	public void setIdHistorico(int idHistorico) {
+	public void setIdHistorico(Integer idHistorico) {
 		this.idHistorico = idHistorico;
 	}
 
@@ -89,6 +92,45 @@ public class Historico extends EntidadeBase{
 
 	public void setProjeto(Projeto projeto) {
 		this.projeto = projeto;
+	}
+
+	public boolean equals(Object obj) {
+
+		int flag = 0;
+		if (obj instanceof Historico) {
+			Historico outroHistorico = (Historico) obj;
+			if (outroHistorico.getDataAlteracao().equals(this.getDataAlteracao()) 
+					&& outroHistorico.getAluno().equals(this.getAluno())
+					&& outroHistorico.getDocente().equals(this.getDocente())
+					&& outroHistorico.getProducaoAcademica().equals(this.getProducaoAcademica())
+					&& outroHistorico.getProjeto().equals(this.getProjeto())){
+				flag = 1;
+			}
+		}
+		if (flag == 1) {
+
+			return true;
+
+		} else {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (!(obj instanceof Historico))
+				return false;
+			Historico other = (Historico) obj;
+			if (idHistorico == null) {
+				if (other.idHistorico != null)
+					return false;
+			} else if (!idHistorico.equals(other.idHistorico))
+				return false;
+			return true;
+		}
+
+	}
+
+	public int hashCode() {
+		return this.getDataAlteracao().hashCode();
 	}
 
 }
