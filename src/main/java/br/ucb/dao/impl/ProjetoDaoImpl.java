@@ -5,7 +5,9 @@ import java.util.List;
 import javax.persistence.Query;
 
 import br.ucb.dao.ProjetoDao;
+import br.ucb.entity.LinhaPesquisa;
 import br.ucb.entity.Projeto;
+import br.ucb.entity.TipoProjeto;
 
 
 public class ProjetoDaoImpl extends DaoGenericoImpl<Projeto, Integer> implements ProjetoDao{
@@ -17,6 +19,15 @@ public class ProjetoDaoImpl extends DaoGenericoImpl<Projeto, Integer> implements
 		
 		return query.getResultList();
 
+	}
+
+	@Override
+	public Projeto findById(Integer id) {
+		
+		Query query = getManager().createQuery(" from Projeto p WHERE p.idProjeto like ?1 ");
+		query.setParameter(1,id);
+		
+		return (Projeto) query.getResultList().get(0);
 	}
 
 

@@ -1,5 +1,6 @@
 package br.ucb.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,12 +12,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Aluno {
+public class Aluno implements Serializable {
+
+	private static final long serialVersionUID = 2290908420484970960L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_aluno")
-	private int idAluno;
+	private Integer idAluno;
 
 	@Column(name = "nome")
 	private String nome;
@@ -51,11 +54,11 @@ public class Aluno {
 	@JoinColumn(name = "id_statusAluno")
 	private StatusAluno statusAluno;
 
-	public int getIdAluno() {
+	public Integer getIdAluno() {
 		return this.idAluno;
 	}
 
-	public void setIdAluno(int idAluno) {
+	public void setIdAluno(Integer idAluno) {
 		this.idAluno = idAluno;
 	}
 
@@ -139,4 +142,48 @@ public class Aluno {
 		this.statusAluno = statusAluno;
 	}
 
+	public boolean equals(Object obj) {
+
+		int flag = 0;
+		if (obj instanceof Aluno) {
+			Aluno outroAluno = (Aluno) obj;
+			if (outroAluno.getNome().equals(this.getNome()) 
+					&& outroAluno.getTelefoneFixo().equals(this.getTelefoneFixo())
+					&& outroAluno.getCelular().equals(this.getCelular())
+					&& outroAluno.getSexo() == this.getSexo()
+					&& outroAluno.getDataNascimento().equals(this.getDataNascimento())
+					&& outroAluno.getMatricula().equals(this.getMatricula())
+					&& outroAluno.getDataCadastro().equals(this.getDataCadastro())
+					&& outroAluno.getEndereco().equals(this.getEndereco())
+					&& outroAluno.getCurso().equals(this.getCurso())
+					&& outroAluno.getStatusAluno().equals(this.getStatusAluno())){
+				flag = 1;
+			}
+		}
+		if (flag == 1) {
+
+			return true;
+
+		} else {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (!(obj instanceof Aluno))
+				return false;
+			Aluno other = (Aluno) obj;
+			if (idAluno == null) {
+				if (other.idAluno != null)
+					return false;
+			} else if (!idAluno.equals(other.idAluno))
+				return false;
+			return true;
+		}
+
+	}
+
+	public int hashCode() {
+		return this.getNome().hashCode();
+	}
+	
 }
