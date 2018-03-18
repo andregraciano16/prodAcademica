@@ -25,18 +25,19 @@ public class StatusAlunoMB extends BaseMB {
 
 	private List<StatusAluno> variosStatus;
 	private StatusAluno statusAluno;
-	private String descricao;
 	private StatusAlunoDao statusAlunoDao;
 	private String msg;
 	private StatusAluno editavel;
 	
 
-	@PostConstruct public void init() {
+	@PostConstruct 
+	public void init() {
 		this.variosStatus = new ArrayList<StatusAluno>();
 		this.statusAluno = new StatusAluno();
-		this.descricao = null;
+		this.statusAluno.setDescricao("");
 		this.statusAlunoDao = new StatusAlunoDaoImpl();
 		this.editavel = new StatusAluno();
+		buscar();
 	}
 
 	public void cadastrar(StatusAluno statusAluno) {
@@ -149,12 +150,5 @@ public class StatusAlunoMB extends BaseMB {
 		this.statusAluno = statusAluno;
 	}
 
-	public String getDescricao() {
-		return this.descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
 
 }

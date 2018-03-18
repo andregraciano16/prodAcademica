@@ -4,4 +4,6 @@ import br.ucb.entity.ProducaoAcademica;
 
 public interface ProducaoAcademicaDao extends DaoGenerico<ProducaoAcademica, Integer> {
 
+	ProducaoAcademica findById(Integer id);
+
 }

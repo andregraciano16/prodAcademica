@@ -5,9 +5,8 @@ import java.util.List;
 import javax.persistence.Query;
 
 import br.ucb.dao.ProjetoDao;
-import br.ucb.entity.LinhaPesquisa;
 import br.ucb.entity.Projeto;
-import br.ucb.entity.TipoProjeto;
+
 
 
 public class ProjetoDaoImpl extends DaoGenericoImpl<Projeto, Integer> implements ProjetoDao{

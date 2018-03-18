@@ -7,152 +7,199 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 
 	<ui:define name="Conteudo">
-		<h:head>
-			<title>Tipo de Projeto</title>
-		</h:head>
-		<h:body>
-			<h:form id="form">
-			
-				<div class="rowDown">
-					<div
-						class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-3 col-md-8 col-md-offset-3">
-						<div class="login-panel panel panel-default">
+	
+		<h:form id="idFormulario">
 
-							<div class="titulo-centro-grande">Tipo de Projeto</div>
-
-
-							<div class="panel-body" id="test">
-								<h:form id="formSeg">
-										<div class="row">
-											<div class="col-md-12" >
-
-
-												<h:messages showSummary="false" showDetail="true" styleClass="form-messages" errorClass="error" infoClass="info" id="msgInfo" />
-												
-												
-												<h4 id="lblTipo">Tipo:</h4>
-												
-												<h:inputText value="#{tipoProjetoMB.tipoProjeto.tipo}" id="txtTipo"
-													class="form-control" autofocus="" required="true"
-													requiredMessage=" O campo Tipo é necessário."
-													validatorMessage="O Tipo não pode ser maior que 45 caracteres.">
-													<f:validateLength maximum="45" />
-												</h:inputText>
-												
-												<br /> 
-												<h4 id="lblDescricao">Descrição:</h4>
-												
-												<h:inputText value="#{tipoProjetoMB.tipoProjeto.descricao}" id="txtDescricao"
-													class="form-control" autofocus="" required="true"
-													requiredMessage=" O campo Descrição é necessário."
-													validatorMessage="A descrição não pode ser maior que 45 caracteres.">
-													<f:validateLength maximum="45" />
-												</h:inputText>
-
-
-											</div>
-										</div>
-
-										<br /> <br />
-
-
-
-
-										<h:commandButton value="Cadastrar" class="btn btn-primary" id="btnCadastrar"
-											action="#{tipoProjetoMB.cadastrar(tipoProjetoMB.tipoProjeto)}" />
-										&nbsp;&nbsp;
-										<h:commandButton value="Pesquisar" id="btnPesquisar"
-											class="btn btn-primary-cinza"
-											action="#{tipoProjetoMB.buscar}" />
-										&nbsp;&nbsp;
-										<h:button value="Limpar" class="btn btn-primary-cinza" id="btnLimpar"
-											action="#{statusAlunoMB.limpar}" immediate="true" />
-										&nbsp;&nbsp;
-										
-
-										<br /> <br /> <br />
-
-
-										<p:growl id="msg" />
-										<p:dataTable value="#{tipoProjetoMB.tiposProjeto}" var="item" rows="4" paginator="true" editable="true"
-											rendered="#{not empty tipoProjetoMB.tiposProjeto}" width="100%">
-											
-											<p:ajax event="rowEdit" listener="#{tipoProjetoMB.editar}" update=":form:formSeg:msg"/>
-											<p:ajax event="rowEditCancel" listener="#{tipoProjetoMB.cancela}" update=":form:formSeg:msg"/>
-											
-											
-											<p:column headerText="Tipo" >
-											
-												<p:cellEditor>
-											
-													<f:facet name="output">
-														<h:outputText value="#{item.tipo}" />
-													</f:facet>
-											
-													<f:facet name="input">
-														<h:inputText value="#{tipoProjetoMB.editavel.tipo}" required="true"
-														requiredMessage=" O campo Tipo é necessário."
-														validatorMessage="O tipo não pode ser maior que 45 caracteres.">
-															<f:validateLength maximum="45" />
-														</h:inputText>
-													</f:facet>
-											
-												</p:cellEditor>
-												
-											</p:column>
-											
-											
-											<p:column headerText="Descrição" >
-											
-												<p:cellEditor>
-											
-													<f:facet name="output">
-														<h:outputText value="#{item.descricao}" />
-													</f:facet>
-											
-													<f:facet name="input">
-														<h:inputText value="#{tipoProjetoMB.editavel.descricao}" required="true"
-														requiredMessage=" O campo Descrição é necessário."
-														validatorMessage="A descrição não pode ser maior que 45 caracteres.">
-															<f:validateLength maximum="45" />
-														</h:inputText>
-													</f:facet>
-											
-												</p:cellEditor>
-												
-											</p:column>
-											
-
-											<p:column headerText="Ações" styleClass="coluna-acao">
-												<p:rowEditor/>
-												&nbsp;
-												<p:commandButton icon="ui-icon-trash"
-													action="#{tipoProjetoMB.excluir(item)}"
-													immediate="true" update="form">
-												<p:confirm message="Tem certeza que deseja apagar?" header="Aviso"  icon="ui-icon-alert"/>
-												</p:commandButton>
-
-											</p:column>
-										</p:dataTable>
-										<p:confirmDialog global="true">
-											<p:commandButton value="Sim" type="button" icon="ui-icon-check"
-											styleClass="ui-confirmdialog-yes"/>
-											<p:commandButton value="Não" type="button" icon="ui-icon-close"
-											styleClass="ui-confirmdialog-no"/>
-										</p:confirmDialog>
-
-								</h:form>
+			<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<div class="row">
+								<ol class="breadcrumb" style="color: blue; background: #30a5ff">
+									<div class="titulo-centro-grande">Tipo do Projeto</div>
+								</ol>
 							</div>
 						</div>
+						
+						<div class="panel-body">
+						
+						<p:messages id="message" globalOnly="true" closable="true" />
+									
+									
+							<div class="row">
+
+								<div class="col-md-4">
+								
+								<br/>
+								<br/>
+								
+									<p:outputLabel for="idTipo" 
+										value="Tipo:"
+										styleClass="control-label" />
+										
+									<h:inputText value="#{tipoProjetoMB.tipoProjeto.tipo}"
+										class="form-control" 
+										maxlength="45" 
+										id="idTipo" 
+										validatorMessage="O Tipo não pode ser maior que 45 caracteres."/>
+										
+										
+								</div>
+								
+								
+
+							</div>
+							
+							<br/>
+							
+							<div class="row">
+
+								<div class="col-md-12">
+								
+									<p:outputLabel for="idDescricao" 
+										value="Descrição:"
+										styleClass="control-label" />
+										
+									<h:inputText value="#{tipoProjetoMB.tipoProjeto.descricao}"
+										class="form-control" 
+										maxlength="45" 
+										id="idDescricao" 
+										validatorMessage="A descrição não pode ser maior que 45 caracteres."/>
+										
+								</div>
+								
+								
+
+							</div>
+							
+
+							<br/>
+							<br/>
+							<br/>
+							<br/>
+							<div class="form-group" style="padding-top:70px;text-align:right;">
+
+								<p:commandButton value="Cadastrar" 
+											     class="btn-primary btn-md" 
+											     action="#{tipoProjetoMB.cadastrar(tipoProjetoMB.tipoProjeto)}" 
+											     update="@form"
+											     styleClass="btn btn-primary" 
+											     id="btnCadastrar"/>
+								&nbsp;&nbsp;			     
+								<p:commandButton value="Pesquisar" 
+											     title="Pesquisar"
+												 actionListener="#{tipoProjetoMB.buscar}" 
+												 update="@form"
+												 styleClass="btn btn-default"
+												 id="btnPesquisar"/>
+								&nbsp;&nbsp;
+								<p:commandButton value="Limpar" 
+											     title="Limpar"
+												 actionListener="#{tipoProjetoMB.limpar}" 
+												 update="@form"
+												 styleClass="btn btn-primary"
+												 id="btnLimpar"/>
+									
+							</div>
+							
+							<br/>
+							<br/>
+						</div>
 					</div>
-					<!-- /.col-->
+							<div class="panel panel-default">
+							<div class="panel-body">				 
+							<p:dataTable id="idTable" var="item" value="#{tipoProjetoMB.tiposProjeto}" editable="true"
+						                 styleClass="table table-striped table-bordered table-hover" paginator="true" 
+						                 rowsPerPageTemplate="10,20,30" currentPageReportTemplate="{startRecord} de {endRecord}"
+						                 paginatorPosition="bottom" emptyMessage="Não foram encontrados registros"
+						                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+									
+									<p:ajax event="rowEdit" 
+											listener="#{tipoProjetoMB.editar}" 
+											update="idFormulario:idTable"/>
+											
+									<p:ajax event="rowEditCancel" 
+											listener="#{tipoProjetoMB.cancela}"
+											update="idFormulario:idTable"/>
+											
+										<p:column headerText="Tipo" >
+											
+											<p:cellEditor>
+											
+												<f:facet name="output">
+													<h:outputText value="#{item.tipo}" />
+												</f:facet>
+											
+												<f:facet name="input">
+														<h:inputText value="#{tipoProjetoMB.editavel.tipo}"
+																	 class="form-control" 
+																	 maxlength="45" 
+																	 id="idEditTipo" 
+																	 validatorMessage="O tipo não pode ser maior que 45 caracteres."/>
+												</f:facet>
+											
+											</p:cellEditor>
+												
+										</p:column>
+											
+											
+										<p:column headerText="Descrição" >
+											
+											<p:cellEditor>
+											
+												<f:facet name="output">
+													<h:outputText value="#{item.descricao}" />
+												</f:facet>
+											
+												<f:facet name="input">
+														<h:inputText value="#{tipoProjetoMB.editavel.descricao}"
+																	 class="form-control" 
+																	 maxlength="45" 
+																	 id="idEditDescricao" 
+																	 validatorMessage="A descrição não pode ser maior que 45 caracteres."/>
+												</f:facet>
+											
+											</p:cellEditor>
+												
+										</p:column>
+											
+										<p:column headerText="Ações" 
+												  styleClass="coluna-acao">
+										
+											<p:rowEditor/>
+											&nbsp;
+											<p:commandLink action="#{tipoProjetoMB.excluir(item)}"  update="@form">
+												   <span class="glyphicon glyphicon-trash" />
+											 
+														   	 
+												<p:confirm message="Tem certeza que deseja apagar?" 
+														   header="Aviso"  
+														   icon="ui-icon-alert"/>
+															
+											 </p:commandLink>
+
+										</p:column>
+										
+								</p:dataTable>
+								
+								<p:confirmDialog global="true" >
+								
+									<p:commandButton value="Sim" 
+													 type="button" 
+													 icon="ui-icon-check"
+													 styleClass="ui-confirmdialog-yes"/>
+													 
+									<p:commandButton value="Não"
+													 type="button"
+													 icon="ui-icon-close"
+													 styleClass="ui-confirmdialog-no"/>
+											
+								</p:confirmDialog>
+
+						</div>
+					</div>
 				</div>
-				<!-- /.row -->
-
-
-			</h:form>
-		</h:body>
-
-
+			</div>
+		</h:form>
 	</ui:define>
 </ui:composition>

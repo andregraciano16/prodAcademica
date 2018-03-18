@@ -91,4 +91,39 @@ public class Endereco extends EntidadeBase{
 		this.numero = numero;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+
+		int flag = 0;
+		if (obj instanceof Endereco) {
+			Endereco outroEndereco = (Endereco) obj;
+			if (outroEndereco.getCidade().trim().equals(this.getCidade().trim())) {
+				//flag = 1;
+			}
+		}
+		if (flag == 1) {
+
+			return true;
+
+		} else {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (!(obj instanceof Endereco))
+				return false;
+			Endereco other = (Endereco) obj;
+			if (idEndereco == null) {
+				if (other.idEndereco != null)
+					return false;
+			} else if (!idEndereco.equals(other.idEndereco))
+				return false;
+			return true;
+		}
+
+	}
+
+	public int hashCode() {
+		return this.getCidade().hashCode();
+	}
 }

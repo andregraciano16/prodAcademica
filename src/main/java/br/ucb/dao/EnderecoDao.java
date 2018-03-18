@@ -4,4 +4,6 @@ import br.ucb.entity.Endereco;
 
 public interface EnderecoDao extends DaoGenerico<Endereco, Integer>{
 
+	Endereco findById(Integer integer);
+
 }

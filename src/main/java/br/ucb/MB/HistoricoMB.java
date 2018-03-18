@@ -26,13 +26,12 @@ import br.ucb.entity.Projeto;
 import br.ucb.dao.ProjetoDao;
 import br.ucb.dao.impl.ProjetoDaoImpl;
 
-@ManagedBean(name="historicoMB")
+@ManagedBean(name = "historicoMB")
 @ViewScoped
-public class HistoricoMB extends BaseMB{
+public class HistoricoMB extends BaseMB {
 
 	private static final long serialVersionUID = 4919235181119407190L;
-	
-	
+
 	private List<Historico> historicos;
 	private Historico historico;
 	private HistoricoDao historicoDao;
@@ -47,9 +46,6 @@ public class HistoricoMB extends BaseMB{
 	private List<Projeto> projetos;
 	private ProjetoDao projetoDao;
 
-	
-	
-	
 	@PostConstruct
 	public void init() {
 		this.historicos = new ArrayList<Historico>();
@@ -65,16 +61,14 @@ public class HistoricoMB extends BaseMB{
 		this.producaoAcademicaDao = new ProducaoAcademicaDaoImpl();
 		this.projetos = new ArrayList<Projeto>();
 		this.projetoDao = new ProjetoDaoImpl();
-		
+
 		buscar();
 	}
 
 	public void cadastrar(Historico historico) {
-		if (this.historico.getDataAlteracao() != null &&
-				this.historico.getAluno() != null && 
-				this.historico.getDocente() != null &&
-				this.historico.getProducaoAcademica() != null &&
-				this.historico.getProjeto() != null) {
+		if (this.historico.getDataAlteracao() != null && this.historico.getAluno() != null
+				&& this.historico.getDocente() != null && this.historico.getProducaoAcademica() != null
+				&& this.historico.getProjeto() != null) {
 			if (this.historicos.contains(this.historico)) {
 				msg = "Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.";
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -143,18 +137,16 @@ public class HistoricoMB extends BaseMB{
 	public void buscar() {
 
 		if (this.historico.getDataAlteracao() != null) {
-				this.historicos = this.historicoDao.findByData(this.historico.getDataAlteracao());
-				this.projetos = this.projetoDao.list();
-			} else {
-				this.historicos = this.historicoDao.list();
-				this.alunos = this.alunoDao.list();
-				this.docentes = this.docenteDao.list();
-				this.producoes = this.producaoAcademicaDao.list();
-				this.projetos = this.projetoDao.list();
-			}
+			this.historicos = this.historicoDao.findByData(this.historico.getDataAlteracao());
+			this.projetos = this.projetoDao.list();
+		} else {
+			this.historicos = this.historicoDao.list();
+			this.alunos = this.alunoDao.list();
+			this.docentes = this.docenteDao.list();
+			this.producoes = this.producaoAcademicaDao.list();
+			this.projetos = this.projetoDao.list();
 		}
-
-	
+	}
 
 	public void limpar() {
 		init();
@@ -256,6 +248,19 @@ public class HistoricoMB extends BaseMB{
 		this.producaoAcademicaDao = producaoAcademicaDao;
 	}
 
+	public String getMsg() {
+		return msg;
+	}
 
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+	public List<Projeto> getProjetos() {
+		return projetos;
+	}
+
+	public void setProjetos(List<Projeto> projetos) {
+		this.projetos = projetos;
+	}
 }
-

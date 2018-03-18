@@ -4,4 +4,6 @@ import br.ucb.entity.Curso;
 
 public interface CursoDao extends DaoGenerico<Curso, Integer> {
 
+	Curso findById(Integer id);
+
 }
