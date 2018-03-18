@@ -21,14 +21,21 @@
 							      <br/>
 								  <div class="row">
 									   <div class="col-md-4">
-											<h:outputLabel value="Descrição:" styleClass="control-label"></h:outputLabel>
-											<h:inputText value="#{tipoDocenteMB.descricao}" 
-												         class= "form-control" 
-												         maxlength="10"/>
+									        <div class="form-group">
+												<h:outputLabel value="Descrição:" styleClass="control-label"></h:outputLabel>
+										        <div class="input-group">
+													<span class="input-group-addon">
+														<span class="glyphicon glyphicon-tag"></span>
+													</span>
+													<h:inputText value="#{tipoDocenteMB.descricao}" 
+														         class= "form-control" 
+														         maxlength="10"/>
+											    </div>
+										    </div>
 										</div>
 									</div>
 		                            <br/>
-		                            <div class="form-group" style="padding-top:90px;text-align:right;">
+		                            <div class="form-group" style="padding-top:70px;text-align:right;">
 											<p:commandButton value="Cadastrar" 
 											                 class="btn btn-md btn-primary" 
 											                 action="#{tipoDocenteMB.cadastrar()}" 
@@ -53,8 +60,11 @@
 									
 									<div class="panel panel-default">
 									<div class="panel-body">
-									<p:dataTable id="tabelaDocente" var="item" value="#{tipoDocenteMB.tipos}" editable="true" 
-						             tableStyleClass="table table-striped" paginator="true" rowsPerPageLabel="10" >
+									<p:dataTable id="tabelaDocente" var="item" value="#{tipoDocenteMB.tipos}" editable="true"
+						                         styleClass="table table-striped table-bordered table-hover" paginator="true" 
+						                         rowsPerPageTemplate="10,20,30" currentPageReportTemplate="{startRecord} de {endRecord}"
+						                         paginatorPosition="bottom" emptyMessage="Não foram encontrados registros"
+						                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 								        
 								       <p:ajax event="rowEdit" listener="#{tipoDocenteMB.editar(item)}" />
 								       <p:ajax event="rowEditCancel"/>
@@ -65,15 +75,11 @@
 								               <f:facet name="input"><p:inputText id="modelInput" value="#{item.tipo}" style="width:100%"/></f:facet>
 								           </p:cellEditor>
 								       </p:column>
-									   <p:column>
-											<f:facet name="header">Editar</f:facet>									    
-												<p:rowEditor />
-									   </p:column>
-									   <p:column>
-									   		  <f:facet name="header">Remover</f:facet>
-											   <h:commandLink action="#{tipoDocenteMB.excluir(item)}"  update="@form">
-												   <span class="ui-icon ui-icon-close" aria-hidden="true"/>
-											   </h:commandLink>
+									   <p:column headerText="Ação" style="width:10%;text-align:center;">
+												<p:rowEditor style="display:inline-flex" />
+												<p:commandLink action="#{tipoDocenteMB.excluir(item)}"  update="@form">
+												   <span class="glyphicon glyphicon-trash" />
+											  </p:commandLink>
 									    </p:column>
 									</p:dataTable>
 							</div>	

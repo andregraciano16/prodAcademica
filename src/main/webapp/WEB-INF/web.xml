@@ -54,10 +54,7 @@
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 
-	<mime-mapping>
-		<extension>woff2</extension>
-		<mime-type>application/font-woff2</mime-type>
-	</mime-mapping>
+	
 
 
 </web-app>
