@@ -36,4 +36,39 @@ public class Curso extends EntidadeBase{
 		this.nome = nome;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+
+		int flag = 0;
+		if (obj instanceof Curso) {
+			Curso outroCurso = (Curso) obj;
+			if (outroCurso.getNome().trim().equals(this.getNome().trim())) {
+				flag = 1;
+			}
+		}
+		if (flag == 1) {
+
+			return true;
+
+		} else {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (!(obj instanceof Curso))
+				return false;
+			Curso other = (Curso) obj;
+			if (idCurso == null) {
+				if (other.idCurso != null)
+					return false;
+			} else if (!idCurso.equals(other.idCurso))
+				return false;
+			return true;
+		}
+
+	}
+
+	public int hashCode() {
+		return this.getNome().hashCode();
+	}
 }

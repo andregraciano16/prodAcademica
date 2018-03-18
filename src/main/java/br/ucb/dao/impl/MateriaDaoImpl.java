@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.Query;
 
 import br.ucb.dao.MateriaDao;
-import br.ucb.entity.LinhaPesquisa;
 import br.ucb.entity.Materia;
 
 

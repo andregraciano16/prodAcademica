@@ -190,4 +190,39 @@ public class Docente extends EntidadeBase {
 		this.curso = curso;
 	}
 
+	public boolean equals(Object obj) {
+
+		int flag = 0;
+		if (obj instanceof Docente) {
+			Docente outroDocente = (Docente) obj;
+			if (outroDocente.getNome().trim().equals(this.getNome().trim())) {
+			//	flag = 1;
+			}
+		}
+		if (flag == 1) {
+
+			return true;
+
+		} else {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (!(obj instanceof Docente))
+				return false;
+			Docente other = (Docente) obj;
+			if (idDocente == null) {
+				if (other.idDocente != null)
+					return false;
+			} else if (!idDocente.equals(other.idDocente))
+				return false;
+			return true;
+		}
+
+	}
+
+	public int hashCode() {
+		return this.getNome().hashCode();
+	}
+	
 }

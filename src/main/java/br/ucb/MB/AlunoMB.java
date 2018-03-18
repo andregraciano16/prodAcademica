@@ -24,7 +24,7 @@ import br.ucb.entity.Curso;
 import br.ucb.entity.Endereco;
 import br.ucb.entity.StatusAluno;
 
-@ManagedBean(name="alunoMB")
+@ManagedBean(name = "alunoMB")
 @ViewScoped
 public class AlunoMB extends BaseMB {
 
@@ -68,14 +68,11 @@ public class AlunoMB extends BaseMB {
 	public void cadastrar(Aluno aluno) {
 		if (this.aluno.getNome() != null && !this.aluno.getNome().trim().isEmpty()
 				&& this.aluno.getTelefoneFixo() != null && !this.aluno.getTelefoneFixo().trim().isEmpty()
-				&& this.aluno.getSexo() != '\0' 
-				&& this.aluno.getCelular() != null && !this.aluno.getCelular().trim().isEmpty()
-				&& this.aluno.getDataCadastro() != null 
-				&& this.aluno.getMatricula() != null && !this.aluno.getMatricula().trim().isEmpty() 
-				&& this.aluno.getDataNascimento() != null
-				&& this.aluno.getCurso() != null
-				&& this.aluno.getStatusAluno() != null 
-				&& this.aluno.getEndereco() != null) {
+				&& this.aluno.getSexo() != '\0' && this.aluno.getCelular() != null
+				&& !this.aluno.getCelular().trim().isEmpty() && this.aluno.getDataCadastro() != null
+				&& this.aluno.getMatricula() != null && !this.aluno.getMatricula().trim().isEmpty()
+				&& this.aluno.getDataNascimento() != null && this.aluno.getCurso() != null
+				&& this.aluno.getStatusAluno() != null && this.aluno.getEndereco() != null) {
 			if (this.alunos.contains(this.aluno)) {
 				msg = "Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.";
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -154,13 +151,17 @@ public class AlunoMB extends BaseMB {
 	public void buscar() {
 
 		if (this.aluno.getNome() != null) {
-			this.alunos = this.alunoDao.findByNome(this.aluno.getNome());
-			this.enderecos = this.enderecoDao.list();
-		} else {
-			this.alunos = this.alunoDao.list();
-			this.enderecos = this.enderecoDao.list();
-			this.setCursos(this.cursoDao.list());
-			this.setVariosStatus(this.statusAlunoDao.list());
+			if (!this.aluno.getNome().isEmpty()) {
+				this.alunos = this.alunoDao.findByNome(this.aluno.getNome());
+				this.enderecos = this.enderecoDao.list();
+				this.cursos = this.cursoDao.list();
+				this.variosStatus = this.statusAlunoDao.list();
+			} else if (this.aluno.getNome().isEmpty()) {
+				this.alunos = this.alunoDao.list();
+				this.enderecos = this.enderecoDao.list();
+				this.cursos = this.cursoDao.list();
+				this.variosStatus = this.statusAlunoDao.list();
+			}
 		}
 	}
 

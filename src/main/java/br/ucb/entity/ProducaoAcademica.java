@@ -176,5 +176,41 @@ public class ProducaoAcademica extends EntidadeBase {
 	public void setStatusProducao(StatusProducao statusProducao) {
 		this.statusProducao = statusProducao;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+
+		int flag = 0;
+		if (obj instanceof ProducaoAcademica) {
+			ProducaoAcademica outroProducaoAcademica = (ProducaoAcademica) obj;
+			if (outroProducaoAcademica.getDescricao().trim().equals(this.getDescricao().trim())) {
+		//		flag = 1;
+			}
+		}
+		if (flag == 1) {
+
+			return true;
+
+		} else {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (!(obj instanceof ProducaoAcademica))
+				return false;
+			ProducaoAcademica other = (ProducaoAcademica) obj;
+			if (idProducaoAcademica == null) {
+				if (other.idProducaoAcademica != null)
+					return false;
+			} else if (!idProducaoAcademica.equals(other.idProducaoAcademica))
+				return false;
+			return true;
+		}
+
+	}
+
+	public int hashCode() {
+		return this.getDescricao().hashCode();
+	}
 
 }

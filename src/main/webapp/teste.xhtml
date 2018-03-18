@@ -1,41 +1,183 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:p="http://primefaces.org/ui">
-<h:head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta>
-    <title>Page</title>
-</h:head>
-<h:body>
-    <h:form id="mainForm">
-        <p:panel header="Teste">
-            <p:button value="Teste"/>
-
-            <p:colorPicker></p:colorPicker>
-            
-            <h:panelGrid columns="1" cellpadding="5">
-    <p:commandButton value="Basic" type="button" onclick="PF('dlg1').show();" />
- 
-    <p:commandButton value="Modal" type="button" onclick="PF('dlg2').show();" />
- 
-    <p:commandButton value="Effects" type="button" onclick="PF('dlg3').show();" /> 
-</h:panelGrid>
- 
-<p:dialog header="Basic Dialog" widgetVar="dlg1" minHeight="40">
-    <h:outputText value="Resistance to PrimeFaces is futile!" />
-</p:dialog>
- 
-<p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
-    <h:outputText value="This is a Modal Dialog." />
-</p:dialog>   
- 
-<p:dialog header="Effects" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="100">
-    <h:outputText value="This dialog has nice effects." />
-</p:dialog>
-            
-            
-        </p:panel>
-    </h:form>
-</h:body>
-</html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				template="./template.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"  
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+	<ui:define name="Conteudo">
+			<h:form id="idFormulario">
+			         
+					<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+			            <div class="col-lg-12">
+			                <div class="panel panel-default">
+			                <div class="panel-heading">
+					        <div class = "row">
+								<ol class="breadcrumb" style="color:blue;background: #30a5ff">
+									<div class="titulo-centro-grande"> Docente </div>
+							    </ol>
+							</div>
+							</div>
+							<div class="panel-body">
+								  <div class="row">
+									   <div class="col-md-4">
+										    <p:outputLabel for="idMatricula" value="Matricula:" styleClass="control-label"/>
+											<h:inputText value="#{docenteMB.docente.matricula}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idMatricula"/>
+										</div>
+										<div class="col-md-4">
+										    <p:outputLabel for="idNome" value="Nome:" styleClass="control-label"/>
+											<h:inputText value="#{docenteMB.docente.nome}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idNome"/>
+										</div>
+										<div class="col-md-4">
+										    <p:outputLabel for="idSituacao" value="Situação:" styleClass="control-label"/>
+											<h:inputText value="#{docenteMB.docente.situacao}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idSituacao"/>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+										    <div class="form-group">
+										    <p:outputLabel for="idSelSex" value="Sexo:" styleClass="control-label"/>
+										       <h:selectOneMenu id="idSelSex"  value="#{docenteMB.docente.sexo}" styleClass="form-control">
+										           <f:selectItem itemLabel="Masculino" itemValue="M" />
+										           <f:selectItem itemLabel="Feminino" itemValue="F" />
+										       </h:selectOneMenu>
+									        </div>
+								        </div>
+								        <div class="col-md-4">
+										    <p:outputLabel for="idCelular" value="Celular:" styleClass="control-label"/>
+											<h:inputText value="#{docenteMB.docente.celular}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idCelular"/>
+										</div>
+										<div class="col-md-4">
+										    <p:outputLabel for="idFixo" value="Telefone Fixo:" styleClass="control-label"/>
+											<h:inputText value="#{docenteMB.docente.telefoneFixo}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idFixo"/>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<p:outputLabel for="idEmail" value="E-Mail:" styleClass="control-label"/>
+											<h:inputText value="#{docenteMB.docente.email}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idEmail"/>
+										</div>
+										<div class="col-md-4">
+										    <div class="form-group">
+												<p:outputLabel for="idAtivo" value="Ativo:" styleClass="control-label"/>
+										        <h:selectOneMenu id="idAtivo" value="#{docenteMB.docente.ativo}" styleClass="form-control">
+										            <f:selectItem itemLabel="Sim" itemValue="S" />
+										            <f:selectItem itemLabel="Não" itemValue="N" />
+										        </h:selectOneMenu>
+										     </div>
+								        </div>
+								        <div class="col-md-4"> 	
+									        <p:outputLabel for="idDataNasc" value="Data Nascimento: " styleClass="control-label" />
+									        <p:calendar id="idDataNasc" value="#{docenteMB.docente.dataNascimento}" styleClass="form-control" />
+								        </div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<p:outputLabel for="idRamal" value="Ramal" styleClass="control-label"/>
+											<h:inputText value="#{docenteMB.docente.ramal}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idRamal"/>
+	                               		</div>	
+	                               		<div class="col-md-4">
+	                               		    <div class="form-group">
+												<p:outputLabel for="idTipo" value="Tipo Docente:" styleClass="control-label" />
+										        <h:selectOneMenu id="idTipo" value="#{docenteMB.tipoDocente}" styleClass="form-control">
+													<f:selectItems itemLabel="#{tipo.tipo}" itemValue="#{tipo.idTipoDocente}" var="tipo" 
+													               value="#{docenteMB.getTipoDocentes()}" />
+										        </h:selectOneMenu>
+									        </div>
+								        </div>							
+									</div>
+									<div class = "row">
+										<div class="col-md-4">
+										    <p:outputLabel for="idEstado" value="Estado" styleClass="control-label"/>
+											<h:inputText value="#{enderecoMB.endereco.estado}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idEstado"/>
+										</div>
+										<div class="col-md-4">
+										    <p:outputLabel for="idCidade" value="Cidade:" styleClass="control-label"/>
+											<h:inputText value="#{enderecoMB.endereco.cidade}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idCidade"/>
+										</div>
+										<div class="col-md-4">
+										    <p:outputLabel for="idBairro" value="Bairro:" styleClass="control-label"/>
+											<h:inputText value="#{enderecoMB.endereco.bairro}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idBairro"/>
+										</div>
+									</div>
+									
+									<div class = "row">
+										<div class="col-md-4">
+										    <p:outputLabel for="idEndRua" value="Rua:" styleClass="control-label"/>
+											<h:inputText value="#{enderecoMB.endereco.rua}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idEndRua"/>
+										</div>
+										<div class="col-md-4">
+										    <p:outputLabel for="idEndCompl" value="Complemento:" styleClass="control-label"/>
+											<h:inputText value="#{enderecoMB.endereco.complemento}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idEndCompl"/>
+										</div>
+										<div class="col-md-4">
+										    <p:outputLabel for="idEndNum" value="Número" styleClass="control-label"/>
+											<h:inputText value="#{enderecoMB.endereco.numero}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idEndNum"/>
+										</div>
+									</div>
+									
+		                            <br/>
+		                            <div class="form-group">
+											<p:commandButton value="Cadastrar" 
+											                 class="btn-primary btn-md" 
+											                 action="#{docenteMB.cadastrar()}" 
+											                 update="@form"
+											                 styleClass="btn btn-primary" />
+		
+											<p:commandButton value="Limpar" 
+											                 title="Limpar"
+											                 class="btn btn-primary-cinza"
+												             actionListener="#{docenteMB.limpar()}" 
+												             update="@form"
+												             styleClass="btn btn-primary"/>
+									</div>
+									<br />
+									<br /> 
+									<br />
+                                   
+								</div>	
+							</div>
+						</div>
+					</div>
+		    </h:form>
+	</ui:define>
+</ui:composition>

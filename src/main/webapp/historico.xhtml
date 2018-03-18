@@ -14,31 +14,30 @@
 						<div class="panel-heading">
 							<div class="row">
 								<ol class="breadcrumb" style="color: blue; background: #30a5ff">
-									<div class="titulo-centro-grande">Projeto</div>
+									<div class="titulo-centro-grande">Histórico</div>
 								</ol>
 							</div>
 						</div>
 						
 						<div class="panel-body">
 						
-						<p:messages id="message" globalOnly="true" closable="true" />
-											
+							<p:messages id="message" globalOnly="true" closable="true" />
+									
+									
 							<div class="row">
 
 								<div class="col-md-8">
 								
 								<br/>
 								<br/>
-								
-									<p:outputLabel for="idNome" 
-										value="Nome:"
-										styleClass="control-label" />
 										
-									<h:inputText value="#{projetoMB.projeto.nome}"
-										class="form-control" 
-										maxlength="200" 
-										id="idNome" 
-										validatorMessage="A descrição não pode ser maior que 200 caracteres."/>
+									 <p:outputLabel for="idDataAlt" 
+									 				value="Data de Alteração: " 
+									 				styleClass="control-label" />
+								<br/>	 				
+									 				
+									 <p:calendar id="idDataAlt" 
+									 			 value="#{historicoMB.historico.dataAlteracao}"/>
 										
 										
 								</div>
@@ -47,89 +46,120 @@
 								
 							<div class="row">
 
-								<div class="col-md-12">
-								
-								<br/>
-								<br/>
-								
-									<p:outputLabel for="idDescricao" 
-										value="Descrição:"
-										styleClass="control-label" />
-										
-									<h:inputText value="#{projetoMB.projeto.descricao}"
-										class="form-control" 
-										maxlength="200" 
-										id="idDescricao" 
-										validatorMessage="A descrição não pode ser maior que 200 caracteres."/>
-										
-										
-								</div>
-
-							</div>
-							
-							<div class="row">
-
 								<div class="col-md-8">
 								
 								<br/>
 								<br/>
 								
-									<p:outputLabel for="idOrgaoFinanciador" 
-										value="Orgão financiador:"
-										styleClass="control-label" />
-										
-									<h:inputText value="#{projetoMB.projeto.orgaoFinanciador}"
-										class="form-control" 
-										maxlength="45" 
-										id="idOrgaoFinanciador" 
-										validatorMessage="O orgão financiador não pode ser maior que 45 caracteres."/>
-										
-								</div>
-
-							</div>
-							
-							<div class="row">
-
-								<div class="col-md-8">
-								
-								<br/>
-								<br/>
-								<p:outputLabel for="idDadosOficiais" 
-											   value="Dados oficias:"
-											   styleClass="control-label" />
-										
-									<h:inputText value="#{projetoMB.projeto.dadosOficiais}"
-												 class="form-control" 
-												 maxlength="45" 
-												 id="idDadosOficiais" 
-												 validatorMessage="Dados oficiais não pode ser maior que 45 caracteres."/>
-							
-								</div>
-
-							</div>
-							<div class="row">
-
-								<div class="col-md-8">
-								
-								<br/>
-								<br/>
-								
-									<p:outputLabel for="idTiposProjeto" 
-										value="Tipo de projeto:"
+									<p:outputLabel for="idAlunos" 
+										value="Aluno:"
 										styleClass="control-label" />
 										
 									<br/>
 									
-									<h:selectOneMenu value="#{projetoMB.projeto.tipoProjeto}"
-													 id="idTiposProjeto"
+									<h:selectOneMenu value="#{historicoMB.historico.aluno}"
+													 id="idAlunos"
 													 styleClass="form-control">
 										
 										<f:selectItem  itemLabel="--Selecione--" 
 													   itemValue=""/>
-										<f:selectItems value="#{projetoMB.tiposProjeto}"
+										<f:selectItems value="#{historicoMB.alunos}"
 													   var="linha" 
 													   itemValue="#{linha}" 
-													   itemLabel="#{linha.tipo}"/>
+													   itemLabel="#{linha.nome}"/>
+													   
+									</h:selectOneMenu>
+										
+										
+								</div>
+
+							</div>
+							
+							<div class="row">
+
+								<div class="col-md-8">
+								
+								<br/>
+								<br/>
+								
+									<p:outputLabel for="idDocentes" 
+										value="Docente:"
+										styleClass="control-label" />
+										
+									<br/>
+									
+									<h:selectOneMenu value="#{historicoMB.historico.docente}"
+													 id="idDocentes"
+													 styleClass="form-control">
+										
+										<f:selectItem  itemLabel="--Selecione--" 
+													   itemValue=""/>
+										<f:selectItems value="#{historicoMB.docentes}"
+													   var="linha" 
+													   itemValue="#{linha}" 
+													   itemLabel="#{linha.nome}"/>
+													   
+									</h:selectOneMenu>
+										
+										
+								</div>
+
+							</div>
+							
+							<div class="row">
+
+								<div class="col-md-8">
+								
+								<br/>
+								<br/>
+								
+									<p:outputLabel for="idProducoes" 
+										value="Produção Acadêmica:"
+										styleClass="control-label" />
+										
+									<br/>
+									
+									<h:selectOneMenu value="#{historicoMB.historico.producaoAcademica}"
+													 id="idProducoes"
+													 styleClass="form-control">
+										
+										<f:selectItem  itemLabel="--Selecione--" 
+													   itemValue=""/>
+										<f:selectItems value="#{historicoMB.producoes}"
+													   var="linha" 
+													   itemValue="#{linha}" 
+													   itemLabel="#{linha.titulo}"/>
+													   
+									</h:selectOneMenu>
+										
+										
+								</div>
+
+							</div>
+							
+							<div class="row">
+
+								<div class="col-md-8">
+								
+								<br/>
+								<br/>
+								
+									<p:outputLabel for="idProjetos" 
+										value="Projeto:"
+										styleClass="control-label" />
+										
+									<br/>
+									
+									<h:selectOneMenu value="#{historicoMB.historico.projeto}"
+													 id="idProjetos"
+													 styleClass="form-control">
+										
+										<f:selectItem  itemLabel="--Selecione--" 
+													   itemValue=""/>
+										<f:selectItems value="#{historicoMB.projetos}"
+													   var="linha" 
+													   itemValue="#{linha}" 
+													   itemLabel="#{linha.nome}"/>
 													   
 									</h:selectOneMenu>
 										
@@ -139,58 +169,30 @@
 							</div>
 							
 
-							<div class="row">
-
-								<div class="col-md-8">
-								
-								<br/>
-								<br/>
-								
-									<p:outputLabel for="idLinhasPesquisa" 
-										value="Linha de pesquisa:"
-										styleClass="control-label" />
-										
-									<br/>
-									
-									<h:selectOneMenu value="#{projetoMB.projeto.linhaPesquisa}"
-													 id="idLinhasPesquisa"
-													 styleClass="form-control">
-										
-										<f:selectItem  itemLabel="--Selecione--" 
-													   itemValue=""/>
-										<f:selectItems value="#{projetoMB.linhasPesquisa}"
-													   var="linha" 
-													   itemValue="#{linha}" 
-													   itemLabel="#{linha.descricao}"/>
-													   
-									</h:selectOneMenu>
-										
-										
-								</div>
-
-							</div>
+							
 							<br/>
 							<br/>
-
+							<br/>
+							<br/>
 							<div class="form-group" style="padding-top:70px;text-align:right;">
 
 								<p:commandButton value="Cadastrar" 
 											     class="btn-primary btn-md" 
-											     action="#{projetoMB.cadastrar(projetoMB.projeto)}" 
+											     action="#{historicoMB.cadastrar(historicoMB.historico)}" 
 											     update="@form"
 											     styleClass="btn btn-primary" 
 											     id="btnCadastrar"/>
 								&nbsp;&nbsp;			     
 								<p:commandButton value="Pesquisar" 
 											     title="Pesquisar"
-												 actionListener="#{projetoMB.buscar}" 
+												 actionListener="#{historicoMB.buscar}" 
 												 update="@form"
 												 styleClass="btn btn-default"
 												 id="btnPesquisar"/>
 								&nbsp;&nbsp;
 								<p:commandButton value="Limpar" 
 											     title="Limpar"
-												 actionListener="#{projetoMB.limpar}" 
+												 actionListener="#{historicoMB.limpar}" 
 												 update="@form"
 												 styleClass="btn btn-primary"
 												 id="btnLimpar"/>
@@ -203,118 +205,130 @@
 					</div>
 							<div class="panel panel-default">
 							<div class="panel-body">				 
-							<p:dataTable id="idTable" var="item" value="#{projetoMB.projetos}" editable="true"
+							<p:dataTable id="idTable" var="item" value="#{historicoMB.historicos}" editable="true"
 						                 styleClass="table table-striped table-bordered table-hover" paginator="true" 
 						                 rowsPerPageTemplate="10,20,30" currentPageReportTemplate="{startRecord} de {endRecord}"
 						                 paginatorPosition="bottom" emptyMessage="Não foram encontrados registros"
 						                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 											
-											
 									<p:ajax event="rowEdit" 
-											listener="#{projetoMB.editar}" 
+											listener="#{historicoMB.editar}" 
 											update="idFormulario:idTable"/>
 											
 									<p:ajax event="rowEditCancel" 
-											listener="#{projetoMB.cancela}"
+											listener="#{historicoMB.cancela}"
 											update="idFormulario:idTable"/>
 											
-										<p:column headerText="Nome" >
+										<p:column headerText="Data" >
 											
 											<p:cellEditor>
 											
 												<f:facet name="output">
-													<h:outputText value="#{item.nome}" />
+													<h:outputText value="#{item.dataAlteracao}" />
 												</f:facet>
 											
 												<f:facet name="input">
-														<h:inputText value="#{projetoMB.editavel.nome}"
-																	 class="form-control" 
-																	 maxlength="200" 
-																	 id="idEditNome" 
-																	 validatorMessage="O nome não pode ser maior que 200 caracteres."/>
-												</f:facet>
-											
-											</p:cellEditor>
-												
-										</p:column>
-										
-										<p:column headerText="Descrição" >
-											
-											<p:cellEditor>
-											
-												<f:facet name="output">
-													<h:outputText value="#{item.descricao}" />
-												</f:facet>
-											
-												<f:facet name="input">
-														<h:inputText value="#{projetoMB.editavel.descricao}"
-																	 class="form-control" 
-																	 maxlength="45" 
-																	 id="idEditDescricao" 
-																	 validatorMessage="A descrição não pode ser maior que 45 caracteres."/>
-												</f:facet>
-											
-											</p:cellEditor>
-												
-										</p:column>
-										
-										<p:column headerText="Orgão financiador" >
-											
-											<p:cellEditor>
-											
-												<f:facet name="output">
-													<h:outputText value="#{item.orgaoFinanciador}" />
-												</f:facet>
-											
-												<f:facet name="input">
-														<h:inputText value="#{projetoMB.editavel.orgaoFinanciador}"
-																	 class="form-control" 
-																	 maxlength="45" 
-																	 id="idEditOrgaoFinanciador" 
-																	 validatorMessage="Orgão financiador não pode ser maior que 45 caracteres."/>
-												</f:facet>
-											
-											</p:cellEditor>
-
-										</p:column>
-										
-										<p:column headerText="Dados Oficiais" >
-											
-											<p:cellEditor>
-											
-												<f:facet name="output">
-													<h:outputText value="#{item.dadosOficiais}" />
-												</f:facet>
-											
-												<f:facet name="input">
-														<h:inputText value="#{projetoMB.editavel.dadosOficiais}"
-																	 class="form-control" 
-																	 maxlength="45" 
-																	 id="idEditDadosOficiais" 
-																	 validatorMessage="Dados oficiais não pode ser maior que 45 caracteres."/>
+													<p:calendar id="idDataAlt" 
+									 			 				value="#{historicoMB.historico.dataAlteracao}" 
+									 			 				styleClass="form-control" />
 												</f:facet>
 											
 											</p:cellEditor>
 												
 										</p:column>
 
-										<p:column headerText="Tipo do projeto" >
+										<p:column headerText="Aluno" >
 											
 											<p:cellEditor>
 											
 												<f:facet name="output">
-													<h:outputText value="#{item.tipoProjeto.tipo}" />
+													<h:outputText value="#{item.aluno.nome}" />
 												</f:facet>
 											
 												<f:facet name="input">
-													<h:selectOneMenu value="#{projetoMB.editavel.tipoProjeto}" 
+													<h:selectOneMenu value="#{historicoMB.editavel.aluno}" 
+																	 id="dropAlunosEdit"
+																	 styleClass="form-control">
+																	 
+														<f:selectItems value="#{historicoMB.alunos}"
+																	   var="linha" 
+																	   itemValue="#{linha}" 
+																	   itemLabel="#{linha.nome}"/>
+																	   
+													</h:selectOneMenu>
+												</f:facet>
+											
+												</p:cellEditor>
+												
+										</p:column>
+
+										<p:column headerText="Docente" >
+											
+											<p:cellEditor>
+											
+												<f:facet name="output">
+													<h:outputText value="#{item.docente.nome}" />
+												</f:facet>
+											
+												<f:facet name="input">
+													<h:selectOneMenu value="#{historicoMB.editavel.docente}" 
+																	 id="dropDocentesEdit"
+																	 styleClass="form-control">
+																	 
+														<f:selectItems value="#{historicoMB.docentes}"
+																	   var="linha" 
+																	   itemValue="#{linha}" 
+																	   itemLabel="#{linha.nome}"/>
+																	   
+													</h:selectOneMenu>
+												</f:facet>
+											
+												</p:cellEditor>
+											
+										</p:column>
+										
+										<p:column headerText="Produção Acadêmica" >
+											
+											<p:cellEditor>
+											
+												<f:facet name="output">
+													<h:outputText value="#{item.producaoAcademica.titulo}" />
+												</f:facet>
+											
+												<f:facet name="input">
+													<h:selectOneMenu value="#{historicoMB.editavel.producaoAcademica}" 
+																	 id="dropProducoesEdit"
+																	 styleClass="form-control">
+																	 
+														<f:selectItems value="#{historicoMB.producoes}"
+																	   var="linha" 
+																	   itemValue="#{linha}" 
+																	   itemLabel="#{linha.titulo}"/>
+																	   
+													</h:selectOneMenu>
+												</f:facet>
+											
+												</p:cellEditor>
+												
+										</p:column>
+										
+										<p:column headerText="Projeto" >
+											
+											<p:cellEditor>
+											
+												<f:facet name="output">
+													<h:outputText value="#{item.projeto.nome}" />
+												</f:facet>
+											
+												<f:facet name="input">
+													<h:selectOneMenu value="#{historicoMB.editavel.projeto}" 
 																	 id="dropProjetosEdit"
 																	 styleClass="form-control">
 																	 
-														<f:selectItems value="#{projetoMB.tiposProjeto}"
+														<f:selectItems value="#{historicoMB.projetos}"
 																	   var="linha" 
 																	   itemValue="#{linha}" 
-																	   itemLabel="#{linha.tipo}"/>
+																	   itemLabel="#{linha.nome}"/>
 																	   
 													</h:selectOneMenu>
 												</f:facet>
@@ -323,34 +337,7 @@
 												
 										</p:column>
 										
-										<p:column headerText="Linha de Pesquisa" >
-											
-											<p:cellEditor>
-											
-												<f:facet name="output">
-													<h:outputText value="#{item.linhaPesquisa.descricao}" />
-												</f:facet>
-											
-												<f:facet name="input">
-													<h:selectOneMenu value="#{projetoMB.editavel.linhaPesquisa}" 
-																	 id="dropLinhasEdit"
-																	 styleClass="form-control">
-																	 
-														<f:selectItems value="#{projetoMB.linhasPesquisa}"
-																	   var="linha" 
-																	   itemValue="#{linha}" 
-																	   itemLabel="#{linha.descricao}"/>
-																	   
-													</h:selectOneMenu>
-												</f:facet>
-											
-												</p:cellEditor>
-												
-										</p:column>
-											
-											
-											
-
+										
 										<p:column headerText="Ações" 
 												  styleClass="coluna-acao">
 										
