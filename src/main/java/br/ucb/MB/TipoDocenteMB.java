@@ -51,13 +51,17 @@ public class TipoDocenteMB extends BaseMB {
 	public void excluir(TipoDocente tipoDocente) {
 		this.tipoDocenteDao.remove(tipoDocente);
 		setMessageSuccess("Excluido com sucesso!");
-		buscar();
+		limpar();
 	}
 
 	public void editar(TipoDocente tipoDocente) {
-		this.tipoDocenteDao.update(tipoDocente);
-		setMessageSuccess("Alterado com sucesso!");
-		buscar();
+		if(tipoDocente.getTipo() != null  && !tipoDocente.getTipo().isEmpty()){
+			this.tipoDocenteDao.update(tipoDocente);
+			setMessageSuccess("Alterado com sucesso!");
+			limpar();
+		}else{
+			setMessageError("Informe a descrição!");
+		}
 	}
 
 	public void buscar() {

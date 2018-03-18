@@ -72,7 +72,12 @@
 								       <p:column headerText="Descrição">
 								           <p:cellEditor>
 								               <f:facet name="output"><h:outputText id="idOutputTipo" value="#{item.tipo}" /></f:facet>
-								               <f:facet name="input"><p:inputText id="modelInput" value="#{item.tipo}" style="width:100%"/></f:facet>
+								               <f:facet name="input">
+								                     <p:inputText id="modelInput" value="#{item.tipo}" 
+								                                  style="width:100%" validatorMessage="Tipo não pode ser vazio" >
+								                            <f:validateLength minimum="1" />
+								                     </p:inputText>
+								                </f:facet>
 								           </p:cellEditor>
 								       </p:column>
 									   <p:column headerText="Ação" style="width:10%;text-align:center;">

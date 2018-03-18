@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import br.ucb.dao.ComentarioDao;
 import br.ucb.dao.impl.ComentarioDaoImpl;
 import br.ucb.entity.Comentario;
+import br.ucb.util.StringUtil;
 
 @ManagedBean(name = "comentarioMB")
 @ViewScoped
@@ -25,8 +26,14 @@ public class ComentarioMB extends BaseMB {
 	}
 
 	public void cadastrar() {
-		this.comentario.setDataCadastro(new Date());
-		this.comentarioDao.save(this.comentario);
+		if(StringUtil.isNotNullIsNotEmpty(this.comentario.getTitulo()) && StringUtil.isNotNullIsNotEmpty(comentario.getDecricao())){
+			this.comentario.setDataCadastro(new Date());
+			this.comentarioDao.save(this.comentario);
+			limpar();
+			setMessageSuccess("Comentario realizado com sucesso!");
+		}else{
+			setMessageError("Informe os campos obrigatórios");
+		}
 	}
 
 	public void editar(Comentario comentario) {
