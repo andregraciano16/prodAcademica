@@ -1,6 +1,7 @@
 package br.ucb.MB;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -18,11 +19,13 @@ public class ComentarioMB extends BaseMB {
 	private static final long serialVersionUID = 6415110752671331286L;
 	private ComentarioDao comentarioDao;
 	private Comentario comentario;
+	private List<Comentario> comentarios;
 
 	@PostConstruct
 	public void init() {
 		this.comentarioDao = new ComentarioDaoImpl();
 		this.comentario = new Comentario();
+		this.comentarios = comentarioDao.list();
 	}
 
 	public void cadastrar() {
@@ -45,9 +48,7 @@ public class ComentarioMB extends BaseMB {
 	}
 
 	public void buscar() {
-		// this.docentes =
-		// this.docenteDao.findByDescricaoAndTipo(tipoProducao.getTipo(),
-		// tipoProducao.getDescricao());
+		this.comentarios = this.comentarioDao.find(this.comentario);
 	}
 
 	public void limpar() {
@@ -60,6 +61,14 @@ public class ComentarioMB extends BaseMB {
 
 	public void setComentario(Comentario comentario) {
 		this.comentario = comentario;
+	}
+
+	public List<Comentario> getComentarios() {
+		return this.comentarios;
+	}
+
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
 	}
 
 }

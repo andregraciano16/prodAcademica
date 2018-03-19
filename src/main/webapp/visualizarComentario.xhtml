@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				template="./template.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"  
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+	<ui:define name="Conteudo">
+			<h:form id="idFormulario">
+			         
+					<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+			            <div class="col-lg-12">
+			                <div class="panel panel-default">
+				                <div class="panel-heading">
+						        <div class = "row">
+									<ol class="breadcrumb" style="color:blue;background: #30a5ff">
+										<div class="titulo-centro-grande"> Comentário </div>
+								    </ol>
+								</div>
+								</div>
+								<div class="panel-body">
+								    <p:messages id="message" globalOnly="true" closable="true" />
+									<br/>
+								    <br/>
+								    <div class="row">
+								        <div class="col-md-4"> 	
+								            <div class="form-group">
+												<h:outputLabel value="Data Cadastro:" for ="idCadastro" styleClass="control-label"></h:outputLabel>
+										        <div class="input-group">
+													<span class="input-group-addon">
+														<span class="glyphicon glyphicon-tag"></span>
+													</span>
+   									                <p:calendar id="idCadastro" value="#{comentarioMB.comentario.dataCadastro}"
+									                        pattern="dd/MM/yyyy" styleClass="form-control-calendar input-group-calendar" locale="pt"
+									                        readonlyInput="true" navigator="true"/>
+												</div>
+								        	</div>
+								        </div>
+								        <div class="col-md-4">
+											<div class="form-group">
+										        <h:outputLabel value="Titulo:" styleClass="control-label" />
+										        <div class="input-group">
+										            <span class="input-group-addon">
+													     <span class="glyphicon glyphicon-tag"></span>
+												    </span>
+												    <h:inputText id="name" name="name" value="#{comentarioMB.comentario.titulo}" type="text" placeholder="Título"
+												                 class="form-control" maxlength="50" />
+												</div>
+											</div>
+										</div>
+									</div>
+									<br/>
+								
+			                        <div class="form-group">
+												<p:commandButton value="Pesquisar" 
+												                 class="btn-primary btn-md" 
+												                 action="#{comentarioMB.buscar()}" 
+												                 update="@form"
+												                 styleClass="btn btn-primary" />
+			
+												<p:commandButton value="Limpar" 
+												                 title="Limpar"
+												                 class="btn btn-primary-cinza"
+													             actionListener="#{comentarioMB.limpar()}" 
+													             update="@form"/>
+									   </div>
+									</div>
+	   							</div>
+	   						    <div class="panel panel-default">
+							 	   <div class="panel-body">
+							 	   		<p:dataTable id="tabelaCurso" var="item" value="#{comentarioMB.comentarios}" editable="true" 
+								                     styleClass="table table-striped table-bordered table-hover" paginator="true" 
+							                         rowsPerPageTemplate="10,20,30" currentPageReportTemplate="{startRecord} de {endRecord}"
+							                         paginatorPosition="bottom" emptyMessage="Não foram encontrados registros"
+							                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+						 
+										       <p:column headerText="Data Cadastro" style="text-align:center">
+									               <h:outputText value="#{item.dataCadastro}">
+									                  <f:convertDateTime pattern="dd/MM/yyyy"/>
+									               </h:outputText>
+										       </p:column>
+										       <p:column headerText="Titulo">
+									               <h:outputText value="#{item.titulo}" title="#{item.titulo}" />
+										       </p:column>
+											    <p:column headerText="Descrição">
+									               <h:outputText value="#{item.decricao}" title="#{item.decricao}" />
+										        </p:column>	
+											</p:dataTable>
+							 	   </div>
+						     </div>
+						</div>
+					</div>
+		    </h:form>
+	</ui:define>
+</ui:composition>

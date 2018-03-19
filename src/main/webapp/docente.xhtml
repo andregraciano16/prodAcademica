@@ -11,7 +11,18 @@
 			         
 					<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 			            <div class="col-lg-12">
+			                 <div class="panel panel-default">
+				                <div class="panel-heading">
+									<ol class="breadcrumb" style="color:blue;background: #30a5ff">
+										<div class="titulo-centro-grande"> Docente </div>
+								    </ol>
+								</div>
+				                <p:messages id="messages" globalOnly="true" closable="true" />
+								<br/>
+							</div>
+			                <p:panel rendered="#{docenteMB.acaoEnum.getCodigo() != 3}">
 			                <div class="panel panel-default">
+
 			                <div class="panel-heading">
 								<ol class="breadcrumb" style="color:blue;background: #30a5ff">
 									<div class="titulo-centro-grande"> Docente </div>
@@ -281,34 +292,70 @@
 														   <span class="glyphicon glyphicon-tag"></span>
 													   </span>
 														<h:inputText value="#{docenteMB.endereco.numero}" 
-															         class= "form-control" 
-															         maxlength="10"
-															         id="idEndNum"/>
+															         class= "form-control" maxlength="10" id="idEndNum"/>
 												  </div>
 											</div>
 										</div>
 									</div>
-									
 		                            <br/>
 		                            <div class="form-group">
-											<p:commandButton value="Cadastrar" 
-											                 class="btn-primary btn-md" 
-											                 action="#{docenteMB.cadastrar()}" 
-											                 update="@form"
-											                 styleClass="btn btn-primary" />
+											<p:commandButton value="Cadastrar" class="btn-primary btn-md" 
+											                 action="#{docenteMB.cadastrar()}" update="@form" styleClass="btn btn-primary" />
 		
-											<p:commandButton value="Limpar" 
-											                 title="Limpar"
-											                 class="btn btn-primary-cinza"
-												             actionListener="#{docenteMB.limpar()}" 
-												             update="@form"/>
+											<p:commandButton value="Limpar" title="Limpar" class="btn btn-primary-cinza"
+												             actionListener="#{docenteMB.limpar()}" update="@form"/>
 									</div>
-									<br />
-									<br /> 
-									<br />
-                                   
+									<br /><br /><br />
 								</div>	
 							</div>
+							</p:panel>
+							<p:panel rendered="#{docenteMB.acaoEnum.getCodigo() == 3}">
+								 <div class="panel panel-default" >
+					
+							 	     <div class="panel-body">
+							 	   		<p:dataTable id="tabelaCurso" var="item" value="#{docenteMB.docentes}" 
+								                     styleClass="table table-striped table-bordered table-hover" paginator="true" 
+							                         rowsPerPageTemplate="10,20,30" currentPageReportTemplate="{startRecord} de {endRecord}"
+							                         paginatorPosition="bottom" emptyMessage="Não foram encontrados registros"
+							                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+						 
+										       <p:column headerText="Código">
+									               <h:outputText value="#{item.idDocente}" title="#{item.idDocente}" />
+										       </p:column>
+										       <p:column headerText="Matricula">
+									               <h:outputText value="#{item.matricula}" title="#{item.matricula}" />
+										       </p:column>
+										       <p:column headerText="Nome">
+									               <h:outputText value="#{item.nome}" title="#{item.nome}" />
+										       </p:column>
+										       <p:column headerText="Código">
+									               <h:outputText value="#{item.email}" title="#{item.email}" />
+										       </p:column>
+										       <p:column headerText="Ramal">
+									               <h:outputText value="#{item.ramal}" title="#{item.ramal}" />
+										       </p:column>
+										       <p:column headerText="Ativo">
+									               <h:outputText value="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}" title="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}" />
+										       </p:column>
+												<p:column headerText="Ação" style="width:12%;text-align:center;">
+													 <p:commandLink action="#{docenteMB.prepararEdicao(item)}" 
+														           update="@form">
+														   <span class="glyphicon glyphicon-pencil" />
+													 </p:commandLink>
+													 <p:commandLink action="#{docenteMB.visualizar(item)}" 
+														           update="@form">
+														   <span class="glyphicon glyphicon-search" />
+													 </p:commandLink>
+													<p:commandLink action="#{docenteMB.excluir(item)}" 
+														           update="@form">
+														   <span class="glyphicon glyphicon-trash" />
+													 </p:commandLink>
+											    </p:column>
+											    	
+											</p:dataTable>
+							 	   </div>
+							 </div>
+						</p:panel>	
 						</div>
 					</div>
 		    </h:form>
