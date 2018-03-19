@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import br.ucb.dao.StatusProducaoDao;
 import br.ucb.dao.impl.StatusProducaoDaoImpl;
 import br.ucb.entity.StatusProducao;
+import br.ucb.util.StringUtil;
 
 @ManagedBean(name = "statusProducaoMB")
 @ViewScoped
@@ -28,15 +29,29 @@ public class StatusProducaoMB extends BaseMB {
 	}
 
 	public void cadastrar() {
-		this.statusProducaoDao.save(this.statusProducao);
+		if(StringUtil.isNotNullIsNotEmpty(this.statusProducao.getTipo()) && StringUtil.isNotNullIsNotEmpty(this.statusProducao.getDescricao())){
+			this.statusProducaoDao.save(this.statusProducao);
+			limpar();
+			setMessageSuccess("Cadastrado com sucesso!");
+		}else{
+			setMessageError("Informe os campos");
+		}
 	}
 
 	public void editar(StatusProducao producaoAcademica) {
-		this.statusProducaoDao.update(producaoAcademica);
+		if(StringUtil.isNotNullIsNotEmpty(producaoAcademica.getTipo()) && StringUtil.isNotNullIsNotEmpty(producaoAcademica.getDescricao())){
+			this.statusProducaoDao.update(producaoAcademica);
+			limpar();
+			setMessageSuccess("Alterado com sucesso!");
+		}else{
+			setMessageError("Informe os campos");
+		}
 	}
 
 	public void excluir(StatusProducao producaoAcademica) {
 		this.statusProducaoDao.remove(producaoAcademica);
+		limpar();
+		setMessageSuccess("Excluído com sucesso!");
 	}
 
 	public void buscar() {

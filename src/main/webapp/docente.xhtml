@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
 				template="./template.xhtml"
@@ -10,172 +11,351 @@
 			         
 					<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 			            <div class="col-lg-12">
+			                 <div class="panel panel-default">
+				                <div class="panel-heading">
+									<ol class="breadcrumb" style="color:blue;background: #30a5ff">
+										<div class="titulo-centro-grande"> Docente </div>
+								    </ol>
+								</div>
+				                <p:messages id="messages" globalOnly="true" closable="true" />
+								<br/>
+							</div>
+			                <p:panel rendered="#{docenteMB.acaoEnum.getCodigo() != 3}">
 			                <div class="panel panel-default">
+
 			                <div class="panel-heading">
-					        <div class = "row">
 								<ol class="breadcrumb" style="color:blue;background: #30a5ff">
 									<div class="titulo-centro-grande"> Docente </div>
 							    </ol>
 							</div>
-							</div>
 							<div class="panel-body">
 								  <div class="row">
 									   <div class="col-md-4">
-										    <p:outputLabel for="idMatricula" value="Matricula:" styleClass="control-label"/>
-											<h:inputText value="#{docenteMB.docente.matricula}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idMatricula"/>
+										    <div class="form-group">
+												<h:outputLabel value="Matricula:" for="idMatricula" styleClass="control-label"/>
+											    <div class="input-group">
+													 <span class="input-group-addon">
+														<span class="glyphicon glyphicon-tag"></span>
+													 </span>
+													<h:inputText value="#{docenteMB.docente.matricula}" 
+														         class= "form-control" 
+														         maxlength="10"
+														         id="idMatricula"/>
+												</div>
+											</div>
 										</div>
 										<div class="col-md-4">
-										    <p:outputLabel for="idNome" value="Nome:" styleClass="control-label"/>
-											<h:inputText value="#{docenteMB.docente.nome}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idNome"/>
+										    <div class="form-group">
+												<h:outputLabel value="Nome:" for="idNome" styleClass="control-label"/>
+											    <div class="input-group">
+													 <span class="input-group-addon">
+														<span class="glyphicon glyphicon-tag"></span>
+													 </span>	
+													<h:inputText value="#{docenteMB.docente.nome}" 
+														         class= "form-control" 
+														         maxlength="10"
+														         id="idNome"/>
+												</div>
+											</div>       
 										</div>
 										<div class="col-md-4">
-										    <p:outputLabel for="idSituacao" value="Situação:" styleClass="control-label"/>
-											<h:inputText value="#{docenteMB.docente.situacao}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idSituacao"/>
+										    <div class="form-group">
+													<h:outputLabel value="Situação:" for="idSituacao" styleClass="control-label"/>
+											        <div class="input-group">
+														<span class="input-group-addon">
+															<span class="glyphicon glyphicon-tag"></span>
+														</span>	
+														<h:inputText value="#{docenteMB.docente.situacao}" 
+															         class= "form-control" 
+															         maxlength="10"
+															         id="idSituacao"/>
+												    </div>
+											</div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-md-4">
 										    <div class="form-group">
-										    <p:outputLabel for="idSelSex" value="Sexo:" styleClass="control-label"/>
-										       <h:selectOneMenu id="idSelSex"  value="#{docenteMB.docente.sexo}" styleClass="form-control">
-										           <f:selectItem itemLabel="Masculino" itemValue="M" />
-										           <f:selectItem itemLabel="Feminino" itemValue="F" />
-										       </h:selectOneMenu>
+													<h:outputLabel value="Sexo:" for="idSelSex" styleClass="control-label"/>
+											        <div class="input-group">
+														<span class="input-group-addon">
+															<span class="glyphicon glyphicon-tag"></span>
+														</span>	
+												       <h:selectOneMenu id="idSelSex"  value="#{docenteMB.docente.sexo}" styleClass="form-control">
+												           <f:selectItem itemLabel="Masculino" itemValue="M" />
+												           <f:selectItem itemLabel="Feminino" itemValue="F" />
+												       </h:selectOneMenu>
+												     </div>
 									        </div>
 								        </div>
 								        <div class="col-md-4">
-										    <p:outputLabel for="idCelular" value="Celular:" styleClass="control-label"/>
-											<h:inputText value="#{docenteMB.docente.celular}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idCelular"/>
+										    <div class="form-group">
+													<h:outputLabel value="Celular:" for="idCelular" styleClass="control-label"/>
+											        <div class="input-group">
+														<span class="input-group-addon">
+															<span class="glyphicon glyphicon-tag"></span>
+														</span>	
+														<h:inputText value="#{docenteMB.docente.celular}" 
+															         class= "form-control" 
+															         maxlength="10"
+															         id="idCelular"/>
+													</div>
+											</div>
 										</div>
 										<div class="col-md-4">
-										    <p:outputLabel for="idFixo" value="Telefone Fixo:" styleClass="control-label"/>
-											<h:inputText value="#{docenteMB.docente.telefoneFixo}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idFixo"/>
+                                             <div class="form-group">
+													<h:outputLabel value="Telefone Fixo:" for="idFixo" styleClass="control-label"/>
+											        <div class="input-group">
+														<span class="input-group-addon">
+															<span class="glyphicon glyphicon-tag"></span>
+														</span>			
+														<h:inputText value="#{docenteMB.docente.telefoneFixo}" 
+												            class= "form-control" 
+												            maxlength="10"
+												            id="idFixo"/>
+												    </div>
+										     </div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-md-4">
-											<p:outputLabel for="idEmail" value="E-Mail:" styleClass="control-label"/>
-											<h:inputText value="#{docenteMB.docente.email}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idEmail"/>
+											<div class="form-group">
+													<h:outputLabel value="Email:" for="idEmail" styleClass="control-label"></h:outputLabel>
+											        <div class="input-group">
+														<span class="input-group-addon">
+															<span class="glyphicon glyphicon-tag"></span>
+														</span>
+														<h:inputText value="#{docenteMB.docente.email}" 
+															         class= "form-control" 
+															         maxlength="10"
+															         id="idEmail"/>
+													</div>
+											</div>
 										</div>
 										<div class="col-md-4">
 										    <div class="form-group">
-												<p:outputLabel for="idAtivo" value="Ativo:" styleClass="control-label"/>
-										        <h:selectOneMenu id="idAtivo" value="#{docenteMB.docente.ativo}" styleClass="form-control">
-										            <f:selectItem itemLabel="Sim" itemValue="S" />
-										            <f:selectItem itemLabel="Não" itemValue="N" />
-										        </h:selectOneMenu>
+												<h:outputLabel value="Ativo: " for="idAtivo" styleClass="control-label"></h:outputLabel>
+										        <div class="input-group">
+													<span class="input-group-addon">
+														<span class="glyphicon glyphicon-tag"></span>
+													</span>
+											        <h:selectOneMenu id="idAtivo" value="#{docenteMB.docente.ativo}" styleClass="form-control">
+											            <f:selectItem itemLabel="Sim" itemValue="S" />
+											            <f:selectItem itemLabel="Não" itemValue="N" />
+											        </h:selectOneMenu>
+										        </div>
 										     </div>
 								        </div>
-								        <div class="col-md-4"> 	
-									        <p:outputLabel for="idDataNasc" value="Data Nascimento: " styleClass="control-label" />
-									        <p:calendar id="idDataNasc" value="#{docenteMB.docente.dataNascimento}" styleClass="form-control" />
-								        </div>
+<!-- 								        <div class="col-md-4"> 	 -->
+<!-- 								            <div class="form-group"> -->
+<!-- 												<h:outputLabel value="Data Nascimento:" styleClass="control-label"></h:outputLabel> -->
+<!-- 										        <div class="input-group"> -->
+<!-- 													<span class="input-group-addon"> -->
+<!-- 														<span class="glyphicon glyphicon-tag"></span> -->
+<!-- 													</span> -->
+<!--    									                <p:calendar id="idDataNasc" value="#{docenteMB.docente.dataNascimento}" -->
+<!-- 									                        pattern="dd/MM/yyyy" styleClass="form-control-calendar input-group-calendar" locale="pt" -->
+<!-- 									                        readonlyInput="true" navigator="true"/> -->
+<!-- 												</div> -->
+<!-- 								        	</div> -->
+<!-- 								        </div> -->
 									</div>
 									<div class="row">
 										<div class="col-md-4">
-											<p:outputLabel for="idRamal" value="Ramal" styleClass="control-label"/>
-											<h:inputText value="#{docenteMB.docente.ramal}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idRamal"/>
+											<div class="form-group">
+												<h:outputLabel value="Ramal: " for="idRamal" styleClass="control-label" />
+										        <div class="input-group">
+													<span class="input-group-addon">
+														<span class="glyphicon glyphicon-tag"></span>
+													</span>
+													<h:inputText value="#{docenteMB.docente.ramal}" 
+														         class= "form-control" 
+														         maxlength="10"
+														         id="idRamal"/>
+												</div>
+											</div>
 	                               		</div>	
 	                               		<div class="col-md-4">
 	                               		    <div class="form-group">
-												<p:outputLabel for="idTipo" value="Tipo Docente:" styleClass="control-label" />
-										        <h:selectOneMenu id="idTipo" value="#{docenteMB.tipoDocente}" styleClass="form-control">
-													<f:selectItems itemLabel="#{tipo.tipo}" itemValue="#{tipo.idTipoDocente}" var="tipo" 
-													               value="#{docenteMB.getTipoDocentes()}" />
-										        </h:selectOneMenu>
+												<div class="form-group">
+													<h:outputLabel value="Tipo docente:" for="idTipo" styleClass="control-label" />
+											        <div class="input-group">
+														<span class="input-group-addon">
+															<span class="glyphicon glyphicon-tag"></span>
+														</span>
+												        <h:selectOneMenu id="idTipo" value="#{docenteMB.tipoDocente.idTipoDocente}" styleClass="form-control"
+												                         >
+															<f:selectItems itemLabel="#{tipo.tipo}" itemValue="#{tipo.idTipoDocente}" var="tipo" 
+															               value="#{docenteMB.getTipoDocentes()}" />
+												        </h:selectOneMenu>
+												     </div>
+											  </div>
+									        </div>
+								        </div>		
+								        <div class="col-md-4">
+	                               		    <div class="form-group">
+												<div class="form-group">
+													<h:outputLabel value="Curso:" for="idCurso" styleClass="control-label" />
+											        <div class="input-group">
+														<span class="input-group-addon">
+															<span class="glyphicon glyphicon-tag"></span>
+														</span>
+												        <h:selectOneMenu id="idCurso" value="#{docenteMB.curso.idCurso}" styleClass="form-control"
+												                         >
+															<f:selectItems itemLabel="#{c.nome}" itemValue="#{c.idCurso}" var="c" 
+															               value="#{docenteMB.getCursos()}" />
+												        </h:selectOneMenu>
+												     </div>
+											  </div>
 									        </div>
 								        </div>							
 									</div>
 									<div class = "row">
 										<div class="col-md-4">
-										    <p:outputLabel for="idEstado" value="Estado" styleClass="control-label"/>
-											<h:inputText value="#{enderecoMB.endereco.estado}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idEstado"/>
+										    <div class="form-group">
+													<h:outputLabel value="Estado:" for="idEstado" styleClass="control-label" />
+											        <div class="input-group">
+														<span class="input-group-addon">
+															<span class="glyphicon glyphicon-tag"></span>
+														</span>
+														<h:inputText value="#{docenteMB.endereco.estado}" 
+															         class= "form-control" 
+															         maxlength="10"
+															         id="idEstado"/>
+													 </div>
+											</div>
 										</div>
 										<div class="col-md-4">
-										    <p:outputLabel for="idCidade" value="Cidade:" styleClass="control-label"/>
-											<h:inputText value="#{enderecoMB.endereco.cidade}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idCidade"/>
+										     <div class="form-group">
+												  <h:outputLabel value="Cidade:" for="idCidade" styleClass="control-label" />
+											      <div class="input-group">
+													   <span class="input-group-addon">
+														   <span class="glyphicon glyphicon-tag"></span>
+													   </span>
+														<h:inputText value="#{docenteMB.endereco.cidade}" 
+															         class= "form-control" 
+															         maxlength="10"
+															         id="idCidade"/>
+													</div>
+												</div>
 										</div>
 										<div class="col-md-4">
-										    <p:outputLabel for="idBairro" value="Bairro:" styleClass="control-label"/>
-											<h:inputText value="#{enderecoMB.endereco.bairro}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idBairro"/>
+										    <div class="form-group">
+												  <h:outputLabel value="Bairro:" for="idBairro" styleClass="control-label" />
+											      <div class="input-group">
+													   <span class="input-group-addon">
+														   <span class="glyphicon glyphicon-tag"></span>
+													   </span>
+													   <h:inputText value="#{docenteMB.endereco.bairro}" 
+															        class= "form-control" 
+															        maxlength="10"
+															        id="idBairro"/>
+												  </div>
+											</div>
 										</div>
 									</div>
 									
 									<div class = "row">
 										<div class="col-md-4">
-										    <p:outputLabel for="idEndRua" value="Rua:" styleClass="control-label"/>
-											<h:inputText value="#{enderecoMB.endereco.rua}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idEndRua"/>
+										    <div class="form-group">
+												  <h:outputLabel value="Rua: " for="idEndRua" styleClass="control-label" />
+											      <div class="input-group">
+													   <span class="input-group-addon">
+														   <span class="glyphicon glyphicon-tag"></span>
+													   </span>
+														<h:inputText value="#{docenteMB.endereco.rua}" 
+															         class= "form-control" 
+															         maxlength="10"
+															         id="idEndRua"/>
+													</div>
+											  </div>
 										</div>
 										<div class="col-md-4">
-										    <p:outputLabel for="idEndCompl" value="Complemento:" styleClass="control-label"/>
-											<h:inputText value="#{enderecoMB.endereco.complemento}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idEndCompl"/>
+										    <div class="form-group">
+												  <h:outputLabel value="Complemento: " for="idEndCompl" styleClass="control-label" />
+											      <div class="input-group">
+													   <span class="input-group-addon">
+														   <span class="glyphicon glyphicon-tag"></span>
+													   </span>
+														<h:inputText value="#{docenteMB.endereco.complemento}" 
+															         class= "form-control" 
+															         maxlength="10"
+															         id="idEndCompl"/>
+												  </div>
+											</div>
 										</div>
 										<div class="col-md-4">
-										    <p:outputLabel for="idEndNum" value="Número" styleClass="control-label"/>
-											<h:inputText value="#{enderecoMB.endereco.numero}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idEndNum"/>
+										    <div class="form-group">
+												  <h:outputLabel value="Número: " for="idEndNum" styleClass="control-label" />
+											      <div class="input-group">
+													   <span class="input-group-addon">
+														   <span class="glyphicon glyphicon-tag"></span>
+													   </span>
+														<h:inputText value="#{docenteMB.endereco.numero}" 
+															         class= "form-control" maxlength="10" id="idEndNum"/>
+												  </div>
+											</div>
 										</div>
 									</div>
-									
 		                            <br/>
 		                            <div class="form-group">
-											<p:commandButton value="Cadastrar" 
-											                 class="btn-primary btn-md" 
-											                 action="#{docenteMB.cadastrar()}" 
-											                 update="@form"
-											                 styleClass="btn btn-primary" />
+											<p:commandButton value="Cadastrar" class="btn-primary btn-md" 
+											                 action="#{docenteMB.cadastrar()}" update="@form" styleClass="btn btn-primary" />
 		
-											<p:commandButton value="Limpar" 
-											                 title="Limpar"
-											                 class="btn btn-primary-cinza"
-												             actionListener="#{docenteMB.limpar()}" 
-												             update="@form"
-												             styleClass="btn btn-primary"/>
+											<p:commandButton value="Limpar" title="Limpar" class="btn btn-primary-cinza"
+												             actionListener="#{docenteMB.limpar()}" update="@form"/>
 									</div>
-									<br />
-									<br /> 
-									<br />
-                                   
+									<br /><br /><br />
 								</div>	
 							</div>
+							</p:panel>
+							<p:panel rendered="#{docenteMB.acaoEnum.getCodigo() == 3}">
+								 <div class="panel panel-default" >
+					
+							 	     <div class="panel-body">
+							 	   		<p:dataTable id="tabelaCurso" var="item" value="#{docenteMB.docentes}" 
+								                     styleClass="table table-striped table-bordered table-hover" paginator="true" 
+							                         rowsPerPageTemplate="10,20,30" currentPageReportTemplate="{startRecord} de {endRecord}"
+							                         paginatorPosition="bottom" emptyMessage="Não foram encontrados registros"
+							                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+						 
+										       <p:column headerText="Código">
+									               <h:outputText value="#{item.idDocente}" title="#{item.idDocente}" />
+										       </p:column>
+										       <p:column headerText="Matricula">
+									               <h:outputText value="#{item.matricula}" title="#{item.matricula}" />
+										       </p:column>
+										       <p:column headerText="Nome">
+									               <h:outputText value="#{item.nome}" title="#{item.nome}" />
+										       </p:column>
+										       <p:column headerText="Código">
+									               <h:outputText value="#{item.email}" title="#{item.email}" />
+										       </p:column>
+										       <p:column headerText="Ramal">
+									               <h:outputText value="#{item.ramal}" title="#{item.ramal}" />
+										       </p:column>
+										       <p:column headerText="Ativo">
+									               <h:outputText value="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}" title="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}" />
+										       </p:column>
+												<p:column headerText="Ação" style="width:12%;text-align:center;">
+													 <p:commandLink action="#{docenteMB.prepararEdicao(item)}" 
+														           update="@form">
+														   <span class="glyphicon glyphicon-pencil" />
+													 </p:commandLink>
+													 <p:commandLink action="#{docenteMB.visualizar(item)}" 
+														           update="@form">
+														   <span class="glyphicon glyphicon-search" />
+													 </p:commandLink>
+													<p:commandLink action="#{docenteMB.excluir(item)}" 
+														           update="@form">
+														   <span class="glyphicon glyphicon-trash" />
+													 </p:commandLink>
+											    </p:column>
+											    	
+											</p:dataTable>
+							 	   </div>
+							 </div>
+						</p:panel>	
 						</div>
 					</div>
 		    </h:form>

@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import br.ucb.dao.CursoDao;
 import br.ucb.dao.impl.CursoDaoImpl;
 import br.ucb.entity.Curso;
+import br.ucb.util.StringUtil;
 
 @ManagedBean(name = "cursoMB")
 @ViewScoped
@@ -27,15 +28,29 @@ public class CursoMB extends BaseMB {
 	}
 
 	public void cadastrar() {
-		this.cursoDao.save(this.curso);
+		if(StringUtil.isNotNullIsNotEmpty(this.curso.getNome())){
+			this.cursoDao.save(this.curso);
+			setMessageSuccess("Cadastrado com sucesso!");
+			limpar();
+		}else{
+			setMessageError("Informe o nome do curso");
+		}
 	}
 
 	public void editar(Curso curso) {
-		this.cursoDao.update(curso);
+		if(StringUtil.isNotNullIsNotEmpty(curso.getNome())){
+			this.cursoDao.update(curso);
+			setMessageSuccess("Alterado com sucesso!");
+			limpar();
+		}else{
+		    setMessageError("Informe o nome do curso!");
+		}
 	}
 
 	public void excluir(Curso curso) {
 		this.cursoDao.remove(curso);
+		setMessageSuccess("Excluido com sucesso!");
+		limpar();
 	}
 
 	public void buscar() {

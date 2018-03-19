@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import br.ucb.dao.TipoProducaoDao;
 import br.ucb.dao.impl.TipoProducaoDaoImpl;
 import br.ucb.entity.TipoProducao;
+import br.ucb.util.StringUtil;
 
 @ManagedBean(name = "tipoProducaoMB")
 @ViewScoped
@@ -28,15 +29,29 @@ public class TipoProducaoMB extends BaseMB {
 	}
 
 	public void cadastrar() {
-		this.tipoProducaoDao.save(this.tipoProducao);
+		if(StringUtil.isNotNullIsNotEmpty(this.tipoProducao.getDescricao()) && StringUtil.isNotNullIsNotEmpty(this.tipoProducao.getTipo())){
+			this.tipoProducaoDao.save(this.tipoProducao);
+			setMessageSuccess("Cadastrado com sucesso!");
+			limpar();
+		}else{
+			setMessageError("Informe os todos os campos!");
+		}
 	}
 
 	public void editar(TipoProducao tipo) {
-		this.tipoProducaoDao.update(tipo);
+		if(StringUtil.isNotNullIsNotEmpty(tipo.getDescricao()) && StringUtil.isNotNullIsNotEmpty(tipo.getTipo())){
+			this.tipoProducaoDao.update(tipo);
+			setMessageSuccess("Editado com sucesso!");
+			limpar();
+		}else{
+			setMessageError("Informe todos os campos!");
+		}
 	}
 
 	public void excluir(TipoProducao tipo) {
 		this.tipoProducaoDao.remove(tipo);
+		setMessageSuccess("Excluído com sucesso!");
+		limpar();
 	}
 	
 	public void buscar(){
