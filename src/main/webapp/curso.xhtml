@@ -26,8 +26,13 @@
 								    <div class="row">
 								        <div class="col-md-8">
 											<div class="form-group">
-											    <h:outputLabel value="Curso: " class="control-label" />
-												<h:inputText id="name" name="name" value="#{cursoMB.curso.nome}" type="text" placeholder="Curso" class="form-control" />
+												<h:outputLabel value="Nome:" styleClass="control-label"></h:outputLabel>
+										        <div class="input-group">
+													<span class="input-group-addon">
+														<span class="glyphicon glyphicon-tag"></span>
+													</span>
+													<h:inputText id="name" name="name" value="#{cursoMB.curso.nome}" type="text" placeholder="Curso" class="form-control" />
+												</div>
 											</div>
 										</div>
 									</div>
