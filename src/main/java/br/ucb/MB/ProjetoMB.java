@@ -131,14 +131,19 @@ public class ProjetoMB extends BaseMB{
 
 	public void buscar() {
 
-		if (this.projeto.getDescricao() != null) {
-			if (!this.projeto.getDescricao().isEmpty()) {
-				this.projetos = this.projetoDao.findByDescricao(this.projeto.getDescricao());
-				this.linhasPesquisa = this.linhaPesquisaDao.list();
-			} else if (this.projeto.getDescricao().isEmpty()) {
+		if (this.projeto != null) {
+			if (this.projeto.getDescricao().trim().isEmpty() 
+					&& this.projeto.getNome().trim().isEmpty()
+					&& this.projeto.getOrgaoFinanciador().trim().isEmpty()
+					&& this.projeto.getDadosOficiais().trim().isEmpty()
+					&& this.projeto.getLinhaPesquisa() == null
+					&& this.projeto.getTipoProjeto() == null) {
 				this.projetos = this.projetoDao.list();
 				this.linhasPesquisa = this.linhaPesquisaDao.list();
-				this.tiposProjeto = this.tipoProjetoDao.list();
+				this.tiposProjeto = this.tipoProjetoDao.list();		
+			} else {
+				this.projetos = this.projetoDao.findBySearch(this.projeto);
+				this.linhasPesquisa = this.linhaPesquisaDao.list();
 			}
 		}
 

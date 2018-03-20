@@ -1,6 +1,7 @@
 package br.ucb.MB;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -41,7 +42,8 @@ public class AlunoMB extends BaseMB {
 	private StatusAlunoDao statusAlunoDao;
 	private List<Endereco> enderecos;
 	private EnderecoDao enderecoDao;
-
+	private Endereco endereco;
+	
 	@PostConstruct
 	public void init() {
 		this.alunos = new ArrayList<Aluno>();
@@ -50,8 +52,8 @@ public class AlunoMB extends BaseMB {
 		this.aluno.setTelefoneFixo("");
 		this.aluno.setSexo('\0');
 		this.aluno.setCelular("");
+		this.aluno.setMatricula("");
 		this.aluno.setDataCadastro(null);
-		this.aluno.setMatricula(null);
 		this.aluno.setDataNascimento(null);
 		this.aluno.setEndereco(null);
 		this.aluno.setCurso(null);
@@ -62,6 +64,7 @@ public class AlunoMB extends BaseMB {
 		this.editavel = new Aluno();
 		this.enderecos = new ArrayList<Endereco>();
 		this.enderecoDao = new EnderecoDaoImpl();
+		this.endereco = new Endereco();
 		buscar();
 	}
 
@@ -69,16 +72,26 @@ public class AlunoMB extends BaseMB {
 		if (this.aluno.getNome() != null && !this.aluno.getNome().trim().isEmpty()
 				&& this.aluno.getTelefoneFixo() != null && !this.aluno.getTelefoneFixo().trim().isEmpty()
 				&& this.aluno.getSexo() != '\0' && this.aluno.getCelular() != null
-				&& !this.aluno.getCelular().trim().isEmpty() && this.aluno.getDataCadastro() != null
+				&& !this.aluno.getCelular().trim().isEmpty()
 				&& this.aluno.getMatricula() != null && !this.aluno.getMatricula().trim().isEmpty()
 				&& this.aluno.getDataNascimento() != null && this.aluno.getCurso() != null
-				&& this.aluno.getStatusAluno() != null && this.aluno.getEndereco() != null) {
+				&& this.aluno.getStatusAluno() != null
+				&& this.endereco.getBairro() != null && !this.endereco.getBairro().trim().isEmpty()
+				&& this.endereco.getCidade() != null && !this.endereco.getCidade().trim().isEmpty()
+				&& this.endereco.getEstado() != null && !this.endereco.getEstado().trim().isEmpty()
+				&& this.endereco.getComplemento() != null && !this.endereco.getComplemento().trim().isEmpty()
+				&& this.endereco.getNumero() != null
+				&& this.endereco.getRua() != null && !this.endereco.getRua().trim().isEmpty()) {
+			
 			if (this.alunos.contains(this.aluno)) {
 				msg = "Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.";
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
 			} else {
 				montarAluno();
+				this.enderecoDao.save(this.endereco);
+				this.endereco = this.enderecoDao.find(this.endereco);
+				this.aluno.setEndereco(this.endereco);
 				this.alunoDao.save(this.aluno);
 				msg = "Cadastrado com sucesso.";
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -105,7 +118,8 @@ public class AlunoMB extends BaseMB {
 		aluno.setDataNascimento(this.aluno.getDataNascimento());
 		aluno.setCurso(this.aluno.getCurso());
 		aluno.setStatusAluno(this.aluno.getStatusAluno());
-		aluno.setEndereco(this.aluno.getEndereco());
+		aluno.setDataCadastro(new Date()) ;
+		
 	}
 
 	public void excluir(Aluno aluno) {
@@ -150,14 +164,22 @@ public class AlunoMB extends BaseMB {
 
 	public void buscar() {
 
-		if (this.aluno.getNome() != null) {
-			if (!this.aluno.getNome().isEmpty()) {
-				this.alunos = this.alunoDao.findByNome(this.aluno.getNome());
+		if (this.aluno != null) {
+			if (this.aluno.getNome().trim().isEmpty()
+					&& this.aluno.getCelular().trim().isEmpty()
+					&& this.aluno.getCurso() == null
+					&& this.aluno.getDataNascimento() == null
+					&& this.aluno.getMatricula().trim().isEmpty()
+					&& this.aluno.getSexo() == '\0'
+					&& this.aluno.getStatusAluno() == null
+					&& this.aluno.getTelefoneFixo().trim().isEmpty()) {
+				
+				this.alunos = this.alunoDao.list();
 				this.enderecos = this.enderecoDao.list();
 				this.cursos = this.cursoDao.list();
 				this.variosStatus = this.statusAlunoDao.list();
-			} else if (this.aluno.getNome().isEmpty()) {
-				this.alunos = this.alunoDao.list();
+			} else {
+				this.alunos = this.alunoDao.findBySearch(this.aluno);
 				this.enderecos = this.enderecoDao.list();
 				this.cursos = this.cursoDao.list();
 				this.variosStatus = this.statusAlunoDao.list();
@@ -245,6 +267,38 @@ public class AlunoMB extends BaseMB {
 
 	public void setCursos(List<Curso> cursos) {
 		this.cursos = cursos;
+	}
+	
+	public CursoDao getCursoDao() {
+		return cursoDao;
+	}
+
+	public void setCursoDao(CursoDao cursoDao) {
+		this.cursoDao = cursoDao;
+	}
+
+	public StatusAlunoDao getStatusAlunoDao() {
+		return statusAlunoDao;
+	}
+
+	public void setStatusAlunoDao(StatusAlunoDao statusAlunoDao) {
+		this.statusAlunoDao = statusAlunoDao;
+	}
+
+	public List<Endereco> getEnderecos() {
+		return enderecos;
+	}
+
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 }

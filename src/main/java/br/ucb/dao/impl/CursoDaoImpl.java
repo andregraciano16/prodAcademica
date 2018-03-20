@@ -13,7 +13,7 @@ public class CursoDaoImpl extends DaoGenericoImpl<Curso, Integer> implements Cur
 		Query query = getManager().createQuery(" from Curso st  WHERE st.idCurso like ?1 ");
 		query.setParameter(1,id);
 		
-		return (Curso) query.getResultList().get(0);
+		return (Curso) query.getSingleResult();
 	}
 
 }

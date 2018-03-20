@@ -13,7 +13,7 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		Query query = getManager().createQuery(" from ProducaoAcademica st  WHERE st.idProducaoAcademica like ?1 ");
 		query.setParameter(1,id);
 		
-		return (ProducaoAcademica) query.getResultList().get(0);
+		return (ProducaoAcademica) query.getSingleResult();
 	}
 
 }

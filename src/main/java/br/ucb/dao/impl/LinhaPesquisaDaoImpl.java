@@ -25,7 +25,7 @@ public class LinhaPesquisaDaoImpl extends DaoGenericoImpl<LinhaPesquisa, Integer
 		Query query = getManager().createQuery(" from LinhaPesquisa lp  WHERE lp.idLinhaPesquisa like ?1 ");
 		query.setParameter(1,id);
 		
-		return (LinhaPesquisa) query.getResultList().get(0);
+		return (LinhaPesquisa) query.getSingleResult();
 	}
 	
 }

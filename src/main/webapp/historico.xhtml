@@ -36,8 +36,11 @@
 									 				styleClass="control-label" />
 								<br/>	 				
 									 				
-									 <p:calendar id="idDataAlt" 
-									 			 value="#{historicoMB.historico.dataAlteracao}"/>
+									 <h:inputText id="idDataAlt" 
+									        			 value="#{historicoMB.historico.dataAlteracao}"
+									        			 class= "form-control">
+									        	<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"/>
+									 </h:inputText>
 										
 										
 								</div>
@@ -224,13 +227,17 @@
 											<p:cellEditor>
 											
 												<f:facet name="output">
-													<h:outputText value="#{item.dataAlteracao}" />
+													<h:outputText value="#{item.dataAlteracao}" >
+														<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"/>
+													</h:outputText>
 												</f:facet>
 											
 												<f:facet name="input">
-													<p:calendar id="idDataAlt" 
-									 			 				value="#{historicoMB.historico.dataAlteracao}" 
-									 			 				styleClass="form-control" />
+													<h:inputText id="idDataAlt" 
+									        			 value="#{historicoMB.editavel.dataAlteracao}"
+									        			 class= "form-control">
+									        			<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"></f:convertDateTime>
+									 				</h:inputText>
 												</f:facet>
 											
 											</p:cellEditor>
@@ -343,7 +350,7 @@
 										
 											<p:rowEditor/>
 											&nbsp;
-											<p:commandLink action="#{statusAlunoMB.excluir(item)}"  update="@form">
+											<p:commandLink action="#{historicoMB.excluir(item)}"  update="@form">
 												   <span class="glyphicon glyphicon-trash" />
 											 
 														   	 

@@ -13,7 +13,7 @@ public class EnderecoDaoImpl extends DaoGenericoImpl<Endereco, Integer> implemen
 		Query query = getManager().createQuery(" from Endereco st  WHERE st.idEndereco like ?1 ");
 		query.setParameter(1,id);
 		
-		return (Endereco) query.getResultList().get(0);
+		return (Endereco) query.getSingleResult();
 	}
 	
 	@Override

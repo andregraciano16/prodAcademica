@@ -136,11 +136,18 @@ public class HistoricoMB extends BaseMB {
 
 	public void buscar() {
 
-		if (this.historico.getDataAlteracao() != null) {
-			this.historicos = this.historicoDao.findByData(this.historico.getDataAlteracao());
+		if (this.historico.getDataAlteracao() == null
+				&& this.historico.getAluno() == null
+				&& this.historico.getDocente() == null
+				&& this.historico.getProducaoAcademica() == null
+				&& this.historico.getProjeto() == null) {
+			this.historicos = this.historicoDao.list();
+			this.alunos = this.alunoDao.list();
+			this.docentes = this.docenteDao.list();
+			this.producoes = this.producaoAcademicaDao.list();
 			this.projetos = this.projetoDao.list();
 		} else {
-			this.historicos = this.historicoDao.list();
+			this.historicos = this.historicoDao.findBySearch(this.historico);
 			this.alunos = this.alunoDao.list();
 			this.docentes = this.docenteDao.list();
 			this.producoes = this.producaoAcademicaDao.list();

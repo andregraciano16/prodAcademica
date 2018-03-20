@@ -6,7 +6,10 @@ import br.ucb.entity.Aluno;
 
 public interface AlunoDao extends DaoGenerico<Aluno, Integer>{
 
-	List<Aluno> findByNome(String nome);
+
+	Aluno findById(Integer integer);
+
+	List<Aluno> findBySearch(Aluno aluno);
 
 
 

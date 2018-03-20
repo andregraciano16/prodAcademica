@@ -110,11 +110,11 @@ public class MateriaMB extends BaseMB{
 	public void buscar() {
 
 		if (this.materia.getDescricao() != null) {
-			if (!this.materia.getDescricao().isEmpty()) {
-				this.materias = this.materiaDao.findByDescricao(this.materia.getDescricao());
-				this.linhasPesquisa = this.linhaPesquisaDao.list();
-			} else if (this.materia.getDescricao().isEmpty()) {
+			if (this.materia.getDescricao().isEmpty() && this.materia.getLinhaPesquisa() == null) {
 				this.materias = this.materiaDao.list();
+				this.linhasPesquisa = this.linhaPesquisaDao.list();
+			} else {
+				this.materias = this.materiaDao.findBySearch(this.materia);
 				this.linhasPesquisa = this.linhaPesquisaDao.list();
 			}
 		}

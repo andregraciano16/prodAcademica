@@ -5,6 +5,9 @@
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:p="http://primefaces.org/ui">
+				
+				
+				
 	<ui:define name="Conteudo">
 			<h:form id="idFormulario">
 			         
@@ -20,8 +23,10 @@
 							</div>
 							<div class="panel-body">
 														
-								<p:messages id="message" globalOnly="true" closable="true" />
-									
+								<p:messages id="message" globalOnly="true" closable="true"/>
+								<h:messages showSummary="false" showDetail="true"
+											styleClass="form-messages" errorClass="error"
+											infoClass="info" id="msgInfo" />
 									
 								  <div class="row">
 									   <div class="col-md-4">
@@ -68,13 +73,17 @@
 											
 								        <div class="col-md-4"> 	
 									        <p:outputLabel for="idDataNasc" value="Data Nascimento: " styleClass="control-label" />
-									        <p:calendar id="idDataNasc" value="#{alunoMB.aluno.dataNascimento}" styleClass="form-control" />
+									        <h:inputText id="idDataNasc" 
+									        			 value="#{alunoMB.aluno.dataNascimento}"
+									        			 class= "form-control">
+									        	<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"></f:convertDateTime>
+									        </h:inputText>
 								        </div>
 								        
 								        <div class="col-md-4">
 	                               		    <div class="form-group">
 												<p:outputLabel for="idStatusAluno" value="Status do aluno:" styleClass="control-label" />
-										        <h:selectOneMenu value="#{alunoMB.editavel.statusAluno}"
+										        <h:selectOneMenu value="#{alunoMB.aluno.statusAluno}"
 														id="idStatusAluno"
 														styleClass="form-control">
 														<f:selectItem  itemLabel="--Selecione--" itemValue=""/>
@@ -82,29 +91,41 @@
 															var="linhaSA" itemValue="#{linhaSA}"
 															itemLabel="#{linhaSA.descricao}" />
 													</h:selectOneMenu>
-										        
 									        </div>
-								        </div>				
+								        </div>
+								        
+								        <div class="col-md-4">
+	                               		    <div class="form-group">
+												<p:outputLabel for="idCurso" value="Curso:" styleClass="control-label" />
+										        <h:selectOneMenu value="#{alunoMB.aluno.curso}"
+														id="idCurso"
+														styleClass="form-control">
+														<f:selectItem  itemLabel="--Selecione--" itemValue=""/>
+														<f:selectItems value="#{alunoMB.cursos}"
+															var="linhaC" itemValue="#{linhaC}"
+															itemLabel="#{linhaC.nome}" />
+													</h:selectOneMenu>		
+											</div>	</div>	
 									</div>
 									
 									<div class = "row">
 										<div class="col-md-4">
 										    <p:outputLabel for="idEstado" value="Estado" styleClass="control-label"/>
-											<h:inputText value="#{enderecoMB.endereco.estado}" 
+											<h:inputText value="#{alunoMB.endereco.estado}" 
 												         class= "form-control" 
 												         maxlength="10"
 												         id="idEstado"/>
 										</div>
 										<div class="col-md-4">
 										    <p:outputLabel for="idCidade" value="Cidade:" styleClass="control-label"/>
-											<h:inputText value="#{enderecoMB.endereco.cidade}" 
+											<h:inputText value="#{alunoMB.endereco.cidade}" 
 												         class= "form-control" 
 												         maxlength="10"
 												         id="idCidade"/>
 										</div>
 										<div class="col-md-4">
 										    <p:outputLabel for="idBairro" value="Bairro:" styleClass="control-label"/>
-											<h:inputText value="#{enderecoMB.endereco.bairro}" 
+											<h:inputText value="#{alunoMB.endereco.bairro}" 
 												         class= "form-control" 
 												         maxlength="10"
 												         id="idBairro"/>
@@ -114,21 +135,21 @@
 									<div class = "row">
 										<div class="col-md-4">
 										    <p:outputLabel for="idEndRua" value="Rua:" styleClass="control-label"/>
-											<h:inputText value="#{enderecoMB.endereco.rua}" 
+											<h:inputText value="#{alunoMB.endereco.rua}" 
 												         class= "form-control" 
 												         maxlength="10"
 												         id="idEndRua"/>
 										</div>
 										<div class="col-md-4">
 										    <p:outputLabel for="idEndCompl" value="Complemento:" styleClass="control-label"/>
-											<h:inputText value="#{enderecoMB.endereco.complemento}" 
+											<h:inputText value="#{alunoMB.endereco.complemento}" 
 												         class= "form-control" 
 												         maxlength="10"
 												         id="idEndCompl"/>
 										</div>
 										<div class="col-md-4">
 										    <p:outputLabel for="idEndNum" value="Número" styleClass="control-label"/>
-											<h:inputText value="#{enderecoMB.endereco.numero}" 
+											<h:inputText value="#{alunoMB.endereco.numero}" 
 												         class= "form-control" 
 												         maxlength="10"
 												         id="idEndNum"/>
@@ -140,21 +161,21 @@
 
 								<p:commandButton value="Cadastrar" 
 											     class="btn-primary btn-md" 
-											     action="#{historicoMB.cadastrar(historicoMB.historico)}" 
+											     action="#{alunoMB.cadastrar(alunoMB.aluno)}" 
 											     update="@form"
 											     styleClass="btn btn-primary" 
 											     id="btnCadastrar"/>
 								&nbsp;&nbsp;			     
 								<p:commandButton value="Pesquisar" 
 											     title="Pesquisar"
-												 actionListener="#{historicoMB.buscar}" 
+												 actionListener="#{alunoMB.buscar}" 
 												 update="@form"
 												 styleClass="btn btn-default"
 												 id="btnPesquisar"/>
 								&nbsp;&nbsp;
 								<p:commandButton value="Limpar" 
 											     title="Limpar"
-												 actionListener="#{historicoMB.limpar}" 
+												 actionListener="#{alunoMB.limpar}" 
 												 update="@form"
 												 styleClass="btn btn-primary"
 												 id="btnLimpar"/>
@@ -192,7 +213,8 @@
 
 												<f:facet name="input">
 													<h:inputText value="#{alunoMB.editavel.matricula}"
-														validatorMessage="A matricula não pode ser maior que 11 caracteres.">
+																 class= "form-control"
+																 validatorMessage="A matricula não pode ser maior que 11 caracteres.">
 														<f:validateLength maximum="11" />
 													</h:inputText>
 												</f:facet>
@@ -211,9 +233,8 @@
 
 												<f:facet name="input">
 													<h:inputText value="#{alunoMB.editavel.nome}"
-														required="true"
-														requiredMessage=" O campo nome é necessário."
-														validatorMessage="A nome não pode ser maior que 200 caracteres.">
+																 class= "form-control"
+																 validatorMessage="A nome não pode ser maior que 200 caracteres.">
 														<f:validateLength maximum="200" />
 													</h:inputText>
 												</f:facet>
@@ -232,7 +253,8 @@
 
 												<f:facet name="input">
 													<h:inputText value="#{alunoMB.editavel.telefoneFixo}"
-														validatorMessage="O telefone não pode ser maior que 10 caracteres.">
+																 class= "form-control"
+																 validatorMessage="O telefone não pode ser maior que 10 caracteres.">
 														<f:validateLength maximum="10" />
 													</h:inputText>
 												</f:facet>
@@ -251,7 +273,8 @@
 
 												<f:facet name="input">
 													<h:inputText value="#{alunoMB.editavel.celular}"
-														validatorMessage="O celular não pode ser maior que 11 caracteres.">
+																 class= "form-control"
+																 validatorMessage="O celular não pode ser maior que 11 caracteres.">
 														<f:validateLength maximum="11" />
 													</h:inputText>
 												</f:facet>
@@ -260,7 +283,7 @@
 
 										</p:column>
 										
-										<p:column headerText="Celular">
+										<p:column headerText="Sexo">
 
 											<p:cellEditor>
 
@@ -269,11 +292,10 @@
 												</f:facet>
 
 												<f:facet name="input">
-													<p:selectOneRadio value="#{alunoMB.aluno.sexo}"
-													id="rdEditSexo">
-   														<f:selectItem itemValue="M" itemLabel="Masculino" />
-   														<f:selectItem itemValue="F" itemLabel="Feminino" />
-												</p:selectOneRadio>
+													<h:selectOneMenu id="idSelSex"  value="#{alunoMB.aluno.sexo}" styleClass="form-control">
+										           		<f:selectItem itemLabel="Masculino" itemValue="M" />
+										          	 	<f:selectItem itemLabel="Feminino" itemValue="F" />
+										       		</h:selectOneMenu>
 												</f:facet>
 
 											</p:cellEditor>
@@ -285,13 +307,17 @@
 											<p:cellEditor>
 
 												<f:facet name="output">
-													<h:outputText value="#{item.dataNascimento}" />
+													<h:outputText value="#{item.dataNascimento}">
+														<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"/>
+													</h:outputText>
 												</f:facet>
 
 												<f:facet name="input">
-													<p:calendar id="idDataAlt" 
-									 			 				value="#{alunoMB.editavel.dataNascimento}" 
-									 			 				styleClass="form-control" />
+													<h:inputText id="idDataNasc" 
+									        			 		 value="#{alunoMB.editavel.dataNascimento}"
+									        			 		 class= "form-control">
+									        			<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"></f:convertDateTime>
+									        		</h:inputText>
 												</f:facet>
 
 											</p:cellEditor>
@@ -303,11 +329,15 @@
 											<p:cellEditor>
 
 												<f:facet name="output">
-													<h:outputText value="#{item.dataCadastro}" />
+													<h:outputText value="#{item.dataCadastro}" >
+														<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"/>
+													</h:outputText>
 												</f:facet>
 
 												<f:facet name="input">
-													<h:outputText value="#{item.dataCadastro}" />
+													<h:outputText value="#{item.dataCadastro}" >
+														<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"/>
+													</h:outputText>
 												</f:facet>
 
 											</p:cellEditor>
@@ -323,9 +353,7 @@
 												</f:facet>
 
 												<f:facet name="input">
-													<p:selectOneMenu>
 													<h:commandLink value="Clique para editar..." />						
-													</p:selectOneMenu>
 												</f:facet>
 
 											</p:cellEditor>
@@ -341,13 +369,14 @@
 												</f:facet>
 
 												<f:facet name="input">
-													<p:selectOneMenu
+													<h:selectOneMenu
 														value="#{alunoMB.editavel.curso}"
-														id="dropCursosEdit">
-														<f:selectItems value="#{alunoMB.corsos}"
+														id="dropCursosEdit"
+														class= "form-control">
+														<f:selectItems value="#{alunoMB.cursos}"
 															var="linhaC" itemValue="#{linhaC}"
 															itemLabel="#{linhaC.nome}" />
-													</p:selectOneMenu>
+													</h:selectOneMenu>
 												</f:facet>
 
 											</p:cellEditor>
@@ -363,13 +392,14 @@
 												</f:facet>
 
 												<f:facet name="input">
-													<p:selectOneMenu
+													<h:selectOneMenu
 														value="#{alunoMB.editavel.statusAluno}"
-														id="dropStatusAlunoEdit">
+														id="dropStatusAlunoEdit"
+														class= "form-control">
 														<f:selectItems value="#{alunoMB.variosStatus}"
 															var="linhaSA" itemValue="#{linhaSA}"
 															itemLabel="#{linhaSA.descricao}" />
-													</p:selectOneMenu>
+													</h:selectOneMenu>
 												</f:facet>
 
 											</p:cellEditor>
@@ -382,7 +412,7 @@
 										
 											<p:rowEditor/>
 											&nbsp;
-											<p:commandLink action="#{statusAlunoMB.excluir(item)}"  update="@form">
+											<p:commandLink action="#{alunoMB.excluir(item)}"  update="@form">
 												   <span class="glyphicon glyphicon-trash" />
 											 
 														   	 
@@ -401,11 +431,11 @@
 										<p:commandButton value="Não" type="button"
 											icon="ui-icon-close" styleClass="ui-confirmdialog-no" />
 									</p:confirmDialog>
-                                   
 								</div>	
 							</div>
 						</div>
 					</div>
 		    </h:form>
 	</ui:define>
+
 </ui:composition>

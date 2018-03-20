@@ -5,27 +5,17 @@ import java.util.List;
 import javax.persistence.Query;
 
 import br.ucb.dao.MateriaDao;
+import br.ucb.entity.LinhaPesquisa;
 import br.ucb.entity.Materia;
 
 
 public class MateriaDaoImpl extends DaoGenericoImpl<Materia, Integer> implements MateriaDao{
-
-	@Override
-	public List<Materia> findByDescricao(String descricao) {
-		Query query = getManager().createQuery(" From Materia m  WHERE m.descricao like ?1 ");
-		query.setParameter(1, "%"+ descricao + "%");
-		
-		return query.getResultList();
-
-	}
-
 	
-	/*
 	
-	public List<Materia> findByDescricaoAndLinhaPesquisa(String descricao, LinhaPesquisa linhaPesquisa) {
-		String where = montarWhere(descricao, linhaPesquisa);
+	public List<Materia> findBySearch(Materia materia) {
+		String where = montarWhere(materia.getDescricao(), materia.getLinhaPesquisa());
 		Query query = getManager().createQuery(" From Materia m " + where);
-		montarParametrs(query, descricao, linhaPesquisa);
+		montarParametrs(query, materia.getDescricao(), materia.getLinhaPesquisa());
 		return query.getResultList();	
 	}
 	
@@ -34,7 +24,7 @@ public class MateriaDaoImpl extends DaoGenericoImpl<Materia, Integer> implements
 			query.setParameter(1, "%"+ descricao + "%");
 		}
 		if(linhaPesquisa != null){
-			query.setParameter(2, "%"+ linhaPesquisa + "%");
+			query.setParameter(2,linhaPesquisa);
 		}
 	}
 	
@@ -49,5 +39,6 @@ public class MateriaDaoImpl extends DaoGenericoImpl<Materia, Integer> implements
 		}
 		return consulta.toString();
 	}
-*/
+
+
 }

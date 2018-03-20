@@ -16,13 +16,13 @@ public class TipoProjetoDaoImpl extends DaoGenericoImpl<TipoProjeto, Integer> im
 		Query query = getManager().createQuery(" from TipoProjeto tp  WHERE tp.idTipoProjeto like ?1 ");
 		query.setParameter(1,id);
 		
-		return (TipoProjeto) query.getResultList().get(0);
+		return (TipoProjeto) query.getSingleResult();
 	}
 	
-	public List<TipoProjeto> findByDescricaoAndTipo(String tipo, String descricao) {
-		String where = montarWhere(tipo, descricao);
-		Query query = getManager().createQuery(" From TipoProjeto t " + where);
-		montarParametrs(query, tipo, descricao);
+	public List<TipoProjeto> findBySearch(TipoProjeto tipoProjeto) {
+		String where = montarWhere(tipoProjeto.getTipo(), tipoProjeto.getDescricao());
+		Query query = getManager().createQuery(" From TipoProjeto  " + where);
+		montarParametrs(query,tipoProjeto.getTipo(), tipoProjeto.getDescricao());
 		return query.getResultList();	
 	}
 	
@@ -39,10 +39,10 @@ public class TipoProjetoDaoImpl extends DaoGenericoImpl<TipoProjeto, Integer> im
 		StringBuilder consulta = new StringBuilder();
 		consulta.append(" WHERE 1=1 ");
 		if(tipo != null && !tipo.isEmpty()){
-			consulta.append(" and t.tipo like ?1 ");
+			consulta.append(" and tipo like ?1 ");
 		}
 		if(descricao != null && !descricao.isEmpty()){
-			consulta.append(" and t.descricao like ?2 ");
+			consulta.append(" and descricao like ?2 ");
 		}
 		return consulta.toString();
 	}

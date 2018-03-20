@@ -105,10 +105,10 @@ public class TipoProjetoMB extends BaseMB{
 	public void buscar() {
 
 		if (this.tipoProjeto.getDescricao() != null) {
-			if (!this.tipoProjeto.getDescricao().isEmpty()) {
-				this.tiposProjeto = this.tipoProjetoDao.findByDescricaoAndTipo(this.tipoProjeto.getDescricao(), this.tipoProjeto.getTipo());
-			} else if (this.tipoProjeto.getDescricao().isEmpty()) {
+			if (this.tipoProjeto.getDescricao().isEmpty() && this.tipoProjeto.getTipo().isEmpty()) {
 				this.tiposProjeto = this.tipoProjetoDao.list();
+			}else{
+				this.tiposProjeto = this.tipoProjetoDao.findBySearch(this.tipoProjeto);
 			}
 		}
 

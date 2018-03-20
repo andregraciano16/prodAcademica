@@ -24,7 +24,7 @@ public class StatusAlunoDaoImpl extends DaoGenericoImpl<StatusAluno, Integer> im
 		Query query = getManager().createQuery(" from StatusAluno st  WHERE st.idStatusAluno like ?1 ");
 		query.setParameter(1,id);
 		
-		return (StatusAluno) query.getResultList().get(0);
+		return (StatusAluno) query.getSingleResult();
 	}
 
 }

@@ -13,7 +13,7 @@ public class DocenteDaoImpl extends DaoGenericoImpl<Docente, Integer> implements
 		Query query = getManager().createQuery(" from Docente d  WHERE d.idDocente like ?1 ");
 		query.setParameter(1,id);
 		
-		return (Docente) query.getResultList().get(0);
+		return (Docente) query.getSingleResult();
 	}
 
 }
