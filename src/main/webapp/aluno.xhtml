@@ -1,441 +1,389 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-				template="./template.xhtml"
-				xmlns="http://www.w3.org/1999/xhtml"  
-				xmlns:h="http://java.sun.com/jsf/html"
-				xmlns:f="http://java.sun.com/jsf/core"
-				xmlns:p="http://primefaces.org/ui">
-				
-				
-				
+	template="./template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
 	<ui:define name="Conteudo">
-			<h:form id="idFormulario">
-			         
-					<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-			            <div class="col-lg-12">
-			                <div class="panel panel-default">
-			                <div class="panel-heading">
-					        <div class = "row">
-								<ol class="breadcrumb" style="color:blue;background: #30a5ff">
-									<div class="titulo-centro-grande"> Aluno </div>
-							    </ol>
-							</div>
-							</div>
-							<div class="panel-body">
-														
-								<p:messages id="message" globalOnly="true" closable="true"/>
-								<h:messages showSummary="false" showDetail="true"
-											styleClass="form-messages" errorClass="error"
-											infoClass="info" id="msgInfo" />
-									
-								  <div class="row">
-									   <div class="col-md-4">
-										    <p:outputLabel for="idMatricula" value="Matricula:" styleClass="control-label"/>
-											<h:inputText value="#{alunoMB.aluno.matricula}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idMatricula"/>
-										</div>
-										<div class="col-md-8">
-										    <p:outputLabel for="idNome" value="Nome:" styleClass="control-label"/>
-											<h:inputText value="#{alunoMB.aluno.nome}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idNome"/>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-4">
-										    <div class="form-group">
-										    <p:outputLabel for="idSelSex" value="Sexo:" styleClass="control-label"/>
-										       <h:selectOneMenu id="idSelSex"  value="#{alunoMB.aluno.sexo}" styleClass="form-control">
-										           <f:selectItem itemLabel="Masculino" itemValue="M" />
-										           <f:selectItem itemLabel="Feminino" itemValue="F" />
-										       </h:selectOneMenu>
-									        </div>
-								        </div>
-								        <div class="col-md-4">
-										    <p:outputLabel for="idCelular" value="Celular:" styleClass="control-label"/>
-											<h:inputText value="#{alunoMB.aluno.celular}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idCelular"/>
-										</div>
-										<div class="col-md-4">
-										    <p:outputLabel for="idFixo" value="Telefone Fixo:" styleClass="control-label"/>
-											<h:inputText value="#{alunoMB.aluno.telefoneFixo}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idFixo"/>
-										</div>
-									</div>
-									<div class="row">
-											
-								        <div class="col-md-4"> 	
-									        <p:outputLabel for="idDataNasc" value="Data Nascimento: " styleClass="control-label" />
-									        <h:inputText id="idDataNasc" 
-									        			 value="#{alunoMB.aluno.dataNascimento}"
-									        			 class= "form-control">
-									        	<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"></f:convertDateTime>
-									        </h:inputText>
-								        </div>
-								        
-								        <div class="col-md-4">
-	                               		    <div class="form-group">
-												<p:outputLabel for="idStatusAluno" value="Status do aluno:" styleClass="control-label" />
-										        <h:selectOneMenu value="#{alunoMB.aluno.statusAluno}"
-														id="idStatusAluno"
-														styleClass="form-control">
-														<f:selectItem  itemLabel="--Selecione--" itemValue=""/>
-														<f:selectItems value="#{alunoMB.variosStatus}"
-															var="linhaSA" itemValue="#{linhaSA}"
-															itemLabel="#{linhaSA.descricao}" />
-													</h:selectOneMenu>
-									        </div>
-								        </div>
-								        
-								        <div class="col-md-4">
-	                               		    <div class="form-group">
-												<p:outputLabel for="idCurso" value="Curso:" styleClass="control-label" />
-										        <h:selectOneMenu value="#{alunoMB.aluno.curso}"
-														id="idCurso"
-														styleClass="form-control">
-														<f:selectItem  itemLabel="--Selecione--" itemValue=""/>
-														<f:selectItems value="#{alunoMB.cursos}"
-															var="linhaC" itemValue="#{linhaC}"
-															itemLabel="#{linhaC.nome}" />
-													</h:selectOneMenu>		
-											</div>	</div>	
-									</div>
-									
-									<div class = "row">
-										<div class="col-md-4">
-										    <p:outputLabel for="idEstado" value="Estado" styleClass="control-label"/>
-											<h:inputText value="#{alunoMB.endereco.estado}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idEstado"/>
-										</div>
-										<div class="col-md-4">
-										    <p:outputLabel for="idCidade" value="Cidade:" styleClass="control-label"/>
-											<h:inputText value="#{alunoMB.endereco.cidade}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idCidade"/>
-										</div>
-										<div class="col-md-4">
-										    <p:outputLabel for="idBairro" value="Bairro:" styleClass="control-label"/>
-											<h:inputText value="#{alunoMB.endereco.bairro}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idBairro"/>
-										</div>
-									</div>
-									
-									<div class = "row">
-										<div class="col-md-4">
-										    <p:outputLabel for="idEndRua" value="Rua:" styleClass="control-label"/>
-											<h:inputText value="#{alunoMB.endereco.rua}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idEndRua"/>
-										</div>
-										<div class="col-md-4">
-										    <p:outputLabel for="idEndCompl" value="Complemento:" styleClass="control-label"/>
-											<h:inputText value="#{alunoMB.endereco.complemento}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idEndCompl"/>
-										</div>
-										<div class="col-md-4">
-										    <p:outputLabel for="idEndNum" value="Número" styleClass="control-label"/>
-											<h:inputText value="#{alunoMB.endereco.numero}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idEndNum"/>
-										</div>
-									</div>
-									
-		                            <br/>
-		                          <div class="form-group" style="padding-top:70px;text-align:right;">
+		<h:form id="idFormulario">
 
-								<p:commandButton value="Cadastrar" 
-											     class="btn-primary btn-md" 
-											     action="#{alunoMB.cadastrar(alunoMB.aluno)}" 
-											     update="@form"
-											     styleClass="btn btn-primary" 
-											     id="btnCadastrar"/>
-								&nbsp;&nbsp;			     
-								<p:commandButton value="Pesquisar" 
-											     title="Pesquisar"
-												 actionListener="#{alunoMB.buscar}" 
-												 update="@form"
-												 styleClass="btn btn-default"
-												 id="btnPesquisar"/>
-								&nbsp;&nbsp;
-								<p:commandButton value="Limpar" 
-											     title="Limpar"
-												 actionListener="#{alunoMB.limpar}" 
-												 update="@form"
-												 styleClass="btn btn-primary"
-												 id="btnLimpar"/>
-									
-							</div>
-									<br />
-									<br /> 
-									
-									
-						</div>
-					</div>
-							<div class="panel panel-default">
-							<div class="panel-body">
-							<p:dataTable id="idTable" var="item" value="#{alunoMB.alunos}" editable="true"
-						                 styleClass="table table-striped table-bordered table-hover" paginator="true" 
-						                 rowsPerPageTemplate="10,20,30" currentPageReportTemplate="{startRecord} de {endRecord}"
-						                 paginatorPosition="bottom" emptyMessage="Não foram encontrados registros"
-						                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-										
-										<p:ajax event="rowEdit" 
-												listener="#{alunoMB.editar}"
-												update="idFormulario:idTable" />
-												
-										<p:ajax event="rowEditCancel"
-												listener="#{alunoMB.cancela}" 
-												update="idFormulario:idTable" />
-
-										<p:column headerText="Matrícula">
-
-											<p:cellEditor>
-
-												<f:facet name="output">
-													<h:outputText value="#{item.matricula}" />
-												</f:facet>
-
-												<f:facet name="input">
-													<h:inputText value="#{alunoMB.editavel.matricula}"
-																 class= "form-control"
-																 validatorMessage="A matricula não pode ser maior que 11 caracteres.">
-														<f:validateLength maximum="11" />
-													</h:inputText>
-												</f:facet>
-
-											</p:cellEditor>
-
-										</p:column>
-										
-										<p:column headerText="Nome">
-
-											<p:cellEditor>
-
-												<f:facet name="output">
-													<h:outputText value="#{item.nome}" />
-												</f:facet>
-
-												<f:facet name="input">
-													<h:inputText value="#{alunoMB.editavel.nome}"
-																 class= "form-control"
-																 validatorMessage="A nome não pode ser maior que 200 caracteres.">
-														<f:validateLength maximum="200" />
-													</h:inputText>
-												</f:facet>
-
-											</p:cellEditor>
-
-										</p:column>
-										
-										<p:column headerText="Telefone fixo">
-
-											<p:cellEditor>
-
-												<f:facet name="output">
-													<h:outputText value="#{item.telefoneFixo}" />
-												</f:facet>
-
-												<f:facet name="input">
-													<h:inputText value="#{alunoMB.editavel.telefoneFixo}"
-																 class= "form-control"
-																 validatorMessage="O telefone não pode ser maior que 10 caracteres.">
-														<f:validateLength maximum="10" />
-													</h:inputText>
-												</f:facet>
-
-											</p:cellEditor>
-
-										</p:column>
-
-										<p:column headerText="Celular">
-
-											<p:cellEditor>
-
-												<f:facet name="output">
-													<h:outputText value="#{item.celular}" />
-												</f:facet>
-
-												<f:facet name="input">
-													<h:inputText value="#{alunoMB.editavel.celular}"
-																 class= "form-control"
-																 validatorMessage="O celular não pode ser maior que 11 caracteres.">
-														<f:validateLength maximum="11" />
-													</h:inputText>
-												</f:facet>
-
-											</p:cellEditor>
-
-										</p:column>
-										
-										<p:column headerText="Sexo">
-
-											<p:cellEditor>
-
-												<f:facet name="output">
-													<h:outputText value="#{item.sexo}" />
-												</f:facet>
-
-												<f:facet name="input">
-													<h:selectOneMenu id="idSelSex"  value="#{alunoMB.aluno.sexo}" styleClass="form-control">
-										           		<f:selectItem itemLabel="Masculino" itemValue="M" />
-										          	 	<f:selectItem itemLabel="Feminino" itemValue="F" />
-										       		</h:selectOneMenu>
-												</f:facet>
-
-											</p:cellEditor>
-
-										</p:column>
-										
-										<p:column headerText="Data de Nascimento">
-
-											<p:cellEditor>
-
-												<f:facet name="output">
-													<h:outputText value="#{item.dataNascimento}">
-														<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"/>
-													</h:outputText>
-												</f:facet>
-
-												<f:facet name="input">
-													<h:inputText id="idDataNasc" 
-									        			 		 value="#{alunoMB.editavel.dataNascimento}"
-									        			 		 class= "form-control">
-									        			<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"></f:convertDateTime>
-									        		</h:inputText>
-												</f:facet>
-
-											</p:cellEditor>
-											
-										</p:column>
-										
-										<p:column headerText="Data de Cadastro">
-
-											<p:cellEditor>
-
-												<f:facet name="output">
-													<h:outputText value="#{item.dataCadastro}" >
-														<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"/>
-													</h:outputText>
-												</f:facet>
-
-												<f:facet name="input">
-													<h:outputText value="#{item.dataCadastro}" >
-														<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"/>
-													</h:outputText>
-												</f:facet>
-
-											</p:cellEditor>
-											
-										</p:column>
-										
-										<p:column headerText="Endereço">
-
-											<p:cellEditor>
-
-												<f:facet name="output">
-													<h:outputText value="#{item.endereco.cidade}" />
-												</f:facet>
-
-												<f:facet name="input">
-													<h:commandLink value="Clique para editar..." />						
-												</f:facet>
-
-											</p:cellEditor>
-
-										</p:column>
-
-										<p:column headerText="Curso">
-
-											<p:cellEditor>
-
-												<f:facet name="output">
-													<h:outputText value="#{item.curso.nome}" />
-												</f:facet>
-
-												<f:facet name="input">
-													<h:selectOneMenu
-														value="#{alunoMB.editavel.curso}"
-														id="dropCursosEdit"
-														class= "form-control">
-														<f:selectItems value="#{alunoMB.cursos}"
-															var="linhaC" itemValue="#{linhaC}"
-															itemLabel="#{linhaC.nome}" />
-													</h:selectOneMenu>
-												</f:facet>
-
-											</p:cellEditor>
-
-										</p:column>
-										
-										<p:column headerText="Status do Aluno">
-
-											<p:cellEditor>
-
-												<f:facet name="output">
-													<h:outputText value="#{item.statusAluno.descricao}" />
-												</f:facet>
-
-												<f:facet name="input">
-													<h:selectOneMenu
-														value="#{alunoMB.editavel.statusAluno}"
-														id="dropStatusAlunoEdit"
-														class= "form-control">
-														<f:selectItems value="#{alunoMB.variosStatus}"
-															var="linhaSA" itemValue="#{linhaSA}"
-															itemLabel="#{linhaSA.descricao}" />
-													</h:selectOneMenu>
-												</f:facet>
-
-											</p:cellEditor>
-
-										</p:column>
-										
-
-									<p:column headerText="Ações" 
-												  styleClass="coluna-acao">
-										
-											<p:rowEditor/>
-											&nbsp;
-											<p:commandLink action="#{alunoMB.excluir(item)}"  update="@form">
-												   <span class="glyphicon glyphicon-trash" />
-											 
-														   	 
-												<p:confirm message="Tem certeza que deseja apagar?" 
-														   header="Aviso"  
-														   icon="ui-icon-alert"/>
-															
-											 </p:commandLink>
-
-										</p:column>
-										
-									</p:dataTable>
-									<p:confirmDialog global="true">
-										<p:commandButton value="Sim" type="button"
-											icon="ui-icon-check" styleClass="ui-confirmdialog-yes" />
-										<p:commandButton value="Não" type="button"
-											icon="ui-icon-close" styleClass="ui-confirmdialog-no" />
-									</p:confirmDialog>
-								</div>	
+			<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<div class="row">
+								<ol class="breadcrumb" style="color: blue; background: #30a5ff">
+									<div class="titulo-centro-grande">Aluno</div>
+								</ol>
 							</div>
 						</div>
+
+						<div class="panel-body">
+
+							<p:messages id="message" globalOnly="true" closable="true" />
+
+							<h:messages showSummary="false" showDetail="true"
+								styleClass="form-messages" errorClass="error" infoClass="info"
+								id="msgInfo" />
+							<p:panel
+								rendered="#{alunoMB.acaoEnum.getCodigo() == 1 || alunoMB.acaoEnum.getCodigo() == 2 || alunoMB.acaoEnum.getCodigo() == 0 }">
+
+								<div class="row">
+									<div class="col-md-4">
+										<p:outputLabel for="idMatricula" value="Matricula:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alunoMB.aluno.matricula}"
+												class="form-control" maxlength="10" id="idMatricula"
+												readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+
+									</div>
+									<div class="col-md-8">
+										<p:outputLabel for="idNome" value="Nome:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alunoMB.aluno.nome}"
+												class="form-control" maxlength="45" id="idNome"
+												readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+								</div>
+								<div class="row">
+
+									<div class="col-md-4">
+										<p:outputLabel for="idDataNasc" value="Data Nascimento: "
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText id="idDataNasc"
+												value="#{alunoMB.aluno.dataNascimento}" class="form-control"
+												readonly="#{alunoMB.acaoEnum.getCodigo() == 0}">
+												<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"></f:convertDateTime>
+											</h:inputText>
+										</div>
+									</div>
+
+									<div class="col-md-4">
+										<p:outputLabel for="idCelular" value="Celular:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alunoMB.aluno.celular}"
+												class="form-control" maxlength="11" id="idCelular"
+												readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+									<div class="col-md-4">
+										<p:outputLabel for="idFixo" value="Telefone Fixo:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alunoMB.aluno.telefoneFixo}"
+												class="form-control" maxlength="10" id="idFixo"
+												readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+								</div>
+								<div class="row">
+
+									<div class="col-md-4">
+										<div class="form-group">
+											<p:outputLabel for="idSelSex" value="Sexo:"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:selectOneMenu id="idSelSex" value="#{alunoMB.aluno.sexo}"
+													styleClass="form-control"
+													readonly="#{alunoMB.acaoEnum.getCodigo() == 0}">
+													<f:selectItem itemLabel="--Selecione--" itemValue="" />
+													<f:selectItem itemLabel="Masculino" itemValue="M" />
+													<f:selectItem itemLabel="Feminino" itemValue="F" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-4">
+										<div class="form-group">
+											<p:outputLabel for="idStatusAluno" value="Status do aluno:"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:selectOneMenu value="#{alunoMB.aluno.statusAluno}"
+													id="idStatusAluno" styleClass="form-control"
+													readonly="#{alunoMB.acaoEnum.getCodigo() == 0}">
+													<f:selectItem itemLabel="--Selecione--" itemValue="" />
+													<f:selectItems value="#{alunoMB.variosStatus}"
+														var="linhaSA" itemValue="#{linhaSA}"
+														itemLabel="#{linhaSA.descricao}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-4">
+										<div class="form-group">
+											<p:outputLabel for="idCurso" value="Curso:"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:selectOneMenu value="#{alunoMB.aluno.curso}" id="idCurso"
+													styleClass="form-control"
+													readonly="#{alunoMB.acaoEnum.getCodigo() == 0}">
+													<f:selectItem itemLabel="--Selecione--" itemValue="" />
+													<f:selectItems value="#{alunoMB.cursos}" var="linhaC"
+														itemValue="#{linhaC}" itemLabel="#{linhaC.nome}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-4">
+										<p:outputLabel for="idEstado" value="Estado"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alunoMB.endereco.estado}"
+												class="form-control" maxlength="2" id="idEstado"
+												readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+									<div class="col-md-4">
+										<p:outputLabel for="idCidade" value="Cidade:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alunoMB.endereco.cidade}"
+												class="form-control" maxlength="30" id="idCidade"
+												readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+									<div class="col-md-4">
+										<p:outputLabel for="idBairro" value="Bairro:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alunoMB.endereco.bairro}"
+												class="form-control" maxlength="30" id="idBairro"
+												readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-4">
+										<p:outputLabel for="idEndRua" value="Rua:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alunoMB.endereco.rua}"
+												class="form-control" maxlength="30" id="idEndRua"
+												readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+									<div class="col-md-4">
+										<p:outputLabel for="idEndCompl" value="Complemento:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alunoMB.endereco.complemento}"
+												class="form-control" maxlength="30" id="idEndCompl"
+												readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+									<div class="col-md-4">
+										<p:outputLabel for="idEndNum" value="Número"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alunoMB.endereco.numero}"
+												class="form-control" maxlength="11" id="idEndNum"
+												readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+								</div>
+
+								<br />
+								<p:panel styleClass="panel-no-border"
+									rendered="#{alunoMB.acaoEnum.getCodigo() == 1}">
+									<div class="form-group"
+										style="padding-top: 70px; text-align: right;">
+
+										<p:commandButton value="Cadastrar" class="btn-primary btn-md"
+											action="#{alunoMB.cadastrar()}" update="@form"
+											styleClass="btn btn-primary" id="btnCadastrar"
+											icon="fa fa-save" />
+										&nbsp;&nbsp;
+										<p:commandButton value="Pesquisar" title="Pesquisar"
+											actionListener="#{alunoMB.buscar}" update="@form"
+											styleClass="btn btn-default" icon="fa fa-search"
+											id="btnPesquisar" />
+										&nbsp;&nbsp;
+										<p:commandButton value="Limpar" title="Limpar"
+											actionListener="#{alunoMB.limpar}" update="@form"
+											styleClass="btn btn-primary" icon="fa fa-eraser"
+											id="btnLimpar" />
+
+									</div>
+								</p:panel>
+								<p:panel styleClass="panel-no-border"
+									rendered="#{alunoMB.acaoEnum.getCodigo() == 2}">
+									<div class="form-group"
+										style="padding-top: 70px; text-align: right;">
+										<p:commandButton value="Atualizar" class="btn-primary btn-md"
+											action="#{alunoMB.editar()}" update="@form"
+											styleClass="btn btn-primary" id="btnAtualizar"
+											icon="fa fa-pencil" />
+										&nbsp;&nbsp;
+										<p:commandButton value="Cancelar" class="btn-primary btn-md"
+											action="#{alunoMB.limpar}" update="@form"
+											styleClass="btn btn-default" id="btnCancelar"
+											icon="fa fa-close" />
+									</div>
+								</p:panel>
+
+								<p:panel styleClass="panel-no-border"
+									rendered="#{alunoMB.acaoEnum.getCodigo() == 0}">
+									<div class="form-group"
+										style="padding-top: 70px; text-align: right;">
+										<p:commandButton value="Editar" class="btn-primary btn-md"
+											action="#{alunoMB.prepararEdicao(alunoMB.aluno)}"
+											update="@form" styleClass="btn btn-primary" id="btnEditar"
+											icon="fa fa-pencil" />
+										&nbsp;&nbsp;
+										<p:commandButton value="Voltar" class="btn-primary btn-md"
+											action="#{alunoMB.limpar}" update="@form"
+											styleClass="btn btn-default" id="btnVoltar" icon="fa fa-undo" />
+									</div>
+								</p:panel>
+								<br />
+								<br />
+							</p:panel>
+						</div>
 					</div>
-		    </h:form>
+					<p:panel
+						rendered="#{alunoMB.acaoEnum.getCodigo() == 1 || alunoMB.acaoEnum.getCodigo() == 3}">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<p:dataTable id="idTable" var="item" value="#{alunoMB.alunos}"
+									editable="true"
+									styleClass="table table-striped table-bordered table-hover"
+									paginator="true" rowsPerPageTemplate="10,20,30"
+									currentPageReportTemplate="{startRecord} de {endRecord}"
+									paginatorPosition="bottom"
+									emptyMessage="Não foram encontrados registros"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+									<p:column headerText="Matrícula">
+										<h:outputText value="#{item.matricula}" />
+									</p:column>
+
+									<p:column headerText="Nome">
+										<h:outputText value="#{item.nome}" />
+									</p:column>
+
+									<p:column headerText="Data de Cadastro">
+
+										<p:cellEditor>
+
+											<f:facet name="output">
+												<h:outputText value="#{item.dataCadastro}">
+													<f:convertDateTime locale="pt" pattern="dd/MM/yyyy" />
+												</h:outputText>
+											</f:facet>
+
+											<f:facet name="input">
+												<h:outputText value="#{item.dataCadastro}">
+													<f:convertDateTime locale="pt" pattern="dd/MM/yyyy" />
+												</h:outputText>
+											</f:facet>
+
+										</p:cellEditor>
+
+									</p:column>
+
+									<p:column headerText="Curso">
+										<h:outputText value="#{item.curso.nome}" />
+									</p:column>
+
+									<p:column headerText="Status do Aluno">
+										<h:outputText value="#{item.statusAluno.descricao}" />
+									</p:column>
+
+
+									<p:column headerText="Ações" styleClass="coluna-acao">
+
+										<p:commandLink action="#{alunoMB.prepararEdicao(item)}"
+											update="@form">
+											<span class="glyphicon glyphicon-pencil" />
+										</p:commandLink>
+										&nbsp;
+										<p:commandLink action="#{alunoMB.visualizar(item)}"
+											update="@form">
+											<span class="glyphicon glyphicon-search" />
+										</p:commandLink>
+										&nbsp;
+										<p:commandLink action="#{alunoMB.excluir(item)}"
+											update="@form">
+											<span class="glyphicon glyphicon-trash" />
+
+
+											<p:confirm message="Tem certeza que deseja apagar?"
+												header="Aviso" icon="ui-icon-alert" />
+
+										</p:commandLink>
+
+									</p:column>
+
+								</p:dataTable>
+								<p:confirmDialog global="true">
+									<p:commandButton value="Sim" type="button" icon="ui-icon-check"
+										styleClass="ui-confirmdialog-yes" />
+									<p:commandButton value="Não" type="button" icon="ui-icon-close"
+										styleClass="ui-confirmdialog-no" />
+								</p:confirmDialog>
+							</div>
+						</div>
+					</p:panel>
+				</div>
+			</div>
+		</h:form>
 	</ui:define>
 
 </ui:composition>

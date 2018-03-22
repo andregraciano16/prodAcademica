@@ -5,12 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-
-import org.primefaces.event.RowEditEvent;
 
 import br.ucb.dao.AlunoDao;
 import br.ucb.dao.CursoDao;
@@ -24,6 +20,7 @@ import br.ucb.entity.Aluno;
 import br.ucb.entity.Curso;
 import br.ucb.entity.Endereco;
 import br.ucb.entity.StatusAluno;
+import br.ucb.enums.AcaoEnum;
 
 @ManagedBean(name = "alunoMB")
 @ViewScoped
@@ -34,7 +31,6 @@ public class AlunoMB extends BaseMB {
 	private List<Aluno> alunos;
 	private Aluno aluno;
 	private AlunoDao alunoDao;
-	private String msg;
 	private Aluno editavel;
 	private List<Curso> cursos;
 	private CursoDao cursoDao;
@@ -43,9 +39,85 @@ public class AlunoMB extends BaseMB {
 	private List<Endereco> enderecos;
 	private EnderecoDao enderecoDao;
 	private Endereco endereco;
-	
+	private AcaoEnum acaoEnum;
+
 	@PostConstruct
 	public void init() {
+		inicializa();
+		buscar();
+		this.setAcaoEnum(AcaoEnum.CADASTRAR);
+	}
+
+	public void cadastrar() {
+		if (!verificaVazio(this.aluno, this.endereco)) {
+
+			if (this.alunos.contains(this.aluno)) {
+				setMessageError("Já contém este registro, por favor insira um novo.");
+			} else {
+				montar(this.aluno, this.endereco);
+				this.alunoDao.save(this.aluno);
+				setMessageSuccess("Cadastrado com sucesso.");
+			}
+			
+		} else {
+			setMessageError("Preencha os campos corretamente.");
+		}
+		init();
+	}
+
+	public void excluir(Aluno aluno) {
+		this.alunoDao.remove(aluno);
+		setMessageSuccess("Excluído com sucesso.");
+		init();
+	}
+
+	public void editar() {
+
+		if (this.aluno != null && !verificaVazio(this.aluno, this.endereco)) {
+			this.enderecoDao.update(this.endereco);
+			this.alunoDao.update(this.aluno);
+			setMessageSuccess("Atualizado com sucesso.");
+		} else {
+			setMessageError("Preencha os campos corretamente.");
+		}
+		init();
+
+	}
+
+	public void prepararEdicao(Aluno aluno){
+		this.aluno = aluno;
+		this.endereco = aluno.getEndereco();
+		acaoEnum = AcaoEnum.EDITAR;
+	}
+	
+	public void visualizar(Aluno aluno){
+		this.aluno = aluno;
+		this.endereco = aluno.getEndereco();
+		acaoEnum = AcaoEnum.VISUALIZAR;
+	}
+	
+	public void buscar() {
+
+		if (this.aluno != null) {
+			if (verificaVazio(this.aluno)) {
+				this.alunos = this.alunoDao.list();
+				this.enderecos = this.enderecoDao.list();
+				this.cursos = this.cursoDao.list();
+				this.variosStatus = this.statusAlunoDao.list();
+			} else {
+				this.alunos = this.alunoDao.findBySearch(this.aluno);
+				this.enderecos = this.enderecoDao.list();
+				this.cursos = this.cursoDao.list();
+				this.variosStatus = this.statusAlunoDao.list();
+			}
+		}
+	}
+
+	public void limpar() {
+		init();
+	}
+
+	private void inicializa() {
 		this.alunos = new ArrayList<Aluno>();
 		this.aluno = new Aluno();
 		this.aluno.setNome("");
@@ -65,130 +137,127 @@ public class AlunoMB extends BaseMB {
 		this.enderecos = new ArrayList<Endereco>();
 		this.enderecoDao = new EnderecoDaoImpl();
 		this.endereco = new Endereco();
-		buscar();
+
 	}
 
-	public void cadastrar(Aluno aluno) {
-		if (this.aluno.getNome() != null && !this.aluno.getNome().trim().isEmpty()
-				&& this.aluno.getTelefoneFixo() != null && !this.aluno.getTelefoneFixo().trim().isEmpty()
-				&& this.aluno.getSexo() != '\0' && this.aluno.getCelular() != null
-				&& !this.aluno.getCelular().trim().isEmpty()
-				&& this.aluno.getMatricula() != null && !this.aluno.getMatricula().trim().isEmpty()
-				&& this.aluno.getDataNascimento() != null && this.aluno.getCurso() != null
-				&& this.aluno.getStatusAluno() != null
-				&& this.endereco.getBairro() != null && !this.endereco.getBairro().trim().isEmpty()
-				&& this.endereco.getCidade() != null && !this.endereco.getCidade().trim().isEmpty()
-				&& this.endereco.getEstado() != null && !this.endereco.getEstado().trim().isEmpty()
-				&& this.endereco.getComplemento() != null && !this.endereco.getComplemento().trim().isEmpty()
-				&& this.endereco.getNumero() != null
-				&& this.endereco.getRua() != null && !this.endereco.getRua().trim().isEmpty()) {
-			
-			if (this.alunos.contains(this.aluno)) {
-				msg = "Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
-			} else {
-				montarAluno();
-				this.enderecoDao.save(this.endereco);
-				this.endereco = this.enderecoDao.find(this.endereco);
-				this.aluno.setEndereco(this.endereco);
-				this.alunoDao.save(this.aluno);
-				msg = "Cadastrado com sucesso.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-			}
-		} else {
-			msg = "Preencha os campos corretamente.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+	private void montar(Aluno aluno, Endereco endereco) {
+		if (aluno == null) {
+			aluno = new Aluno();
 		}
-		init();
+		aluno.setIdAluno(null);
+		aluno.setNome(aluno.getNome().trim());
+		aluno.setTelefoneFixo(aluno.getTelefoneFixo().trim());
+		aluno.setCelular(aluno.getCelular().trim());
+		aluno.setMatricula(aluno.getMatricula().trim());
+		aluno.setDataCadastro(new Date());
+		endereco.setBairro(endereco.getBairro().trim());
+		endereco.setCidade(endereco.getCidade().trim());
+		endereco.setComplemento(endereco.getComplemento().trim());
+		endereco.setEstado(endereco.getEstado().trim());
+		endereco.setRua(endereco.getRua().trim());
+		this.enderecoDao.save(endereco);
+		endereco = this.enderecoDao.find(endereco);
+		aluno.setEndereco(endereco);
+
 	}
 
-	private void montarAluno() {
-		if (this.aluno == null) {
-			this.aluno = new Aluno();
+	private boolean verificaVazio(Aluno aluno, Endereco endereco) {
+
+		if (aluno.getNome() == null || aluno.getNome().trim().isEmpty()) {
+			return true;
 		}
-		this.aluno.setIdAluno(null);
-		aluno.setNome(this.aluno.getNome().trim());
-		aluno.setTelefoneFixo(this.aluno.getTelefoneFixo().trim());
-		aluno.setCelular(this.aluno.getCelular().trim());
-		aluno.setSexo(this.aluno.getSexo());
-		aluno.setDataCadastro(this.aluno.getDataCadastro());
-		aluno.setMatricula(this.aluno.getMatricula().trim());
-		aluno.setDataNascimento(this.aluno.getDataNascimento());
-		aluno.setCurso(this.aluno.getCurso());
-		aluno.setStatusAluno(this.aluno.getStatusAluno());
-		aluno.setDataCadastro(new Date()) ;
-		
-	}
 
-	public void excluir(Aluno aluno) {
-		this.alunoDao.remove(aluno);
-		msg = "Excluído com sucesso.";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-		init();
-	}
-
-	public void editar(RowEditEvent event) {
-
-		if (this.editavel.getNome() != null) {
-
-			aluno = (Aluno) event.getObject();
-			aluno.setNome(editavel.getNome().trim());
-			aluno.setTelefoneFixo(editavel.getTelefoneFixo().trim());
-			aluno.setCelular(editavel.getCelular().trim());
-			aluno.setSexo(editavel.getSexo());
-			aluno.setDataCadastro(editavel.getDataCadastro());
-			aluno.setMatricula(editavel.getMatricula().trim());
-			aluno.setDataNascimento(editavel.getDataNascimento());
-			aluno.setCurso(editavel.getCurso());
-			aluno.setStatusAluno(editavel.getStatusAluno());
-			aluno.setEndereco(editavel.getEndereco());
-			this.alunoDao.update(this.aluno);
-			msg = "Atualizado com sucesso.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-
-		} else {
-			msg = "Preencha os campos corretamente.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+		if (aluno.getTelefoneFixo() == null || aluno.getTelefoneFixo().trim().isEmpty()) {
+			return true;
 		}
-		init();
 
-	}
-
-	public void cancela(RowEditEvent event) {
-
-		String msg = "Atualização cancelada.";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-	}
-
-	public void buscar() {
-
-		if (this.aluno != null) {
-			if (this.aluno.getNome().trim().isEmpty()
-					&& this.aluno.getCelular().trim().isEmpty()
-					&& this.aluno.getCurso() == null
-					&& this.aluno.getDataNascimento() == null
-					&& this.aluno.getMatricula().trim().isEmpty()
-					&& this.aluno.getSexo() == '\0'
-					&& this.aluno.getStatusAluno() == null
-					&& this.aluno.getTelefoneFixo().trim().isEmpty()) {
-				
-				this.alunos = this.alunoDao.list();
-				this.enderecos = this.enderecoDao.list();
-				this.cursos = this.cursoDao.list();
-				this.variosStatus = this.statusAlunoDao.list();
-			} else {
-				this.alunos = this.alunoDao.findBySearch(this.aluno);
-				this.enderecos = this.enderecoDao.list();
-				this.cursos = this.cursoDao.list();
-				this.variosStatus = this.statusAlunoDao.list();
-			}
+		if (aluno.getSexo() == '\0') {
+			return true;
 		}
+
+		if (aluno.getCelular() == null || aluno.getCelular().trim().isEmpty()) {
+			return true;
+		}
+
+		if (aluno.getMatricula() == null || aluno.getMatricula().trim().isEmpty()) {
+			return true;
+		}
+
+		if (aluno.getDataNascimento() == null) {
+			return true;
+		}
+
+		if (aluno.getCurso() == null) {
+			return true;
+		}
+
+		if (aluno.getStatusAluno() == null) {
+			return true;
+		}
+
+		if (endereco.getBairro() == null || endereco.getBairro().trim().isEmpty()) {
+			return true;
+		}
+
+		if (endereco.getCidade() == null || endereco.getCidade().trim().isEmpty()) {
+			return true;
+		}
+
+		if (endereco.getEstado() == null || endereco.getEstado().trim().isEmpty()) {
+			return true;
+		}
+
+		if (endereco.getComplemento() == null || endereco.getComplemento().trim().isEmpty()) {
+			return true;
+		}
+
+		if (endereco.getNumero() == null) {
+			return true;
+		}
+
+		if (endereco.getRua() == null || endereco.getRua().trim().isEmpty()) {
+			return true;
+		}
+
+		return false;
 	}
 
-	public void limpar() {
-		init();
+	private boolean verificaVazio(Aluno aluno) {
+		boolean flag = true;
+
+		if (aluno.getNome() != null && !aluno.getNome().trim().isEmpty()) {
+			flag = false;
+		}
+
+		if (aluno.getTelefoneFixo() != null && !aluno.getTelefoneFixo().trim().isEmpty()) {
+			flag = false;
+		}
+
+		if (aluno.getSexo() != '\0') {
+			flag = false;
+		}
+
+		if (aluno.getCelular() != null && !aluno.getCelular().trim().isEmpty()) {
+			flag = false;
+		}
+
+		if (aluno.getMatricula() != null && !aluno.getMatricula().trim().isEmpty()) {
+			flag = false;
+		}
+
+		if (aluno.getDataNascimento() != null) {
+			flag = false;
+		}
+
+		if (aluno.getCurso() != null) {
+			flag = false;
+		}
+
+		if (aluno.getStatusAluno() != null) {
+			flag = false;
+		}
+
+		return flag;
 	}
 
 	public List<Aluno> getAlunos() {
@@ -268,7 +337,7 @@ public class AlunoMB extends BaseMB {
 	public void setCursos(List<Curso> cursos) {
 		this.cursos = cursos;
 	}
-	
+
 	public CursoDao getCursoDao() {
 		return cursoDao;
 	}
@@ -299,6 +368,14 @@ public class AlunoMB extends BaseMB {
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+
+	public AcaoEnum getAcaoEnum() {
+		return acaoEnum;
+	}
+
+	public void setAcaoEnum(AcaoEnum acaoEnum) {
+		this.acaoEnum = acaoEnum;
 	}
 
 }
