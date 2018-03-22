@@ -8,7 +8,6 @@
 				xmlns:p="http://primefaces.org/ui">
 	<ui:define name="Conteudo">
 			<h:form id="idFormulario">
-			         
 					<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 			            <div class="col-lg-12">
 			                 <div class="panel panel-default">
@@ -17,17 +16,11 @@
 										<div class="titulo-centro-grande"> Docente </div>
 								    </ol>
 								</div>
-				                <p:messages id="messages" globalOnly="true" closable="true" />
-								<br/>
+				                <p:messages id="messages" globalOnly="true" closable="true" /><br/>
 							</div>
-			                <p:panel rendered="#{docenteMB.acaoEnum.getCodigo() != 3}">
+			                <p:panel id="painel" rendered="#{docenteMB.acaoEnum.getCodigo() != 3}">
 			                <div class="panel panel-default">
 
-			                <div class="panel-heading">
-								<ol class="breadcrumb" style="color:blue;background: #30a5ff">
-									<div class="titulo-centro-grande"> Docente </div>
-							    </ol>
-							</div>
 							<div class="panel-body">
 								  <div class="row">
 									   <div class="col-md-4">
@@ -37,10 +30,8 @@
 													 <span class="input-group-addon">
 														<span class="glyphicon glyphicon-tag"></span>
 													 </span>
-													<h:inputText value="#{docenteMB.docente.matricula}" 
-														         class= "form-control" 
-														         maxlength="10"
-														         id="idMatricula"/>
+													<h:inputText value="#{docenteMB.docente.matricula}" class= "form-control" 
+														         maxlength="10" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}" id="idMatricula"/>
 												</div>
 											</div>
 										</div>
@@ -51,10 +42,8 @@
 													 <span class="input-group-addon">
 														<span class="glyphicon glyphicon-tag"></span>
 													 </span>	
-													<h:inputText value="#{docenteMB.docente.nome}" 
-														         class= "form-control" 
-														         maxlength="10"
-														         id="idNome"/>
+													<h:inputText value="#{docenteMB.docente.nome}" class= "form-control" 
+														         maxlength="10" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}" id="idNome"/>
 												</div>
 											</div>       
 										</div>
@@ -65,10 +54,8 @@
 														<span class="input-group-addon">
 															<span class="glyphicon glyphicon-tag"></span>
 														</span>	
-														<h:inputText value="#{docenteMB.docente.situacao}" 
-															         class= "form-control" 
-															         maxlength="10"
-															         id="idSituacao"/>
+														<h:inputText value="#{docenteMB.docente.situacao}" class= "form-control" 
+															         maxlength="10" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}" id="idSituacao"/>
 												    </div>
 											</div>
 										</div>
@@ -81,7 +68,7 @@
 														<span class="input-group-addon">
 															<span class="glyphicon glyphicon-tag"></span>
 														</span>	
-												       <h:selectOneMenu id="idSelSex"  value="#{docenteMB.docente.sexo}" styleClass="form-control">
+												       <h:selectOneMenu id="idSelSex"  value="#{docenteMB.docente.sexo}" styleClass="form-control" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}">
 												           <f:selectItem itemLabel="Masculino" itemValue="M" />
 												           <f:selectItem itemLabel="Feminino" itemValue="F" />
 												       </h:selectOneMenu>
@@ -95,10 +82,8 @@
 														<span class="input-group-addon">
 															<span class="glyphicon glyphicon-tag"></span>
 														</span>	
-														<h:inputText value="#{docenteMB.docente.celular}" 
-															         class= "form-control" 
-															         maxlength="10"
-															         id="idCelular"/>
+														<h:inputText value="#{docenteMB.docente.celular}" class= "form-control" 
+															         maxlength="10" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}" id="idCelular"/>
 													</div>
 											</div>
 										</div>
@@ -109,10 +94,8 @@
 														<span class="input-group-addon">
 															<span class="glyphicon glyphicon-tag"></span>
 														</span>			
-														<h:inputText value="#{docenteMB.docente.telefoneFixo}" 
-												            class= "form-control" 
-												            maxlength="10"
-												            id="idFixo"/>
+														<h:inputText value="#{docenteMB.docente.telefoneFixo}" class= "form-control" 
+												            maxlength="10" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}" id="idFixo"/>
 												    </div>
 										     </div>
 										</div>
@@ -125,10 +108,8 @@
 														<span class="input-group-addon">
 															<span class="glyphicon glyphicon-tag"></span>
 														</span>
-														<h:inputText value="#{docenteMB.docente.email}" 
-															         class= "form-control" 
-															         maxlength="10"
-															         id="idEmail"/>
+														<h:inputText value="#{docenteMB.docente.email}" class= "form-control" 
+															         maxlength="10" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}" id="idEmail"/>
 													</div>
 											</div>
 										</div>
@@ -139,9 +120,9 @@
 													<span class="input-group-addon">
 														<span class="glyphicon glyphicon-tag"></span>
 													</span>
-											        <h:selectOneMenu id="idAtivo" value="#{docenteMB.docente.ativo}" styleClass="form-control">
-											            <f:selectItem itemLabel="Sim" itemValue="S" />
-											            <f:selectItem itemLabel="Não" itemValue="N" />
+											        <h:selectOneMenu id="idAtivo" value="#{docenteMB.docente.ativo}" styleClass="form-control" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}">
+											            <f:selectItem itemLabel="Sim" itemValue="#{1}" />
+											            <f:selectItem itemLabel="Não" itemValue="#{0}" />
 											        </h:selectOneMenu>
 										        </div>
 										     </div>
@@ -168,10 +149,8 @@
 													<span class="input-group-addon">
 														<span class="glyphicon glyphicon-tag"></span>
 													</span>
-													<h:inputText value="#{docenteMB.docente.ramal}" 
-														         class= "form-control" 
-														         maxlength="10"
-														         id="idRamal"/>
+													<h:inputText value="#{docenteMB.docente.ramal}" class= "form-control" 
+														         maxlength="10" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}" id="idRamal"/>
 												</div>
 											</div>
 	                               		</div>	
@@ -184,7 +163,7 @@
 															<span class="glyphicon glyphicon-tag"></span>
 														</span>
 												        <h:selectOneMenu id="idTipo" value="#{docenteMB.tipoDocente.idTipoDocente}" styleClass="form-control"
-												                         >
+												                         disabled="#{docenteMB.acaoEnum.getCodigo() == 0}" >
 															<f:selectItems itemLabel="#{tipo.tipo}" itemValue="#{tipo.idTipoDocente}" var="tipo" 
 															               value="#{docenteMB.getTipoDocentes()}" />
 												        </h:selectOneMenu>
@@ -201,7 +180,7 @@
 															<span class="glyphicon glyphicon-tag"></span>
 														</span>
 												        <h:selectOneMenu id="idCurso" value="#{docenteMB.curso.idCurso}" styleClass="form-control"
-												                         >
+												                         disabled="#{docenteMB.acaoEnum.getCodigo() == 0}">
 															<f:selectItems itemLabel="#{c.nome}" itemValue="#{c.idCurso}" var="c" 
 															               value="#{docenteMB.getCursos()}" />
 												        </h:selectOneMenu>
@@ -218,10 +197,8 @@
 														<span class="input-group-addon">
 															<span class="glyphicon glyphicon-tag"></span>
 														</span>
-														<h:inputText value="#{docenteMB.endereco.estado}" 
-															         class= "form-control" 
-															         maxlength="10"
-															         id="idEstado"/>
+														<h:inputText value="#{docenteMB.endereco.estado}" class= "form-control" 
+															         maxlength="10" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}" id="idEstado"/>
 													 </div>
 											</div>
 										</div>
@@ -232,10 +209,8 @@
 													   <span class="input-group-addon">
 														   <span class="glyphicon glyphicon-tag"></span>
 													   </span>
-														<h:inputText value="#{docenteMB.endereco.cidade}" 
-															         class= "form-control" 
-															         maxlength="10"
-															         id="idCidade"/>
+														<h:inputText value="#{docenteMB.endereco.cidade}" class= "form-control" 
+															         maxlength="10" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}" id="idCidade"/>
 													</div>
 												</div>
 										</div>
@@ -246,10 +221,8 @@
 													   <span class="input-group-addon">
 														   <span class="glyphicon glyphicon-tag"></span>
 													   </span>
-													   <h:inputText value="#{docenteMB.endereco.bairro}" 
-															        class= "form-control" 
-															        maxlength="10"
-															        id="idBairro"/>
+													   <h:inputText value="#{docenteMB.endereco.bairro}" class= "form-control" id="idBairro"
+															        maxlength="10" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}" />
 												  </div>
 											</div>
 										</div>
@@ -263,10 +236,8 @@
 													   <span class="input-group-addon">
 														   <span class="glyphicon glyphicon-tag"></span>
 													   </span>
-														<h:inputText value="#{docenteMB.endereco.rua}" 
-															         class= "form-control" 
-															         maxlength="10"
-															         id="idEndRua"/>
+														<h:inputText value="#{docenteMB.endereco.rua}" class= "form-control" id="idEndRua"
+															         maxlength="10" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}" />
 													</div>
 											  </div>
 										</div>
@@ -277,10 +248,8 @@
 													   <span class="input-group-addon">
 														   <span class="glyphicon glyphicon-tag"></span>
 													   </span>
-														<h:inputText value="#{docenteMB.endereco.complemento}" 
-															         class= "form-control" 
-															         maxlength="10"
-															         id="idEndCompl"/>
+														<h:inputText value="#{docenteMB.endereco.complemento}"  class= "form-control" 
+															         maxlength="10" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}" id="idEndCompl"/>
 												  </div>
 											</div>
 										</div>
@@ -291,7 +260,7 @@
 													   <span class="input-group-addon">
 														   <span class="glyphicon glyphicon-tag"></span>
 													   </span>
-														<h:inputText value="#{docenteMB.endereco.numero}" 
+														<h:inputText value="#{docenteMB.endereco.numero}" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}"
 															         class= "form-control" maxlength="10" id="idEndNum"/>
 												  </div>
 											</div>
@@ -299,19 +268,56 @@
 									</div>
 		                            <br/>
 		                            <div class="form-group">
-											<p:commandButton value="Cadastrar" class="btn-primary btn-md" 
-											                 action="#{docenteMB.cadastrar()}" update="@form" styleClass="btn btn-primary" />
-		
-											<p:commandButton value="Limpar" title="Limpar" class="btn btn-primary-cinza"
+											<p:commandButton value="Cadastrar" action="#{docenteMB.atualizar()}" update="@form" class="btn btn-primary" 
+											                 rendered="#{docenteMB.acaoEnum.getCodigo() != 0}"/>
+											<p:commandButton value="Limpar" title="Limpar" class="btn btn-primary-cinza" rendered="#{docenteMB.acaoEnum.getCodigo() != 0}"
 												             actionListener="#{docenteMB.limpar()}" update="@form"/>
-									</div>
-									<br /><br /><br />
+									</div><br /><br /><br />
 								</div>	
 							</div>
 							</p:panel>
-							<p:panel rendered="#{docenteMB.acaoEnum.getCodigo() == 3}">
+							<h:panelGroup rendered="#{docenteMB.acaoEnum.getCodigo() == 3}">
 								 <div class="panel panel-default" >
-					
+					                 <div class="panel-heading">
+					                       <h3>Dados para pesquisa</h3><br/><br/>
+					                 </div> 
+					                 <div class="panel-body">
+									     <div class="row">
+											   <div class="col-md-4">
+												    <div class="form-group">
+														<h:outputLabel value="Matricula:" for="idMatriculaPesq" styleClass="control-label"/>
+													    <div class="input-group">
+															 <span class="input-group-addon">
+																<span class="glyphicon glyphicon-tag"></span>
+															 </span>
+															<h:inputText value="#{docenteMB.docentePesq.matricula}" class= "form-control" 
+																         maxlength="10" id="idMatriculaPesq"/>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-4">
+												    <div class="form-group">
+														<h:outputLabel value="Nome:" for="idNomePesq" styleClass="control-label"/>
+													    <div class="input-group">
+															 <span class="input-group-addon">
+																<span class="glyphicon glyphicon-tag"></span>
+															 </span>	
+															<h:inputText value="#{docenteMB.docentePesq.nome}" class= "form-control" 
+																         maxlength="10"  id="idNomePesq"/>
+														</div>
+													</div>       
+												</div>
+										 </div>
+										<div class="form-group" style="text-align:right;">
+										    <p:commandButton value="Pesquisar" action="#{docenteMB.buscar()}" update="@form" class="btn btn-primary" />
+											<p:commandButton value="Limpar" title="Limpar" class="btn btn-primary-cinza" actionListener="#{docenteMB.limpar()}" update="@form"/>
+										</div>
+									</div> 
+								 </div>
+								 <div class="panel panel-default" >
+					                  <div class="panel-heading">
+					                      <h3>Docentes cadastrados</h3><br/><br/>
+					                  </div>
 							 	     <div class="panel-body">
 							 	   		<p:dataTable id="tabelaCurso" var="item" value="#{docenteMB.docentes}" 
 								                     styleClass="table table-striped table-bordered table-hover" paginator="true" 
@@ -328,34 +334,35 @@
 										       <p:column headerText="Nome">
 									               <h:outputText value="#{item.nome}" title="#{item.nome}" />
 										       </p:column>
-										       <p:column headerText="Código">
+										       <p:column headerText="Email">
 									               <h:outputText value="#{item.email}" title="#{item.email}" />
 										       </p:column>
 										       <p:column headerText="Ramal">
 									               <h:outputText value="#{item.ramal}" title="#{item.ramal}" />
 										       </p:column>
 										       <p:column headerText="Ativo">
-									               <h:outputText value="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}" title="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}" />
+									               <h:outputText value="#{item.ativo eq  '1' ? 'ATIVO' : 'INATIVO'}" title="#{item.ativo eq  '1' ? 'ATIVO' : 'INATIVO'}" />
 										       </p:column>
 												<p:column headerText="Ação" style="width:12%;text-align:center;">
-													 <p:commandLink action="#{docenteMB.prepararEdicao(item)}" 
-														           update="@form">
+													 <p:commandLink action="#{docenteMB.prepararEdicao(item)}" update="@form">
 														   <span class="glyphicon glyphicon-pencil" />
 													 </p:commandLink>
-													 <p:commandLink action="#{docenteMB.visualizar(item)}" 
-														           update="@form">
+													 <p:commandLink action="#{docenteMB.visualizar(item)}" update="@form">
 														   <span class="glyphicon glyphicon-search" />
 													 </p:commandLink>
-													<p:commandLink action="#{docenteMB.excluir(item)}" 
-														           update="@form">
+													 <p:commandLink action="#{docenteMB.excluir(item)}" update="@form">
 														   <span class="glyphicon glyphicon-trash" />
-													 </p:commandLink>
+													  </p:commandLink>
 											    </p:column>
-											    	
 											</p:dataTable>
 							 	   </div>
+							 	   <script type="text/javascript">
+							 	        $(document).ready(function(){
+							 	        $(".idFixo").mask("9999-9999");
+							 	        });
+								  </script>
 							 </div>
-						</p:panel>	
+                            </h:panelGroup>
 						</div>
 					</div>
 		    </h:form>

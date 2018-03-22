@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import br.ucb.VO.DocenteVO;
 import br.ucb.dao.CursoDao;
 import br.ucb.dao.DocenteDao;
 import br.ucb.dao.EnderecoDao;
@@ -38,6 +39,7 @@ public class DocenteMB extends BaseMB{
 	private Curso curso;
 	private EnderecoDao enderecoDao;
     private AcaoEnum acaoEnum;
+    private DocenteVO docentePesq;
 	
 	@PostConstruct
 	public void init() {
@@ -50,8 +52,23 @@ public class DocenteMB extends BaseMB{
 		this.curso          = new Curso();
 		this.endereco       = new Endereco();
 		this.enderecoDao    = new EnderecoDaoImpl();
-		this.acaoEnum = AcaoEnum.LISTAR;
+		this.docentePesq    = new DocenteVO();
+		this.acaoEnum       = AcaoEnum.LISTAR;
 		
+	}
+	
+	public void atualizar(){
+		if(this.acaoEnum.getCodigo() == AcaoEnum.CADASTRAR.getCodigo()){
+			cadastrar();
+		}else if(this.acaoEnum.getCodigo() == AcaoEnum.EDITAR.getCodigo()){
+			editar();
+		}
+		this.acaoEnum = AcaoEnum.LISTAR;
+	}
+	
+	public void editar(){
+		this.docenteDao.update(this.docente);
+		setMessageSuccess("Atualizado com sucesso!");
 	}
 
 	public void cadastrar() {
@@ -65,6 +82,7 @@ public class DocenteMB extends BaseMB{
 		this.docente.setDataNascimento(new Date());
 		this.docente.setTipoDocente(this.tipoDocente);
 		this.docenteDao.save(this.docente);
+		setMessageSuccess("Cadastrado com sucesso!");
 	}
 	
 	public AcaoEnum getAcaoEnum() {
@@ -100,7 +118,7 @@ public class DocenteMB extends BaseMB{
 	}
 	
 	public void buscar(){
-		//this.docentes = this.docenteDao.findByDescricaoAndTipo(tipoProducao.getTipo(), tipoProducao.getDescricao());
+		this.docentes = this.docenteDao.find(docentePesq);
 	}
 
 	public void limpar() {
@@ -155,6 +173,12 @@ public class DocenteMB extends BaseMB{
 		this.curso = curso;
 	}
 
-	
+	public DocenteVO getDocentePesq() {
+		return this.docentePesq;
+	}
+
+	public void setDocentePesq(DocenteVO docentePesq) {
+		this.docentePesq = docentePesq;
+	}	
 	
 }

@@ -30,7 +30,7 @@
 													<span class="input-group-addon">
 														<span class="glyphicon glyphicon-tag"></span>
 													</span>
-   									                <p:calendar id="idCadastro" value="#{comentarioMB.comentario.dataCadastro}"
+   									                <p:calendar id="idCadastro" value="#{comentarioMB.comentario.dataCadastro}" 
 									                        pattern="dd/MM/yyyy" styleClass="form-control-calendar input-group-calendar" locale="pt"
 									                        readonlyInput="true" navigator="true"/>
 												</div>
@@ -74,15 +74,15 @@
 							                         paginatorPosition="bottom" emptyMessage="Não foram encontrados registros"
 							                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
 						 
-										       <p:column headerText="Data Cadastro" style="text-align:center">
+										       <p:column headerText="Data Cadastro" style="text-align:center;width:10%;">
 									               <h:outputText value="#{item.dataCadastro}">
 									                  <f:convertDateTime pattern="dd/MM/yyyy"/>
 									               </h:outputText>
 										       </p:column>
-										       <p:column headerText="Titulo">
+										       <p:column headerText="Titulo" style="width:20%;">
 									               <h:outputText value="#{item.titulo}" title="#{item.titulo}" />
 										       </p:column>
-											    <p:column headerText="Descrição">
+											    <p:column headerText="Descrição" style="width:70%">
 									               <h:outputText value="#{item.decricao}" title="#{item.decricao}" />
 										        </p:column>	
 											</p:dataTable>
