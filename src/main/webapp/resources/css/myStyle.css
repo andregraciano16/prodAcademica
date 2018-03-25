@@ -1,3 +1,8 @@
+.mensagem-tela{
+	padding-left: 15px;
+    padding-right: 15px;
+}
+
 .titulo-centro-grande{
 	font-size: xx-large;
     text-align: center;

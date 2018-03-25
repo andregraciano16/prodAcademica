@@ -69,13 +69,12 @@ public class Docente extends EntidadeBase {
 	@JoinColumn(name = "id_curso")
 	private Curso curso;
 
-	
 	public Integer getIdDocente() {
-		return idDocente;
+		return this.idDocente;
 	}
 
-	public void setIdDocente(Integer id_docente) {
-		this.idDocente = id_docente;
+	public void setIdDocente(Integer idDocente) {
+		this.idDocente = idDocente;
 	}
 
 	public String getMatricula() {
@@ -196,7 +195,7 @@ public class Docente extends EntidadeBase {
 		if (obj instanceof Docente) {
 			Docente outroDocente = (Docente) obj;
 			if (outroDocente.getNome().trim().equals(this.getNome().trim())) {
-			//	flag = 1;
+				// flag = 1;
 			}
 		}
 		if (flag == 1) {
@@ -221,8 +220,4 @@ public class Docente extends EntidadeBase {
 
 	}
 
-	public int hashCode() {
-		return this.getNome().hashCode();
-	}
-	
 }

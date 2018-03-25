@@ -1,6 +1,5 @@
 package br.ucb.MB;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +32,6 @@ public class DocenteMB extends BaseMB{
 	private TipoDocenteDao tipoDocenteDao;
 	private CursoDao cursoDao;
 	private Docente docente;
-	private Endereco endereco;
 	private List<Docente> docentes;
 	private TipoDocente tipoDocente;
 	private Curso curso;
@@ -44,17 +42,20 @@ public class DocenteMB extends BaseMB{
 	@PostConstruct
 	public void init() {
 		this.docenteDao     = new DocenteDaoImpl();
-		this.docentes       = docenteDao.list();
 		this.tipoDocenteDao = new TipoDocenteDaoImpl();
-		this.docente        = new Docente();
-		this.tipoDocente    = new TipoDocente(); 
 		this.cursoDao       = new CursoDaoImpl();
-		this.curso          = new Curso();
-		this.endereco       = new Endereco();
 		this.enderecoDao    = new EnderecoDaoImpl();
+		inicializar();
+	}
+	
+	public void inicializar(){		
+		this.tipoDocente    = new TipoDocente(); 
+		this.docentes       = docenteDao.list();
+		this.docente        = new Docente();
+		this.curso          = new Curso();
 		this.docentePesq    = new DocenteVO();
+		this.docente.setEndereco(new Endereco());
 		this.acaoEnum       = AcaoEnum.LISTAR;
-		
 	}
 	
 	public void atualizar(){
@@ -63,10 +64,15 @@ public class DocenteMB extends BaseMB{
 		}else if(this.acaoEnum.getCodigo() == AcaoEnum.EDITAR.getCodigo()){
 			editar();
 		}
-		this.acaoEnum = AcaoEnum.LISTAR;
+		inicializar();
+	}
+	
+	public void habiliarNovo(){
+		this.acaoEnum = AcaoEnum.CADASTRAR;
 	}
 	
 	public void editar(){
+		this.enderecoDao.save(this.docente.getEndereco());
 		this.docenteDao.update(this.docente);
 		setMessageSuccess("Atualizado com sucesso!");
 	}
@@ -75,9 +81,7 @@ public class DocenteMB extends BaseMB{
 		this.docente.setDataCadastro(new Date());
 		this.tipoDocente = this.tipoDocenteDao.findByKey(TipoDocente.class, tipoDocente.getIdTipoDocente());
 		this.curso       = this.cursoDao.findById(curso.getIdCurso());
-		this.enderecoDao.save(this.endereco);
-		this.endereco = this.enderecoDao.find(this.endereco);
-		this.docente.setEndereco(endereco);
+		this.enderecoDao.save(this.docente.getEndereco());
 		this.docente.setCurso(this.curso);
 		this.docente.setDataNascimento(new Date());
 		this.docente.setTipoDocente(this.tipoDocente);
@@ -117,12 +121,16 @@ public class DocenteMB extends BaseMB{
         }
 	}
 	
+	public void voltar(){
+		inicializar();
+	}
+	
 	public void buscar(){
 		this.docentes = this.docenteDao.find(docentePesq);
 	}
 
 	public void limpar() {
-		init();
+		inicializar();
 	}
 	
 	public List<TipoDocente> getTipoDocentes(){
@@ -155,14 +163,6 @@ public class DocenteMB extends BaseMB{
 
 	public void setTipoDocente(TipoDocente tipoDocente) {
 		this.tipoDocente = tipoDocente;
-	}
-
-	public Endereco getEndereco() {
-		return this.endereco;
-	}
-
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
 	}
 
 	public Curso getCurso() {
