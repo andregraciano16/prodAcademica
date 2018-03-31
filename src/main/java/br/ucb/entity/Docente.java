@@ -45,6 +45,9 @@ public class Docente extends EntidadeBase {
 
 	@Column(name = "ativo")
 	private boolean ativo;
+	
+	@Column(name = "senha")
+	private String senha;
 
 	@Column(name = "dataNascimento")
 	@Temporal(TemporalType.DATE)
@@ -187,6 +190,14 @@ public class Docente extends EntidadeBase {
 
 	public void setCurso(Curso curso) {
 		this.curso = curso;
+	}
+
+	public String getSenha() {
+		return this.senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public boolean equals(Object obj) {
