@@ -106,7 +106,11 @@
 		<ui:insert name = "Conteudo"></ui:insert>
 	</div>
 
-	<h:outputScript library="js" name="jquery-1.11.1.min.js"    />
+	<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+	<h:outputScript library="js" name="jquery-3.3.1.js"    />
+	<h:outputScript library="js" name="jquery.mask.js"    />
+	
+<!-- 	<h:outputScript library="js" name="jquery-1.11.1.min.js"    /> -->
 	<h:outputScript library="js" name="bootstrap.min.js"        />
 	<h:outputScript library="js" name="chart.min.js"            />
 	<h:outputScript library="js" name="chart-data.js"           />
@@ -115,11 +119,15 @@
 	<h:outputScript library="js" name="bootstrap-datepicker.js" />
 	<h:outputScript library="js" name="custom.js"               />
 
-	
-	
+    <script type="text/javascript">
+		$(document).ready(function() {
+		    $('.dateinput').datepicker({ format: "yyyy/mm/dd" });
+		}); 
+	</script>
+
 	<script type="text/javascript">
 
-	PrimeFaces.locales['pt'] = {
+	   PrimeFaces.locales['pt'] = {
             closeText: 'Fechar',
             prevText: 'Anterior',
             nextText: 'Próximo',
@@ -146,6 +154,9 @@
             day: 'Dia',
             allDayText : 'Todo Dia'
         };
+	</script>
+	
+	<script type="text/javascript">
 	
 	  WebFontConfig = {
 	    google: { families: [ 'Roboto::latin' ] }
