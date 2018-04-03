@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import br.ucb.VO.UsuarioVO;
 import br.ucb.dao.DocenteDao;
@@ -24,6 +26,8 @@ public class AppUserDetailsService implements UserDetailsService{
 		UsuarioVO usuario = null;
 		UsuarioSistema user = null;
 		//buscar docente
+		PasswordEncoder encoder =  PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
 		usuario = docenteDao.findByMatricula(matricula);
 	    if(usuario == null){
 	    	//buscar aluno
@@ -31,12 +35,15 @@ public class AppUserDetailsService implements UserDetailsService{
 	    if(usuario != null){
 	       user = new UsuarioSistema(usuario, getCargo(usuario));
 	    }
-		return user;
+		UserDetails details = User.withUsername(usuario.getMatricula())
+                .password(encoder.encode(usuario.getSenha()))
+                .roles(usuario.getGrupo()).build();
+		return details;
 	}
 
 	private Collection<? extends GrantedAuthority> getCargo(UsuarioVO usuario) {
 		List<SimpleGrantedAuthority> authority = new ArrayList<SimpleGrantedAuthority>();
-		authority.add(new SimpleGrantedAuthority(usuario.getGrupo()));
+		authority.add(new SimpleGrantedAuthority("ADMIN"));
 		return authority;
 	}
 

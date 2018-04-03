@@ -18,33 +18,39 @@ public class LoginMB extends BaseMB {
 
 	private static final long serialVersionUID = -4806125991581457664L;
 
-	private FacesContext        context  = FacesUtil.getFacesContext();
-	private HttpServletRequest  request  = FacesUtil.getHttpServletRequest();
+	private FacesContext context = FacesUtil.getFacesContext();
+	private HttpServletRequest request = FacesUtil.getHttpServletRequest();
 	private HttpServletResponse response = FacesUtil.getHttpServletResponse();
 	private String matricula;
+	private String password;
 
-	public void login() throws IOException{
-		RequestDispatcher dispacher = request.getRequestDispatcher("/j_spring_security_check");
-		try {
-			dispacher.forward(request, response);
-		} catch (ServletException e) {
-			e.printStackTrace();
-		}
-		context.getResponseComplete();
+	public void login() throws IOException, ServletException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.xhtml");
+		dispatcher.forward(request, response);
+		
+		context.responseComplete();
 	}
 
-	public void preRender(){
-		if("true".equals(request.getParameter("invalid"))){
+	public void preRender() {
+		if ("true".equals(request.getParameter("invalid"))) {
 			setMessageError("Dados inválidos");
 		}
 	}
-	
+
 	public String getMatricula() {
 		return this.matricula;
 	}
 
 	public void setMatricula(String matricula) {
 		this.matricula = matricula;
+	}
+
+	public String getPassword() {
+		return this.password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }
