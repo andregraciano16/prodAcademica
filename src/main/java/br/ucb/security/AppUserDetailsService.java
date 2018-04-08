@@ -25,6 +25,7 @@ public class AppUserDetailsService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String matricula) throws UsernameNotFoundException {
 		UsuarioVO usuario = null;
 		UsuarioSistema user = null;
+		UserDetails details = null;
 		//buscar docente
 		PasswordEncoder encoder =  PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
@@ -34,16 +35,16 @@ public class AppUserDetailsService implements UserDetailsService{
 	    }
 	    if(usuario != null){
 	       user = new UsuarioSistema(usuario, getCargo(usuario));
+	       details = User.withUsername(usuario.getMatricula())
+	    		   .password(encoder.encode(usuario.getSenha()))
+	    		   .roles(usuario.getGrupo()).build();
 	    }
-		UserDetails details = User.withUsername(usuario.getMatricula())
-                .password(encoder.encode(usuario.getSenha()))
-                .roles(usuario.getGrupo()).build();
 		return details;
 	}
 
 	private Collection<? extends GrantedAuthority> getCargo(UsuarioVO usuario) {
 		List<SimpleGrantedAuthority> authority = new ArrayList<SimpleGrantedAuthority>();
-		authority.add(new SimpleGrantedAuthority("ADMIN"));
+		authority.add(new SimpleGrantedAuthority(usuario.getGrupo()));
 		return authority;
 	}
 

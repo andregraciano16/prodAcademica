@@ -1,15 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
-	<h:outputStylesheet library="css" name="bootstrap.min.css" />
-	<h:outputStylesheet library="css" name="datepicker3.css" />
-	<h:outputStylesheet library="css" name="styles.css" />
-	<h:outputStylesheet library="css" name="myStyle.css" />
-
+	<h:outputStylesheet library="css" name="bootstrap.min.css"    />
+	<h:outputStylesheet library="css" name="font-awesome.min.css" />
+	<h:outputStylesheet library="css" name="datepicker3.css"      />
+	<h:outputStylesheet library="css" name="styles.css"           />
+    <h:outputStylesheet library="css" name="myStyle.css"          />
+	
+	<link rel="icon" type="imagem/x-ico" href="resources/images/ucb.ico" />
+	<title>ProdAc</title>
 </h:head>
 <h:body>
 	<div class="row">
@@ -25,7 +27,6 @@
 				    	<f:event listener="#{loginMB.preRender}" type="preRenderView"></f:event>
 				    </f:metadata>
 					<h:form id="frm" role="form" prependId="false">
-						<p:fieldset>
 						    <h:outputLabel for="username" value="E-mail: " />
 							<div class="form-group">
 								<h:inputText id="username" class="form-control" placeholder="E-mail" name="email" type="text" value="#{loginMB.matricula}"  />
@@ -36,8 +37,11 @@
 							</div>
 							<div class = "row"></div>
 							<br/>
-                            <p:commandButton id="btnLogin" styleClass="btn btn-primary"  value="Login" action="#{loginMB.login}" ajax="false" />
-                           </p:fieldset>
+							<div style="text-align:center">
+                            	<p:commandButton id="btnLogin" styleClass="btn btn-primary btn-lg"  value="Login" action="#{loginMB.login}" ajax="false"/>
+                            	<p:commandButton id="btnLimpar" class="btn btn-primary-cinza btn-lg"  value="Limpar" action="#{loginMB.limpar}"
+                            	                  update="@form" ajax="false"/>
+ 							</div>
  					</h:form>
 				</div>
 			</div>
@@ -45,7 +49,29 @@
 	</div><!-- /.row -->	
 	
 
-	<h:outputStylesheet library="js" name="jquery-1.11.1.min.js" />
-	<h:outputStylesheet library="js" name="bootstrap.min.js" />
+	<h:outputScript library="js" name="jquery-3.3.1.js"    />
+	<h:outputScript library="js" name="jquery.mask.js"    />
+	
+<!-- 	<h:outputScript library="js" name="jquery-1.11.1.min.js"    /> -->
+	<h:outputScript library="js" name="bootstrap.min.js"        />
+	<h:outputScript library="js" name="chart.min.js"            />
+	<h:outputScript library="js" name="chart-data.js"           />
+	<h:outputScript library="js" name="easypiechart.js"         />
+	<h:outputScript library="js" name="easypiechart-data.js"    />
+	<h:outputScript library="js" name="bootstrap-datepicker.js" />
+	<h:outputScript library="js" name="custom.js"               />
+	<script type="text/javascript">
+	  WebFontConfig = {
+	    google: { families: [ 'Roboto::latin' ] }
+	  };
+	  (function() {
+	    var wf = document.createElement('script');
+	    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+	    wf.type = 'text/javascript';
+	    wf.async = 'true';
+	    var s = document.getElementsByTagName('script')[0];
+	    s.parentNode.insertBefore(wf, s);
+	  })(); 
+	</script>
 </h:body>
 </html>

@@ -23,7 +23,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		jsfLoginEntry.setRedirectStrategy(new JsfRedirectStrategy());
 		
 		JsfAccessDeniedHandler jsfDeniedEntry = new JsfAccessDeniedHandler();
-		jsfDeniedEntry.setLoginPath("/AcessoNegado.xhtml");
 		jsfDeniedEntry.setContextRelative(true);
 		
 		http
@@ -32,9 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			
 		.authorizeRequests()
-			.antMatchers("/login.xhtml", "/Erro.xhtml", "/javax.faces.resource/**").permitAll()
-			.antMatchers("/Home.xhtml", "/AcessoNegado.xhtml", "/dialogos/**").authenticated()
-			.antMatchers("/**").hasAnyRole("VENDEDORES", "ADMIN", "ADMINISTRADORES")
+			.antMatchers("/login.xhtml", "/javax.faces.resource/**").permitAll()
+			.antMatchers("/index.xhtml").authenticated()
+			.antMatchers("/**").hasAnyRole("PROFESSOR", "DIRETOR", "ALUNO")
 			.and()
 		
 		.formLogin()
@@ -44,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+			.logoutSuccessUrl("/login.xhtml")
 			.and()
 		
 		.exceptionHandling()

@@ -37,6 +37,11 @@ public class LoginMB extends BaseMB {
 		}
 	}
 
+	public void limpar(){
+		this.matricula = null;
+		this.password = null;
+	}
+	
 	public String getMatricula() {
 		return this.matricula;
 	}
