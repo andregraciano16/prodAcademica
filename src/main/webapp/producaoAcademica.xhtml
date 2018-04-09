@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				template="./template.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"  
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+	<ui:define name="Conteudo">
+			<h:form id="idFormulario">
+			         
+					<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+			            <div class="col-lg-12">
+			                <div class="panel panel-default">
+			                <div class="panel-heading">
+					        <div class = "row">
+								<ol class="breadcrumb" style="color:blue;background: #30a5ff">
+									<div class="titulo-centro-grande"> Produção Acadêmica </div>
+							    </ol>
+							</div>
+							</div>
+							<div class="panel-body">
+								  <div class="row">
+									   <div class="col-md-4">
+										    <p:outputLabel for="idTitulo" value="Título: " styleClass="control-label"/>
+											<h:inputText value="#{producaoAcademicaMB.producaoAcademica.titulo}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idTitulo"/>
+										</div>
+										<div class="col-md-4">
+										    <p:outputLabel for="idDesc" value="Descrição:" styleClass="control-label"/>
+											<h:inputText value="#{producaoAcademicaMB.producaoAcademica.descricao}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idDesc"/>
+										</div>
+										<div class="col-md-4">
+										    <p:outputLabel for="idNomeRevista" value="Nome Revista:" styleClass="control-label"/>
+											<h:inputText value="#{producaoAcademicaMB.producaoAcademica.nomeRevista}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idNomeRevista"/>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+										      <p:outputLabel for="idPgIni" value="Página Inicial:" styleClass="control-label"/>
+											  <h:inputText value="#{producaoAcademicaMB.producaoAcademica.paginaIncial}" 
+													       class= "form-control" 
+													       maxlength="10"
+													       id="idPgIni"/>
+								        </div>
+								        <div class="col-md-4">
+										    <p:outputLabel for="idPgFim" value="Página Final:" styleClass="control-label"/>
+											<h:inputText value="#{producaoAcademicaMB.producaoAcademica.paginaFinal}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idPgFim"/>
+										</div>
+										<div class="col-md-4">
+										    <p:outputLabel for="idAno" value="Ano:" styleClass="control-label"/>
+											<h:inputText value="#{producaoAcademicaMB.producaoAcademica.ano}" 
+												         class= "form-control" 
+												         maxlength="4"
+												         id="idAno"/>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<p:outputLabel for="idISSN" value="ISSN:" styleClass="control-label"/>
+											<h:inputText value="#{producaoAcademicaMB.producaoAcademica.ISSN}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idISSN"/>
+										</div>
+										<div class="col-md-4">
+										    <p:outputLabel for="idConceitoQualis" value="Conceito Qualis:" styleClass="control-label"/>
+											<h:inputText value="#{producaoAcademicaMB.producaoAcademica.conceitoQualis}" 
+												         class= "form-control" 
+												         maxlength="10"
+												         id="idConceitoQualis"/>
+								        </div>
+									</div>
+									<div class="row">
+	                               		<div class="col-md-4">
+	                               		    <div class="form-group">
+												<p:outputLabel for="idTipo" value="Tipo Producao:" styleClass="control-label" />
+										        <h:selectOneMenu id="idTipo" value="#{producaoAcademicaMB.tipoProducao}" styleClass="form-control">
+													<f:selectItems itemLabel="#{tipo.tipo}" itemValue="#{tipo.idTipoProducao}" var="tipo" 
+													               value="#{producaoAcademicaMB.getTipo()}" />
+										        </h:selectOneMenu>
+									        </div>
+								        </div>	
+								        <div class="col-md-4">
+	                               		    <div class="form-group">
+												<p:outputLabel for="idStatus" value="Status Produção:" styleClass="control-label" />
+										        <h:selectOneMenu id="idStatus" value="#{producaoAcademicaMB.status}" styleClass="form-control">
+													<f:selectItems itemLabel="#{tipo.tipo}" itemValue="#{tipo.idStatusProducao}" var="tipo" 
+													               value="#{producaoAcademicaMB.getStatus()}" />
+										        </h:selectOneMenu>
+									        </div>
+								        </div>
+								        <div class="col-md-4">
+	                               		    <div class="form-group">
+												<p:outputLabel for="idLinha" value="Linha de Pesquisa:" styleClass="control-label" />
+										        <h:selectOneMenu id="idLinha" value="#{producaoAcademicaMB.linhaPesquisa}" styleClass="form-control">
+													<f:selectItems itemLabel="#{tipo.descricao}" itemValue="#{tipo.idLinhaPesquisa}" var="tipo" 
+													               value="#{producaoAcademicaMB.getLinhas()}" />
+										        </h:selectOneMenu>
+									        </div>
+								        </div>						
+									</div>
+		                            <br/>
+		                            <div class="form-group">
+											<p:commandButton value="Cadastrar" 
+											                 class="btn-primary btn-md" 
+											                 action="#{producaoAcademicaMB.cadastrar()}" 
+											                 update="@form"
+											                 styleClass="btn btn-primary" />
+		
+											<p:commandButton value="Limpar" 
+											                 title="Limpar"
+											                 class="btn btn-primary-cinza"
+												             actionListener="#{producaoAcademicaMB.limpar()}" 
+												             update="@form"/>
+									</div>
+									<br />
+									<br /> 
+									<br />
+                                   
+								</div>	
+							</div>
+						</div>
+					</div>
+		    </h:form>
+	</ui:define>
+</ui:composition>

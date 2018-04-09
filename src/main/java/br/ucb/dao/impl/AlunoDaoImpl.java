@@ -2,11 +2,14 @@ package br.ucb.dao.impl;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 
+import br.ucb.VO.UsuarioVO;
 import br.ucb.dao.AlunoDao;
 import br.ucb.entity.Aluno;
+import br.ucb.entity.Docente;
 
 
 public class AlunoDaoImpl extends DaoGenericoImpl<Aluno, Integer> implements AlunoDao{
@@ -108,6 +111,26 @@ public class AlunoDaoImpl extends DaoGenericoImpl<Aluno, Integer> implements Alu
 		query.setParameter(1,id);
 		
 		return (Aluno) query.getSingleResult();
+	}
+	
+	@Override
+	public UsuarioVO findByMatricula(String matricula) {
+		Query query = getManager().createQuery(" from Aluno t  WHERE t.matricula like ?1 ");
+		query.setParameter(1, matricula);
+		Aluno aluno = null;
+		UsuarioVO usuario = null;
+		try{
+		   aluno = (Aluno) query.getSingleResult();
+		}catch(NoResultException e){ 
+			
+		}
+		if(aluno != null){
+			usuario = new UsuarioVO();
+			usuario.setMatricula(aluno.getMatricula());
+			usuario.setSenha(aluno.getSenha());
+			usuario.setGrupo("ALUNO");
+		}
+		return usuario;
 	}
 	
 	

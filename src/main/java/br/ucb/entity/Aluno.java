@@ -51,7 +51,8 @@ public class Aluno implements Serializable, Comparable<Aluno> {
 
 	@Column(name = "ativo")
 	private boolean ativo;
-
+@Column(name = "senha")
+	private String senha;
 	@ManyToOne
 	@JoinColumn(name = "id_endereco")
 	private Endereco endereco;
@@ -167,6 +168,16 @@ public class Aluno implements Serializable, Comparable<Aluno> {
 	public void setStatusAluno(StatusAluno statusAluno) {
 		this.statusAluno = statusAluno;
 	}
+	
+		
+	public String getSenha() {
+		return this.senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	
 
 	public boolean equals(Object obj) {
 

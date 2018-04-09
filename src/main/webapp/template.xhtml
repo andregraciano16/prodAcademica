@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<h:outputStylesheet library="css" name="bootstrap.min.css"    />
@@ -39,66 +40,105 @@
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
 		
 		<ul class="nav menu">
-			<li class="active">
-				<a href="index.xhtml">
-			    	<em class="fa fa-dashboard">&nbsp;</em> Dashboard
-			    </a>
+			<li>
+			    <h:panelGroup rendered="#{menuMB.isDiretor()}">
+					<a href="aluno.xhtml">
+				    	<em class="glyphicon glyphicon-education">&nbsp;</em> Aluno
+				    </a>
+			    </h:panelGroup>
 			</li>
 			<li>
-				<a href="widgets.xhtml">
-					<em class="fa fa-calendar">&nbsp;</em>Widgets
+			    <h:panelGroup rendered="#{menuMB.isDiretor()}">
+					<a href="docente.xhtml">
+						<em class="glyphicon glyphicon-book">&nbsp;</em>Docente
+					</a>
+				</h:panelGroup>
+			</li>
+			<li>
+				<a href="producaoAcademica.xhtml">
+					<em class="glyphicon glyphicon-file">&nbsp;</em>Produção Acadêmica
 				</a>
 			</li>
 			<li>
-				<a href="charts.xhtml">
-					<em class="fa fa-bar-chart">&nbsp;</em>
-					Charts
+				<a href="projeto.xhtml">
+					<em class="glyphicon glyphicon-folder-open">&nbsp;</em>Projetos
 				</a>
 			</li>
 			<li>
 				<a href="elements.xhtml">
-					<em class="fa fa-toggle-off">&nbsp;</em>
-					UI Elements
+					<em class="glyphicon glyphicon-tasks">&nbsp;</em>Relatório
 				</a>
 			</li>
 			<li>
-				<a href="panels.xhtml">
-					<em class="fa fa-clone">&nbsp;</em>
-					Alerts &amp; Panels
-				</a>
+			    <h:panelGroup rendered="#{menuMB.isDiretor()}">
+					<a href="visualizarComentario.xhtml">
+						<em class="glyphicon glyphicon-comment">&nbsp;</em>Comentários
+					</a>
+				</h:panelGroup>
+			</li>
+			<li>
+			    <h:panelGroup rendered="#{!menuMB.isDiretor()}">
+					<a href="comentario.xhtml">
+						<em class="glyphicon glyphicon-comment">&nbsp;</em>Comentários
+					</a>
+				</h:panelGroup>
 			</li>
 			<li class="parent ">
-				<a data-toggle="collapse" href="#sub-item-1">
-					<em class="fa fa-navicon">&nbsp;</em> Multilevel 
-					<span data-toggle="collapse" href="#sub-item-1" class="icon pull-right">
-						<em class="fa fa-plus"></em>
-					</span>
-				</a>
-				<ul class="children collapse" id="sub-item-1">
-					<li>
-						<a class="" href="#"> 
-						<span class="fa fa-arrow-right">&nbsp;</span>
-							Sub Item 1
-						</a>
-					</li>
-					<li>
-						<a class="" href="#"> 
-							<span class="fa fa-arrow-right">&nbsp;</span>
-							Sub Item 2
-						</a>
-					</li>
-					<li>
-						<a class="" href="#"> 
-							<span class="fa fa-arrow-right">&nbsp;</span>
-							Sub Item 3
-						</a>
-					</li>
-				</ul>
+				<h:panelGroup rendered="#{menuMB.isDiretor()}">
+					<a data-toggle="collapse" href="#sub-item-1">
+						<em class="fa fa-cog">&nbsp;</em> Configurações 
+						<span data-toggle="collapse" href="#sub-item-1" class="icon pull-right">
+							<em class="fa fa-plus"></em>
+						</span>
+					</a>
+					<ul class="children collapse" id="sub-item-1">
+						<li>
+							<a class="" href="tipoDocente.xhtml"> 
+							<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Tipo Docente
+							</a>
+						</li>
+						<li>
+							<a class="" href="statusProducao.xhtml"> 
+								<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Status Produção
+							</a>
+						</li>
+						<li>
+							<a class="" href="tipoProducao.xhtml"> 
+								<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Tipo Produção
+							</a>
+						</li>
+						<li>
+							<a class="" href="tipoProjeto.xhtml"> 
+								<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Tipo Projeto
+							</a>
+						</li>
+						<li>
+							<a class="" href="statusAluno.xhtml"> 
+								<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Status Aluno
+							</a>
+						</li>
+						<li>
+							<a class="" href="linhaPesquisa.xhtml"> 
+								<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Linha Pesquisa
+							</a>
+						</li>
+						<li>
+							<a class="" href="curso.xhtml"> 
+								<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Curso
+							</a>
+						</li>
+						<li>
+							<a class="" href="materia.xhtml"> 
+								<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Matéria
+							</a>
+						</li>
+					</ul>
+            	</h:panelGroup>
 			</li>
 			<li>
-				<a href="login.html"><em class="fa fa-power-off">&nbsp;</em>
-					Logout
-				</a>
+                 <a class="" href="#{request.contextPath}/logout" >
+                       <span class="fa fa-power-off">&nbsp;</span>Sair
+                  </a>
 			</li>
 		</ul>
 	</div>
@@ -110,7 +150,7 @@
 	<h:outputScript library="js" name="jquery-3.3.1.js"    />
 	<h:outputScript library="js" name="jquery.mask.js"    />
 	
-<!-- 	<h:outputScript library="js" name="jquery-1.11.1.min.js"    /> -->
+	<h:outputScript library="js" name="jquery-1.11.1.min.js"    />
 	<h:outputScript library="js" name="bootstrap.min.js"        />
 	<h:outputScript library="js" name="chart.min.js"            />
 	<h:outputScript library="js" name="chart-data.js"           />
