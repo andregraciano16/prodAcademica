@@ -14,12 +14,15 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import br.ucb.VO.UsuarioVO;
+import br.ucb.dao.AlunoDao;
 import br.ucb.dao.DocenteDao;
+import br.ucb.dao.impl.AlunoDaoImpl;
 import br.ucb.dao.impl.DocenteDaoImpl;
 
 public class AppUserDetailsService implements UserDetailsService{
 
 	private DocenteDao docenteDao = new DocenteDaoImpl();
+	private AlunoDao alunoDao = new AlunoDaoImpl();
 	
 	@Override
 	public UserDetails loadUserByUsername(String matricula) throws UsernameNotFoundException {
@@ -31,7 +34,7 @@ public class AppUserDetailsService implements UserDetailsService{
 
 		usuario = docenteDao.findByMatricula(matricula);
 	    if(usuario == null){
-	    	//buscar aluno
+	    	usuario = alunoDao.findByMatricula(matricula);
 	    }
 	    if(usuario != null){
 	       user = new UsuarioSistema(usuario, getCargo(usuario));

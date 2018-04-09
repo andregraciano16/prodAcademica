@@ -42,6 +42,9 @@ public class Aluno implements Serializable {
 	@Column(name = "dataCadastro")
 	private Date dataCadastro;
 
+	@Column(name = "senha")
+	private String senha;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_endereco")
 	private Endereco endereco;
@@ -140,6 +143,14 @@ public class Aluno implements Serializable {
 
 	public void setStatusAluno(StatusAluno statusAluno) {
 		this.statusAluno = statusAluno;
+	}
+	
+	public String getSenha() {
+		return this.senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public boolean equals(Object obj) {
