@@ -14,22 +14,22 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<div class="row">
-								<ol class="breadcrumb" style="color: blue; background: #30a5ff">
-									<div class="titulo-centro-grande">Aluno</div>
-								</ol>
-							</div>
+							<ol class="breadcrumb" style="color: blue; background: #30a5ff">
+								<div class="titulo-centro-grande">Aluno</div>
+							</ol>
+
 						</div>
 
-						<div class="panel-body">
+						<p:messages id="messages" globalOnly="true" closable="true"
+							styleClass="mensagem-tela" />
+						<br />
 
-							<p:messages id="message" globalOnly="true" closable="true" />
+					</div>
+					<h:panelGroup rendered="#{alunoMB.acaoEnum.getCodigo() != 3}">
+						<div class="panel panel-default">
+							<div class="panel-body">
 
-							<h:messages showSummary="false" showDetail="true"
-								styleClass="form-messages" errorClass="error" infoClass="info"
-								id="msgInfo" />
-							<p:panel
-								rendered="#{alunoMB.acaoEnum.getCodigo() == 1 || alunoMB.acaoEnum.getCodigo() == 2 || alunoMB.acaoEnum.getCodigo() == 0 }">
+
 
 								<div class="row">
 									<div class="col-md-4">
@@ -67,11 +67,12 @@
 											<span class="input-group-addon"> <span
 												class="glyphicon glyphicon-tag"></span>
 											</span>
-											<h:inputText id="idDataNasc"
-												value="#{alunoMB.aluno.dataNascimento}" class="form-control"
+											<p:inputMask id="idDataNasc"
+												value="#{alunoMB.aluno.dataNascimento}" mask="99/99/9999"
+												class="form-control" converter="dataConverter"
 												readonly="#{alunoMB.acaoEnum.getCodigo() == 0}">
-												<f:convertDateTime locale="pt" pattern="dd/MM/yyyy"></f:convertDateTime>
-											</h:inputText>
+												<p:watermark value="Dia/Mês/Ano" for="idDataNasc" />
+											</p:inputMask>
 										</div>
 									</div>
 
@@ -82,9 +83,12 @@
 											<span class="input-group-addon"> <span
 												class="glyphicon glyphicon-tag"></span>
 											</span>
-											<h:inputText value="#{alunoMB.aluno.celular}"
-												class="form-control" maxlength="11" id="idCelular"
-												readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
+
+											<p:inputMask id="idCelular" class="form-control"
+												value="#{alunoMB.aluno.celular}" mask="99999-9999"
+												maxlength="10"
+												readonly="#{alunoMB.acaoEnum.getCodigo() == 0}"
+												converter="telefoneConverter" />
 										</div>
 									</div>
 									<div class="col-md-4">
@@ -94,12 +98,53 @@
 											<span class="input-group-addon"> <span
 												class="glyphicon glyphicon-tag"></span>
 											</span>
-											<h:inputText value="#{alunoMB.aluno.telefoneFixo}"
-												class="form-control" maxlength="10" id="idFixo"
-												readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
+											<p:inputMask id="idFixo" class="form-control"
+												value="#{alunoMB.aluno.telefoneFixo}" mask="9999-9999"
+												maxlength="9"
+												readonly="#{alunoMB.acaoEnum.getCodigo() == 0}"
+												converter="telefoneConverter" />
 										</div>
 									</div>
 								</div>
+
+								<div class="row">
+
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Ativo: " for="idAtivo"
+												styleClass="control-label"></h:outputLabel>
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:selectOneMenu id="idAtivo" value="#{alunoMB.aluno.ativo}"
+													styleClass="form-control"
+													disabled="#{alunoMB.acaoEnum.getCodigo() == 0}">
+													<f:selectItem itemLabel="Sim" itemValue="#{true}" />
+													<f:selectItem itemLabel="Não" itemValue="#{false}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-8">
+										<div class="form-group">
+											<h:outputLabel value="Email:" for="idEmail"
+												styleClass="control-label"></h:outputLabel>
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<p:inputText value="#{alunoMB.aluno.email}"
+													class="form-control" maxlength="50"
+													disabled="#{alunoMB.acaoEnum.getCodigo() == 0}"
+													id="idEmail">
+												</p:inputText>
+											</div>
+										</div>
+									</div>
+								</div>
+
 								<div class="row">
 
 									<div class="col-md-4">
@@ -240,7 +285,7 @@
 								</div>
 
 								<br />
-								<p:panel styleClass="panel-no-border"
+								<h:panelGroup styleClass="panel-no-border"
 									rendered="#{alunoMB.acaoEnum.getCodigo() == 1}">
 									<div class="form-group"
 										style="padding-top: 70px; text-align: right;">
@@ -250,19 +295,20 @@
 											styleClass="btn btn-primary" id="btnCadastrar"
 											icon="fa fa-save" />
 										&nbsp;&nbsp;
-										<p:commandButton value="Pesquisar" title="Pesquisar"
-											actionListener="#{alunoMB.buscar}" update="@form"
-											styleClass="btn btn-default" icon="fa fa-search"
-											id="btnPesquisar" />
-										&nbsp;&nbsp;
+
 										<p:commandButton value="Limpar" title="Limpar"
-											actionListener="#{alunoMB.limpar}" update="@form"
-											styleClass="btn btn-primary" icon="fa fa-eraser"
+											actionListener="#{alunoMB.limparCadastro}" update="@form"
+											styleClass="btn btn-defaut" icon="fa fa-eraser"
 											id="btnLimpar" />
+										&nbsp;&nbsp;
+										<p:commandButton value="Voltar" class="btn-primary btn-md"
+											action="#{alunoMB.limpar}" update="@form"
+											styleClass="btn btn-default" id="btnVoltarPrinc"
+											icon="fa fa-undo" />
 
 									</div>
-								</p:panel>
-								<p:panel styleClass="panel-no-border"
+								</h:panelGroup>
+								<h:panelGroup styleClass="panel-no-border"
 									rendered="#{alunoMB.acaoEnum.getCodigo() == 2}">
 									<div class="form-group"
 										style="padding-top: 70px; text-align: right;">
@@ -276,9 +322,9 @@
 											styleClass="btn btn-default" id="btnCancelar"
 											icon="fa fa-close" />
 									</div>
-								</p:panel>
+								</h:panelGroup>
 
-								<p:panel styleClass="panel-no-border"
+								<h:panelGroup styleClass="panel-no-border"
 									rendered="#{alunoMB.acaoEnum.getCodigo() == 0}">
 									<div class="form-group"
 										style="padding-top: 70px; text-align: right;">
@@ -291,15 +337,99 @@
 											action="#{alunoMB.limpar}" update="@form"
 											styleClass="btn btn-default" id="btnVoltar" icon="fa fa-undo" />
 									</div>
-								</p:panel>
-								<br />
-								<br />
-							</p:panel>
+								</h:panelGroup>
+
+							</div>
 						</div>
-					</div>
-					<p:panel
-						rendered="#{alunoMB.acaoEnum.getCodigo() == 1 || alunoMB.acaoEnum.getCodigo() == 3}">
+					</h:panelGroup>
+
+
+					<h:panelGroup rendered="#{alunoMB.acaoEnum.getCodigo() == 3}"
+						id="panelPesquisa">
 						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3>Dados para pesquisa</h3>
+								<br /> <br />
+							</div>
+							<div class="panel-body">
+								<div class="row">
+
+									<div class="form-group">
+										<p:chart type="line" model="#{alunoMB.grafico}" id="idGrafico"
+											style="width:100%;" responsive="true" />
+									</div>
+
+								</div>
+
+
+								<div class="row">
+
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Matricula:" for="idMatriculaPesq"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputText value="#{alunoMB.aluno.matricula}"
+													class="form-control" maxlength="10" id="idMatriculaPesq" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Nome:" for="idNomePesq"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputText value="#{alunoMB.aluno.nome}"
+													class="form-control" maxlength="10" id="idNomePesq" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Filtro do gráfico: " for="idGraficoFiltro"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:selectOneMenu id="idGraficoFiltro" value="#{alunoMB.graficoFiltro}"
+													styleClass="form-control">
+													<f:selectItem itemLabel="Separado por anos" itemValue="1" />
+													<f:selectItem itemLabel="Tempo total" itemValue="2" />
+													<p:ajax event="change" update="idFormulario:idGrafico" listener="#{alunoMB.selecionaFiltro}"/>
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+
+								<div class="form-group" style="text-align: right;">
+									<p:commandButton value="Pesquisar" action="#{alunoMB.buscar}"
+										update="@form" class="btn btn-primary" icon="fa fa-search" />
+									&nbsp;&nbsp;
+									<p:commandButton value="Limpar" title="Limpar"
+										class="btn btn-defaut" icon="fa fa-eraser"
+										actionListener="#{alunoMB.limpar}" update="@form" />
+									&nbsp;&nbsp;
+									<p:commandButton value="Novo" action="#{alunoMB.habilitarNovo}"
+										update="@form" class="btn btn-primary"
+										icon="fa fa-address-card" />
+								</div>
+							</div>
+						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3>Alunos cadastrados</h3>
+								<br /> <br />
+							</div>
 							<div class="panel-body">
 								<p:dataTable id="idTable" var="item" value="#{alunoMB.alunos}"
 									editable="true"
@@ -380,7 +510,7 @@
 								</p:confirmDialog>
 							</div>
 						</div>
-					</p:panel>
+					</h:panelGroup>
 				</div>
 			</div>
 		</h:form>

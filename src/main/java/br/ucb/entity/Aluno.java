@@ -10,9 +10,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-public class Aluno implements Serializable {
+public class Aluno implements Serializable, Comparable<Aluno> {
 
 	private static final long serialVersionUID = 2290908420484970960L;
 
@@ -34,13 +36,21 @@ public class Aluno implements Serializable {
 	private char sexo;
 
 	@Column(name = "dataNascimento")
+	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 
 	@Column(name = "matricula")
 	private String matricula;
 
 	@Column(name = "dataCadastro")
+	@Temporal(TemporalType.DATE)
 	private Date dataCadastro;
+
+	@Column(name = "email")
+	private String email;
+
+	@Column(name = "ativo")
+	private boolean ativo;
 
 	@ManyToOne
 	@JoinColumn(name = "id_endereco")
@@ -118,6 +128,22 @@ public class Aluno implements Serializable {
 		this.dataCadastro = dataCadastro;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+
 	public Endereco getEndereco() {
 		return endereco;
 	}
@@ -147,16 +173,15 @@ public class Aluno implements Serializable {
 		int flag = 0;
 		if (obj instanceof Aluno) {
 			Aluno outroAluno = (Aluno) obj;
-			if (outroAluno.getNome().equals(this.getNome()) 
+			if (outroAluno.getNome().equals(this.getNome())
 					&& outroAluno.getTelefoneFixo().equals(this.getTelefoneFixo())
-					&& outroAluno.getCelular().equals(this.getCelular())
-					&& outroAluno.getSexo() == this.getSexo()
+					&& outroAluno.getCelular().equals(this.getCelular()) && outroAluno.getSexo() == this.getSexo()
 					&& outroAluno.getDataNascimento().equals(this.getDataNascimento())
 					&& outroAluno.getMatricula().equals(this.getMatricula())
 					&& outroAluno.getDataCadastro().equals(this.getDataCadastro())
 					&& outroAluno.getEndereco().equals(this.getEndereco())
 					&& outroAluno.getCurso().equals(this.getCurso())
-					&& outroAluno.getStatusAluno().equals(this.getStatusAluno())){
+					&& outroAluno.getStatusAluno().equals(this.getStatusAluno())) {
 				flag = 1;
 			}
 		}
@@ -185,5 +210,11 @@ public class Aluno implements Serializable {
 	public int hashCode() {
 		return this.getNome().hashCode();
 	}
-	
+
+
+	@Override
+	public int compareTo(Aluno outro) {
+		return getDataCadastro().compareTo(outro.getDataCadastro());
+	}
+
 }
