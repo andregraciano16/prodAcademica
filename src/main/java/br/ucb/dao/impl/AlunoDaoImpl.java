@@ -37,7 +37,7 @@ public class AlunoDaoImpl extends DaoGenericoImpl<Aluno, Integer> implements Alu
 		}
 		
 		if(aluno.getDataNascimento()!= null){
-			query.setParameter(4, aluno.getDataNascimento(), TemporalType.TIMESTAMP);
+			query.setParameter(4, aluno.getDataNascimento(), TemporalType.DATE);
 		}
 		
 		if(aluno.getMatricula()!= null && !aluno.getMatricula().trim().isEmpty()){
@@ -55,6 +55,11 @@ public class AlunoDaoImpl extends DaoGenericoImpl<Aluno, Integer> implements Alu
 		if(aluno.getTelefoneFixo()!= null && !aluno.getTelefoneFixo().trim().isEmpty()){
 			query.setParameter(8,"%"+ aluno.getTelefoneFixo()+"%");
 		}
+		
+		if(aluno.getDataCadastro()!= null){
+			query.setParameter(9, aluno.getDataCadastro(), TemporalType.DATE);
+		}
+		
 	}
 	
 	public String montarWhere(Aluno aluno){
@@ -91,6 +96,11 @@ public class AlunoDaoImpl extends DaoGenericoImpl<Aluno, Integer> implements Alu
 		if(aluno.getTelefoneFixo()!= null && !aluno.getTelefoneFixo().trim().isEmpty()){
 			consulta.append(" and a.telefoneFixo like ?8 ");
 		}
+		
+		if(aluno.getDataCadastro() != null){
+			consulta.append(" and a.dataCadastro like ?9 ");
+		}
+		
 		return consulta.toString();
 	}
 	
