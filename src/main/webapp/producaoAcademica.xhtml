@@ -6,7 +6,7 @@
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:p="http://primefaces.org/ui">
 	<ui:define name="Conteudo">
-			<h:form id="idFormulario">
+			<h:form id="idFormulario" prependId="false">
 			         
 					<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 			            <div class="col-lg-12">
@@ -110,6 +110,11 @@
 									        </div>
 								        </div>						
 									</div>
+									<div class="row">
+										 <p:fileUpload fileUploadListener="#{producaoAcademicaMB.upload}" mode="advanced" style="padding-left: 1%;padding-right: 1%;"
+										               dragDropSupport="false" multiple="true" update="messages" sizeLimit="100000"
+										               fileLimit="3" />
+								    </div>
 		                            <br/>
 		                            <div class="form-group">
 											<p:commandButton value="Cadastrar" 
