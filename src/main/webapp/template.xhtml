@@ -1,17 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-
 <h:head>
 	<link rel="icon" type="imagem/x-ico" href="resources/images/ucb.ico" />
 	<h:outputStylesheet library="css" name="bootstrap.min.css"    />
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
 	<h:outputStylesheet library="css" name="font-awesome.min.css" />
 	<h:outputStylesheet library="css" name="datepicker3.css"      />
 	<h:outputStylesheet library="css" name="styles.css"           />
     <h:outputStylesheet library="css" name="myStyle.css"          />
-	<h:outputStylesheet href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" />	
 	<title>ProdAc</title>
 </h:head>
 
@@ -20,128 +20,99 @@
 	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
-				<span class="sr-only">Toggle navigation</span> 
-				<span class="icon-bar"></span> 
-			    <span class="icon-bar"></span> 
-			    <span class="icon-bar"></span>
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#sidebar-collapse">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">
-				<span>Prod</span>Ac
+			<a class="navbar-brand" href="#"> <span>Prod</span>Ac
 			</a>
 			<ul class="nav navbar-top-links navbar-right">
-				
+
 			</ul>
 		</div>
 	</div>
 	</nav>
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-		
+
 		<ul class="nav menu">
-			<li>
-			    <h:panelGroup rendered="#{menuMB.isDiretor()}">
-					<a href="aluno.xhtml">
-				    	<em class="glyphicon glyphicon-education">&nbsp;</em> Aluno
-				    </a>
-			    </h:panelGroup>
-			</li>
-			<li>
-			    <h:panelGroup rendered="#{menuMB.isDiretor()}">
-					<a href="docente.xhtml">
-						<em class="glyphicon glyphicon-book">&nbsp;</em>Docente
+			<li><h:panelGroup rendered="#{menuMB.isDiretor()}">
+					<a href="aluno.xhtml"> <em
+						class="glyphicon glyphicon-education">&nbsp;</em> Aluno
 					</a>
-				</h:panelGroup>
-			</li>
-			<li>
-				<a href="producaoAcademica.xhtml">
-					<em class="glyphicon glyphicon-file">&nbsp;</em>Produção Acadêmica
-				</a>
-			</li>
-			<li>
-				<a href="projeto.xhtml">
-					<em class="glyphicon glyphicon-folder-open">&nbsp;</em>Projetos
-				</a>
-			</li>
-			<li>
-				<a href="elements.xhtml">
-					<em class="glyphicon glyphicon-tasks">&nbsp;</em>Relatório
-				</a>
-			</li>
-			<li>
-			    <h:panelGroup rendered="#{menuMB.isDiretor()}">
-					<a href="visualizarComentario.xhtml">
-						<em class="glyphicon glyphicon-comment">&nbsp;</em>Comentários
+				</h:panelGroup></li>
+			<li><h:panelGroup rendered="#{menuMB.isDiretor()}">
+					<a href="docente.xhtml"> <em class="glyphicon glyphicon-book">&nbsp;</em>Docente
 					</a>
-				</h:panelGroup>
-			</li>
-			<li>
-			    <h:panelGroup rendered="#{!menuMB.isDiretor()}">
-					<a href="comentario.xhtml">
-						<em class="glyphicon glyphicon-comment">&nbsp;</em>Comentários
+				</h:panelGroup></li>
+			<li><a href="producaoAcademica.xhtml"> <em
+					class="glyphicon glyphicon-file">&nbsp;</em>Produção Acadêmica
+			</a></li>
+			<li><a href="projeto.xhtml"> <em
+					class="glyphicon glyphicon-folder-open">&nbsp;</em>Projetos
+			</a></li>
+			<li><a href="elements.xhtml"> <em
+					class="glyphicon glyphicon-tasks">&nbsp;</em>Relatório
+			</a></li>
+			<li><h:panelGroup rendered="#{menuMB.isDiretor()}">
+					<a href="visualizarComentario.xhtml"> <em
+						class="glyphicon glyphicon-comment">&nbsp;</em>Comentários
 					</a>
-				</h:panelGroup>
-			</li>
-			<li class="parent ">
-				<h:panelGroup rendered="#{menuMB.isDiretor()}">
-					<a data-toggle="collapse" href="#sub-item-1">
-						<em class="fa fa-cog">&nbsp;</em> Configurações 
-						<span data-toggle="collapse" href="#sub-item-1" class="icon pull-right">
+				</h:panelGroup></li>
+			<li><h:panelGroup rendered="#{!menuMB.isDiretor()}">
+					<a href="comentario.xhtml"> <em
+						class="glyphicon glyphicon-comment">&nbsp;</em>Comentários
+					</a>
+				</h:panelGroup></li>
+			<li class="parent "><h:panelGroup
+					rendered="#{menuMB.isDiretor()}">
+					<a data-toggle="collapse" href="#sub-item-1"> <em
+						class="fa fa-cog">&nbsp;</em> Configurações <span
+						data-toggle="collapse" href="#sub-item-1" class="icon pull-right">
 							<em class="fa fa-plus"></em>
-						</span>
+					</span>
 					</a>
 					<ul class="children collapse" id="sub-item-1">
-						<li>
-							<a class="" href="tipoDocente.xhtml"> 
-							<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Tipo Docente
-							</a>
-						</li>
-						<li>
-							<a class="" href="statusProducao.xhtml"> 
-								<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Status Produção
-							</a>
-						</li>
-						<li>
-							<a class="" href="tipoProducao.xhtml"> 
-								<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Tipo Produção
-							</a>
-						</li>
-						<li>
-							<a class="" href="tipoProjeto.xhtml"> 
-								<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Tipo Projeto
-							</a>
-						</li>
-						<li>
-							<a class="" href="statusAluno.xhtml"> 
-								<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Status Aluno
-							</a>
-						</li>
-						<li>
-							<a class="" href="linhaPesquisa.xhtml"> 
-								<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Linha Pesquisa
-							</a>
-						</li>
-						<li>
-							<a class="" href="curso.xhtml"> 
-								<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Curso
-							</a>
-						</li>
-						<li>
-							<a class="" href="materia.xhtml"> 
-								<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Matéria
-							</a>
-						</li>
+						<li><a class="" href="tipoDocente.xhtml"> <span
+								class="glyphicon glyphicon-triangle-right">&nbsp;</span>Tipo
+								Docente
+						</a></li>
+						<li><a class="" href="statusProducao.xhtml"> <span
+								class="glyphicon glyphicon-triangle-right">&nbsp;</span>Status
+								Produção
+						</a></li>
+						<li><a class="" href="tipoProducao.xhtml"> <span
+								class="glyphicon glyphicon-triangle-right">&nbsp;</span>Tipo
+								Produção
+						</a></li>
+						<li><a class="" href="tipoProjeto.xhtml"> <span
+								class="glyphicon glyphicon-triangle-right">&nbsp;</span>Tipo
+								Projeto
+						</a></li>
+						<li><a class="" href="statusAluno.xhtml"> <span
+								class="glyphicon glyphicon-triangle-right">&nbsp;</span>Status
+								Aluno
+						</a></li>
+						<li><a class="" href="linhaPesquisa.xhtml"> <span
+								class="glyphicon glyphicon-triangle-right">&nbsp;</span>Linha
+								Pesquisa
+						</a></li>
+						<li><a class="" href="curso.xhtml"> <span
+								class="glyphicon glyphicon-triangle-right">&nbsp;</span>Curso
+						</a></li>
+						<li><a class="" href="materia.xhtml"> <span
+								class="glyphicon glyphicon-triangle-right">&nbsp;</span>Matéria
+						</a></li>
 					</ul>
-            	</h:panelGroup>
-			</li>
-			<li>
-                 <a class="" href="#{request.contextPath}/logout" >
-                       <span class="fa fa-power-off">&nbsp;</span>Sair
-                  </a>
-			</li>
+				</h:panelGroup></li>
+			<li><a class="" href="#{request.contextPath}/logout"> <span
+					class="fa fa-power-off">&nbsp;</span>Sair
+			</a></li>
 		</ul>
 	</div>
 	<div>
-		<ui:insert name = "Conteudo"></ui:insert>
+		<ui:insert name="Conteudo"></ui:insert>
 	</div>
 
 	<h:outputScript library="js" name="bootstrap.min.js"        />
@@ -149,61 +120,71 @@
 	<h:outputScript library="js" name="chart-data.js"           />
 	<h:outputScript library="js" name="easypiechart.js"         />
 	<h:outputScript library="js" name="easypiechart-data.js"    />
+	<h:outputScript library="primefaces" name="jquery/jquery.js" />
+	<h:outputScript library="primefaces" name="jquery/jquery-plugins.js" />
 	<h:outputScript library="js" name="bootstrap-datepicker.js" />
-	<h:outputScript library="js" name="custom.js" />   
-	<h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
-    <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />         
+	<h:outputScript library="js" name="custom.js" />
 
-    <script type="text/javascript">
+
+	<script type="text/javascript">
+		jQuery.noConflict();
 		$(document).ready(function() {
-		    $('.dateinput').datepicker({ format: "yyyy/mm/dd" });
-		}); 
+			$('.dateinput').datepicker({
+				format : "yyyy/mm/dd"
+			});
+		});
 	</script>
 
 	<script type="text/javascript">
-
-	   PrimeFaces.locales['pt'] = {
-            closeText: 'Fechar',
-            prevText: 'Anterior',
-            nextText: 'Próximo',
-            currentText: 'Começo',
-            monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun', 'Jul','Ago','Set','Out','Nov','Dez'],
-            dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-            dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
-            dayNamesMin: ['D','S','T','Q','Q','S','S'],
-            weekHeader: 'Semana',
-            firstDay: 1,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: '',
-            timeOnlyTitle: 'Só Horas',
-            timeText: 'Tempo',
-            hourText: 'Hora',
-            minuteText: 'Minuto',
-            secondText: 'Segundo',
-            currentText: 'Data Atual',
-            ampm: false,
-            month: 'Mês',
-            week: 'Semana',
-            day: 'Dia',
-            allDayText : 'Todo Dia'
-        };
+		PrimeFaces.locales['pt'] = {
+			closeText : 'Fechar',
+			prevText : 'Anterior',
+			nextText : 'Próximo',
+			currentText : 'Começo',
+			monthNames : [ 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio',
+					'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
+					'Novembro', 'Dezembro' ],
+			monthNamesShort : [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+					'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez' ],
+			dayNames : [ 'Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta',
+					'Sexta', 'Sábado' ],
+			dayNamesShort : [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ],
+			dayNamesMin : [ 'D', 'S', 'T', 'Q', 'Q', 'S', 'S' ],
+			weekHeader : 'Semana',
+			firstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : '',
+			timeOnlyTitle : 'Só Horas',
+			timeText : 'Tempo',
+			hourText : 'Hora',
+			minuteText : 'Minuto',
+			secondText : 'Segundo',
+			currentText : 'Data Atual',
+			ampm : false,
+			month : 'Mês',
+			week : 'Semana',
+			day : 'Dia',
+			allDayText : 'Todo Dia'
+		};
 	</script>
-	
+
 	<script type="text/javascript">
-	
-	  WebFontConfig = {
-	    google: { families: [ 'Roboto::latin' ] }
-	  };
-	  (function() {
-	    var wf = document.createElement('script');
-	    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-	    wf.type = 'text/javascript';
-	    wf.async = 'true';
-	    var s = document.getElementsByTagName('script')[0];
-	    s.parentNode.insertBefore(wf, s);
-	  })(); 
+		jQuery.noConflict();
+		WebFontConfig = {
+			google : {
+				families : [ 'Roboto::latin' ]
+			}
+		};
+		(function() {
+			var wf = document.createElement('script');
+			wf.src = ('https:' == document.location.protocol ? 'https' : 'http')
+					+ '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+			wf.type = 'text/javascript';
+			wf.async = 'true';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(wf, s);
+		})();
 	</script>
 </h:body>
 
