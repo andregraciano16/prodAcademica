@@ -26,6 +26,9 @@
 		<class>br.ucb.entity.TipoDocente</class>
 		<class>br.ucb.entity.TipoProducao</class>
 		<class>br.ucb.entity.TipoProjeto</class>
+		<class>br.ucb.entity.Livro</class>
+		<class>br.ucb.entity.ArtigoJornalRevista</class>
+		<class>br.ucb.entity.ArtigoPeriodico</class>
         <properties>    
             <!-- Propriedades JDBC -->
             <property name="javax.persistence.jdbc.driver" 

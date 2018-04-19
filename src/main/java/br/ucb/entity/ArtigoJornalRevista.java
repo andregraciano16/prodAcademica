@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -50,6 +52,26 @@ public class ArtigoJornalRevista extends EntidadeBase{
 
 	@Column(name = "observacao")
 	private String observacao;
+
+	@OneToOne
+	@JoinColumn(name = "id_producaoAcademica")
+	private ProducaoAcademica producaoAcademica;
+	
+	public Integer getIdArtigoJornalRevista() {
+		return this.idArtigoJornalRevista;
+	}
+
+	public void setIdArtigoJornalRevista(Integer idArtigoJornalRevista) {
+		this.idArtigoJornalRevista = idArtigoJornalRevista;
+	}
+
+	public ProducaoAcademica getProducaoAcademica() {
+		return this.producaoAcademica;
+	}
+
+	public void setProducaoAcademica(ProducaoAcademica producaoAcademica) {
+		this.producaoAcademica = producaoAcademica;
+	}
 
 	public Date getDataPublicacao() {
 		return this.dataPublicacao;
