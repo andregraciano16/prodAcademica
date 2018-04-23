@@ -19,7 +19,7 @@ public class ProjetoDaoImpl extends DaoGenericoImpl<Projeto, Integer> implements
 		
 		return (Projeto) query.getSingleResult();
 	}
-
+	
 	@Override
 	public List<Projeto> findBySearch(Projeto projeto) {
 		String where = montarWhere(projeto);

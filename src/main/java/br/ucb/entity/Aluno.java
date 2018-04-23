@@ -1,6 +1,5 @@
 package br.ucb.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,7 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Aluno implements Serializable, Comparable<Aluno> {
+public class Aluno extends EntidadeBase implements Comparable<Aluno> {
 
 	private static final long serialVersionUID = 2290908420484970960L;
 
