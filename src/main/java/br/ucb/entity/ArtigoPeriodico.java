@@ -13,7 +13,7 @@ public class ArtigoPeriodico extends EntidadeBase {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_artigo")
+	@Column(name = "id_ArtigoPeriodico")
 	private Integer idArtigo;
 
 	@Column(name = "natureza")
