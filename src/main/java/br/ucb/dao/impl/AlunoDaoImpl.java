@@ -9,7 +9,6 @@ import javax.persistence.TemporalType;
 import br.ucb.VO.UsuarioVO;
 import br.ucb.dao.AlunoDao;
 import br.ucb.entity.Aluno;
-import br.ucb.entity.Docente;
 
 
 public class AlunoDaoImpl extends DaoGenericoImpl<Aluno, Integer> implements AlunoDao{
