@@ -1,5 +1,9 @@
 package br.ucb.enums;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public enum TipoContribuicaoObraEnum {
 
 	CAPITULO      (1, "Capítulo"), 
@@ -16,6 +20,10 @@ public enum TipoContribuicaoObraEnum {
 	TipoContribuicaoObraEnum(Integer codigo, String descricao) {
         this.codigo = codigo;
         this.descricao = descricao;
+	}
+	
+	public static List<TipoContribuicaoObraEnum> list(){
+		return new ArrayList<>(Arrays.asList(TipoContribuicaoObraEnum.values()));
 	}
 
 	public Integer getCodigo() {

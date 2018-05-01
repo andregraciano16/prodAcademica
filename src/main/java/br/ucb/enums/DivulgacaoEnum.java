@@ -1,7 +1,10 @@
 package br.ucb.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum DivulgacaoEnum {
-    //livro e artigo
+    //livro 
 	DIGITAL(1, "Digital"),
 	IMPRESSA(2, "Impressa"),
 	//artigo	
@@ -18,7 +21,35 @@ public enum DivulgacaoEnum {
         this.codigo = codigo;
         this.descricao = descricao;
 	}
+	
+	public static List<DivulgacaoEnum> listLivro(){
+		List<DivulgacaoEnum> enums = new ArrayList<>();
+		DivulgacaoEnum[] arrays =  DivulgacaoEnum.values();
+		for (DivulgacaoEnum divulg : arrays) {
+			if(divulg.getCodigo() > 2) return enums;
+			enums.add(divulg);
+		}
+		return enums;
+	} 
+	
+	public static List<DivulgacaoEnum> listLivroo(){
+		List<DivulgacaoEnum> enums = new ArrayList<>();
+		DivulgacaoEnum[] arrays =  DivulgacaoEnum.values();
+		for (DivulgacaoEnum divulg : arrays) {
+			enums.add(divulg);
+		}
+		return enums;
+	} 
 
+	public static List<DivulgacaoEnum> list(){
+		List<DivulgacaoEnum> enums = new ArrayList<>();
+		DivulgacaoEnum[] arrays =  DivulgacaoEnum.values();
+		for (DivulgacaoEnum divulg : arrays) {
+			enums.add(divulg);
+		}
+		return enums;
+	} 
+	
 	public Integer getCodigo() {
 		return this.codigo;
 	}
