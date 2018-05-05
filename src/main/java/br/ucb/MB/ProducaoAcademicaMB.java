@@ -87,7 +87,7 @@ public class ProducaoAcademicaMB extends BaseMB {
 	public void upload(FileUploadEvent event) {
 		this.uploadFile = event.getFile();
 		try {
-			producaoAcademica.setArquivo("D:\\teste" + this.uploadFile);
+			producaoAcademica.setArquivo("D:\\teste" + this.uploadFile.getFileName());
 			FileUtil.upload("D:\\teste", this.uploadFile.getFileName(), this.uploadFile.getInputstream());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -101,16 +101,18 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.producaoAcademica.setLinhaPesquisa(this.linhaPesquisaDao.findById(this.linhaPesquisa.getIdLinhaPesquisa()));
 		this.producaoAcademica.setTipoProducao(this.tipoProducao);
 		this.producaoAcademica.setStatusProducao(this.statusProducao);
-		this.producaoAcDao.save(this.producaoAcademica);
 		salvarTipoProducao();
 	}
 	
 	private void salvarTipoProducao(){
-		if(this.producaoAcademica.getTipoProducao().equals(new Integer(1))){
+		if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(1))){
+			this.livro.setProducaoAcademica(this.producaoAcademica);
 		    this.livroDao.save(this.livro);	
-		}else if(this.producaoAcademica.getTipoProducao().equals(new Integer(2))){
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(2))){
+			this.jornalRevista.setProducaoAcademica(this.producaoAcademica);
 			this.jornalRevistaDao.save(this.jornalRevista);
-		}else if(this.producaoAcademica.getTipoProducao().equals(new Integer(3))){
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(3))){
+			this.periodico.setProducaoAcademica(this.producaoAcademica);
 		   this.periodicoDao.save(this.periodico);
 		}
 	}
