@@ -4,7 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,30 +19,25 @@ import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
 
-import br.ucb.dao.ProducaoAcademicaDao;
 import br.ucb.dao.impl.ProducaoAcademicaDaoImpl;
-import br.ucb.entity.ProducaoAcademica;
 
 @ManagedBean(name = "relatorioProducaoAcademicaMB")
 @ViewScoped
 public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	private static final long serialVersionUID = 1L;
-	private List<ProducaoAcademica> producoes;
 	private LineChartModel grafico;
 	private BarChartModel graficoBarra;
 	private BarChartModel graficoBarraTipo;
 	private String graficoFiltroLine = "1";
 	private String graficoFiltroBarQualis = "1";
 	private String graficoFiltroBarTipo = "1";
-	private ProducaoAcademicaDao producaoAcademicaDao;
 	private ProducaoAcademicaDaoImpl producaoAcademicaDaoImpl;
 	private List<Object[]> listaSimples;
 
 	@PostConstruct
 	public void init() {
 		inicializa();
-		buscar();
 		createGrafico();
 	}
 
@@ -50,10 +45,6 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		init();
 	}
 
-	public void buscar() {
-		this.producoes = this.producaoAcademicaDao.list();
-
-	}
 
 	private void createGrafico() {
 
@@ -144,8 +135,11 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 	}
 
 	private LineChartModel initGraficoTotal() {
+		
+		//producaoAcademica[0] => dataCadastro das produções
+		
 		LineChartModel model = new LineChartModel();
-		List<ProducaoAcademica> producoesCadastro = new ArrayList<ProducaoAcademica>();
+		this.listaSimples = this.producaoAcademicaDaoImpl.listSimpleDatas();
 
 		Calendar c = Calendar.getInstance();
 		int ultimoMes = 0;
@@ -154,20 +148,18 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		ChartSeries series1 = new ChartSeries();
 		series1.setLabel("N° de producoes");
 
-		producoesCadastro = this.producoes;
-		Collections.sort(producoesCadastro);
 
-		for (ProducaoAcademica producaoAcademica : producoesCadastro) {
+		for (Object[] producaoAcademica : listaSimples) {
 
-			c.setTime(producaoAcademica.getDataCadastro());
+			c.setTime((Date) producaoAcademica[0]);
 			c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) + 3);
-			producaoAcademica.setDataCadastro(c.getTime());
+			producaoAcademica[0] = c.getTime();
 
 			if (c.get(Calendar.MONTH) == ultimoMes && c.get(Calendar.YEAR) == ultimoAno) {
 
 			} else {
 				series1.set(c.get(Calendar.MONTH) + 1 + "/" + c.get(Calendar.YEAR),
-						getCadastroMes(producoesCadastro, c));
+						getCadastroMes(listaSimples, c));
 				ultimoMes = c.get(Calendar.MONTH);
 				ultimoAno = c.get(Calendar.YEAR);
 			}
@@ -181,7 +173,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	private LineChartModel initGraficoSemestreTotal() {
 		LineChartModel model = new LineChartModel();
-		List<ProducaoAcademica> producoesCadastro = new ArrayList<ProducaoAcademica>();
+		this.listaSimples = this.producaoAcademicaDaoImpl.listSimpleDatas();
 
 		Calendar c = Calendar.getInstance();
 		int ultimoMes = 0;
@@ -194,15 +186,14 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		ChartSeries series1 = new ChartSeries();
 		series1.setLabel("N° de producoes");
 
-		producoesCadastro = this.producoes;
-		Collections.sort(producoesCadastro);
 
-		for (ProducaoAcademica producaoAcademica : producoesCadastro) {
+		for (Object[] producaoAcademica : listaSimples) {
 
-			c.setTime(producaoAcademica.getDataCadastro());
+			c.setTime((Date) producaoAcademica[0]);
 			c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) + 3);
-			producaoAcademica.setDataCadastro(c.getTime());
-
+			producaoAcademica[0] = c.getTime();
+			
+			
 			if (c.get(Calendar.YEAR) != ultimoAno) {
 				semestreUm = 0;
 				semestreDois = 0;
@@ -214,10 +205,10 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 				mes = c.get((Calendar.MONTH)) + 1;
 				resultado = (double) mes / 6;
 				if (resultado <= 1) {
-					semestreUm += getCadastroMes(producoesCadastro, c);
+					semestreUm += getCadastroMes(listaSimples, c);
 					series1.set("1°/" + c.get(Calendar.YEAR), semestreUm);
 				} else {
-					semestreDois += getCadastroMes(producoesCadastro, c);
+					semestreDois += getCadastroMes(listaSimples, c);
 					series1.set("2°/" + c.get(Calendar.YEAR), semestreDois);
 
 				}
@@ -235,7 +226,8 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	private LineChartModel initGraficoAnos() {
 		LineChartModel model = new LineChartModel();
-		List<ProducaoAcademica> producoesCadastro = new ArrayList<ProducaoAcademica>();
+		this.listaSimples = this.producaoAcademicaDaoImpl.listSimpleDatas();
+		Date producao = new Date();
 
 		Calendar c = Calendar.getInstance();
 
@@ -256,19 +248,19 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		meses.set("out", -1);
 		meses.set("nov", -1);
 		meses.set("dez", -1);
+		
+		
+		for (int i = 0; i < listaSimples.size(); i++) {
+			
+			
 
-		producoesCadastro = this.producoes;
-		Collections.sort(producoesCadastro);
-
-		for (ProducaoAcademica producaoAcademica : producoesCadastro) {
-
-			c.setTime(producaoAcademica.getDataCadastro());
+			c.setTime(producao);
 			c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) + 3);
-			producaoAcademica.setDataCadastro(c.getTime());
+			producao = c.getTime();
 
 			if (ultimoMes == 0 && ultimoAno == 0) {
 
-				meses.set(df2.format(producaoAcademica.getDataCadastro()), getCadastroMes(producoesCadastro, c));
+				meses.set(df2.format(producao), getCadastroMes(listaSimples, c));
 				ultimoMes = c.get(Calendar.MONTH);
 				ultimoAno = c.get(Calendar.YEAR);
 
@@ -290,13 +282,13 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 				meses.set("out", -1);
 				meses.set("nov", -1);
 				meses.set("dez", -1);
-				meses.set(df2.format(producaoAcademica.getDataCadastro()), getCadastroMes(producoesCadastro, c));
+				meses.set(df2.format(producao), getCadastroMes(listaSimples, c));
 				ultimoMes = 0;
 				ultimoAno = 0;
 			}
 
 			if (c.get(Calendar.MONTH) != ultimoMes && c.get(Calendar.YEAR) == ultimoAno) {
-				meses.set(df2.format(producaoAcademica.getDataCadastro()), getCadastroMes(producoesCadastro, c));
+				meses.set(df2.format(producao), getCadastroMes(listaSimples, c));
 				ultimoMes = c.get(Calendar.MONTH);
 				ultimoAno = c.get(Calendar.YEAR);
 
@@ -309,12 +301,12 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	}
 
-	private int getCadastroMes(List<ProducaoAcademica> producoesCadastro, Calendar data) {
+	private int getCadastroMes(List<Object[]> listaSimplesD, Calendar data) {
 		int qtdCadastro = 0;
 		Calendar cadastro = Calendar.getInstance();
 
-		for (ProducaoAcademica producaoAcademica : producoesCadastro) {
-			cadastro.setTime(producaoAcademica.getDataCadastro());
+		for (Object[] producaoAcademica : listaSimplesD) {
+			cadastro.setTime((Date) producaoAcademica[0]);
 			cadastro.set(Calendar.HOUR_OF_DAY, cadastro.get(Calendar.HOUR_OF_DAY) + 3);
 
 			if (cadastro.get(Calendar.MONTH) == data.get(Calendar.MONTH)
@@ -333,12 +325,12 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 		ChartSeries tipos = new ChartSeries();
 		String ultimo = "";
-		for (Object[] producaoAcademica : listaSimples) {
+		for (Object[] producaoAcademica : this.listaSimples) {
 
 			if (producaoAcademica[1].equals(ultimo)) {
 
 			} else {
-				tipos.set(producaoAcademica[1], getQuantidadeProducao(listaSimples, producaoAcademica[1]));
+				tipos.set(producaoAcademica[1], getQuantidadeProducao(this.listaSimples, producaoAcademica[1]));
 				ultimo = (String) producaoAcademica[1];
 			}
 
@@ -368,12 +360,12 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 		ChartSeries tipos = new ChartSeries();
 		String ultimo = "";
-		for (Object[] producaoAcademica : listaSimples) {
+		for (Object[] producaoAcademica : this.listaSimples) {
 
 			if (producaoAcademica[1].equals(ultimo)) {
 
 			} else {
-				tipos.set(producaoAcademica[1], getQuantidadeProducao(listaSimples, producaoAcademica[1]));
+				tipos.set(producaoAcademica[1], getQuantidadeProducao(this.listaSimples, producaoAcademica[1]));
 				ultimo = (String) producaoAcademica[1];
 			}
 
@@ -405,11 +397,11 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		// 1 - conceito qualis
 		// 2 - dataCadastro
 
-		for (Object[] producaoAcademica : listaSimples) {
+		for (Object[] producaoAcademica : this.listaSimples) {
 
 			if (ultimoAno == 0 && ultimaNota.isEmpty()) {
 				qualis.set(producaoAcademica[1],
-						getQuantidadeProducaoQualis(listaSimples, producaoAcademica[0], producaoAcademica[1]));
+						getQuantidadeProducaoQualis(this.listaSimples, producaoAcademica[0], producaoAcademica[1]));
 				ultimaNota = (String) producaoAcademica[1];
 				ultimoAno = (Integer) producaoAcademica[0];
 			}
@@ -427,7 +419,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 				qualis.set("B5", -1);
 				qualis.set("C", -1);
 				qualis.set(producaoAcademica[1],
-						getQuantidadeProducaoQualis(listaSimples, producaoAcademica[0], producaoAcademica[1]));
+						getQuantidadeProducaoQualis(this.listaSimples, producaoAcademica[0], producaoAcademica[1]));
 				ultimoAno = (Integer) producaoAcademica[0];
 				ultimaNota = "";
 
@@ -435,7 +427,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 			if (!producaoAcademica[1].equals(ultimaNota) && (Integer) producaoAcademica[0] == ultimoAno) {
 				qualis.set(producaoAcademica[1],
-						getQuantidadeProducaoQualis(listaSimples, producaoAcademica[0], producaoAcademica[1]));
+						getQuantidadeProducaoQualis(this.listaSimples, producaoAcademica[0], producaoAcademica[1]));
 				ultimoAno = (Integer) producaoAcademica[0];
 				ultimaNota = (String) producaoAcademica[1];
 			}
@@ -461,6 +453,14 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	}
 
+	public List<Object[]> getListaSimples() {
+		return listaSimples;
+	}
+
+	public void setListaSimples(List<Object[]> listaSimples) {
+		this.listaSimples = listaSimples;
+	}
+
 	private BarChartModel initGraficoQualisAnos() {
 
 		this.listaSimples = this.producaoAcademicaDaoImpl.listSimpleQualis();
@@ -469,108 +469,109 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		String ultimaNota = "";
 		int ultimoAno = 0;
 		int contador = 0;
-		Object[] producaoAcademica = listaSimples.get(0);
-		int anoComeco = (Integer) producaoAcademica[0];
-		producaoAcademica = listaSimples.get(listaSimples.size() - 1);
-		int anoFim = (Integer) producaoAcademica[0];
-		int proxAnoRevisao = 0;
-		boolean resultadoAno = false;
-		boolean salvou = false;
-		boolean primeiro = true;
+		if (!this.listaSimples.isEmpty() && this.listaSimples != null ) {
+			Object[] producaoAcademica = this.listaSimples.get(0);
+			int anoComeco = (Integer) producaoAcademica[0];
+			producaoAcademica = this.listaSimples.get(this.listaSimples.size() - 1);
+			int anoFim = (Integer) producaoAcademica[0];
+			int proxAnoRevisao = 0;
+			boolean resultadoAno = false;
+			boolean salvou = false;
+			boolean primeiro = true;
 
-		qualis.set("A1", -1);
-		qualis.set("A2", -1);
-		qualis.set("B1", -1);
-		qualis.set("B2", -1);
-		qualis.set("B3", -1);
-		qualis.set("B4", -1);
-		qualis.set("B5", -1);
-		qualis.set("C", -1);
+			qualis.set("A1", -1);
+			qualis.set("A2", -1);
+			qualis.set("B1", -1);
+			qualis.set("B2", -1);
+			qualis.set("B3", -1);
+			qualis.set("B4", -1);
+			qualis.set("B5", -1);
+			qualis.set("C", -1);
 
-		// 0 - ano
-		// 1 - conceito qualis
-		// 2 - dataCadastro
+			// 0 - ano
+			// 1 - conceito qualis
+			// 2 - dataCadastro
 
-		producaoAcademica = listaSimples.get(0);
-		ultimoAno = (Integer) producaoAcademica[0];
-		ultimaNota = (String) producaoAcademica[1];
-		proxAnoRevisao = ultimoAno + 4;
+			producaoAcademica = this.listaSimples.get(0);
+			ultimoAno = (Integer) producaoAcademica[0];
+			ultimaNota = (String) producaoAcademica[1];
+			proxAnoRevisao = ultimoAno + 4;
 
-		for (int anoAtual = anoComeco; anoAtual <= anoFim; anoAtual++) {
-			resultadoAno = temAno(listaSimples, anoAtual);
-			if (resultadoAno) {
-				salvou = false;
+			for (int anoAtual = anoComeco; anoAtual <= anoFim; anoAtual++) {
+				resultadoAno = temAno(this.listaSimples, anoAtual);
+				if (resultadoAno) {
+					salvou = false;
 
-				while (ultimoAno == (Integer) producaoAcademica[0] || anoAtual == (Integer) producaoAcademica[0]) {
-					if (contador < listaSimples.size()) {
-						producaoAcademica = listaSimples.get(contador);
-					} else {
-						break;
-					}
-					if (ultimoAno != (Integer) producaoAcademica[0] && salvou
-							|| (Integer) producaoAcademica[0] > proxAnoRevisao) {
-						break;
-					}
-
-					if (primeiro) {
-						qualis.set(producaoAcademica[1], getQuantidadeProducaoQualisAnos(listaSimples,
-								producaoAcademica[0], producaoAcademica[1]));
-						ultimaNota = (String) producaoAcademica[1];
-						ultimoAno = (Integer) producaoAcademica[0];
-						primeiro = false;
-					}
-
-					if ((Integer) producaoAcademica[0] != ultimoAno) {
-						if (ultimoAno % 4 == 0 && temAno(listaSimples, ultimoAno)) {
-							qualis.setLabel(String.valueOf(ultimoAno));
-							model.addSeries(qualis);
-							salvou = true;
-							proxAnoRevisao = ultimoAno + 4;
-							qualis = new ChartSeries();
-							qualis.set("A1", -1);
-							qualis.set("A2", -1);
-							qualis.set("B1", -1);
-							qualis.set("B2", -1);
-							qualis.set("B3", -1);
-							qualis.set("B4", -1);
-							qualis.set("B5", -1);
-							qualis.set("C", -1);
-							qualis.set(producaoAcademica[1], getQuantidadeProducaoQualisAnos(listaSimples,
-									producaoAcademica[0], producaoAcademica[1]));
-							ultimoAno = (Integer) producaoAcademica[0];
-							ultimaNota = (String) producaoAcademica[1];
+					while (ultimoAno == (Integer) producaoAcademica[0] || anoAtual == (Integer) producaoAcademica[0]) {
+						if (contador < this.listaSimples.size()) {
+							producaoAcademica = this.listaSimples.get(contador);
+						} else {
+							break;
+						}
+						if (ultimoAno != (Integer) producaoAcademica[0] && salvou
+								|| (Integer) producaoAcademica[0] > proxAnoRevisao) {
+							break;
 						}
 
+						if (primeiro) {
+							qualis.set(producaoAcademica[1], getQuantidadeProducaoQualisAnos(listaSimples,
+									producaoAcademica[0], producaoAcademica[1]));
+							ultimaNota = (String) producaoAcademica[1];
+							ultimoAno = (Integer) producaoAcademica[0];
+							primeiro = false;
+						}
+
+						if ((Integer) producaoAcademica[0] != ultimoAno) {
+							if (ultimoAno % 4 == 0 && temAno(this.listaSimples, ultimoAno)) {
+								qualis.setLabel(String.valueOf(ultimoAno));
+								model.addSeries(qualis);
+								salvou = true;
+								proxAnoRevisao = ultimoAno + 4;
+								qualis = new ChartSeries();
+								qualis.set("A1", -1);
+								qualis.set("A2", -1);
+								qualis.set("B1", -1);
+								qualis.set("B2", -1);
+								qualis.set("B3", -1);
+								qualis.set("B4", -1);
+								qualis.set("B5", -1);
+								qualis.set("C", -1);
+								qualis.set(producaoAcademica[1], getQuantidadeProducaoQualisAnos(this.listaSimples,
+										producaoAcademica[0], producaoAcademica[1]));
+								ultimoAno = (Integer) producaoAcademica[0];
+								ultimaNota = (String) producaoAcademica[1];
+							}
+
+						}
+
+						if (!producaoAcademica[1].equals(ultimaNota) && (Integer) producaoAcademica[0] == ultimoAno
+								|| !producaoAcademica[1].equals(ultimaNota)
+										&& (Integer) producaoAcademica[0] != ultimoAno) {
+							ultimoAno = (Integer) producaoAcademica[0];
+							ultimaNota = (String) producaoAcademica[1];
+							qualis.set(ultimaNota, getQuantidadeProducaoQualisAnos(this.listaSimples, producaoAcademica[0],
+									producaoAcademica[1]));
+
+						}
+
+						contador++;
 					}
-
-					if (!producaoAcademica[1].equals(ultimaNota) && (Integer) producaoAcademica[0] == ultimoAno
-							|| !producaoAcademica[1].equals(ultimaNota)
-									&& (Integer) producaoAcademica[0] != ultimoAno) {
-						ultimoAno = (Integer) producaoAcademica[0];
-						ultimaNota = (String) producaoAcademica[1];
-						qualis.set(ultimaNota, getQuantidadeProducaoQualisAnos(listaSimples, producaoAcademica[0],
-								producaoAcademica[1]));
-
-					}
-
-					contador++;
+				} else if (anoAtual % 4 == 0 && !resultadoAno) {
+					qualis.setLabel(String.valueOf(anoAtual));
+					model.addSeries(qualis);
+					qualis = new ChartSeries();
+					qualis.set("A1", -1);
+					qualis.set("A2", -1);
+					qualis.set("B1", -1);
+					qualis.set("B2", -1);
+					qualis.set("B3", -1);
+					qualis.set("B4", -1);
+					qualis.set("B5", -1);
+					qualis.set("C", -1);
+					proxAnoRevisao = anoAtual + 4;
 				}
-			} else if (anoAtual % 4 == 0 && !resultadoAno) {
-				qualis.setLabel(String.valueOf(anoAtual));
-				model.addSeries(qualis);
-				qualis = new ChartSeries();
-				qualis.set("A1", -1);
-				qualis.set("A2", -1);
-				qualis.set("B1", -1);
-				qualis.set("B2", -1);
-				qualis.set("B3", -1);
-				qualis.set("B4", -1);
-				qualis.set("B5", -1);
-				qualis.set("C", -1);
-				proxAnoRevisao = anoAtual + 4;
 			}
 		}
-
 		qualis.setLabel(String.valueOf(ultimoAno));
 		model.addSeries(qualis);
 
@@ -616,20 +617,11 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 	}
 
 	private void inicializa() {
-		this.producoes = new ArrayList<ProducaoAcademica>();
-		this.producaoAcademicaDao = new ProducaoAcademicaDaoImpl();
 		this.producaoAcademicaDaoImpl = new ProducaoAcademicaDaoImpl();
 		this.listaSimples = new ArrayList<Object[]>();
 
 	}
 
-	public List<ProducaoAcademica> getProducoes() {
-		return producoes;
-	}
-
-	public void setProducoes(List<ProducaoAcademica> producoes) {
-		this.producoes = producoes;
-	}
 
 	public LineChartModel getGrafico() {
 		return grafico;

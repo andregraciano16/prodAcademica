@@ -53,7 +53,21 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		@SuppressWarnings("unchecked")
 		List<Object[]> resultados = getManager()
 				.createQuery(
-						"select pa.ano, pa.conceitoQualis, pa.dataCadastro from ProducaoAcademica pa order by pa.ano asc")
+						"select year(pa.dataCadastro), pa.conceitoQualis, pa.dataCadastro from ProducaoAcademica pa order by pa.dataCadastro asc")
+				.getResultList();
+
+	
+		return resultados;
+
+		
+	}
+	
+public List<Object[]> listSimpleDatas(){
+		
+		@SuppressWarnings("unchecked")
+		List<Object[]> resultados = getManager()
+				.createQuery(
+						"select pa.dataCadastro from ProducaoAcademica pa order by pa.dataCadastro asc")
 				.getResultList();
 
 	

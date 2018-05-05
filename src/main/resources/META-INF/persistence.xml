@@ -4,7 +4,7 @@
                                  http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0">
 
-    <!-- unidade de persistencia com o nome financas -->
+    <!-- unidade de persistencia com o nome Prodac -->
     <persistence-unit name="prodAc">
 
         <!-- Implementação do JPA, no nosso caso Hibernate -->

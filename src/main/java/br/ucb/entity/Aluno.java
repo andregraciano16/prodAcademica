@@ -61,7 +61,7 @@ public class Aluno extends EntidadeBase implements Comparable<Aluno> {
 	@ManyToOne
 	@JoinColumn(name = "id_curso")
 	private Curso curso;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "id_statusAluno")
 	private StatusAluno statusAluno;
