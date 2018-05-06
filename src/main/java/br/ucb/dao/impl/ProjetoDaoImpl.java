@@ -19,7 +19,7 @@ public class ProjetoDaoImpl extends DaoGenericoImpl<Projeto, Integer> implements
 		
 		return (Projeto) query.getSingleResult();
 	}
-
+	
 	@Override
 	public List<Projeto> findBySearch(Projeto projeto) {
 		String where = montarWhere(projeto);
@@ -35,10 +35,6 @@ public class ProjetoDaoImpl extends DaoGenericoImpl<Projeto, Integer> implements
 		
 		if(projeto.getDescricao() != null && !projeto.getDescricao().trim().isEmpty()){
 			query.setParameter(2, "%"+ projeto.getDescricao() + "%");
-		}
-		
-		if(projeto.getDadosOficiais() != null && !projeto.getDadosOficiais().trim().isEmpty()){
-			query.setParameter(3, "%"+ projeto.getDadosOficiais() + "%");
 		}
 		
 		if(projeto.getOrgaoFinanciador() != null && !projeto.getOrgaoFinanciador().trim().isEmpty()){
@@ -64,10 +60,6 @@ public class ProjetoDaoImpl extends DaoGenericoImpl<Projeto, Integer> implements
 		
 		if(projeto.getDescricao() != null && !projeto.getDescricao().trim().isEmpty()){
 			consulta.append(" and p.descricao like ?2 ");
-		}
-		
-		if(projeto.getDadosOficiais() != null && !projeto.getDadosOficiais().trim().isEmpty()){
-			consulta.append(" and p.dadosOficiais like ?3 ");
 		}
 		
 		if(projeto.getOrgaoFinanciador() != null && !projeto.getOrgaoFinanciador().trim().isEmpty()){

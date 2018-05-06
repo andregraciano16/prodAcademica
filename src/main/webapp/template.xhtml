@@ -51,9 +51,35 @@
 			<li><a href="projeto.xhtml"> <em
 					class="glyphicon glyphicon-folder-open">&nbsp;</em>Projetos
 			</a></li>
-			<li><a href="elements.xhtml"> <em
-					class="glyphicon glyphicon-tasks">&nbsp;</em>Relatório
-			</a></li>
+
+
+
+			<li class="parent "><h:panelGroup
+					rendered="#{menuMB.isDiretor()}">
+					<a data-toggle="collapse" href="#sub-item-2"> <em
+						class="glyphicon glyphicon-tasks">&nbsp;</em> Relatórios <span
+						data-toggle="collapse" href="#sub-item-2" class="icon pull-right">
+							<em class="fa fa-plus"></em>
+					</span>
+					</a>
+					<ul class="children collapse" id="sub-item-2">
+
+						<li><a class="" href="relatorioAluno.xhtml"> <span
+								class="glyphicon glyphicon-triangle-right">&nbsp;</span>Alunos
+						</a></li>
+
+						<li><a class="" href="relatorioDocente.xhtml"> <span
+								class="glyphicon glyphicon-triangle-right">&nbsp;</span>Docentes
+						</a></li>
+
+						<li><a class="" href="relatorioProducaoAcademica.xhtml">
+								<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Produções
+								Acadêmicas
+						</a></li>
+
+					</ul>
+				</h:panelGroup></li>
+
 			<li><h:panelGroup rendered="#{menuMB.isDiretor()}">
 					<a href="visualizarComentario.xhtml"> <em
 						class="glyphicon glyphicon-comment">&nbsp;</em>Comentários
@@ -186,6 +212,15 @@
 			s.parentNode.insertBefore(wf, s);
 		})();
 	</script>
+
+	<script type="text/javascript">
+		function removeLegend() {
+			this.cfg.legend = {
+				show : false
+			};
+		}
+	</script>
+
 </h:body>
 
 </html>

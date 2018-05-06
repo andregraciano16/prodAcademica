@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="./template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+	<ui:define name="Conteudo">
+		<h:form id="idFormulario">
+
+			<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<ol class="breadcrumb" style="color: blue; background: #30a5ff">
+								<div class="titulo-centro-grande">Relatório de produções</div>
+							</ol>
+
+						</div>
+						<p:messages id="messages" globalOnly="true" closable="true"
+							styleClass="mensagem-tela" />
+						<br />
+					</div>
+
+					<h:panelGroup
+						rendered="#{relatorioProducaoAcademicaMB.listaSimples.isEmpty()}">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<div class="row">
+								<h2>Nada a mostrar aqui. Por favor cadastre algum dado em produções.</h2></div>
+							</div>
+						</div>
+					</h:panelGroup>
+
+					<h:panelGroup
+						rendered="#{!relatorioProducaoAcademicaMB.listaSimples.isEmpty()}">
+
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<div class="row">
+
+									<div class="form-group">
+										<p:chart type="line"
+											model="#{relatorioProducaoAcademicaMB.grafico}"
+											id="idGraficoLine" style="width:100%;" responsive="true" />
+									</div>
+
+								</div>
+
+								<div class="row">
+
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Filtro do gráfico: "
+												for="idGraficoFiltroLine" styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:selectOneMenu id="idGraficoFiltroLine"
+													value="#{relatorioProducaoAcademicaMB.graficoFiltroLine}"
+													styleClass="form-control">
+													<f:selectItem itemLabel="Anual" itemValue="1" />
+													<f:selectItem itemLabel="Tempo total (mês/ano)"
+														itemValue="2" />
+													<f:selectItem itemLabel="Semestral (semestre/ano)"
+														itemValue="3" />
+													<p:ajax event="change" update="idFormulario:idGraficoLine"
+														listener="#{relatorioProducaoAcademicaMB.selecionaFiltro}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<p:chart type="bar"
+										model="#{relatorioProducaoAcademicaMB.graficoBarra}"
+										id="idGraficoBarQualis" style="width:100%;" responsive="true" />
+									<div class="form-group"></div>
+								</div>
+
+								<div class="row">
+
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Filtro do gráfico: "
+												for="idGraficoFiltroBarQualis" styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:selectOneMenu id="idGraficoFiltroBarQualis"
+													value="#{relatorioProducaoAcademicaMB.graficoFiltroBarQualis}"
+													styleClass="form-control">
+													<f:selectItem itemLabel="Qualis (4 em 4 anos)"
+														itemValue="1" />
+													<f:selectItem itemLabel="Qualis" itemValue="2" />
+													<p:ajax event="change"
+														update="idFormulario:idGraficoBarQualis"
+														listener="#{relatorioProducaoAcademicaMB.selecionaFiltro}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<p:chart type="bar"
+										model="#{relatorioProducaoAcademicaMB.graficoBarraTipo}"
+										id="idGraficoBarTipo" style="width:100%;" responsive="true" />
+									<div class="form-group"></div>
+								</div>
+
+								<div class="row">
+
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Filtro do gráfico: "
+												for="idGraficoFiltroBarTipo" styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:selectOneMenu id="idGraficoFiltroBarTipo"
+													value="#{relatorioProducaoAcademicaMB.graficoFiltroBarTipo}"
+													styleClass="form-control">
+													<f:selectItem itemLabel="Tipo de produção" itemValue="1" />
+													<f:selectItem itemLabel="Linha de Pesquisa" itemValue="2" />
+													<p:ajax event="change"
+														update="idFormulario:idGraficoBarTipo"
+														listener="#{relatorioProducaoAcademicaMB.selecionaFiltro}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+					</h:panelGroup>
+
+				</div>
+
+
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

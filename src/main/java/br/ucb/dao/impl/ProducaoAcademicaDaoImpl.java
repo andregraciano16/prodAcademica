@@ -1,5 +1,7 @@
 package br.ucb.dao.impl;
 
+import java.util.Date;
+import java.util.List;
 import javax.persistence.Query;
 
 import br.ucb.dao.ProducaoAcademicaDao;
@@ -50,4 +52,60 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		return consulta.toString();
 	}
 
+		public List<Object[]> listSimpleTipo() {
+
+
+		@SuppressWarnings("unchecked")
+		List<Object[]> resultados = getManager()
+				.createQuery(
+						"select pa.titulo, pa.tipoProducao.tipo from ProducaoAcademica pa order by  pa.tipoProducao.tipo asc")
+				.getResultList();
+
+	
+		return resultados;
+
+	}
+	
+	
+	public List<Object[]> listSimpleLinha() {
+
+
+		@SuppressWarnings("unchecked")
+		List<Object[]> resultados = getManager()
+				.createQuery(
+						"select pa.titulo, pa.linhaPesquisa.descricao from ProducaoAcademica pa order by  pa.linhaPesquisa.descricao asc")
+				.getResultList();
+
+	
+		return resultados;
+
+	}
+	
+	
+	public List<Object[]> listSimpleQualis(){
+		
+		@SuppressWarnings("unchecked")
+		List<Object[]> resultados = getManager()
+				.createQuery(
+						"select year(pa.dataCadastro), pa.conceitoQualis, pa.dataCadastro from ProducaoAcademica pa order by pa.dataCadastro asc")
+				.getResultList();
+
+	
+		return resultados;
+
+		
+	}
+	
+    public List<Date> listSimpleDatas(){
+		
+		List<Date> resultados = getManager()
+				.createQuery(
+						"select pa.dataCadastro from ProducaoAcademica pa order by pa.dataCadastro asc", Date.class)
+				.getResultList();
+
+	
+		return resultados;
+
+		
+	}
 }

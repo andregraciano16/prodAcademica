@@ -1,10 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-				template="./template.xhtml"
-				xmlns="http://www.w3.org/1999/xhtml"  
-				xmlns:h="http://java.sun.com/jsf/html"
-				xmlns:f="http://java.sun.com/jsf/core"
-				xmlns:p="http://primefaces.org/ui">
+	template="./template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
 	<ui:define name="Conteudo">
 		<h:form id="idFormulario">
 
@@ -12,382 +14,308 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<div class="row">
-								<ol class="breadcrumb" style="color: blue; background: #30a5ff">
-									<div class="titulo-centro-grande">Projeto</div>
-								</ol>
-							</div>
+							<ol class="breadcrumb" style="color: blue; background: #30a5ff">
+								<div class="titulo-centro-grande">Projeto</div>
+							</ol>
+
 						</div>
-						
-						<div class="panel-body">
-						
-						<p:messages id="message" globalOnly="true" closable="true" />
-											
-							<div class="row">
 
-								<div class="col-md-8">
-								
-								<br/>
-								<br/>
-								
-									<p:outputLabel for="idNome" 
-										value="Nome:"
-										styleClass="control-label" />
-										
-									<h:inputText value="#{projetoMB.projeto.nome}"
-										class="form-control" 
-										maxlength="200" 
-										id="idNome" 
-										validatorMessage="A descrição não pode ser maior que 200 caracteres."/>
-										
-										
-								</div>
+						<p:messages id="messages" globalOnly="true" closable="true"
+							styleClass="mensagem-tela" />
+						<br />
 
-							</div>	
-								
-							<div class="row">
-
-								<div class="col-md-12">
-								
-								<br/>
-								<br/>
-								
-									<p:outputLabel for="idDescricao" 
-										value="Descrição:"
-										styleClass="control-label" />
-										
-									<h:inputTextarea value="#{projetoMB.projeto.descricao}"
-										class="form-control" 
-										maxlength="200" 
-										id="idDescricao" 
-										validatorMessage="A descrição não pode ser maior que 200 caracteres."/>
-										
-										
-								</div>
-
-							</div>
-							
-							<div class="row">
-
-								<div class="col-md-8">
-								
-								<br/>
-								<br/>
-								
-									<p:outputLabel for="idOrgaoFinanciador" 
-										value="Orgão financiador:"
-										styleClass="control-label" />
-										
-									<h:inputText value="#{projetoMB.projeto.orgaoFinanciador}"
-										class="form-control" 
-										maxlength="45" 
-										id="idOrgaoFinanciador" 
-										validatorMessage="O orgão financiador não pode ser maior que 45 caracteres."/>
-										
-								</div>
-
-							</div>
-							
-							<div class="row">
-
-								<div class="col-md-8">
-								
-								<br/>
-								<br/>
-								<p:outputLabel for="idDadosOficiais" 
-											   value="Dados oficias:"
-											   styleClass="control-label" />
-										
-									<h:inputText value="#{projetoMB.projeto.dadosOficiais}"
-												 class="form-control" 
-												 maxlength="45" 
-												 id="idDadosOficiais" 
-												 validatorMessage="Dados oficiais não pode ser maior que 45 caracteres."/>
-							
-								</div>
-
-							</div>
-							<div class="row">
-
-								<div class="col-md-8">
-								
-								<br/>
-								<br/>
-								
-									<p:outputLabel for="idTiposProjeto" 
-										value="Tipo de projeto:"
-										styleClass="control-label" />
-										
-									<br/>
-									
-									<h:selectOneMenu value="#{projetoMB.projeto.tipoProjeto}"
-													 id="idTiposProjeto"
-													 styleClass="form-control">
-										
-										<f:selectItem  itemLabel="--Selecione--" 
-													   itemValue=""/>
-										<f:selectItems value="#{projetoMB.tiposProjeto}"
-													   var="linha" 
-													   itemValue="#{linha}" 
-													   itemLabel="#{linha.tipo}"/>
-													   
-									</h:selectOneMenu>
-										
-										
-								</div>
-
-							</div>
-							
-
-							<div class="row">
-
-								<div class="col-md-8">
-								
-								<br/>
-								<br/>
-								
-									<p:outputLabel for="idLinhasPesquisa" 
-										value="Linha de pesquisa:"
-										styleClass="control-label" />
-										
-									<br/>
-									
-									<h:selectOneMenu value="#{projetoMB.projeto.linhaPesquisa}"
-													 id="idLinhasPesquisa"
-													 styleClass="form-control">
-										
-										<f:selectItem  itemLabel="--Selecione--" 
-													   itemValue=""/>
-										<f:selectItems value="#{projetoMB.linhasPesquisa}"
-													   var="linha" 
-													   itemValue="#{linha}" 
-													   itemLabel="#{linha.descricao}"/>
-													   
-									</h:selectOneMenu>
-										
-										
-								</div>
-
-							</div>
-							<br/>
-							<br/>
-
-							<div class="form-group" style="padding-top:70px;text-align:right;">
-
-								<p:commandButton value="Cadastrar" 
-											     class="btn-primary btn-md" 
-											     action="#{projetoMB.cadastrar(projetoMB.projeto)}" 
-											     update="@form"
-											     styleClass="btn btn-primary" 
-											     id="btnCadastrar"/>
-								&nbsp;&nbsp;			     
-								<p:commandButton value="Pesquisar" 
-											     title="Pesquisar"
-												 actionListener="#{projetoMB.buscar}" 
-												 update="@form"
-												 styleClass="btn btn-default"
-												 id="btnPesquisar"/>
-								&nbsp;&nbsp;
-								<p:commandButton value="Limpar" 
-											     title="Limpar"
-												 actionListener="#{projetoMB.limpar}" 
-												 update="@form"
-												 styleClass="btn btn-primary"
-												 id="btnLimpar"/>
-									
-							</div>
-							
-							<br/>
-							<br/>
-						</div>
 					</div>
-							<div class="panel panel-default">
-							<div class="panel-body">				 
-							<p:dataTable id="idTable" var="item" value="#{projetoMB.projetos}" editable="true"
-						                 styleClass="table table-striped table-bordered table-hover" paginator="true" 
-						                 rowsPerPageTemplate="10,20,30" currentPageReportTemplate="{startRecord} de {endRecord}"
-						                 paginatorPosition="bottom" emptyMessage="Não foram encontrados registros"
-						                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-											
-											
-									<p:ajax event="rowEdit" 
-											listener="#{projetoMB.editar}" 
-											update="idFormulario:idTable"/>
-											
-									<p:ajax event="rowEditCancel" 
-											listener="#{projetoMB.cancela}"
-											update="idFormulario:idTable"/>
-											
-										<p:column headerText="Nome" >
-											
-											<p:cellEditor>
-											
-												<f:facet name="output">
-													<h:outputText value="#{item.nome}" />
-												</f:facet>
-											
-												<f:facet name="input">
-														<h:inputText value="#{projetoMB.editavel.nome}"
-																	 class="form-control" 
-																	 maxlength="200" 
-																	 id="idEditNome" 
-																	 validatorMessage="O nome não pode ser maior que 200 caracteres."/>
-												</f:facet>
-											
-											</p:cellEditor>
-												
-										</p:column>
-										
-										<p:column headerText="Descrição" >
-											
-											<p:cellEditor>
-											
-												<f:facet name="output">
-													<h:outputText value="#{item.descricao}" />
-												</f:facet>
-											
-												<f:facet name="input">
-														<h:inputText value="#{projetoMB.editavel.descricao}"
-																	 class="form-control" 
-																	 maxlength="45" 
-																	 id="idEditDescricao" 
-																	 validatorMessage="A descrição não pode ser maior que 45 caracteres."/>
-												</f:facet>
-											
-											</p:cellEditor>
-												
-										</p:column>
-										
-										<p:column headerText="Orgão financiador" >
-											
-											<p:cellEditor>
-											
-												<f:facet name="output">
-													<h:outputText value="#{item.orgaoFinanciador}" />
-												</f:facet>
-											
-												<f:facet name="input">
-														<h:inputText value="#{projetoMB.editavel.orgaoFinanciador}"
-																	 class="form-control" 
-																	 maxlength="45" 
-																	 id="idEditOrgaoFinanciador" 
-																	 validatorMessage="Orgão financiador não pode ser maior que 45 caracteres."/>
-												</f:facet>
-											
-											</p:cellEditor>
+					<h:panelGroup rendered="#{projetoMB.acaoEnum.getCodigo() != 3}">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-8">
+										<p:outputLabel for="idNome" value="Nome do projeto:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{projetoMB.projeto.nome}"
+												class="form-control" maxlength="10" id="idNome"
+												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}" />
+										</div>
 
-										</p:column>
-										
-										<p:column headerText="Dados Oficiais" >
-											
-											<p:cellEditor>
-											
-												<f:facet name="output">
-													<h:outputText value="#{item.dadosOficiais}" />
-												</f:facet>
-											
-												<f:facet name="input">
-														<h:inputText value="#{projetoMB.editavel.dadosOficiais}"
-																	 class="form-control" 
-																	 maxlength="45" 
-																	 id="idEditDadosOficiais" 
-																	 validatorMessage="Dados oficiais não pode ser maior que 45 caracteres."/>
-												</f:facet>
-											
-											</p:cellEditor>
-												
-										</p:column>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8">
+										<p:outputLabel for="idDesc" value="Descrição:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{projetoMB.projeto.descricao}"
+												class="form-control" maxlength="45" id="idDesc"
+												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+								</div>
 
-										<p:column headerText="Tipo do projeto" >
-											
-											<p:cellEditor>
-											
-												<f:facet name="output">
-													<h:outputText value="#{item.tipoProjeto.tipo}" />
-												</f:facet>
-											
-												<f:facet name="input">
-													<h:selectOneMenu value="#{projetoMB.editavel.tipoProjeto}" 
-																	 id="dropProjetosEdit"
-																	 styleClass="form-control">
-																	 
-														<f:selectItems value="#{projetoMB.tiposProjeto}"
-																	   var="linha" 
-																	   itemValue="#{linha}" 
-																	   itemLabel="#{linha.tipo}"/>
-																	   
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group">
+												<p:outputLabel for="idStatusProjeto"
+													value="Status do projeto:" styleClass="control-label" />
+												<div class="input-group">
+													<span class="input-group-addon"> <span
+														class="glyphicon glyphicon-tag"></span>
+													</span>
+													<h:selectOneMenu value="#{projetoMB.projeto.statusProjeto}"
+														id="idStatusProjeto" styleClass="form-control"
+														readonly="#{projetoMB.acaoEnum.getCodigo() == 0}">
+														<f:selectItem itemLabel="--Selecione--" itemValue="" />
+														<f:selectItems value="#{projetoMB.variosStatus}"
+															var="linhaSP" itemValue="#{linhaSP}"
+															itemLabel="#{linhaSP.descricao}" />
 													</h:selectOneMenu>
-												</f:facet>
-											
-												</p:cellEditor>
-												
-										</p:column>
-										
-										<p:column headerText="Linha de Pesquisa" >
-											
-											<p:cellEditor>
-											
-												<f:facet name="output">
-													<h:outputText value="#{item.linhaPesquisa.descricao}" />
-												</f:facet>
-											
-												<f:facet name="input">
-													<h:selectOneMenu value="#{projetoMB.editavel.linhaPesquisa}" 
-																	 id="dropLinhasEdit"
-																	 styleClass="form-control">
-																	 
+												</div>
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<p:outputLabel for="idTipoProjeto" value="Tipo do projeto:"
+													styleClass="control-label" />
+												<div class="input-group">
+													<span class="input-group-addon"> <span
+														class="glyphicon glyphicon-tag"></span>
+													</span>
+													<h:selectOneMenu value="#{projetoMB.projeto.tipoProjeto}"
+														id="idTipoProjeto" styleClass="form-control"
+														readonly="#{projetoMB.acaoEnum.getCodigo() == 0}">
+														<f:selectItem itemLabel="--Selecione--" itemValue="" />
+														<f:selectItems value="#{projetoMB.variosTipos}"
+															var="linhaTP" itemValue="#{linhaTP}"
+															itemLabel="#{linhaTP.descricao}" />
+													</h:selectOneMenu>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<p:outputLabel for="idLinhaPesquisa"
+													value="Linha de pesquisa:" styleClass="control-label" />
+												<div class="input-group">
+													<span class="input-group-addon"> <span
+														class="glyphicon glyphicon-tag"></span>
+													</span>
+													<h:selectOneMenu value="#{projetoMB.projeto.linhaPesquisa}"
+														id="idLinhaPesquisa" styleClass="form-control"
+														readonly="#{projetoMB.acaoEnum.getCodigo() == 0}">
+														<f:selectItem itemLabel="--Selecione--" itemValue="" />
 														<f:selectItems value="#{projetoMB.linhasPesquisa}"
-																	   var="linha" 
-																	   itemValue="#{linha}" 
-																	   itemLabel="#{linha.descricao}"/>
-																	   
+															var="linhaLP" itemValue="#{linhaLP}"
+															itemLabel="#{linhaLP.descricao}" />
 													</h:selectOneMenu>
-												</f:facet>
-											
-												</p:cellEditor>
-												
-										</p:column>
-											
-											
-											
+												</div>
+											</div>
+										</div>
+									</div>
 
-										<p:column headerText="Ações" 
-												  styleClass="coluna-acao">
+
+									<div class="row">
+
+										<div class="col-md-4">
+											<p:outputLabel for="idData" value="Data de inicio: "
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<p:inputMask id="idData"
+													value="#{projetoMB.projeto.dataInicio}" mask="99/99/9999"
+													class="form-control" converter="dataConverter"
+													readonly="#{projetoMB.acaoEnum.getCodigo() == 0}">
+													<p:watermark value="Dia/Mês/Ano" for="idData" />
+												</p:inputMask>
+											</div>
+										</div>
 										
-											<p:rowEditor/>
-											&nbsp;
-											<p:commandLink action="#{projetoMB.excluir(item)}"  update="@form">
-												   <span class="glyphicon glyphicon-trash" />
-											 
-														   	 
-												<p:confirm message="Tem certeza que deseja apagar?" 
-														   header="Aviso"  
-														   icon="ui-icon-alert"/>
-															
-											 </p:commandLink>
+										<div class="col-md-8">
+											<p:outputLabel for="idOrgao" value="Orgão Financiador:"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputText value="#{projetoMB.projeto.orgaoFinanciador}"
+													class="form-control" maxlength="45" id="idOrgao"
+													readonly="#{projetoMB.acaoEnum.getCodigo() == 0}" />
+											</div>
+										</div>
+									</div>
 
-										</p:column>
-										
-								</p:dataTable>
-								
-								<p:confirmDialog global="true" >
-								
-									<p:commandButton value="Sim" 
-													 type="button" 
-													 icon="ui-icon-check"
-													 styleClass="ui-confirmdialog-yes"/>
-													 
-									<p:commandButton value="Não"
-													 type="button"
-													 icon="ui-icon-close"
-													 styleClass="ui-confirmdialog-no"/>
-											
-								</p:confirmDialog>
+									<br />
+									<h:panelGroup styleClass="panel-no-border"
+										rendered="#{projetoMB.acaoEnum.getCodigo() == 1}">
+										<div class="form-group"
+											style="padding-top: 70px; text-align: right;">
 
+											<p:commandButton value="Cadastrar" class="btn-primary btn-md"
+												action="#{projetoMB.cadastrar()}" update="@form"
+												styleClass="btn btn-primary" id="btnCadastrar" />
+											&nbsp;&nbsp;
+
+											<p:commandButton value="Limpar" title="Limpar"
+												actionListener="#{projetoMB.limparCadastro}" update="@form"
+												styleClass="btn btn-defaut" id="btnLimpar" />
+											&nbsp;&nbsp;
+											<p:commandButton value="Voltar" class="btn-primary btn-md"
+												action="#{projetoMB.limpar}" update="@form"
+												styleClass="btn btn-default" id="btnVoltarPrinc" />
+
+										</div>
+									</h:panelGroup>
+									<h:panelGroup styleClass="panel-no-border"
+										rendered="#{projetoMB.acaoEnum.getCodigo() == 2}">
+										<div class="form-group"
+											style="padding-top: 70px; text-align: right;">
+											<p:commandButton value="Atualizar" class="btn-primary btn-md"
+												action="#{projetoMB.editar()}" update="@form"
+												styleClass="btn btn-primary" id="btnAtualizar" />
+											&nbsp;&nbsp;
+											<p:commandButton value="Cancelar" class="btn-primary btn-md"
+												action="#{projetoMB.limpar}" update="@form"
+												styleClass="btn btn-default" id="btnCancelar" />
+										</div>
+									</h:panelGroup>
+
+									<h:panelGroup styleClass="panel-no-border"
+										rendered="#{projetoMB.acaoEnum.getCodigo() == 0}">
+										<div class="form-group"
+											style="padding-top: 70px; text-align: right;">
+											<p:commandButton value="Editar" class="btn-primary btn-md"
+												action="#{projetoMB.prepararEdicao(projetoMB.projeto)}"
+												update="@form" styleClass="btn btn-primary" id="btnEditar" />
+											&nbsp;&nbsp;
+											<p:commandButton value="Voltar" class="btn-primary btn-md"
+												action="#{projetoMB.limpar}" update="@form"
+												styleClass="btn btn-default" id="btnVoltar" />
+										</div>
+									</h:panelGroup>
+
+							</div>
 						</div>
-					</div>
+					</h:panelGroup>
+
+
+					<h:panelGroup rendered="#{projetoMB.acaoEnum.getCodigo() == 3}"
+						id="panelPesquisa">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3>Dados para pesquisa</h3>
+								<br /> <br />
+							</div>
+							<div class="panel-body">
+
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Nome:" for="idNomePesq"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputText value="#{projetoMB.projeto.nome}"
+													class="form-control" maxlength="10" id="idNomePesq" />
+											</div>
+										</div>
+									</div>
+
+								</div>
+
+								<div class="form-group" style="text-align: right;">
+									<p:commandButton value="Pesquisar" action="#{projetoMB.buscar}"
+										update="@form" class="btn btn-primary" />
+									&nbsp;&nbsp;
+									<p:commandButton value="Limpar" title="Limpar"
+										class="btn btn-defaut" actionListener="#{projetoMB.limpar}"
+										update="@form" />
+									&nbsp;&nbsp;
+									<p:commandButton value="Novo"
+										action="#{projetoMB.habilitarNovo}" update="@form"
+										class="btn btn-primary" />
+								</div>
+							</div>
+						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3>Projetos cadastrados</h3>
+								<br /> <br />
+							</div>
+							<div class="panel-body">
+								<p:dataTable id="idTable" var="item"
+									value="#{projetoMB.projetos}" editable="true"
+									styleClass="table table-striped table-bordered table-hover"
+									paginator="true" rowsPerPageTemplate="10,20,30"
+									currentPageReportTemplate="{startRecord} de {endRecord}"
+									paginatorPosition="bottom"
+									emptyMessage="Não foram encontrados registros"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+									<p:column headerText="Nome">
+										<h:outputText value="#{item.nome}" />
+									</p:column>
+
+									<p:column headerText="Linha de pesquisa">
+										<h:outputText value="#{item.linhaPesquisa.descricao}" />
+									</p:column>
+
+									<p:column headerText="Tipo do projeto">
+										<h:outputText value="#{item.tipoProjeto.descricao}" />
+									</p:column>
+
+									<p:column headerText="Status do projeto">
+										<h:outputText value="#{item.statusProjeto.descricao}" />
+									</p:column>
+
+									<p:column headerText="Ações" styleClass="coluna-acao">
+
+										<p:commandLink action="#{projetoMB.prepararEdicao(item)}"
+											update="@form">
+											<span class="glyphicon glyphicon-pencil" />
+										</p:commandLink>
+										&nbsp;
+										<p:commandLink action="#{projetoMB.visualizar(item)}"
+											update="@form">
+											<span class="glyphicon glyphicon-search" />
+										</p:commandLink>
+										&nbsp;
+										<p:commandLink action="#{projetoMB.excluir(item)}"
+											update="@form">
+											<span class="glyphicon glyphicon-trash" />
+
+
+											<p:confirm message="Tem certeza que deseja apagar?"
+												header="Aviso" icon="ui-icon-alert" />
+
+										</p:commandLink>
+
+									</p:column>
+
+								</p:dataTable>
+								<p:confirmDialog global="true">
+									<p:commandButton value="Sim" type="button" icon="ui-icon-check"
+										styleClass="ui-confirmdialog-yes" />
+									<p:commandButton value="Não" type="button" icon="ui-icon-close"
+										styleClass="ui-confirmdialog-no" />
+								</p:confirmDialog>
+							</div>
+						</div>
+					</h:panelGroup>
 				</div>
 			</div>
 		</h:form>
 	</ui:define>
+
 </ui:composition>

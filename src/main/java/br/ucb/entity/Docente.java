@@ -13,7 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Docente extends EntidadeBase {
+public class Docente extends EntidadeBase implements Comparable<Docente> {
 
 	private static final long serialVersionUID = 3273644027854708411L;
 
@@ -229,6 +229,11 @@ public class Docente extends EntidadeBase {
 			return true;
 		}
 
+	}
+	
+	@Override
+	public int compareTo(Docente outro) {
+		return getDataCadastro().compareTo(outro.getDataCadastro());
 	}
 
 }

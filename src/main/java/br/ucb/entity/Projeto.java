@@ -1,6 +1,8 @@
 package br.ucb.entity;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Projeto implements Serializable{
@@ -29,16 +34,32 @@ public class Projeto implements Serializable{
 	@Column(name = "orgaoFinanciador")
 	private String orgaoFinanciador;
 
-	@Column(name = "dadosOficiais")
-	private String dadosOficiais;
-
+	@Column(name = "dataInicio")
+	@Temporal(TemporalType.DATE)
+	private Date dataInicio;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_tipoProjeto")
 	private TipoProjeto tipoProjeto;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_statusProjeto")
+	private TipoProjeto statusProjeto;
 
 	@ManyToOne
 	@JoinColumn(name = "id_linhaPesquisa")
 	private LinhaPesquisa linhaPesquisa;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_docente")
+	private Docente docenteResponsavel;
+	
+	@ManyToMany
+	private List<Aluno> alunosParticipantes;
+	
+	@ManyToMany
+	private List<Docente> docentesParticipantes;
+	
 
 	public Integer getIdProjeto() {
 		return this.idProjeto;
@@ -71,13 +92,13 @@ public class Projeto implements Serializable{
 	public void setOrgaoFinanciador(String orgaoFinanciador) {
 		this.orgaoFinanciador = orgaoFinanciador;
 	}
-
-	public String getDadosOficiais() {
-		return dadosOficiais;
+	
+	public Date getDataInicio() {
+		return dataInicio;
 	}
 
-	public void setDadosOficiais(String dadosOficiais) {
-		this.dadosOficiais = dadosOficiais;
+	public void setDataInicio(Date dataInicio) {
+		this.dataInicio = dataInicio;
 	}
 
 	public TipoProjeto getTipoProjeto() {
@@ -88,6 +109,14 @@ public class Projeto implements Serializable{
 		this.tipoProjeto = tipoProjeto;
 	}
 
+	public TipoProjeto getStatusProjeto() {
+		return statusProjeto;
+	}
+
+	public void setStatusProjeto(TipoProjeto statusProjeto) {
+		this.statusProjeto = statusProjeto;
+	}
+
 	public LinhaPesquisa getLinhaPesquisa() {
 		return linhaPesquisa;
 	}
@@ -96,6 +125,30 @@ public class Projeto implements Serializable{
 		this.linhaPesquisa = linhaPesquisa;
 	}
 	
+	public Docente getDocenteResponsavel() {
+		return docenteResponsavel;
+	}
+
+	public void setDocenteResponsavel(Docente docenteResponsavel) {
+		this.docenteResponsavel = docenteResponsavel;
+	}
+	
+	public List<Aluno> getAlunosParticipantes() {
+		return alunosParticipantes;
+	}
+
+	public void setAlunosParticipantes(List<Aluno> alunosParticipantes) {
+		this.alunosParticipantes = alunosParticipantes;
+	}
+
+	public List<Docente> getDocentesParticipantes() {
+		return docentesParticipantes;
+	}
+
+	public void setDocentesParticipantes(List<Docente> docentesParticipantes) {
+		this.docentesParticipantes = docentesParticipantes;
+	}
+
 	public boolean equals(Object obj) {
 
 		int flag = 0;
@@ -103,7 +156,6 @@ public class Projeto implements Serializable{
 			Projeto outroProjeto = (Projeto) obj;
 			if (outroProjeto.getDescricao().trim().equals(this.getDescricao().trim()) 
 					&& outroProjeto.getNome().trim().equals(this.getNome().trim())
-					&& outroProjeto.getDadosOficiais().trim().equals(this.getDadosOficiais().trim())
 					&& outroProjeto.getOrgaoFinanciador().trim().equals(this.getOrgaoFinanciador().trim())
 					&& outroProjeto.getLinhaPesquisa().equals(this.getLinhaPesquisa()) 
 					&& outroProjeto.getTipoProjeto().equals(this.getTipoProjeto())) {

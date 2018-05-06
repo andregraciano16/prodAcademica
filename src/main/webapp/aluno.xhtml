@@ -293,18 +293,18 @@
 										<p:commandButton value="Cadastrar" class="btn-primary btn-md"
 											action="#{alunoMB.cadastrar()}" update="@form"
 											styleClass="btn btn-primary" id="btnCadastrar"
-											icon="fa fa-save" />
+											/>
 										&nbsp;&nbsp;
 
 										<p:commandButton value="Limpar" title="Limpar"
 											actionListener="#{alunoMB.limparCadastro}" update="@form"
-											styleClass="btn btn-defaut" icon="fa fa-eraser"
+											styleClass="btn btn-defaut" 
 											id="btnLimpar" />
 										&nbsp;&nbsp;
 										<p:commandButton value="Voltar" class="btn-primary btn-md"
 											action="#{alunoMB.limpar}" update="@form"
 											styleClass="btn btn-default" id="btnVoltarPrinc"
-											icon="fa fa-undo" />
+											 />
 
 									</div>
 								</h:panelGroup>
@@ -315,12 +315,12 @@
 										<p:commandButton value="Atualizar" class="btn-primary btn-md"
 											action="#{alunoMB.editar()}" update="@form"
 											styleClass="btn btn-primary" id="btnAtualizar"
-											icon="fa fa-pencil" />
+											 />
 										&nbsp;&nbsp;
 										<p:commandButton value="Cancelar" class="btn-primary btn-md"
 											action="#{alunoMB.limpar}" update="@form"
 											styleClass="btn btn-default" id="btnCancelar"
-											icon="fa fa-close" />
+											 />
 									</div>
 								</h:panelGroup>
 
@@ -331,11 +331,11 @@
 										<p:commandButton value="Editar" class="btn-primary btn-md"
 											action="#{alunoMB.prepararEdicao(alunoMB.aluno)}"
 											update="@form" styleClass="btn btn-primary" id="btnEditar"
-											icon="fa fa-pencil" />
+											 />
 										&nbsp;&nbsp;
 										<p:commandButton value="Voltar" class="btn-primary btn-md"
 											action="#{alunoMB.limpar}" update="@form"
-											styleClass="btn btn-default" id="btnVoltar" icon="fa fa-undo" />
+											styleClass="btn btn-default" id="btnVoltar"  />
 									</div>
 								</h:panelGroup>
 
@@ -352,18 +352,8 @@
 								<br /> <br />
 							</div>
 							<div class="panel-body">
-								<div class="row">
-
-									<div class="form-group">
-										<p:chart type="line" model="#{alunoMB.grafico}" id="idGrafico"
-											style="width:100%;" responsive="true" />
-									</div>
-
-								</div>
-
 
 								<div class="row">
-
 									<div class="col-md-4">
 										<div class="form-group">
 											<h:outputLabel value="Matricula:" for="idMatriculaPesq"
@@ -390,37 +380,19 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-md-4">
-										<div class="form-group">
-											<h:outputLabel value="Filtro do gráfico: " for="idGraficoFiltro"
-												styleClass="control-label" />
-											<div class="input-group">
-												<span class="input-group-addon"> <span
-													class="glyphicon glyphicon-tag"></span>
-												</span>
-												<h:selectOneMenu id="idGraficoFiltro" value="#{alunoMB.graficoFiltro}"
-													styleClass="form-control">
-													<f:selectItem itemLabel="Separado por anos" itemValue="1" />
-													<f:selectItem itemLabel="Tempo total" itemValue="2" />
-													<p:ajax event="change" update="idFormulario:idGrafico" listener="#{alunoMB.selecionaFiltro}"/>
-												</h:selectOneMenu>
-											</div>
-										</div>
-									</div>
-									
 								</div>
 
 								<div class="form-group" style="text-align: right;">
 									<p:commandButton value="Pesquisar" action="#{alunoMB.buscar}"
-										update="@form" class="btn btn-primary" icon="fa fa-search" />
+										update="@form" class="btn btn-primary"  />
 									&nbsp;&nbsp;
 									<p:commandButton value="Limpar" title="Limpar"
-										class="btn btn-defaut" icon="fa fa-eraser"
+										class="btn btn-defaut" 
 										actionListener="#{alunoMB.limpar}" update="@form" />
 									&nbsp;&nbsp;
 									<p:commandButton value="Novo" action="#{alunoMB.habilitarNovo}"
 										update="@form" class="btn btn-primary"
-										icon="fa fa-address-card" />
+										 />
 								</div>
 							</div>
 						</div>
