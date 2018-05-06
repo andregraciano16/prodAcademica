@@ -1,156 +1,204 @@
 package br.ucb.MB;
 
+
 import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
-import org.primefaces.event.RowEditEvent;
-
-import br.ucb.dao.LinhaPesquisaDao;
 import br.ucb.dao.ProjetoDao;
-import br.ucb.dao.TipoProjetoDao;
-import br.ucb.dao.impl.LinhaPesquisaDaoImpl;
+import br.ucb.dao.StatusProjetoDao;
 import br.ucb.dao.impl.ProjetoDaoImpl;
+import br.ucb.dao.impl.LinhaPesquisaDaoImpl;
+import br.ucb.dao.impl.StatusProjetoDaoImpl;
 import br.ucb.dao.impl.TipoProjetoDaoImpl;
-import br.ucb.entity.LinhaPesquisa;
 import br.ucb.entity.Projeto;
+import br.ucb.entity.LinhaPesquisa;
+import br.ucb.entity.StatusProjeto;
 import br.ucb.entity.TipoProjeto;
+import br.ucb.enums.AcaoEnum;
 
-
-@ManagedBean(name="projetoMB")
+@ManagedBean(name = "projetoMB")
 @ViewScoped
-public class ProjetoMB extends BaseMB{
-	
-	private static final long serialVersionUID = 1645825813671808166L;
-	
+public class ProjetoMB extends BaseMB {
+
+	private static final long serialVersionUID = 479227576693611217L;
+
 	private List<Projeto> projetos;
 	private Projeto projeto;
 	private ProjetoDao projetoDao;
-	private String msg;
 	private Projeto editavel;
+	private List<StatusProjeto> variosStatus;
+	private List<TipoProjeto> variosTipos;
 	private List<LinhaPesquisa> linhasPesquisa;
-	private LinhaPesquisaDao linhaPesquisaDao;
-	private List<TipoProjeto> tiposProjeto;
-	private TipoProjetoDao tipoProjetoDao;
+	private StatusProjetoDao statusProjetoDao;
+	private TipoProjetoDaoImpl tipoProjetoDao;
+	private LinhaPesquisaDaoImpl linhaPesquisaDao;
+	private AcaoEnum acaoEnum;
+
 	
 	
+
+
 	@PostConstruct
 	public void init() {
-		this.projetos = new ArrayList<Projeto>();
-		this.projeto = new Projeto();
-		this.projeto.setDescricao("");
-		this.projeto.setNome("");
-		this.projeto.setOrgaoFinanciador("");
-		this.projeto.setDadosOficiais("");
-		this.projetoDao = new ProjetoDaoImpl();
-		this.editavel = new Projeto();
-		this.linhasPesquisa = new ArrayList<LinhaPesquisa>();
-		this.linhaPesquisaDao = new LinhaPesquisaDaoImpl();
-		this.tiposProjeto = new ArrayList<TipoProjeto>();
-		this.tipoProjetoDao = new TipoProjetoDaoImpl();
+		inicializa();
 		buscar();
+		this.setAcaoEnum(AcaoEnum.LISTAR);
 	}
 
-	public void cadastrar(Projeto projeto) {
-		if (this.projeto.getDescricao() != null && !this.projeto.getDescricao().trim().isEmpty() &&
-				this.projeto.getNome() != null && !this.projeto.getNome().trim().isEmpty() &&
-				this.projeto.getOrgaoFinanciador() != null && !this.projeto.getOrgaoFinanciador().trim().isEmpty() &&
-				this.projeto.getDadosOficiais() != null && !this.projeto.getDadosOficiais().trim().isEmpty() &&
-				this.projeto.getLinhaPesquisa() != null && this.projeto.getTipoProjeto() != null) {
+	
+
+	public void cadastrar() {
+		if (!verificaVazio(this.projeto)) {
+
 			if (this.projetos.contains(this.projeto)) {
-				msg = "Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+				setMessageError("Já contém este registro, por favor insira um novo.");
 			} else {
-				montarProjeto();
+				montar(this.projeto);
 				this.projetoDao.save(this.projeto);
-				msg = "Cadastrado com sucesso.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+				setMessageSuccess("Cadastrado com sucesso.");
 			}
+
 		} else {
-			msg = "Preencha os campos corretamente.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+			setMessageError("Preencha os campos corretamente.");
 		}
 		init();
-	}
-
-	private void montarProjeto() {
-		if (this.projeto == null) {
-			this.projeto = new Projeto();
-		}
-		this.projeto.setIdProjeto(null);
-		this.projeto.setDescricao(this.projeto.getDescricao().trim());
-		this.projeto.setNome(this.projeto.getNome().trim());
-		this.projeto.setDadosOficiais(this.projeto.getDadosOficiais().trim());
-		this.projeto.setOrgaoFinanciador(this.projeto.getOrgaoFinanciador().trim());
-		this.projeto.setLinhaPesquisa(this.projeto.getLinhaPesquisa());
-		this.projeto.setTipoProjeto(this.projeto.getTipoProjeto());
 	}
 
 	public void excluir(Projeto projeto) {
 		this.projetoDao.remove(projeto);
-		msg = "Excluído com sucesso.";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+		setMessageSuccess("Excluído com sucesso.");
 		init();
 	}
 
-	public void editar(RowEditEvent event) {
+	public void editar() {
 
-		if (this.editavel.getDescricao() != null && !this.editavel.getDescricao().isEmpty()) {
-
-			projeto = (Projeto) event.getObject();
-			projeto.setDescricao(editavel.getDescricao());
-			projeto.setNome(editavel.getNome());
-			projeto.setDadosOficiais(editavel.getDadosOficiais());
-			projeto.setOrgaoFinanciador(editavel.getOrgaoFinanciador());
-			projeto.setLinhaPesquisa(editavel.getLinhaPesquisa());
-			projeto.setTipoProjeto(editavel.getTipoProjeto());
+		if (this.projeto != null && !verificaVazio(this.projeto)) {
 			this.projetoDao.update(this.projeto);
-			msg = "Atualizado com sucesso.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-
+			setMessageSuccess("Atualizado com sucesso.");
 		} else {
-			msg = "Preencha os campos corretamente.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+			setMessageError("Preencha os campos corretamente.");
 		}
 		init();
 
 	}
 
-	public void cancela(RowEditEvent event) {
+	public void prepararEdicao(Projeto projeto) {
+		this.projeto = projeto;
+		acaoEnum = AcaoEnum.EDITAR;
+	}
 
-		String msg = "Atualização cancelada.";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+	public void visualizar(Projeto projeto) {
+		this.projeto = projeto;
+		acaoEnum = AcaoEnum.VISUALIZAR;
 	}
 
 	public void buscar() {
 
 		if (this.projeto != null) {
-			if (this.projeto.getDescricao().trim().isEmpty() 
-					&& this.projeto.getNome().trim().isEmpty()
-					&& this.projeto.getOrgaoFinanciador().trim().isEmpty()
-					&& this.projeto.getDadosOficiais().trim().isEmpty()
-					&& this.projeto.getLinhaPesquisa() == null
-					&& this.projeto.getTipoProjeto() == null) {
+			if (verificaVazio(this.projeto)) {
 				this.projetos = this.projetoDao.list();
+				this.variosStatus = this.statusProjetoDao.list();
+				this.variosTipos = this.tipoProjetoDao.list();
 				this.linhasPesquisa = this.linhaPesquisaDao.list();
-				this.tiposProjeto = this.tipoProjetoDao.list();		
 			} else {
 				this.projetos = this.projetoDao.findBySearch(this.projeto);
+				this.variosStatus = this.statusProjetoDao.list();
+				this.variosTipos = this.tipoProjetoDao.list();
 				this.linhasPesquisa = this.linhaPesquisaDao.list();
 			}
 		}
-
 	}
 
 	public void limpar() {
 		init();
+	}
+
+	public void limparCadastro() {
+		inicializa();
+		buscar();
+		this.setAcaoEnum(AcaoEnum.CADASTRAR);
+	}
+
+	private void inicializa() {
+		this.projetos = new ArrayList<Projeto>();
+		this.projeto = new Projeto();
+		this.projeto.setNome("");
+		this.projeto.setDescricao("");
+		this.projeto.setOrgaoFinanciador("");
+		this.projeto.setDataInicio(null);
+		this.projeto.setStatusProjeto(null);
+		this.projeto.setLinhaPesquisa(null);
+		this.projeto.setTipoProjeto(null);
+		
+		
+		
+		this.projeto.setDocenteResponsavel(null);
+		this.projeto.setAlunosParticipantes(null);
+		this.projeto.setDocentesParticipantes(null);
+		
+		
+		this.variosTipos = new ArrayList<TipoProjeto>();
+		this.variosStatus = new ArrayList<StatusProjeto>();
+		this.linhasPesquisa = new ArrayList<LinhaPesquisa>();
+		this.projetoDao = new ProjetoDaoImpl();
+		this.statusProjetoDao = new StatusProjetoDaoImpl();
+		this.tipoProjetoDao = new TipoProjetoDaoImpl();
+		this.linhaPesquisaDao = new LinhaPesquisaDaoImpl();
+		this.editavel = new Projeto();
+
+
+
+	}
+
+	private void montar(Projeto projeto) {
+		if (projeto == null) {
+			projeto = new Projeto();
+		}
+		projeto.setIdProjeto(null);
+		projeto.setNome(projeto.getNome().trim());
+		projeto.setDescricao(projeto.getDescricao().trim());
+		projeto.setOrgaoFinanciador(projeto.getOrgaoFinanciador().trim());
+
+	}
+
+	public void habilitarNovo() {
+		this.acaoEnum = AcaoEnum.CADASTRAR;
+	}
+
+	
+	private boolean verificaVazio(Projeto projeto) {
+
+		if (projeto.getNome() == null || projeto.getNome().trim().isEmpty()) {
+			return true;
+		}
+
+		if (projeto.getDescricao() == null || projeto.getDescricao().trim().isEmpty()) {
+			return true;
+		}
+
+		if (projeto.getOrgaoFinanciador() == null || projeto.getOrgaoFinanciador().trim().isEmpty()) {
+			return true;
+		}
+		
+		if (projeto.getStatusProjeto() == null) {
+			return true;
+		}
+
+		if (projeto.getTipoProjeto() == null) {
+			return true;
+		}
+		
+		if (projeto.getLinhaPesquisa() == null) {
+			return true;
+		}
+
+		
+		return false;
 	}
 
 	public List<Projeto> getProjetos() {
@@ -185,36 +233,86 @@ public class ProjetoMB extends BaseMB{
 		this.projeto = projeto;
 	}
 
+	public List<Projeto> getTiposProjeto() {
+		return projetos;
+	}
+
+	public void setTiposProjeto(List<Projeto> projetos) {
+		this.projetos = projetos;
+	}
+
+	public List<StatusProjeto> getVariosStatus() {
+		return variosStatus;
+	}
+
+	public void setVariosStatus(List<StatusProjeto> variosStatus) {
+		this.variosStatus = variosStatus;
+	}
+
+	public StatusProjetoDao getStatusProjetoDao() {
+		return statusProjetoDao;
+	}
+
+	public void setStatusProjetoDao(StatusProjetoDao statusProjetoDao) {
+		this.statusProjetoDao = statusProjetoDao;
+	}
+
+	public AcaoEnum getAcaoEnum() {
+		return acaoEnum;
+	}
+
+	public void setAcaoEnum(AcaoEnum acaoEnum) {
+		this.acaoEnum = acaoEnum;
+	}
+
+
+
+	public List<TipoProjeto> getVariosTipos() {
+		return variosTipos;
+	}
+
+
+
+	public void setVariosTipos(List<TipoProjeto> variosTipos) {
+		this.variosTipos = variosTipos;
+	}
+
+
+
 	public List<LinhaPesquisa> getLinhasPesquisa() {
 		return linhasPesquisa;
 	}
+
+
 
 	public void setLinhasPesquisa(List<LinhaPesquisa> linhasPesquisa) {
 		this.linhasPesquisa = linhasPesquisa;
 	}
 
-	public LinhaPesquisaDao getLinhaPesquisaDao() {
-		return linhaPesquisaDao;
-	}
 
-	public void setLinhaPesquisaDao(LinhaPesquisaDao linhaPesquisaDao) {
-		this.linhaPesquisaDao = linhaPesquisaDao;
-	}
 
-	public TipoProjetoDao getTipoProjetoDao() {
+	public TipoProjetoDaoImpl getTipoProjetoDao() {
 		return tipoProjetoDao;
 	}
 
-	public void setTipoProjetoDao(TipoProjetoDao tipoProjetoDao) {
+
+
+	public void setTipoProjetoDao(TipoProjetoDaoImpl tipoProjetoDao) {
 		this.tipoProjetoDao = tipoProjetoDao;
 	}
 
-	public List<TipoProjeto> getTiposProjeto() {
-		return tiposProjeto;
+
+
+	public LinhaPesquisaDaoImpl getLinhaPesquisaDao() {
+		return linhaPesquisaDao;
 	}
 
-	public void setTiposProjeto(List<TipoProjeto> tiposProjeto) {
-		this.tiposProjeto = tiposProjeto;
+
+
+	public void setLinhaPesquisaDao(LinhaPesquisaDaoImpl linhaPesquisaDao) {
+		this.linhaPesquisaDao = linhaPesquisaDao;
 	}
+
+	
 
 }

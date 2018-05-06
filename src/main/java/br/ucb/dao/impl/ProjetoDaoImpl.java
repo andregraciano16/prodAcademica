@@ -37,10 +37,6 @@ public class ProjetoDaoImpl extends DaoGenericoImpl<Projeto, Integer> implements
 			query.setParameter(2, "%"+ projeto.getDescricao() + "%");
 		}
 		
-		if(projeto.getDadosOficiais() != null && !projeto.getDadosOficiais().trim().isEmpty()){
-			query.setParameter(3, "%"+ projeto.getDadosOficiais() + "%");
-		}
-		
 		if(projeto.getOrgaoFinanciador() != null && !projeto.getOrgaoFinanciador().trim().isEmpty()){
 			query.setParameter(4, "%"+ projeto.getNome() + "%");
 		}
@@ -64,10 +60,6 @@ public class ProjetoDaoImpl extends DaoGenericoImpl<Projeto, Integer> implements
 		
 		if(projeto.getDescricao() != null && !projeto.getDescricao().trim().isEmpty()){
 			consulta.append(" and p.descricao like ?2 ");
-		}
-		
-		if(projeto.getDadosOficiais() != null && !projeto.getDadosOficiais().trim().isEmpty()){
-			consulta.append(" and p.dadosOficiais like ?3 ");
 		}
 		
 		if(projeto.getOrgaoFinanciador() != null && !projeto.getOrgaoFinanciador().trim().isEmpty()){

@@ -8,7 +8,6 @@ import javax.faces.convert.FacesConverter;
 import br.ucb.dao.AlunoDao;
 import br.ucb.dao.impl.AlunoDaoImpl;
 import br.ucb.entity.Aluno;
-import br.ucb.entity.Aluno;
 
 
 
