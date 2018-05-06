@@ -28,7 +28,7 @@ public class Autor extends EntidadeBase {
 	private Integer codAutor;
 
 	@ManyToOne
-	@JoinColumn(name = "id_linhaPesquisa")
+	@JoinColumn(name = "id_producaoAcademica")
 	private ProducaoAcademica producaoAcademica;
 	
 	public Integer getIdAutor() {
