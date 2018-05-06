@@ -76,8 +76,44 @@
 													         maxlength="10"
 													         id="idConceitoQualis"/>
 									        </div>
+									        <div class="col-md-4">
+											    <h:outputLabel for="idNomeExterno" value="Participante externo:" styleClass="control-label"/>
+												<h:inputText value="#{producaoAcademicaMB.externo.nome}" 
+													         class= "form-control" 
+													         maxlength="45"
+													         id="idNomeExterno"/>
+									        </div>
+									        <div class="col-md-4">
+											    <h:outputLabel for="idPartExterno" value="Participação externo:" styleClass="control-label"/>
+												<h:inputText value="#{producaoAcademicaMB.externo.tipoParticipacao}" 
+													         class= "form-control" 
+													         maxlength="45"
+													         id="idPartExterno"/>
+									        </div>
 										</div>
 										<br/>
+										<div class="row">
+										    <div class="col-md-6">
+										        <div class="form-group">
+													<h:outputLabel for="idOrientador" value="Orientador:" styleClass="control-label" />
+											        <h:selectOneMenu id="idOrientador" value="#{producaoAcademicaMB.orientador.codAutor}" 
+											                         styleClass="form-control">
+														<f:selectItems itemLabel="#{aut.matricula} - #{aut.nome}" itemValue="#{aut.id}" var="aut" 
+														               value="#{producaoAcademicaMB.listAutores}" />
+											        </h:selectOneMenu>
+										        </div>
+									        </div>
+											<div class="col-md-6">
+										        <div class="form-group">
+													<h:outputLabel for="idCoOrientador" value="Coorientador:" styleClass="control-label" />
+											        <h:selectOneMenu id="idCoOrientador" value="#{producaoAcademicaMB.coorientador.codAutor}" 
+											                         styleClass="form-control">
+														<f:selectItems itemLabel="#{aut.matricula} - #{aut.nome}" itemValue="#{aut.id}" var="aut" 
+														               value="#{producaoAcademicaMB.listAutores}" />
+											        </h:selectOneMenu>
+										        </div>
+									        </div>
+										</div>
 										<div class="row">
 										     <div class="col-md-12">
 											     <h:outputLabel for="idArquivo" value="Escolha o(s) arquivo(s): " styleClass="control-label"/>
@@ -161,7 +197,7 @@
 												        
 												        <div class="col-md-4">
 					                               		    <div class="form-group">
-																<h:outputLabel for="idDivulgacao" value="Divulgacao:" styleClass="control-label" />
+																<h:outputLabel for="idDivulgacao" value="Divulgação:" styleClass="control-label" />
 														        <h:selectOneMenu id="idDivulgacao" value="#{producaoAcademicaMB.periodico.divulgacao}" styleClass="form-control">
 																	<f:selectItems itemLabel="#{tipo.descricao}" itemValue="#{tipo.codigo}" var="tipo"
 																	               value="#{producaoAcademicaMB.getDivulgacao()}" />
