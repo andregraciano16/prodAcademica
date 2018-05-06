@@ -34,6 +34,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 	private String graficoFiltroBarTipo = "1";
 	private ProducaoAcademicaDaoImpl producaoAcademicaDaoImpl;
 	private List<Object[]> listaSimples;
+	private List<Date> listaDatas;
 
 	@PostConstruct
 	public void init() {
@@ -126,7 +127,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		graficoBarra.setAnimate(true);
 		graficoBarra.setResetAxesOnResize(true);
 		graficoBarra.setShadow(true);
-		graficoBarra.setExtender("removeLegend");
+		//graficoBarra.setExtender("removeLegend");
 
 		Axis yAxis = graficoBarra.getAxis(AxisType.Y);
 		yAxis.setLabel("Qtd de produções");
@@ -136,10 +137,10 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	private LineChartModel initGraficoTotal() {
 		
-		//producaoAcademica[0] => dataCadastro das produções
+		//producaoAcademica => dataCadastro das produções
 		
 		LineChartModel model = new LineChartModel();
-		this.listaSimples = this.producaoAcademicaDaoImpl.listSimpleDatas();
+		this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleDatas();
 
 		Calendar c = Calendar.getInstance();
 		int ultimoMes = 0;
@@ -149,17 +150,17 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		series1.setLabel("N° de producoes");
 
 
-		for (Object[] producaoAcademica : listaSimples) {
+		for (Date producaoAcademica : listaDatas) {
 
-			c.setTime((Date) producaoAcademica[0]);
+			c.setTime(producaoAcademica);
 			c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) + 3);
-			producaoAcademica[0] = c.getTime();
+			producaoAcademica = c.getTime();
 
 			if (c.get(Calendar.MONTH) == ultimoMes && c.get(Calendar.YEAR) == ultimoAno) {
 
 			} else {
 				series1.set(c.get(Calendar.MONTH) + 1 + "/" + c.get(Calendar.YEAR),
-						getCadastroMes(listaSimples, c));
+						getCadastroMes(listaDatas, c));
 				ultimoMes = c.get(Calendar.MONTH);
 				ultimoAno = c.get(Calendar.YEAR);
 			}
@@ -173,7 +174,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	private LineChartModel initGraficoSemestreTotal() {
 		LineChartModel model = new LineChartModel();
-		this.listaSimples = this.producaoAcademicaDaoImpl.listSimpleDatas();
+		this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleDatas();
 
 		Calendar c = Calendar.getInstance();
 		int ultimoMes = 0;
@@ -187,11 +188,11 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		series1.setLabel("N° de producoes");
 
 
-		for (Object[] producaoAcademica : listaSimples) {
+		for (Date producaoAcademica : listaDatas) {
 
-			c.setTime((Date) producaoAcademica[0]);
+			c.setTime(producaoAcademica);
 			c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) + 3);
-			producaoAcademica[0] = c.getTime();
+			producaoAcademica = c.getTime();
 			
 			
 			if (c.get(Calendar.YEAR) != ultimoAno) {
@@ -205,10 +206,10 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 				mes = c.get((Calendar.MONTH)) + 1;
 				resultado = (double) mes / 6;
 				if (resultado <= 1) {
-					semestreUm += getCadastroMes(listaSimples, c);
+					semestreUm += getCadastroMes(listaDatas, c);
 					series1.set("1°/" + c.get(Calendar.YEAR), semestreUm);
 				} else {
-					semestreDois += getCadastroMes(listaSimples, c);
+					semestreDois += getCadastroMes(listaDatas, c);
 					series1.set("2°/" + c.get(Calendar.YEAR), semestreDois);
 
 				}
@@ -226,8 +227,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	private LineChartModel initGraficoAnos() {
 		LineChartModel model = new LineChartModel();
-		this.listaSimples = this.producaoAcademicaDaoImpl.listSimpleDatas();
-		Date producao = new Date();
+		this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleDatas();
 
 		Calendar c = Calendar.getInstance();
 
@@ -250,17 +250,15 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		meses.set("dez", -1);
 		
 		
-		for (int i = 0; i < listaSimples.size(); i++) {
+		for (Date producaoAcademica : listaDatas) {
 			
-			
-
-			c.setTime(producao);
+			c.setTime(producaoAcademica);
 			c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) + 3);
-			producao = c.getTime();
+			producaoAcademica = (Date) c.getTime();
 
 			if (ultimoMes == 0 && ultimoAno == 0) {
 
-				meses.set(df2.format(producao), getCadastroMes(listaSimples, c));
+				meses.set(df2.format(producaoAcademica), getCadastroMes(listaDatas, c));
 				ultimoMes = c.get(Calendar.MONTH);
 				ultimoAno = c.get(Calendar.YEAR);
 
@@ -282,13 +280,13 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 				meses.set("out", -1);
 				meses.set("nov", -1);
 				meses.set("dez", -1);
-				meses.set(df2.format(producao), getCadastroMes(listaSimples, c));
+				meses.set(df2.format(producaoAcademica), getCadastroMes(listaDatas, c));
 				ultimoMes = 0;
 				ultimoAno = 0;
 			}
 
 			if (c.get(Calendar.MONTH) != ultimoMes && c.get(Calendar.YEAR) == ultimoAno) {
-				meses.set(df2.format(producao), getCadastroMes(listaSimples, c));
+				meses.set(df2.format(producaoAcademica), getCadastroMes(listaDatas, c));
 				ultimoMes = c.get(Calendar.MONTH);
 				ultimoAno = c.get(Calendar.YEAR);
 
@@ -301,12 +299,12 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	}
 
-	private int getCadastroMes(List<Object[]> listaSimplesD, Calendar data) {
+	private int getCadastroMes(List<Date> listaDatasD, Calendar data) {
 		int qtdCadastro = 0;
 		Calendar cadastro = Calendar.getInstance();
 
-		for (Object[] producaoAcademica : listaSimplesD) {
-			cadastro.setTime((Date) producaoAcademica[0]);
+		for (Date producaoAcademica : listaDatasD) {
+			cadastro.setTime((Date) producaoAcademica);
 			cadastro.set(Calendar.HOUR_OF_DAY, cadastro.get(Calendar.HOUR_OF_DAY) + 3);
 
 			if (cadastro.get(Calendar.MONTH) == data.get(Calendar.MONTH)
@@ -451,14 +449,6 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		}
 		return qtdCadastro;
 
-	}
-
-	public List<Object[]> getListaSimples() {
-		return listaSimples;
-	}
-
-	public void setListaSimples(List<Object[]> listaSimples) {
-		this.listaSimples = listaSimples;
 	}
 
 	private BarChartModel initGraficoQualisAnos() {
@@ -671,4 +661,11 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		this.graficoFiltroBarTipo = graficoFiltroBarTipo;
 	}
 
+	public List<Object[]> getListaSimples() {
+		return listaSimples;
+	}
+
+	public void setListaSimples(List<Object[]> listaSimples) {
+		this.listaSimples = listaSimples;
+	}
 }

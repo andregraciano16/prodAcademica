@@ -1,5 +1,6 @@
 package br.ucb.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -62,12 +63,11 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		
 	}
 	
-public List<Object[]> listSimpleDatas(){
+public List<Date> listSimpleDatas(){
 		
-		@SuppressWarnings("unchecked")
-		List<Object[]> resultados = getManager()
+		List<Date> resultados = getManager()
 				.createQuery(
-						"select pa.dataCadastro from ProducaoAcademica pa order by pa.dataCadastro asc")
+						"select pa.dataCadastro from ProducaoAcademica pa order by pa.dataCadastro asc", Date.class)
 				.getResultList();
 
 	
