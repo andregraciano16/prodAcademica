@@ -1,6 +1,5 @@
 package br.ucb.MB;
 
-
 import java.util.ArrayList;
 
 import java.util.List;
@@ -9,15 +8,18 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import br.ucb.dao.AlunoDao;
 import br.ucb.dao.DocenteDao;
 import br.ucb.dao.ProjetoDao;
 import br.ucb.dao.StatusProjetoDao;
 import br.ucb.dao.impl.ProjetoDaoImpl;
+import br.ucb.dao.impl.AlunoDaoImpl;
 import br.ucb.dao.impl.DocenteDaoImpl;
 import br.ucb.dao.impl.LinhaPesquisaDaoImpl;
 import br.ucb.dao.impl.StatusProjetoDaoImpl;
 import br.ucb.dao.impl.TipoProjetoDaoImpl;
 import br.ucb.entity.Projeto;
+import br.ucb.entity.Aluno;
 import br.ucb.entity.Docente;
 import br.ucb.entity.LinhaPesquisa;
 import br.ucb.entity.StatusProjeto;
@@ -33,21 +35,24 @@ public class ProjetoMB extends BaseMB {
 	private List<Projeto> projetos;
 	private Projeto projeto;
 	private ProjetoDao projetoDao;
-	private Projeto editavel;
 	private List<StatusProjeto> variosStatus;
 	private List<TipoProjeto> variosTipos;
 	private List<LinhaPesquisa> linhasPesquisa;
 	private List<Docente> docentes;
+	private List<Docente> docentesSelecionados;
+	private Docente docenteSelecionado;
+	private List<Aluno> alunos;
+	private List<Aluno> alunosSelecionados;
+	private AlunoDao alunoDao;
+	private Aluno alunoSelecionado;
+	private Docente temp;
 	private DocenteDao docenteDao;
 	private StatusProjetoDao statusProjetoDao;
 	private TipoProjetoDaoImpl tipoProjetoDao;
 	private LinhaPesquisaDaoImpl linhaPesquisaDao;
 	private AcaoEnum acaoEnum;
 
-
 	
-	
-
 
 	@PostConstruct
 	public void init() {
@@ -55,8 +60,6 @@ public class ProjetoMB extends BaseMB {
 		buscar();
 		this.setAcaoEnum(AcaoEnum.LISTAR);
 	}
-
-	
 
 	public void cadastrar() {
 		if (!verificaVazio(this.projeto)) {
@@ -102,20 +105,115 @@ public class ProjetoMB extends BaseMB {
 		this.projeto = projeto;
 		acaoEnum = AcaoEnum.VISUALIZAR;
 	}
-	
-	public List<Docente> escolheDocente(String query){
-        List<Docente> docentesFiltrados = new ArrayList<Docente>();
-         
-        for (int i = 0; i < this.docentes.size(); i++) {
-            Docente docente = this.docentes.get(i);
-            if(docente.getNome().toLowerCase().startsWith(query)) {
-                docentesFiltrados.add(docente);
-            }
-        }
-         
-        return docentesFiltrados;
+
+	public List<Aluno> escolheAluno(String query) {
+		List<Aluno> alunosFiltrados = new ArrayList<Aluno>();
+
+		for (int i = 0; i < this.alunos.size(); i++) {
+			Aluno aluno = this.alunos.get(i);
+			if (aluno.getNome().toLowerCase().startsWith(query)) {
+				alunosFiltrados.add(aluno);
+			}
+		}
+
+		return alunosFiltrados;
 	}
 
+	public List<Aluno> escolheParticipanteAluno(String query) {
+		List<Aluno> alunosFiltrados = new ArrayList<Aluno>();
+
+		for (int i = 0; i < this.alunos.size(); i++) {
+			Aluno aluno = this.alunos.get(i);
+			if (aluno.getNome().toLowerCase().startsWith(query)) {
+				alunosFiltrados.add(aluno);
+			}
+		}
+
+		return alunosFiltrados;
+	}
+
+	public void guardaParticipanteAluno(Aluno selecionado) {
+		if (selecionado != null && this.alunos.contains(selecionado)) {
+			this.alunosSelecionados.add(selecionado);
+			this.alunos.remove(selecionado);
+		}else{
+			if(selecionado == null)
+					setMessageError("Esse aluno não existe.");
+			if(selecionado != null && this.alunosSelecionados.contains(selecionado))
+				setMessageError("Este aluno já foi selecionado.");
+		}
+
+	}
+
+	public List<Aluno> getAlunos() {
+		return alunos;
+	}
+
+	public void setAlunos(List<Aluno> alunos) {
+		this.alunos = alunos;
+	}
+
+	public void removeParticipanteAluno(Aluno selecionado) {
+		this.alunosSelecionados.remove(selecionado);
+		this.alunos.add(selecionado);
+	}
+	
+	public void verificaDocenteResponsavel(Docente responsavel){
+		if (responsavel != null && this.docentes.contains(responsavel)) {
+			this.docentes.remove(responsavel);
+			this.temp = responsavel;
+		}else if(responsavel == null && this.temp != null){
+			this.docentes.add(this.temp);
+			this.temp = null;		
+		}
+	}
+
+	
+	public List<Docente> escolheDocente(String query) {
+		List<Docente> docentesFiltrados = new ArrayList<Docente>();
+
+		for (int i = 0; i < this.docentes.size(); i++) {
+			Docente docente = this.docentes.get(i);
+			if (docente.getNome().toLowerCase().startsWith(query)) {
+				docentesFiltrados.add(docente);
+			}
+		}
+
+		return docentesFiltrados;
+	}
+
+	public List<Docente> escolheParticipanteDocente(String query) {
+		List<Docente> docentesFiltrados = new ArrayList<Docente>();
+
+		for (int i = 0; i < this.docentes.size(); i++) {
+			Docente docente = this.docentes.get(i);
+			if (docente.getNome().toLowerCase().startsWith(query)) {
+				docentesFiltrados.add(docente);
+			}
+		}
+
+		return docentesFiltrados;
+	}
+
+	public void guardaParticipanteDocente(Docente selecionado) {
+		if (selecionado != null && this.docentes.contains(selecionado)) {
+			this.docentesSelecionados.add(selecionado);
+			this.docentes.remove(selecionado);
+		}else{
+			if(selecionado == null)
+					setMessageError("Esse docente não existe ou já é o reponsável pelo projeto.");
+			if(selecionado != null && this.docentesSelecionados.contains(selecionado))
+				setMessageError("Este docente já foi selecionado.");
+		}
+
+	}
+
+	public void removeParticipanteDocente(Docente selecionado) {
+		this.docentesSelecionados.remove(selecionado);
+		this.docentes.add(selecionado);
+	}
+	
+	
 	public void buscar() {
 
 		if (this.projeto != null) {
@@ -124,13 +222,15 @@ public class ProjetoMB extends BaseMB {
 				this.variosStatus = this.statusProjetoDao.list();
 				this.variosTipos = this.tipoProjetoDao.list();
 				this.linhasPesquisa = this.linhaPesquisaDao.list();
-				this.setDocentes(this.docenteDao.list());
+				this.docentes = this.docenteDao.list();
+				this.alunos = this.alunoDao.list();
 			} else {
 				this.projetos = this.projetoDao.findBySearch(this.projeto);
 				this.variosStatus = this.statusProjetoDao.list();
 				this.variosTipos = this.tipoProjetoDao.list();
 				this.linhasPesquisa = this.linhaPesquisaDao.list();
-				this.setDocentes(this.docenteDao.list());
+				this.docentes = this.docenteDao.list();
+				this.alunos = this.alunoDao.list();
 			}
 		}
 	}
@@ -155,25 +255,22 @@ public class ProjetoMB extends BaseMB {
 		this.projeto.setStatusProjeto(null);
 		this.projeto.setLinhaPesquisa(null);
 		this.projeto.setTipoProjeto(null);
-		
-		
-		
 		this.projeto.setDocenteResponsavel(null);
+
 		this.projeto.setAlunosParticipantes(null);
 		this.projeto.setDocentesParticipantes(null);
-		
-		
+
 		this.variosTipos = new ArrayList<TipoProjeto>();
 		this.variosStatus = new ArrayList<StatusProjeto>();
 		this.linhasPesquisa = new ArrayList<LinhaPesquisa>();
+		this.docentesSelecionados = new ArrayList<Docente>();
+		this.alunosSelecionados = new ArrayList<Aluno>();
 		this.projetoDao = new ProjetoDaoImpl();
 		this.statusProjetoDao = new StatusProjetoDaoImpl();
 		this.tipoProjetoDao = new TipoProjetoDaoImpl();
 		this.linhaPesquisaDao = new LinhaPesquisaDaoImpl();
 		this.docenteDao = new DocenteDaoImpl();
-		this.editavel = new Projeto();
-
-
+		this.alunoDao = new AlunoDaoImpl();
 
 	}
 
@@ -192,7 +289,6 @@ public class ProjetoMB extends BaseMB {
 		this.acaoEnum = AcaoEnum.CADASTRAR;
 	}
 
-	
 	private boolean verificaVazio(Projeto projeto) {
 
 		if (projeto.getNome() == null || projeto.getNome().trim().isEmpty()) {
@@ -206,7 +302,7 @@ public class ProjetoMB extends BaseMB {
 		if (projeto.getOrgaoFinanciador() == null || projeto.getOrgaoFinanciador().trim().isEmpty()) {
 			return true;
 		}
-		
+
 		if (projeto.getStatusProjeto() == null) {
 			return true;
 		}
@@ -214,12 +310,11 @@ public class ProjetoMB extends BaseMB {
 		if (projeto.getTipoProjeto() == null) {
 			return true;
 		}
-		
+
 		if (projeto.getLinhaPesquisa() == null) {
 			return true;
 		}
 
-		
 		return false;
 	}
 
@@ -237,14 +332,6 @@ public class ProjetoMB extends BaseMB {
 
 	public void setProjetoDao(ProjetoDao projetoDao) {
 		this.projetoDao = projetoDao;
-	}
-
-	public Projeto getEditavel() {
-		return editavel;
-	}
-
-	public void setEditavel(Projeto editavel) {
-		this.editavel = editavel;
 	}
 
 	public Projeto getProjeto() {
@@ -287,66 +374,76 @@ public class ProjetoMB extends BaseMB {
 		this.acaoEnum = acaoEnum;
 	}
 
-
-
 	public List<TipoProjeto> getVariosTipos() {
 		return variosTipos;
 	}
-
-
 
 	public void setVariosTipos(List<TipoProjeto> variosTipos) {
 		this.variosTipos = variosTipos;
 	}
 
-
-
 	public List<LinhaPesquisa> getLinhasPesquisa() {
 		return linhasPesquisa;
 	}
-
-
 
 	public void setLinhasPesquisa(List<LinhaPesquisa> linhasPesquisa) {
 		this.linhasPesquisa = linhasPesquisa;
 	}
 
-
-
 	public TipoProjetoDaoImpl getTipoProjetoDao() {
 		return tipoProjetoDao;
 	}
-
-
 
 	public void setTipoProjetoDao(TipoProjetoDaoImpl tipoProjetoDao) {
 		this.tipoProjetoDao = tipoProjetoDao;
 	}
 
-
-
 	public LinhaPesquisaDaoImpl getLinhaPesquisaDao() {
 		return linhaPesquisaDao;
 	}
-
-
 
 	public void setLinhaPesquisaDao(LinhaPesquisaDaoImpl linhaPesquisaDao) {
 		this.linhaPesquisaDao = linhaPesquisaDao;
 	}
 
-
-
 	public List<Docente> getDocentes() {
 		return docentes;
 	}
-
-
 
 	public void setDocentes(List<Docente> docentes) {
 		this.docentes = docentes;
 	}
 
-	
+	public List<Docente> getDocentesSelecionados() {
+		return docentesSelecionados;
+	}
+
+	public void setDocentesSelecionados(List<Docente> docentesSelecionados) {
+		this.docentesSelecionados = docentesSelecionados;
+	}
+
+	public Docente getDocenteSelecionado() {
+		return docenteSelecionado;
+	}
+
+	public void setDocenteSelecionado(Docente docenteSelecionado) {
+		this.docenteSelecionado = docenteSelecionado;
+	}
+
+	public List<Aluno> getAlunosSelecionados() {
+		return alunosSelecionados;
+	}
+
+	public void setAlunosSelecionados(List<Aluno> alunosSelecionados) {
+		this.alunosSelecionados = alunosSelecionados;
+	}
+
+	public Aluno getAlunoSelecionado() {
+		return alunoSelecionado;
+	}
+
+	public void setAlunoSelecionado(Aluno alunoSelecionado) {
+		this.alunoSelecionado = alunoSelecionado;
+	}
 
 }

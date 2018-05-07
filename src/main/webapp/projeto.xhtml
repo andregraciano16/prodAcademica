@@ -8,8 +8,8 @@
 
 
 	<ui:define name="Conteudo">
-	
-			<h:form id="idFormulario">
+
+		<h:form id="idFormulario">
 
 			<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 				<div class="col-lg-12">
@@ -29,6 +29,32 @@
 					<h:panelGroup rendered="#{projetoMB.acaoEnum.getCodigo() != 3}">
 						<div class="panel panel-default">
 							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-8">
+										<p:outputLabel for="idDocenteResp"
+											value="Docente Responsável:" styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+
+											<p:autoComplete
+												value="#{projetoMB.projeto.docenteResponsavel}"
+												maxlength="45" id="idDocenteResp"
+												completeMethod="#{projetoMB.escolheDocente}" effect="fade"
+												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}"
+												var="docente" itemLabel="#{docente.nome}"
+												itemValue="#{docente}" forceSelection="true">
+												<p:ajax event="change"
+													listener="#{projetoMB.verificaDocenteResponsavel(projetoMB.projeto.docenteResponsavel)}"
+													delay="2000" />
+											</p:autoComplete>
+										</div>
+									</div>
+								</div>
+
+
+
 								<div class="row">
 									<div class="col-md-8">
 										<p:outputLabel for="idNome" value="Nome do projeto:"
@@ -154,26 +180,149 @@
 									</div>
 								</div>
 
+								<br /> <br />
+
 								<div class="row">
 									<div class="col-md-8">
-										<p:outputLabel for="idDocenteResp"
-											value="Docente Responsável:" styleClass="control-label" />
+										<p:outputLabel for="idDocenteSel"
+											value="Docentes participantes:" styleClass="control-label" />
 										<div class="input-group">
 											<span class="input-group-addon"> <span
 												class="glyphicon glyphicon-tag"></span>
 											</span>
-											
-											<p:autoComplete
-												value="#{projetoMB.projeto.docenteResponsavel}"
-												maxlength="45" id="idDocenteResp"
-												completeMethod="#{projetoMB.escolheDocente}" effect="fade"
+
+											<p:autoComplete value="#{projetoMB.docenteSelecionado}"
+												maxlength="45" id="idDocenteSel"
+												completeMethod="#{projetoMB.escolheParticipanteDocente}"
+												effect="fade"
 												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}"
 												var="docente" itemLabel="#{docente.nome}"
-												itemValue="#{docente}" forceSelection="true"
-												
-												/>
+												itemValue="#{docente}" forceSelection="true" />
 										</div>
 									</div>
+									<br /> <br /> <br /> <br />&nbsp;&nbsp;&nbsp;
+									<p:commandButton value="Cadastrar participante"
+										action="#{projetoMB.guardaParticipanteDocente(projetoMB.docenteSelecionado)}"
+										update=":idFormulario:tabelaDocente :idFormulario:messages"
+										id="btnCadastrarParticipanteD" />
+
+								</div>
+
+
+
+								<br /> <br />
+								<div class="row">
+
+									<p:dataTable id="tabelaDocente" var="item"
+										value="#{projetoMB.docentesSelecionados}"
+										styleClass="table table-striped table-bordered table-hover"
+										paginator="true" rowsPerPageTemplate="10,20,30"
+										currentPageReportTemplate="{startRecord} de {endRecord}"
+										paginatorPosition="bottom"
+										emptyMessage="Não foram encontrados registros"
+										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+										<p:column headerText="Código">
+											<h:outputText value="#{item.idDocente}"
+												title="#{item.idDocente}" />
+										</p:column>
+										<p:column headerText="Matricula">
+											<h:outputText value="#{item.matricula}"
+												title="#{item.matricula}" />
+										</p:column>
+										<p:column headerText="Nome">
+											<h:outputText value="#{item.nome}" title="#{item.nome}" />
+										</p:column>
+										<p:column headerText="Email">
+											<h:outputText value="#{item.email}" title="#{item.email}" />
+										</p:column>
+										<p:column headerText="Ramal">
+											<h:outputText value="#{item.ramal}" title="#{item.ramal}" />
+										</p:column>
+										<p:column headerText="Ativo">
+											<h:outputText
+												value="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}"
+												title="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}" />
+										</p:column>
+										<p:column headerText="Remover"
+											style="width:12%;text-align:center;">
+											<p:commandLink
+												action="#{projetoMB.removeParticipanteDocente(item)}"
+												update="@form">
+												<span class="glyphicon glyphicon-remove" />
+											</p:commandLink>
+										</p:column>
+									</p:dataTable>
+
+								</div>
+
+
+								<div class="row">
+									<div class="col-md-8">
+										<p:outputLabel for="idAlunoSel"
+											value="Alunos participantes:" styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+
+											<p:autoComplete value="#{projetoMB.alunoSelecionado}"
+												maxlength="45" id="idAlunoSel"
+												completeMethod="#{projetoMB.escolheParticipanteAluno}"
+												effect="fade"
+												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}"
+												var="aluno" itemLabel="#{aluno.nome}"
+												itemValue="#{aluno}" forceSelection="true" />
+										</div>
+									</div>
+									<br /> <br /> <br /> <br />&nbsp;&nbsp;&nbsp;
+									<p:commandButton value="Cadastrar participante"
+										action="#{projetoMB.guardaParticipanteAluno(projetoMB.alunoSelecionado)}"
+										update=":idFormulario:tabelaAluno :idFormulario:messages"
+										id="btnCadastrarParticipanteA" />
+
+								</div>
+
+
+
+								<br /> <br />
+								<div class="row">
+
+									<p:dataTable id="tabelaAluno" var="item"
+										value="#{projetoMB.alunosSelecionados}"
+										styleClass="table table-striped table-bordered table-hover"
+										paginator="true" rowsPerPageTemplate="10,20,30"
+										currentPageReportTemplate="{startRecord} de {endRecord}"
+										paginatorPosition="bottom"
+										emptyMessage="Não foram encontrados registros"
+										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+										<p:column headerText="Matricula">
+											<h:outputText value="#{item.matricula}"
+												title="#{item.matricula}" />
+										</p:column>
+										<p:column headerText="Nome">
+											<h:outputText value="#{item.nome}" title="#{item.nome}" />
+										</p:column>
+										<p:column headerText="Email">
+											<h:outputText value="#{item.email}" title="#{item.email}" />
+										</p:column>
+										<p:column headerText="Ativo">
+											<h:outputText
+												value="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}"
+												title="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}" />
+										</p:column>
+										
+										<p:column headerText="Remover"
+											style="width:12%;text-align:center;">
+											<p:commandLink
+												action="#{projetoMB.removeParticipanteAluno(item)}"
+												update="@form">
+												<span class="glyphicon glyphicon-remove" />
+											</p:commandLink>
+										</p:column>
+									</p:dataTable>
+
 								</div>
 
 
