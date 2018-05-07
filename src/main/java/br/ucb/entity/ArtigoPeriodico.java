@@ -1,10 +1,13 @@
 package br.ucb.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class ArtigoPeriodico extends EntidadeBase {
@@ -13,7 +16,7 @@ public class ArtigoPeriodico extends EntidadeBase {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_artigo")
+	@Column(name = "id_ArtigoPeriodico")
 	private Integer idArtigo;
 
 	@Column(name = "natureza")
@@ -54,6 +57,18 @@ public class ArtigoPeriodico extends EntidadeBase {
 
 	@Column(name = "DOI")
 	private String DOI; // Digital Object Identify
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_producaoAcademica")
+	private ProducaoAcademica producaoAcademica;
+	
+	public ProducaoAcademica getProducaoAcademica() {
+		return this.producaoAcademica;
+	}
+
+	public void setProducaoAcademica(ProducaoAcademica producaoAcademica) {
+		this.producaoAcademica = producaoAcademica;
+	}
 
 	public Integer getIdArtigo() {
 		return this.idArtigo;

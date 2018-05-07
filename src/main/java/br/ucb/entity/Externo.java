@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Externo  extends EntidadeBase{
@@ -21,6 +23,10 @@ public class Externo  extends EntidadeBase{
 	
 	@Column(name = " tipoParticipacao")
 	private Integer tipoParticipacao;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_producaoAcademica")
+	private ProducaoAcademica producaoAcademica;	
 	
 	public Integer getIdExterno() {
 		return this.idExterno;

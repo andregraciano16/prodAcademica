@@ -1,6 +1,7 @@
 package br.ucb.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -50,6 +51,30 @@ public class ProducaoAcademica extends EntidadeBase implements Comparable<Produc
 	@ManyToOne
 	@JoinColumn(name = "id_statusProducao")
 	private StatusProducao statusProducao;
+	
+	@OneToMany
+	@JoinColumn(name = "id_producaoAcademica")
+	private List<Autor> autores;
+
+	@OneToMany
+	@JoinColumn(name = "id_producaoAcademica")
+	private List<Externo> externos;
+	
+	public List<Externo> getExternos() {
+		return this.externos;
+	}
+
+	public void setExternos(List<Externo> externos) {
+		this.externos = externos;
+	}
+
+	public List<Autor> getAutores() {
+		return this.autores;
+	}
+
+	public void setAutores(List<Autor> autores) {
+		this.autores = autores;
+	}
 
 	public Integer getIdProducaoAcademica() {
 		return this.idProducaoAcademica;

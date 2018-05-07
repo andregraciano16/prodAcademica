@@ -1,5 +1,9 @@
 package br.ucb.enums;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public enum TipoEditoraEnum {
 
 	PROGRAMA               (1, "Programa"), 
@@ -17,6 +21,10 @@ public enum TipoEditoraEnum {
         this.descricao = descricao;
 	}
 
+	public static List<TipoEditoraEnum> list(){
+		return new ArrayList<TipoEditoraEnum>(Arrays.asList(TipoEditoraEnum.values()));
+	}
+	
 	public Integer getCodigo() {
 		return this.codigo;
 	}

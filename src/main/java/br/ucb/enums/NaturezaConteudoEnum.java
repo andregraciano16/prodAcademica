@@ -1,5 +1,9 @@
 package br.ucb.enums;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public enum NaturezaConteudoEnum {
 	
 	DIDATICA              (1, "Didática"),
@@ -24,6 +28,10 @@ public enum NaturezaConteudoEnum {
 
 	public String getDescricao() {
 		return this.descricao;
+	}
+	
+	public static List<NaturezaConteudoEnum> list(){
+		return new ArrayList<NaturezaConteudoEnum>(Arrays.asList(NaturezaConteudoEnum.values()));
 	}
 
 }

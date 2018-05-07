@@ -29,6 +29,8 @@
 		<class>br.ucb.entity.Livro</class>
 		<class>br.ucb.entity.ArtigoJornalRevista</class>
 		<class>br.ucb.entity.ArtigoPeriodico</class>
+		<class>br.ucb.entity.Externo</class>
+		<class>br.ucb.entity.Autor</class>
         <properties>    
             <!-- Propriedades JDBC -->
             <property name="javax.persistence.jdbc.driver" 
@@ -45,8 +47,8 @@
                 value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 
             <property name="hibernate.hbm2ddl.auto" value="update" />
-            <property name="hibernate.show_sql" value="true" />
-            <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.show_sql" value="false" />
+            <property name="hibernate.format_sql" value="false" />
         </properties>
     </persistence-unit>
 </persistence>

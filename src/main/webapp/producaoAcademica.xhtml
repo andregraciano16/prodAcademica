@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
 				template="./template.xhtml"
@@ -6,90 +7,411 @@
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:p="http://primefaces.org/ui">
 	<ui:define name="Conteudo">
-			<h:form id="idFormulario" prependId="false">
-			         
+			<h:form id="idFormulario">
 					<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 			            <div class="col-lg-12">
 			                <div class="panel panel-default">
-			                <div class="panel-heading">
-					        <div class = "row">
-								<ol class="breadcrumb" style="color:blue;background: #30a5ff">
-									<div class="titulo-centro-grande"> Produção Acadêmica </div>
-							    </ol>
+				                <div class="panel-heading">
+										<ol class="breadcrumb" style="color:blue;background: #30a5ff">
+											<div class="titulo-centro-grande"> Produção Acadêmica </div>
+									    </ol>
+								</div>
+							   <p:messages id="messages" globalOnly="true" closable="true" styleClass="mensagem-tela" /><br/>		
 							</div>
-							</div>
-							<div class="panel-body">
-								  <div class="row">
-									   <div class="col-md-12">
-										    <h:outputLabel for="idTitulo" value="Título: " styleClass="control-label"/>
-											<h:inputText value="#{producaoAcademicaMB.producaoAcademica.titulo}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idTitulo"/>
+							<div class="panel panel-default">
+								<div class="panel-body">
+									  <div class="row">
+										   <div class="col-md-12">
+											    <h:outputLabel for="idTitulo" value="Título: " styleClass="control-label"/>
+												<h:inputText value="#{producaoAcademicaMB.producaoAcademica.titulo}" 
+													         class= "form-control" maxlength="10" id="idTitulo"/>
+											</div>
 										</div>
-										
-									</div>
-									<div class="row">
-										<div class="col-md-12">
-										    <h:outputLabel for="idDesc" value="Descrição:" styleClass="control-label"/>
-											<h:inputText value="#{producaoAcademicaMB.producaoAcademica.descricao}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idDesc"/>
+										<br/>
+										<div class="row">
+											<div class="col-md-12">
+											    <h:outputLabel for="idDesc" value="Descrição:" styleClass="control-label"/>
+												<h:inputText value="#{producaoAcademicaMB.producaoAcademica.descricao}" 
+													         class= "form-control" maxlength="10" id="idDesc"/>
+											</div>
 										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-4">
-										    <h:outputLabel for="idConceitoQualis" value="Conceito Qualis:" styleClass="control-label"/>
-											<h:inputText value="#{producaoAcademicaMB.producaoAcademica.conceitoQualis}" 
-												         class= "form-control" 
-												         maxlength="10"
-												         id="idConceitoQualis"/>
-								        </div>
-	                               		<div class="col-md-4">
-	                               		    <div class="form-group">
-												<h:outputLabel for="idTipo" value="Tipo Producao:" styleClass="control-label" />
-										        <h:selectOneMenu id="idTipo" value="#{producaoAcademicaMB.tipoProducao}" styleClass="form-control">
-													<f:selectItems itemLabel="#{tipo.tipo}" itemValue="#{tipo.idTipoProducao}" var="tipo" 
-													               value="#{producaoAcademicaMB.getTipo()}" />
-										        </h:selectOneMenu>
+									    <br/>
+										<div class="row">
+											<div class="col-md-4">
+		                               		    <div class="form-group">
+													<h:outputLabel for="idStatus" value="Status Producao:" styleClass="control-label" />
+											        <h:selectOneMenu id="idStatus" value="#{producaoAcademicaMB.statusProducao.idStatusProducao}" 
+											                         styleClass="form-control">
+														<f:selectItems itemLabel="#{status.tipo}" itemValue="#{status.idStatusProducao}" var="status" 
+														               value="#{producaoAcademicaMB.getStatus()}" />
+											        </h:selectOneMenu>
+										        </div>
+									        </div>	
+		                               		<div class="col-md-4">
+		                               		    <div class="form-group">
+													<h:outputLabel for="idTipo" value="Tipo Producao:" styleClass="control-label" />
+											        <h:selectOneMenu id="idTipo" value="#{producaoAcademicaMB.tipoProducao.idTipoProducao}" styleClass="form-control">
+														<f:selectItems itemLabel="#{tipo.tipo}" itemValue="#{tipo.idTipoProducao}" var="tipo"
+														               value="#{producaoAcademicaMB.getTipo()}" />
+													    <p:ajax process="@this" partialSubmit="true" event="valueChange" update="paineis"/>
+											        </h:selectOneMenu>
+										        </div>
+									        </div>	
+									        <div class="col-md-4">
+		                               		    <div class="form-group">
+													<h:outputLabel for="idLinha" value="Linha de Pesquisa:" styleClass="control-label" />
+											        <h:selectOneMenu id="idLinha" value="#{producaoAcademicaMB.linhaPesquisa.idLinhaPesquisa}" styleClass="form-control">
+														<f:selectItems itemLabel="#{tipo.descricao}" itemValue="#{tipo.idLinhaPesquisa}" var="tipo" 
+														               value="#{producaoAcademicaMB.getLinhas()}" />
+											        </h:selectOneMenu>
+										        </div>
+									        </div>						
+										</div>
+										<br/>
+										<div class="row">
+							                <div class="col-md-4">
+											    <h:outputLabel for="idConceitoQualis" value="Conceito Qualis:" styleClass="control-label"/>
+												<h:inputText value="#{producaoAcademicaMB.producaoAcademica.conceitoQualis}" 
+													         class= "form-control" 
+													         maxlength="10"
+													         id="idConceitoQualis"/>
 									        </div>
-								        </div>	
-								        <div class="col-md-4">
-	                               		    <div class="form-group">
-												<h:outputLabel for="idLinha" value="Linha de Pesquisa:" styleClass="control-label" />
-										        <h:selectOneMenu id="idLinha" value="#{producaoAcademicaMB.linhaPesquisa}" styleClass="form-control">
-													<f:selectItems itemLabel="#{tipo.descricao}" itemValue="#{tipo.idLinhaPesquisa}" var="tipo" 
-													               value="#{producaoAcademicaMB.getLinhas()}" />
-										        </h:selectOneMenu>
+									        <div class="col-md-4">
+											    <h:outputLabel for="idNomeExterno" value="Participante externo:" styleClass="control-label"/>
+												<h:inputText value="#{producaoAcademicaMB.externo.nome}" 
+													         class= "form-control" 
+													         maxlength="45"
+													         id="idNomeExterno"/>
 									        </div>
-								        </div>						
-									</div>
-									<br/>
-									<div class="row">
-										 <p:fileUpload fileUploadListener="#{producaoAcademicaMB.upload}" mode="advanced" style="padding-left: 1%;padding-right: 1%;"
-										               dragDropSupport="false" multiple="true" sizeLimit="100000"
-										               fileLimit="3" />
-								    </div>
-		                            <br/>
-		                            <div class="form-group">
-											<p:commandButton value="Cadastrar" 
-											                 class="btn-primary btn-md" 
-											                 action="#{producaoAcademicaMB.cadastrar()}" 
-											                 update="@form"
-											                 styleClass="btn btn-primary" />
-		
-											<p:commandButton value="Limpar" 
-											                 title="Limpar"
-											                 class="btn btn-primary-cinza"
-												             actionListener="#{producaoAcademicaMB.limpar()}" 
-												             update="@form"/>
-									</div>
-									<br />
-									<br /> 
-									<br />
-								</div>	
-							</div>
+									        <div class="col-md-4">
+											    <h:outputLabel for="idPartExterno" value="Participação externo:" styleClass="control-label"/>
+												<h:inputText value="#{producaoAcademicaMB.externo.tipoParticipacao}" 
+													         class= "form-control" 
+													         maxlength="45"
+													         id="idPartExterno"/>
+									        </div>
+										</div>
+										<br/>
+										<div class="row">
+										    <div class="col-md-6">
+										        <div class="form-group">
+													<h:outputLabel for="idOrientador" value="Orientador:" styleClass="control-label" />
+											        <h:selectOneMenu id="idOrientador" value="#{producaoAcademicaMB.orientador.codAutor}" 
+											                         styleClass="form-control">
+														<f:selectItems itemLabel="#{aut.matricula} - #{aut.nome}" itemValue="#{aut.id}" var="aut" 
+														               value="#{producaoAcademicaMB.listAutores}" />
+											        </h:selectOneMenu>
+										        </div>
+									        </div>
+											<div class="col-md-6">
+										        <div class="form-group">
+													<h:outputLabel for="idCoOrientador" value="Coorientador:" styleClass="control-label" />
+											        <h:selectOneMenu id="idCoOrientador" value="#{producaoAcademicaMB.coorientador.codAutor}" 
+											                         styleClass="form-control">
+														<f:selectItems itemLabel="#{aut.matricula} - #{aut.nome}" itemValue="#{aut.id}" var="aut" 
+														               value="#{producaoAcademicaMB.listAutores}" />
+											        </h:selectOneMenu>
+										        </div>
+									        </div>
+										</div>
+										<div class="row">
+										     <div class="col-md-12">
+											     <h:outputLabel for="idArquivo" value="Escolha o(s) arquivo(s): " styleClass="control-label"/>
+												 <p:fileUpload id="idArquivo" fileUploadListener="#{producaoAcademicaMB.upload}" mode="advanced" 
+												               style="padding-left: 0%;padding-right: 0%;" dragDropSupport="false" multiple="true" 
+												               sizeLimit="100000" fileLimit="3" />
+											 </div>
+									    </div>
+									    <br/>
+									    <h:panelGroup id="paineis" rendered="#{producaoAcademicaMB.tipoProducao != null}">
+										    <h:panelGroup id="painelPeriodico" rendered="#{producaoAcademicaMB.isArtigoPeriodico()}">
+											    	<div class="row">
+												        <div class="col-md-4">
+					                               		    <div class="form-group">
+																<h:outputLabel for="idNatureza" value="Natureza:" styleClass="control-label"  />
+														        <h:selectOneMenu id="idNatureza" value="#{producaoAcademicaMB.periodico.natureza}" styleClass="form-control">
+																	<f:selectItems itemLabel="#{naturez.descricao}" itemValue="#{naturez.codigo}" var="naturez"
+																	               value="#{producaoAcademicaMB.natureza}" />
+														        </h:selectOneMenu>
+													        </div>
+												        </div>
+												        	
+												        <div class="col-md-4">
+														    <h:outputLabel for="idISSN" value="ISSN:" styleClass="control-label"/>
+															<h:inputText value="#{producaoAcademicaMB.periodico.ISSN}" 
+																         class= "form-control" maxlength="10" id="idISSN"/>
+												        </div>
+												        
+												        <div class="col-md-4">
+														    <h:outputLabel for="idNomeEditora" value="Nome Editora:" styleClass="control-label"/>
+															<h:inputText value="#{producaoAcademicaMB.periodico.nomeEditora}" 
+																         class= "form-control" maxlength="50" id="idNomeEditora"/>
+												        </div>
+												        
+												     </div>
+												     <br/>
+												     <div class="row">
+												        
+												        <div class="col-md-4">
+														    <h:outputLabel for="idCidadeEditora" value="Cidade da Editora:" styleClass="control-label"/>
+															<h:inputText value="#{producaoAcademicaMB.periodico.cidadeEditora}" 
+																         class= "form-control" maxlength="50" id="idCidadeEditora"/>
+												        </div>
+												        
+												        <div class="col-md-4">
+														    <h:outputLabel for="idVolume" value="Volume:" styleClass="control-label"/>
+															<h:inputText value="#{producaoAcademicaMB.periodico.volume}" 
+																         class= "form-control" maxlength="50" id="idVolume"/>
+												        </div>
+												        
+												        <div class="col-md-4">
+														    <h:outputLabel for="idFasciculo" value="Fasciculo:" styleClass="control-label"/>
+															<h:inputText value="#{producaoAcademicaMB.periodico.fasciculo}" 
+																         class= "form-control" maxlength="50" id="idFasciculo"/>
+												        </div>
+												        
+												     </div>
+												     <br/>
+												     <div class="row">
+												     
+												        <div class="col-md-4">
+														    <h:outputLabel for="idSerie" value="Serie:" styleClass="control-label"/>
+															<h:inputText value="#{producaoAcademicaMB.periodico.serie}" 
+																         class= "form-control" maxlength="50" id="idSerie"/>
+												        </div>
+												        
+												        <div class="col-md-4">
+														    <h:outputLabel for="idPgIni" value="Página Inicial:" styleClass="control-label"/>
+															<h:inputText value="#{producaoAcademicaMB.periodico.numPagInicial}" 
+																         class= "form-control" maxlength="50" id="idPgIni"/>
+												        </div>
+												        
+												        <div class="col-md-4">
+														    <h:outputLabel for="idPgFim" value="Página Final:" styleClass="control-label"/>
+															<h:inputText value="#{producaoAcademicaMB.periodico.numPagFim}" 
+																         class= "form-control" maxlength="50" id="idPgFim"/>
+												        </div>
+												     </div>
+												     <br/>
+												     <div class="row">   
+												        
+												        <div class="col-md-4">
+					                               		    <div class="form-group">
+																<h:outputLabel for="idDivulgacao" value="Divulgação:" styleClass="control-label" />
+														        <h:selectOneMenu id="idDivulgacao" value="#{producaoAcademicaMB.periodico.divulgacao}" styleClass="form-control">
+																	<f:selectItems itemLabel="#{tipo.descricao}" itemValue="#{tipo.codigo}" var="tipo"
+																	               value="#{producaoAcademicaMB.getDivulgacao()}" />
+														        </h:selectOneMenu>
+													        </div>
+												        </div>
+												        
+												        <div class="col-md-4">
+														    <h:outputLabel for="idURL" value="URL:" styleClass="control-label"/>
+															<h:inputText value="#{producaoAcademicaMB.periodico.URL}" 
+																         class= "form-control" maxlength="100" id="idURL"/>
+												        </div>
+												        
+												        <div class="col-md-4">
+														    <h:outputLabel for="idDOI" value="DOI (Digital Object Identify):" styleClass="control-label"/>
+															<h:inputText value="#{producaoAcademicaMB.periodico.DOI}" class= "form-control" maxlength="50" id="idDOI"/>
+												        </div>
+												        	
+											        </div>
+											        <div class="row">
+											        	<div class="col-md-12">
+														    <h:outputLabel for="idObservacao" value="Observação:" styleClass="control-label"/>
+															<h:inputText   value="#{producaoAcademicaMB.periodico.observacao}" class= "form-control" maxlength="200" 
+															               id="idObservacao"/>
+												        </div>
+											        </div>
+											</h:panelGroup>
+											<h:panelGroup id="painelRevista" rendered="#{producaoAcademicaMB.isRevista()}">
+											    <div class="row">
+													  <div class="col-md-4"> 	
+											             <div class="form-group">
+															<h:outputLabel value="Data Publicação:" styleClass="control-label"></h:outputLabel>
+													        <div class="input-group">
+																<span class="input-group-addon">
+																	<span class="glyphicon glyphicon-tag"></span>
+																</span>
+			   									                <p:inputMask id="idDataPub" value="#{producaoAcademicaMB.jornalRevista.dataPublicacao}" mask="99/99/9999"
+												                             styleClass="form-control-calendar input-group-calendar" converter="dataConverter"/>
+															</div>
+											        	</div>
+											         </div>
+											         
+											         <div class="col-md-4">
+													     <h:outputLabel for="idPgIniRev" value="Página Inicial:" styleClass="control-label"/>
+														 <h:inputText value="#{producaoAcademicaMB.jornalRevista.numPagInicial}" 
+																	  class= "form-control" maxlength="50" id="idPgIniRev"/>
+													 </div>
+													        
+													 <div class="col-md-4">
+													      <h:outputLabel for="idPgFimRev" value="Página Final:" styleClass="control-label"/>
+														  <h:inputText value="#{producaoAcademicaMB.jornalRevista.numPagFim}" 
+																	   class= "form-control" maxlength="50" id="idPgFimRev"/>
+													 </div>
+												</div>
+												<div class="row">
+												<br/>											
+												    <div class="col-md-4">
+					                               	    <div class="form-group">
+															<h:outputLabel for="idIdiomaRev" value="Idioma:" styleClass="control-label" />
+													        <h:selectOneMenu id="idIdiomaRev" value="#{producaoAcademicaMB.jornalRevista.idioma}" styleClass="form-control">
+																<f:selectItems itemLabel="#{tipo.descricao}" itemValue="#{tipo.codigo}" var="tipo"
+																               value="#{producaoAcademicaMB.getIdiomas()}" />
+													        </h:selectOneMenu>
+													     </div>
+												     </div>
+												
+												     <div class="col-md-4">
+													     <h:outputLabel for="idCidade" value="Cidade:" styleClass="control-label"/>
+														 <h:inputText value="#{producaoAcademicaMB.jornalRevista.cidade}" 
+															          class= "form-control" maxlength="50" id="idCidade"/>
+												     </div>
+												     <div class="col-md-4">
+													     <h:outputLabel for="idPais" value="País:" styleClass="control-label"/>
+														 <h:inputText value="#{producaoAcademicaMB.jornalRevista.pais}" 
+															          class= "form-control" maxlength="50" id="idPais"/>
+												     </div>
+												     
+												</div>
+												<br/>
+												<div class="row">
+													 <div class="col-md-4">
+													     <h:outputLabel for="idISSNRev" value="ISSN:" styleClass="control-label"/>
+														 <h:inputText value="#{producaoAcademicaMB.jornalRevista.ISSN}" 
+															          class= "form-control" maxlength="50" id="idISSNRev"/>
+												     </div>   
+													 <div class="col-md-4">
+					                               		 <div class="form-group">
+																<h:outputLabel for="idDivulgacaoRev" value="Divulgacao:" styleClass="control-label" />
+															    <h:selectOneMenu id="idDivulgacaoRev" value="#{producaoAcademicaMB.periodico.divulgacao}" styleClass="form-control">
+																	<f:selectItems itemLabel="#{tipo.descricao}" itemValue="#{tipo.codigo}" var="tipo"
+																                   value="#{producaoAcademicaMB.getDivulgacao()}" />
+															    </h:selectOneMenu>
+													      </div>
+												     </div>
+												     <div class="col-md-4">
+													     <h:outputLabel for="idURLRev" value="URL:" styleClass="control-label"/>
+														 <h:inputText value="#{producaoAcademicaMB.jornalRevista.URL}" 
+															          class= "form-control" maxlength="50" id="idURLRev"/>
+												     </div>
+												</div>
+												<div class="row">
+													<div class="col-md-12">
+													     <h:outputLabel for="idObservacaoRev" value="Observação:" styleClass="control-label"/>
+														 <h:inputText value="#{producaoAcademicaMB.jornalRevista.observacao}" 
+															          class= "form-control" maxlength="50" id="idObservacaoRev"/>
+												     </div>
+												</div>
+											</h:panelGroup>
+											<h:panelGroup id="panelLivro" rendered="#{producaoAcademicaMB.isTipoLivro()}">
+												<div class="row">
+													<div class="col-md-4">
+													    <h:outputLabel for="idISBN" value="ISBN:" styleClass="control-label"/>
+													    <h:inputText value="#{producaoAcademicaMB.livro.ISBN}" 
+														          class= "form-control" maxlength="50" id="idISBN"/>
+													</div> 
+													<div class="col-md-4">
+													    <h:outputLabel for="idAno" value="Ano:" styleClass="control-label"/>
+													    <h:inputText value="#{producaoAcademicaMB.livro.ano}" 
+														          class= "form-control" maxlength="4" id="idAno"/>
+													</div>
+													<div class="col-md-4">
+													    <h:outputLabel for="idNroPagina" value="Número de Página:" styleClass="control-label"/>
+													    <h:inputText value="#{producaoAcademicaMB.livro.nroPagina}" 
+														          class= "form-control" maxlength="4" id="idNroPagina"/>
+													</div>  
+												 </div> 
+												 <div class="row">
+												 	<br/>
+												 	<div class="col-md-4">
+					                               		 <div class="form-group">
+																<h:outputLabel for="idDivulgacaoLivro" value="Divulgacao:" styleClass="control-label" />
+															    <h:selectOneMenu id="idDivulgacaoLivro" value="#{producaoAcademicaMB.livro.divulgacao}" styleClass="form-control">
+																	<f:selectItems itemLabel="#{tipo.descricao}" itemValue="#{tipo.codigo}" var="tipo"
+																                   value="#{producaoAcademicaMB.getDivulgacaoLivro()}" />
+															    </h:selectOneMenu>
+													      </div>
+												     </div>
+												     <div class="col-md-4">
+													     <h:outputLabel for="idURLLivro" value="URL:" styleClass="control-label"/>
+														 <h:inputText value="#{producaoAcademicaMB.periodico.URL}" 
+																      class= "form-control" maxlength="100" id="idURLLivro"/>
+												     </div>
+												     <div class="col-md-4">
+					                               	    <div class="form-group">
+															<h:outputLabel for="idIdiomalivro" value="Idioma:" styleClass="control-label" />
+													        <h:selectOneMenu id="idIdiomalivro" value="#{producaoAcademicaMB.livro.idioma}" styleClass="form-control">
+																<f:selectItems itemLabel="#{tipo.descricao}" itemValue="#{tipo.codigo}" var="tipo"
+																               value="#{producaoAcademicaMB.getIdiomas()}" />
+													        </h:selectOneMenu>
+													     </div>
+												     </div>
+												 </div> 
+												 <div class="row">
+												     <br/>
+												 	 <div class="col-md-4">
+													     <h:outputLabel for="idCidadePais" value="Cidade/Pais:" styleClass="control-label"/>
+														 <h:inputText value="#{producaoAcademicaMB.livro.cidadePais}" 
+															          class= "form-control" maxlength="50" id="idCidadePais"/>
+												     </div>
+													 <div class="col-md-4">
+						                               	 <div class="form-group">
+																<h:outputLabel for="idNaturezaConteudo" value="Natureza Conteúdo:" styleClass="control-label" />
+															    <h:selectOneMenu id="idNaturezaConteudo" value="#{producaoAcademicaMB.livro.naturezaConteudo}" styleClass="form-control">
+																	<f:selectItems itemLabel="#{tipo.descricao}" itemValue="#{tipo.codigo}" var="tipo"
+																                   value="#{producaoAcademicaMB.getListNaturezaConteudo()}" />
+															    </h:selectOneMenu>
+														   </div>
+													  </div>
+													  <div class="col-md-4">
+						                               	 <div class="form-group">
+																<h:outputLabel for="idTipoContribuicaoObra" value="Tipo Contribuição Obra:" styleClass="control-label" />
+															    <h:selectOneMenu id="idTipoContribuicaoObra" value="#{producaoAcademicaMB.livro.tipoContribuicaoObra}" styleClass="form-control">
+																	<f:selectItems itemLabel="#{tipo.descricao}" itemValue="#{tipo.codigo}" var="tipo"
+																                   value="#{producaoAcademicaMB.getTipoContribuicaoObra()}" />
+															    </h:selectOneMenu>
+														   </div>
+													  </div>
+											     </div>
+											     <div class="row">
+											        <br/>
+											     	<div class="col-md-4">
+						                               	 <div class="form-group">
+																<h:outputLabel for="idTipoEditora" value="Tipo Editora:" styleClass="control-label" />
+															    <h:selectOneMenu id="idTipoEditora" value="#{producaoAcademicaMB.livro.tipoEditora}" styleClass="form-control">
+																	<f:selectItems itemLabel="#{tipo.descricao}" itemValue="#{tipo.codigo}" var="tipo"
+																                   value="#{producaoAcademicaMB.getTipoEditoras()}" />
+															    </h:selectOneMenu>
+														   </div>
+													  </div>
+													  <div class="col-md-4">
+													     <h:outputLabel for="idNomeEditoraLivro" value="Editora:" styleClass="control-label"/>
+														 <h:inputText value="#{producaoAcademicaMB.livro.nomeEditora}" 
+															          class= "form-control" maxlength="50" id="idNomeEditoraLivro"/>
+												      </div>
+												      <div class="col-md-4">
+													     <h:outputLabel for="idFinanciador" value="Financiador:" styleClass="control-label"/>
+														 <h:inputText value="#{producaoAcademicaMB.livro.financiador}" 
+															          class= "form-control" maxlength="50" id="idFinanciador"/>
+												      </div>
+											     </div>
+											</h:panelGroup>
+											
+										</h:panelGroup>
+									    <br/>
+			                            <div class="form-group">
+												<p:commandButton value="Salvar" actionListener="#{producaoAcademicaMB.cadastrar()}" update="@form" class="btn btn-primary"/>
+												<p:commandButton value="Limpar" title="Limpar" class="btn btn-primary-cinza" actionListener="#{producaoAcademicaMB.limpar()}" 
+													             update="@form"/>
+										</div>
+										<br />
+										<br /> 
+										<br />
+									</div>	
+							   </div>
 						</div>
 					</div>
 		    </h:form>
