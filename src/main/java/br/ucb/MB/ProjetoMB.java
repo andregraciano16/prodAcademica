@@ -9,13 +9,16 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import br.ucb.dao.DocenteDao;
 import br.ucb.dao.ProjetoDao;
 import br.ucb.dao.StatusProjetoDao;
 import br.ucb.dao.impl.ProjetoDaoImpl;
+import br.ucb.dao.impl.DocenteDaoImpl;
 import br.ucb.dao.impl.LinhaPesquisaDaoImpl;
 import br.ucb.dao.impl.StatusProjetoDaoImpl;
 import br.ucb.dao.impl.TipoProjetoDaoImpl;
 import br.ucb.entity.Projeto;
+import br.ucb.entity.Docente;
 import br.ucb.entity.LinhaPesquisa;
 import br.ucb.entity.StatusProjeto;
 import br.ucb.entity.TipoProjeto;
@@ -34,10 +37,13 @@ public class ProjetoMB extends BaseMB {
 	private List<StatusProjeto> variosStatus;
 	private List<TipoProjeto> variosTipos;
 	private List<LinhaPesquisa> linhasPesquisa;
+	private List<Docente> docentes;
+	private DocenteDao docenteDao;
 	private StatusProjetoDao statusProjetoDao;
 	private TipoProjetoDaoImpl tipoProjetoDao;
 	private LinhaPesquisaDaoImpl linhaPesquisaDao;
 	private AcaoEnum acaoEnum;
+
 
 	
 	
@@ -96,6 +102,19 @@ public class ProjetoMB extends BaseMB {
 		this.projeto = projeto;
 		acaoEnum = AcaoEnum.VISUALIZAR;
 	}
+	
+	public List<Docente> escolheDocente(String query){
+        List<Docente> docentesFiltrados = new ArrayList<Docente>();
+         
+        for (int i = 0; i < this.docentes.size(); i++) {
+            Docente docente = this.docentes.get(i);
+            if(docente.getNome().toLowerCase().startsWith(query)) {
+                docentesFiltrados.add(docente);
+            }
+        }
+         
+        return docentesFiltrados;
+	}
 
 	public void buscar() {
 
@@ -105,11 +124,13 @@ public class ProjetoMB extends BaseMB {
 				this.variosStatus = this.statusProjetoDao.list();
 				this.variosTipos = this.tipoProjetoDao.list();
 				this.linhasPesquisa = this.linhaPesquisaDao.list();
+				this.setDocentes(this.docenteDao.list());
 			} else {
 				this.projetos = this.projetoDao.findBySearch(this.projeto);
 				this.variosStatus = this.statusProjetoDao.list();
 				this.variosTipos = this.tipoProjetoDao.list();
 				this.linhasPesquisa = this.linhaPesquisaDao.list();
+				this.setDocentes(this.docenteDao.list());
 			}
 		}
 	}
@@ -149,6 +170,7 @@ public class ProjetoMB extends BaseMB {
 		this.statusProjetoDao = new StatusProjetoDaoImpl();
 		this.tipoProjetoDao = new TipoProjetoDaoImpl();
 		this.linhaPesquisaDao = new LinhaPesquisaDaoImpl();
+		this.docenteDao = new DocenteDaoImpl();
 		this.editavel = new Projeto();
 
 
@@ -311,6 +333,18 @@ public class ProjetoMB extends BaseMB {
 
 	public void setLinhaPesquisaDao(LinhaPesquisaDaoImpl linhaPesquisaDao) {
 		this.linhaPesquisaDao = linhaPesquisaDao;
+	}
+
+
+
+	public List<Docente> getDocentes() {
+		return docentes;
+	}
+
+
+
+	public void setDocentes(List<Docente> docentes) {
+		this.docentes = docentes;
 	}
 
 	
