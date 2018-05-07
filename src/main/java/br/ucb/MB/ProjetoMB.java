@@ -52,8 +52,6 @@ public class ProjetoMB extends BaseMB {
 	private LinhaPesquisaDaoImpl linhaPesquisaDao;
 	private AcaoEnum acaoEnum;
 
-	
-
 	@PostConstruct
 	public void init() {
 		inicializa();
@@ -62,17 +60,19 @@ public class ProjetoMB extends BaseMB {
 	}
 
 	public void cadastrar() {
+		
 		if (!verificaVazio(this.projeto)) {
-
+			montar(this.projeto);
 			if (this.projetos.contains(this.projeto)) {
 				setMessageError("Já contém este registro, por favor insira um novo.");
 			} else {
-				montar(this.projeto);
 				this.projetoDao.save(this.projeto);
 				setMessageSuccess("Cadastrado com sucesso.");
 			}
 
-		} else {
+		} else if(this.docentesSelecionados.contains(projeto.getDocenteResponsavel())){
+			setMessageError("Este docente não pode ser um participante, pois já é o responsavel do projeto, por favor retire o mesmo da lista de docentes.");
+		}else{
 			setMessageError("Preencha os campos corretamente.");
 		}
 		init();
@@ -98,11 +98,15 @@ public class ProjetoMB extends BaseMB {
 
 	public void prepararEdicao(Projeto projeto) {
 		this.projeto = projeto;
+		this.docentesSelecionados = projeto.getDocentesParticipantes();
+		this.alunosSelecionados = projeto.getAlunosParticipantes();
 		acaoEnum = AcaoEnum.EDITAR;
 	}
 
 	public void visualizar(Projeto projeto) {
 		this.projeto = projeto;
+		this.docentesSelecionados = projeto.getDocentesParticipantes();
+		this.alunosSelecionados = projeto.getAlunosParticipantes();
 		acaoEnum = AcaoEnum.VISUALIZAR;
 	}
 
@@ -136,10 +140,10 @@ public class ProjetoMB extends BaseMB {
 		if (selecionado != null && this.alunos.contains(selecionado)) {
 			this.alunosSelecionados.add(selecionado);
 			this.alunos.remove(selecionado);
-		}else{
-			if(selecionado == null)
-					setMessageError("Esse aluno não existe.");
-			if(selecionado != null && this.alunosSelecionados.contains(selecionado))
+		} else {
+			if (selecionado == null)
+				setMessageError("Esse aluno não existe.");
+			if (selecionado != null && this.alunosSelecionados.contains(selecionado))
 				setMessageError("Este aluno já foi selecionado.");
 		}
 
@@ -157,18 +161,17 @@ public class ProjetoMB extends BaseMB {
 		this.alunosSelecionados.remove(selecionado);
 		this.alunos.add(selecionado);
 	}
-	
-	public void verificaDocenteResponsavel(Docente responsavel){
+
+	public void verificaDocenteResponsavel(Docente responsavel) {
 		if (responsavel != null && this.docentes.contains(responsavel)) {
 			this.docentes.remove(responsavel);
 			this.temp = responsavel;
-		}else if(responsavel == null && this.temp != null){
+		} else if (responsavel == null && this.temp != null) {
 			this.docentes.add(this.temp);
-			this.temp = null;		
+			this.temp = null;
 		}
 	}
 
-	
 	public List<Docente> escolheDocente(String query) {
 		List<Docente> docentesFiltrados = new ArrayList<Docente>();
 
@@ -199,10 +202,10 @@ public class ProjetoMB extends BaseMB {
 		if (selecionado != null && this.docentes.contains(selecionado)) {
 			this.docentesSelecionados.add(selecionado);
 			this.docentes.remove(selecionado);
-		}else{
-			if(selecionado == null)
-					setMessageError("Esse docente não existe ou já é o reponsável pelo projeto.");
-			if(selecionado != null && this.docentesSelecionados.contains(selecionado))
+		} else {
+			if (selecionado == null)
+				setMessageError("Esse docente não existe ou já é o reponsável pelo projeto.");
+			if (selecionado != null && this.docentesSelecionados.contains(selecionado))
 				setMessageError("Este docente já foi selecionado.");
 		}
 
@@ -212,8 +215,7 @@ public class ProjetoMB extends BaseMB {
 		this.docentesSelecionados.remove(selecionado);
 		this.docentes.add(selecionado);
 	}
-	
-	
+
 	public void buscar() {
 
 		if (this.projeto != null) {
@@ -282,6 +284,8 @@ public class ProjetoMB extends BaseMB {
 		projeto.setNome(projeto.getNome().trim());
 		projeto.setDescricao(projeto.getDescricao().trim());
 		projeto.setOrgaoFinanciador(projeto.getOrgaoFinanciador().trim());
+		projeto.setDocentesParticipantes(this.docentesSelecionados);
+		projeto.setAlunosParticipantes(this.alunosSelecionados);
 
 	}
 
@@ -312,6 +316,18 @@ public class ProjetoMB extends BaseMB {
 		}
 
 		if (projeto.getLinhaPesquisa() == null) {
+			return true;
+		}
+		
+		if(projeto.getAlunosParticipantes() == null){
+			return true;
+		}
+		
+		if(projeto.getDocentesParticipantes() == null){
+			return true;
+		}
+		
+		if(projeto.getDocenteResponsavel() == null){
 			return true;
 		}
 

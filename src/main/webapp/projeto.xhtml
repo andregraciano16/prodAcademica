@@ -20,13 +20,14 @@
 							</ol>
 
 						</div>
+						<h:messages/>
 
 						<p:messages id="messages" globalOnly="true" closable="true"
 							styleClass="mensagem-tela" />
 						<br />
 
 					</div>
-					<h:panelGroup rendered="#{projetoMB.acaoEnum.getCodigo() != 3}">
+					<h:panelGroup rendered="#{projetoMB.acaoEnum.getCodigo() != 3}" id="panelCadastrar">
 						<div class="panel panel-default">
 							<div class="panel-body">
 								<div class="row">
@@ -203,7 +204,7 @@
 									<br /> <br /> <br /> <br />&nbsp;&nbsp;&nbsp;
 									<p:commandButton value="Cadastrar participante"
 										action="#{projetoMB.guardaParticipanteDocente(projetoMB.docenteSelecionado)}"
-										update=":idFormulario:tabelaDocente :idFormulario:messages"
+										update="@form"
 										id="btnCadastrarParticipanteD" />
 
 								</div>
@@ -278,7 +279,7 @@
 									<br /> <br /> <br /> <br />&nbsp;&nbsp;&nbsp;
 									<p:commandButton value="Cadastrar participante"
 										action="#{projetoMB.guardaParticipanteAluno(projetoMB.alunoSelecionado)}"
-										update=":idFormulario:tabelaAluno :idFormulario:messages"
+										update="@form"
 										id="btnCadastrarParticipanteA" />
 
 								</div>

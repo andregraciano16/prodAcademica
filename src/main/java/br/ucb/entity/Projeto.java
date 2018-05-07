@@ -44,7 +44,7 @@ public class Projeto implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name = "id_statusProjeto")
-	private TipoProjeto statusProjeto;
+	private StatusProjeto statusProjeto;
 
 	@ManyToOne
 	@JoinColumn(name = "id_linhaPesquisa")
@@ -109,11 +109,11 @@ public class Projeto implements Serializable{
 		this.tipoProjeto = tipoProjeto;
 	}
 
-	public TipoProjeto getStatusProjeto() {
+	public StatusProjeto getStatusProjeto() {
 		return statusProjeto;
 	}
 
-	public void setStatusProjeto(TipoProjeto statusProjeto) {
+	public void setStatusProjeto(StatusProjeto statusProjeto) {
 		this.statusProjeto = statusProjeto;
 	}
 
