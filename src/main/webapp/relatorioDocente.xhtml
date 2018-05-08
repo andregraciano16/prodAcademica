@@ -24,41 +24,56 @@
 						<br />
 					</div>
 
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<div class="row">
-
-								<div class="form-group">
-									<p:chart type="line" model="#{relatorioDocenteMB.grafico}" id="idGrafico"
-										style="width:100%;" responsive="true" />
+					<h:panelGroup rendered="#{relatorioDocenteMB.docentes.isEmpty()}">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<div class="row">
+									<h2>Nada a mostrar aqui. Por favor cadastre algum dado em
+										docentes.</h2>
 								</div>
-
 							</div>
-							<div class="row">
+						</div>
+					</h:panelGroup>
 
-								<div class="col-md-4">
+					<h:panelGroup rendered="#{!relatorioDocenteMB.docentes.isEmpty()}">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<div class="row">
+
 									<div class="form-group">
-										<h:outputLabel value="Filtro do gráfico: "
-											for="idGraficoFiltro" styleClass="control-label" />
-										<div class="input-group">
-											<span class="input-group-addon"> <span
-												class="glyphicon glyphicon-tag"></span>
-											</span>
-											<h:selectOneMenu id="idGraficoFiltro"
-												value="#{relatorioDocenteMB.graficoFiltro}" styleClass="form-control">
-												<f:selectItem itemLabel="Anual" itemValue="1" />
-												<f:selectItem itemLabel="Tempo total (mês/ano)" itemValue="2" />
-												<f:selectItem itemLabel="Semestral (semestre/ano)" itemValue="3" />
-												<p:ajax event="change" update="idFormulario:idGrafico"
-													listener="#{relatorioDocenteMB.selecionaFiltro}" />
-											</h:selectOneMenu>
+										<p:chart type="line" model="#{relatorioDocenteMB.grafico}"
+											id="idGrafico" style="width:100%;" responsive="true" />
+									</div>
+
+								</div>
+								<div class="row">
+
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Filtro do gráfico: "
+												for="idGraficoFiltro" styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:selectOneMenu id="idGraficoFiltro"
+													value="#{relatorioDocenteMB.graficoFiltro}"
+													styleClass="form-control">
+													<f:selectItem itemLabel="Anual" itemValue="1" />
+													<f:selectItem itemLabel="Tempo total (mês/ano)"
+														itemValue="2" />
+													<f:selectItem itemLabel="Semestral (semestre/ano)"
+														itemValue="3" />
+													<p:ajax event="change" update="idFormulario:idGrafico"
+														listener="#{relatorioDocenteMB.selecionaFiltro}" />
+												</h:selectOneMenu>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-
+					</h:panelGroup>
 				</div>
 
 
