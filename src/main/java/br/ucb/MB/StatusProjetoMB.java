@@ -15,8 +15,6 @@ import br.ucb.dao.StatusProjetoDao;
 import br.ucb.dao.impl.StatusProjetoDaoImpl;
 import br.ucb.entity.StatusProjeto;
 
-
-
 @ManagedBean(name = "statusProjetoMB")
 @ViewScoped
 public class StatusProjetoMB extends BaseMB {
@@ -28,9 +26,8 @@ public class StatusProjetoMB extends BaseMB {
 	private StatusProjetoDao statusProjetoDao;
 	private String msg;
 	private StatusProjeto editavel;
-	
 
-	@PostConstruct 
+	@PostConstruct
 	public void init() {
 		this.variosStatus = new ArrayList<StatusProjeto>();
 		this.statusProjeto = new StatusProjeto();
@@ -114,9 +111,6 @@ public class StatusProjetoMB extends BaseMB {
 	public void limpar() {
 		init();
 	}
-	
-	
-	
 
 	public List<StatusProjeto> getVariosStatus() {
 		return variosStatus;
@@ -149,6 +143,5 @@ public class StatusProjetoMB extends BaseMB {
 	public void setStatusProjeto(StatusProjeto statusProjeto) {
 		this.statusProjeto = statusProjeto;
 	}
-
 
 }

@@ -60,9 +60,10 @@ public class ProjetoMB extends BaseMB {
 	}
 
 	public void cadastrar() {
-		
+
+		montar(this.projeto);
 		if (!verificaVazio(this.projeto)) {
-			montar(this.projeto);
+
 			if (this.projetos.contains(this.projeto)) {
 				setMessageError("Já contém este registro, por favor insira um novo.");
 			} else {
@@ -70,9 +71,10 @@ public class ProjetoMB extends BaseMB {
 				setMessageSuccess("Cadastrado com sucesso.");
 			}
 
-		} else if(this.docentesSelecionados.contains(projeto.getDocenteResponsavel())){
-			setMessageError("Este docente não pode ser um participante, pois já é o responsavel do projeto, por favor retire o mesmo da lista de docentes.");
-		}else{
+		} else if (this.docentesSelecionados.contains(projeto.getDocenteResponsavel())) {
+			setMessageError(
+					"Este docente não pode ser um participante, pois já é o responsavel do projeto, por favor retire o mesmo da lista de docentes.");
+		} else {
 			setMessageError("Preencha os campos corretamente.");
 		}
 		init();
@@ -219,7 +221,7 @@ public class ProjetoMB extends BaseMB {
 	public void buscar() {
 
 		if (this.projeto != null) {
-			if (verificaVazio(this.projeto)) {
+			if (verificaVazioPesq(this.projeto)) {
 				this.projetos = this.projetoDao.list();
 				this.variosStatus = this.statusProjetoDao.list();
 				this.variosTipos = this.tipoProjetoDao.list();
@@ -293,6 +295,17 @@ public class ProjetoMB extends BaseMB {
 		this.acaoEnum = AcaoEnum.CADASTRAR;
 	}
 
+	private boolean verificaVazioPesq(Projeto projeto) {
+
+		if (projeto.getNome() == null || projeto.getNome().trim().isEmpty() && projeto.getStatusProjeto() == null
+				&& projeto.getTipoProjeto() == null && projeto.getLinhaPesquisa() == null
+				&& projeto.getDocenteResponsavel() == null)
+			return true;
+
+		return false;
+
+	}
+
 	private boolean verificaVazio(Projeto projeto) {
 
 		if (projeto.getNome() == null || projeto.getNome().trim().isEmpty()) {
@@ -318,16 +331,20 @@ public class ProjetoMB extends BaseMB {
 		if (projeto.getLinhaPesquisa() == null) {
 			return true;
 		}
-		
-		if(projeto.getAlunosParticipantes() == null){
+
+		if (projeto.getAlunosParticipantes() == null) {
 			return true;
 		}
-		
-		if(projeto.getDocentesParticipantes() == null){
+
+		if (projeto.getDocentesParticipantes() == null) {
 			return true;
 		}
-		
-		if(projeto.getDocenteResponsavel() == null){
+
+		if (projeto.getDocenteResponsavel() == null) {
+			return true;
+		}
+
+		if (projeto.getDataInicio() == null) {
 			return true;
 		}
 

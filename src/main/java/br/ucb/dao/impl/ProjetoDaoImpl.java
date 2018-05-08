@@ -49,6 +49,15 @@ public class ProjetoDaoImpl extends DaoGenericoImpl<Projeto, Integer> implements
 			query.setParameter(6, projeto.getTipoProjeto());
 		}
 		
+		if(projeto.getStatusProjeto() != null){
+			query.setParameter(7, projeto.getStatusProjeto());
+		}
+		
+		if(projeto.getDocenteResponsavel() != null){
+			query.setParameter(8, projeto.getDocenteResponsavel());
+		}
+		
+		
 	}
 
 	private String montarWhere(Projeto projeto) {
@@ -72,6 +81,14 @@ public class ProjetoDaoImpl extends DaoGenericoImpl<Projeto, Integer> implements
 		
 		if(projeto.getTipoProjeto() != null){
 			consulta.append(" and p.tipoProjeto like ?6 ");
+		}
+		
+		if(projeto.getStatusProjeto() != null){
+			consulta.append(" and p.statusProjeto like ?7 ");
+		}
+		
+		if(projeto.getDocenteResponsavel() != null){
+			consulta.append(" and p.docenteResponsavel like ?8 ");
 		}
 		
 		return consulta.toString();
