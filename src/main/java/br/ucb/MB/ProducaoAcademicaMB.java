@@ -7,13 +7,14 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.el.ArrayELResolver;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.fileupload.FileUpload;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.NativeUploadedFile;
 import org.primefaces.model.UploadedFile;
 
 import br.ucb.VO.AutorVO;
@@ -77,13 +78,14 @@ public class ProducaoAcademicaMB extends BaseMB {
 	private LinhaPesquisa       linhaPesquisa;
 	private StatusProducao      statusProducao;
 	private UploadedFile        uploadFile;
+	private List<UploadedFile>  uploadFiles;
 	private ArtigoPeriodico     periodico;
 	private ArtigoJornalRevista jornalRevista;
 	private Autor               orientador;
 	private Autor               coorientador;
 	private Externo             externo;
-	private Autor               autorSelecionado;
-	private List<Autor>         autores;
+	private AutorVO             autorSelecionado;
+	private List<AutorVO>       autoresVO;
 	
 	@PostConstruct
 	public void init() {
@@ -103,7 +105,12 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.periodicoDao      = new PeriodicoDaoImpl        ();
 		this.livroDao          = new LivroDaoImpl            ();
 		this.docenteDao        = new DocenteDaoImpl          ();
-		this.autores           = new ArrayList<Autor>();
+		this.externo           = new Externo                 ();
+		this.autoresVO         = new ArrayList<AutorVO>      ();
+		this.coorientador      = new Autor                   ();
+		this.orientador        = new Autor                   ();
+		this.autorSelecionado  = new AutorVO                 ();
+		this.uploadFiles       = new ArrayList<UploadedFile> ();
 	}
 
 	public void upload(FileUploadEvent event) {
@@ -114,10 +121,26 @@ public class ProducaoAcademicaMB extends BaseMB {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	    uploadFiles.add(this.uploadFile);
 		FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
+	
+	public double convertBiteEmKBites(Long tamanho){
+		return tamanho / 1024;
+	}
+	
+	public boolean habilitarTabelaAutores(){
+		if(this.autoresVO != null && !this.autoresVO.isEmpty()){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
 
+	public void removerArquivo(NativeUploadedFile file){
+		uploadFiles.remove(file);
+	}
+	
 	public void cadastrar() {
 		this.producaoAcademica.setDataCadastro(new Date());
 		this.producaoAcademica.setLinhaPesquisa(this.linhaPesquisaDao.findById(this.linhaPesquisa.getIdLinhaPesquisa()));
@@ -225,12 +248,33 @@ public class ProducaoAcademicaMB extends BaseMB {
 		return autores;
 	}
 	
-	public void adicionarAutor(Autor autor){
-		this.autores.add(autor);
+	public boolean habilitarTabelaArquivos(){
+		if(uploadFiles != null && !uploadFiles.isEmpty())
+			return Boolean.TRUE;
+		return Boolean.FALSE;
 	}
 	
-	public void removerAutor(Autor autor){
-		this.autores.remove(autor);
+	public void adicionarAutor(){
+		if(this.autorSelecionado != null && this.autoresVO != null){
+			List<AutorVO> autores = getListAutores();
+			for (AutorVO vo : autores) {
+				if(vo.getMatricula().equals(autorSelecionado.getMatricula())){
+					if(!autoresVO.contains(vo))
+						this.autoresVO.add(vo);					
+				}
+			}
+		}
+	}
+	
+	public void removerAutor(){
+		if(this.autorSelecionado != null && this.autoresVO != null){
+			List<AutorVO> autores = getListAutores();
+			for (AutorVO vo : autores) {
+				if(vo.getMatricula().equals(autorSelecionado.getMatricula())){
+					this.autoresVO.remove(vo);
+				}
+			}
+		}
 	}
 	
 	public List<Docente> getListDocentes(){
@@ -274,21 +318,21 @@ public class ProducaoAcademicaMB extends BaseMB {
 	public List<TipoEditoraEnum> getTipoEditoras(){
 		return TipoEditoraEnum.list();
 	}
-	
-	public Autor getAutorSelecionado() {
+
+	public AutorVO getAutorSelecionado() {
 		return this.autorSelecionado;
 	}
 
-	public void setAutorSelecionado(Autor autorSelecionado) {
+	public void setAutorSelecionado(AutorVO autorSelecionado) {
 		this.autorSelecionado = autorSelecionado;
 	}
 
-	public List<Autor> getAutores() {
-		return this.autores;
+	public List<AutorVO> getAutoresVO() {
+		return this.autoresVO;
 	}
 
-	public void setAutores(List<Autor> autores) {
-		this.autores = autores;
+	public void setAutoresVO(List<AutorVO> autoresVO) {
+		this.autoresVO = autoresVO;
 	}
 
 	public List<TipoProducao> getTipo() {
@@ -389,6 +433,14 @@ public class ProducaoAcademicaMB extends BaseMB {
 
 	public void setExterno(Externo externo) {
 		this.externo = externo;
+	}
+
+	public List<UploadedFile> getUploadFiles() {
+		return this.uploadFiles;
+	}
+
+	public void setUploadFiles(List<UploadedFile> uploadFiles) {
+		this.uploadFiles = uploadFiles;
 	}
 	
 }
