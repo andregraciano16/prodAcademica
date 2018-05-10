@@ -41,7 +41,7 @@ public class RelatorioDocenteMB extends BaseMB{
 	}
 
 	public void selecionaFiltro() {
-		init();
+		createGrafico();
 	}
 
 	public void buscar() {
@@ -221,8 +221,8 @@ public class RelatorioDocenteMB extends BaseMB{
 				meses.set("nov", -1);
 				meses.set("dez", -1);
 				meses.set(df2.format(docente.getDataCadastro()), getCadastroMes(docentesCadastro, c));
-				ultimoMes = 0;
-				ultimoAno = 0;
+				ultimoMes = c.get(Calendar.MONTH);
+				ultimoAno = c.get(Calendar.YEAR);
 			}
 
 			if (c.get(Calendar.MONTH) != ultimoMes && c.get(Calendar.YEAR) == ultimoAno) {

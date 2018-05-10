@@ -87,7 +87,7 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		@SuppressWarnings("unchecked")
 		List<Object[]> resultados = getManager()
 				.createQuery(
-						"select year(pa.dataCadastro), pa.conceitoQualis, pa.dataCadastro from ProducaoAcademica pa order by pa.dataCadastro asc")
+						"select year(pa.dataCadastro), pa.conceitoQualis, pa.dataCadastro from ProducaoAcademica pa order by year(pa.dataCadastro) asc")
 				.getResultList();
 
 	
@@ -107,5 +107,30 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		return resultados;
 
 		
+	}
+
+	public List<Object[]> listSimpleQualisFiltro(String anoInicio, String anoFim) {
+		
+		@SuppressWarnings("unchecked")
+		List<Object[]> resultados = getManager()
+				.createQuery(
+						"select year(pa.dataCadastro), pa.conceitoQualis, pa.dataCadastro from ProducaoAcademica pa where year(pa.dataCadastro) between ?1 and ?2 order by year(pa.dataCadastro) asc")
+				.setParameter(1, Integer.valueOf(anoInicio)).setParameter(2, Integer.valueOf(anoFim)).getResultList();
+
+	
+		return resultados;
+		
+	}
+
+	public List<Date> listSimpleProdFiltro(String anoInicio, String anoFim) {
+		
+		@SuppressWarnings("unchecked")
+		List<Date> resultados = getManager()
+				.createQuery(
+						"select pa.dataCadastro from ProducaoAcademica pa where year(pa.dataCadastro) between ?1 and ?2 order by pa.dataCadastro asc", Date.class)
+				.setParameter(1, Integer.valueOf(anoInicio)).setParameter(2, Integer.valueOf(anoFim)).getResultList();
+
+	
+		return resultados;
 	}
 }

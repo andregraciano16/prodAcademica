@@ -40,7 +40,7 @@ public class RelatorioAlunoMB extends BaseMB {
 	}
 
 	public void selecionaFiltro() {
-		init();
+		createGrafico();
 	}
 
 	public void buscar() {
@@ -130,7 +130,7 @@ public class RelatorioAlunoMB extends BaseMB {
 			c.setTime(aluno.getDataCadastro());
 			c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) + 3);
 			aluno.setDataCadastro(c.getTime());
-			
+
 			if (c.get(Calendar.YEAR) != ultimoAno) {
 				semestreUm = 0;
 				semestreDois = 0;
@@ -151,7 +151,7 @@ public class RelatorioAlunoMB extends BaseMB {
 				}
 				ultimoMes = c.get(Calendar.MONTH);
 				ultimoAno = c.get(Calendar.YEAR);
-				
+
 			}
 
 		}
@@ -160,7 +160,6 @@ public class RelatorioAlunoMB extends BaseMB {
 
 		return model;
 	}
-
 
 	private LineChartModel initGraficoAnos() {
 		LineChartModel model = new LineChartModel();
@@ -195,9 +194,6 @@ public class RelatorioAlunoMB extends BaseMB {
 			c.setTime(aluno.getDataCadastro());
 			c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) + 3);
 			aluno.setDataCadastro(c.getTime());
-			
-			
-
 
 			if (ultimoMes == 0 && ultimoAno == 0) {
 
@@ -224,8 +220,8 @@ public class RelatorioAlunoMB extends BaseMB {
 				meses.set("nov", -1);
 				meses.set("dez", -1);
 				meses.set(df2.format(aluno.getDataCadastro()), getCadastroMes(alunosCadastro, c));
-				ultimoMes = 0;
-				ultimoAno = 0;
+				ultimoMes = c.get(Calendar.MONTH);
+				ultimoAno = c.get(Calendar.YEAR);
 			}
 
 			if (c.get(Calendar.MONTH) != ultimoMes && c.get(Calendar.YEAR) == ultimoAno) {
@@ -259,7 +255,6 @@ public class RelatorioAlunoMB extends BaseMB {
 		return qtdCadastro;
 	}
 
-	
 	private void inicializa() {
 		this.alunos = new ArrayList<Aluno>();
 		this.alunoDao = new AlunoDaoImpl();
