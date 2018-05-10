@@ -131,6 +131,19 @@ public class AlunoDaoImpl extends DaoGenericoImpl<Aluno, Integer> implements Alu
 		}
 		return usuario;
 	}
+
+
+	@Override
+	public List<Aluno> listFiltro(String anoInicio, String anoFim) {
+		@SuppressWarnings("unchecked")
+		List<Aluno> resultados = getManager()
+				.createQuery(
+						"from Aluno a where year(a.dataCadastro) between ?1 and ?2 order by a.dataCadastro asc")
+				.setParameter(1, Integer.valueOf(anoInicio)).setParameter(2, Integer.valueOf(anoFim)).getResultList();
+
+	
+		return resultados;
+	}
 	
 	
 }

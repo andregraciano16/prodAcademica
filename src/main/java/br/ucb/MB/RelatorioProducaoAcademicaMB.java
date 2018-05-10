@@ -46,13 +46,6 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 	private String anoTempFimQualis;
 	private Calendar anoAtual;
 
-	public Calendar getAnoAtual() {
-		return anoAtual;
-	}
-
-	public void setAnoAtual(Calendar anoAtual) {
-		this.anoAtual = anoAtual;
-	}
 
 	@PostConstruct
 	public void init() {
@@ -1293,4 +1286,11 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		this.anoFimQualis = anoFimQualis;
 	}
 
+	public Calendar getAnoAtual() {
+		return anoAtual;
+	}
+
+	public void setAnoAtual(Calendar anoAtual) {
+		this.anoAtual = anoAtual;
+	}
 }
