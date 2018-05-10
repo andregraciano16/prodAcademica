@@ -66,7 +66,6 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	private void createGrafico() {
 
-
 		if (getGraficoFiltroLine().equals("1")) {
 
 			if (this.anoInicioProd.equals("") || this.anoInicioProd == null)
@@ -77,15 +76,32 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 			grafico = initGraficoAnosFiltro();
 			initLineChartModel();
-
 		} else if (getGraficoFiltroLine().equals("2")) {
-			grafico = initGraficoTotal();
+			if (this.anoInicioProd.equals("") || this.anoInicioProd == null)
+				anoInicioProd = anoTempInicioProd;
+			if (this.anoFimProd.equals("") || this.anoFimProd == null)
+				anoFimProd = anoTempFimProd;
+			verificaGraficoProdFiltro();
+
+			grafico = initGraficoTotalFiltro();
 			initLineChartModel();
 		} else if (getGraficoFiltroLine().equals("3")) {
-			grafico = initGraficoSemestreTotal();
+			if (this.anoInicioProd.equals("") || this.anoInicioProd == null)
+				anoInicioProd = anoTempInicioProd;
+			if (this.anoFimProd.equals("") || this.anoFimProd == null)
+				anoFimProd = anoTempFimProd;
+			verificaGraficoProdFiltro();
+
+			grafico = initGraficoSemestreTotalFiltro();
 			initLineChartModel();
 		} else if (getGraficoFiltroLine().equals("4")) {
 			grafico = initGraficoAnos();
+			initLineChartModel();
+		} else if (getGraficoFiltroLine().equals("5")) {
+			grafico = initGraficoTotal();
+			initLineChartModel();
+		} else if (getGraficoFiltroLine().equals("6")) {
+			grafico = initGraficoSemestreTotal();
 			initLineChartModel();
 		}
 
@@ -96,7 +112,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			if (this.anoFimQualis.equals("") || this.anoFimQualis == null)
 				anoFimQualis = anoTempFimQualis;
 			verificaGraficoQualisFiltro();
-			
+
 			graficoBarra = initGraficoQualisFiltro();
 			initBarChartModel();
 		} else if (getGraficoFiltroBarQualis().equals("2")) {
@@ -109,10 +125,10 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			graficoBarra = initGraficoQualisTotalFiltro();
 			initBarChartModel();
 		} else if (getGraficoFiltroBarQualis().equals("3")) {
-			graficoBarra = initGraficoQualis();
+			graficoBarra = initGraficoQualisAnos();
 			initBarChartModel();
 		} else if (getGraficoFiltroBarQualis().equals("4")) {
-			graficoBarra = initGraficoQualisAnos();
+			graficoBarra = initGraficoQualis();
 			initBarChartModel();
 		}
 
@@ -247,6 +263,54 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		yAxis.setMin(0);
 
 	}
+	
+	
+	private LineChartModel initGraficoTotalFiltro() {
+
+		// producaoAcademica => dataCadastro das produções
+
+		
+		
+		if (this.anoInicioProd.isEmpty() && this.anoFimProd.isEmpty()) {
+			anoInicioProd = String.valueOf(anoAtual.get(Calendar.YEAR) - 3);
+			anoFimProd = String.valueOf(anoAtual.get(Calendar.YEAR));
+		}
+
+		this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleProdFiltro(this.anoInicioProd, this.anoFimProd);
+		
+		LineChartModel model = new LineChartModel();
+
+		Calendar c = Calendar.getInstance();
+		int ultimoMes = 0;
+		int ultimoAno = 0;
+
+		ChartSeries series1 = new ChartSeries();
+		series1.setLabel("N° de producoes");
+
+		for (Date producaoAcademica : listaDatas) {
+
+			c.setTime(producaoAcademica);
+			c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) + 3);
+			producaoAcademica = c.getTime();
+
+			if (c.get(Calendar.MONTH) == ultimoMes && c.get(Calendar.YEAR) == ultimoAno) {
+
+			} else {
+				series1.set(c.get(Calendar.MONTH) + 1 + "/" + c.get(Calendar.YEAR), getCadastroMes(listaDatas, c));
+				ultimoMes = c.get(Calendar.MONTH);
+				ultimoAno = c.get(Calendar.YEAR);
+			}
+
+		}
+		if (listaDatas.isEmpty() || listaDatas == null) {
+			series1.set(" ", 0);
+			series1.setLabel("Não foram encontrados resultados.");
+		}
+
+		model.addSeries(series1);
+
+		return model;
+	}
 
 	private LineChartModel initGraficoTotal() {
 
@@ -282,6 +346,69 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 		return model;
 	}
+	
+	private LineChartModel initGraficoSemestreTotalFiltro() {
+		
+		if (this.anoInicioProd.isEmpty() && this.anoFimProd.isEmpty()) {
+			anoInicioProd = String.valueOf(anoAtual.get(Calendar.YEAR) - 3);
+			anoFimProd = String.valueOf(anoAtual.get(Calendar.YEAR));
+		}
+		this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleProdFiltro(this.anoInicioProd, this.anoFimProd);
+		
+		LineChartModel model = new LineChartModel();
+
+		Calendar c = Calendar.getInstance();
+		int ultimoMes = 0;
+		int ultimoAno = 0;
+		int mes = 0;
+		int semestreUm = 0;
+		int semestreDois = 0;
+		double resultado = 0;
+
+		ChartSeries series1 = new ChartSeries();
+		series1.setLabel("N° de producoes");
+
+		for (Date producaoAcademica : listaDatas) {
+
+			c.setTime(producaoAcademica);
+			c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) + 3);
+			producaoAcademica = c.getTime();
+
+			if (c.get(Calendar.YEAR) != ultimoAno) {
+				semestreUm = 0;
+				semestreDois = 0;
+			}
+
+			if (c.get(Calendar.MONTH) == ultimoMes && c.get(Calendar.YEAR) == ultimoAno) {
+
+			} else {
+				mes = c.get((Calendar.MONTH)) + 1;
+				resultado = (double) mes / 6;
+				if (resultado <= 1) {
+					semestreUm += getCadastroMes(listaDatas, c);
+					series1.set("1°/" + c.get(Calendar.YEAR), semestreUm);
+				} else {
+					semestreDois += getCadastroMes(listaDatas, c);
+					series1.set("2°/" + c.get(Calendar.YEAR), semestreDois);
+
+				}
+				ultimoMes = c.get(Calendar.MONTH);
+				ultimoAno = c.get(Calendar.YEAR);
+
+			}
+
+		}
+		
+		if (listaDatas.isEmpty() || listaDatas == null) {
+			series1.set(" ", 0);
+			series1.setLabel("Não foram encontrados resultados.");
+		}
+		
+		model.addSeries(series1);
+
+		return model;
+	}
+	
 
 	private LineChartModel initGraficoSemestreTotal() {
 		LineChartModel model = new LineChartModel();
@@ -582,7 +709,6 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	private BarChartModel initGraficoQualisTotalFiltro() {
 
-		
 		if (this.anoInicioQualis.isEmpty() && this.anoFimQualis.isEmpty()) {
 			anoInicioQualis = String.valueOf(anoAtual.get(Calendar.YEAR) - 3);
 			anoFimQualis = String.valueOf(anoAtual.get(Calendar.YEAR));
@@ -661,7 +787,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		} else {
 			qualis.setLabel(String.valueOf(ultimoAno));
 		}
-		
+
 		model.addSeries(qualis);
 		return model;
 
@@ -1060,7 +1186,6 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		this.anoFimProd = "";
 		this.anoTempInicioProd = "";
 		this.anoTempFimProd = "";
-		
 
 	}
 
