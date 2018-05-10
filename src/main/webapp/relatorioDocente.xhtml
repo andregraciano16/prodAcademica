@@ -59,17 +59,55 @@
 												<h:selectOneMenu id="idGraficoFiltro"
 													value="#{relatorioDocenteMB.graficoFiltro}"
 													styleClass="form-control">
-													<f:selectItem itemLabel="Anual" itemValue="1" />
-													<f:selectItem itemLabel="Tempo total (mês/ano)"
+													<f:selectItem itemLabel="Anual (Intervalo)" itemValue="1" />
+													<f:selectItem itemLabel="Tempo total (mês/ano - Intervalo)"
 														itemValue="2" />
-													<f:selectItem itemLabel="Semestral (semestre/ano)"
+													<f:selectItem
+														itemLabel="Semestral (semestre/ano - Intervalo)"
 														itemValue="3" />
-													<p:ajax event="change" update="idFormulario:idGrafico"
+													<f:selectItem itemLabel="Anual" itemValue="4" />
+													<f:selectItem itemLabel="Tempo total (mês/ano)"
+														itemValue="5" />
+													<f:selectItem itemLabel="Semestral (semestre/ano)"
+														itemValue="6" />
+													<p:ajax event="change" update="idGrafico panelFiltro"
 														listener="#{relatorioDocenteMB.selecionaFiltro}" />
 												</h:selectOneMenu>
 											</div>
 										</div>
 									</div>
+									<h:panelGroup id="panelFiltro">
+										<div class="col-md-1">
+											<h:outputLabel value="Início:" for="idAnoInicio"
+												styleClass="control-label"
+												rendered="#{relatorioDocenteMB.graficoFiltro.equals('1') || relatorioDocenteMB.graficoFiltro.equals('2') || relatorioDocenteMB.graficoFiltro.equals('3')}" />
+											<p:inputMask id="idAnoInicio"
+												value="#{relatorioDocenteMB.anoInicio}" mask="9999"
+												class="form-control" style="height: 33px;"
+												rendered="#{relatorioDocenteMB.graficoFiltro.equals('1') || relatorioDocenteMB.graficoFiltro.equals('2') || relatorioDocenteMB.graficoFiltro.equals('3')}">
+												<p:watermark value="#{relatorioDocenteMB.anoInicio}"
+													for="idAnoInicio" />
+												<p:ajax event="change"
+													update="idGrafico panelFiltro messages"
+													listener="#{relatorioDocenteMB.selecionaFiltro}" />
+											</p:inputMask>
+										</div>
+
+										<div class="col-md-1">
+											<h:outputLabel value="Fim:" for="idAnoFim"
+												styleClass="control-label"
+												rendered="#{relatorioDocenteMB.graficoFiltro.equals('1') || relatorioDocenteMB.graficoFiltro.equals('2') || relatorioDocenteMB.graficoFiltro.equals('3')}" />
+											<p:inputMask id="idAnoFim" value="#{relatorioDocenteMB.anoFim}"
+												mask="9999" class="form-control" style="height: 33px;"
+												rendered="#{relatorioDocenteMB.graficoFiltro.equals('1') || relatorioDocenteMB.graficoFiltro.equals('2') || relatorioDocenteMB.graficoFiltro.equals('3')}">
+												<p:watermark value="#{relatorioDocenteMB.anoFim}"
+													for="idAnoFim" />
+												<p:ajax event="change"
+													update="idGrafico panelFiltro messages"
+													listener="#{relatorioDocenteMB.selecionaFiltro}" />
+											</p:inputMask>
+										</div>
+									</h:panelGroup>
 								</div>
 							</div>
 						</div>

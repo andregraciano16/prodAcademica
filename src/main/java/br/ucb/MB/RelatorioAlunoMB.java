@@ -170,7 +170,7 @@ public class RelatorioAlunoMB extends BaseMB {
 
 		}
 
-		if (alunos.isEmpty() || alunos == null) {
+		if (alunosCadastro.isEmpty() || alunosCadastro == null) {
 			series1.set(" ", 0);
 			series1.setLabel("Não foram encontrados resultados.");
 		}
@@ -269,7 +269,7 @@ public class RelatorioAlunoMB extends BaseMB {
 
 		}
 
-		if (alunos.isEmpty() || alunos == null) {
+		if (alunosCadastro.isEmpty() || alunosCadastro == null) {
 			series1.set(" ", 0);
 			series1.setLabel("Não foram encontrados resultados.");
 		}

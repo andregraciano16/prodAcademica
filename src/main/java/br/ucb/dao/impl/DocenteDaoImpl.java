@@ -71,4 +71,16 @@ public class DocenteDaoImpl extends DaoGenericoImpl<Docente, Integer> implements
 		return usuario;
 	}
 
+	@Override
+	public List<Docente> listFiltro(String anoInicio, String anoFim) {
+		@SuppressWarnings("unchecked")
+		List<Docente> resultados = getManager()
+				.createQuery(
+						"from Docente d where year(d.dataCadastro) between ?1 and ?2 order by d.dataCadastro asc")
+				.setParameter(1, Integer.valueOf(anoInicio)).setParameter(2, Integer.valueOf(anoFim)).getResultList();
+
+	
+		return resultados;
+	}
+	
 }
