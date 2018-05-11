@@ -5,9 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 @Entity
 public class Externo  extends EntidadeBase{
 
@@ -23,10 +20,7 @@ public class Externo  extends EntidadeBase{
 	
 	@Column(name = " tipoParticipacao")
 	private Integer tipoParticipacao;
-	
-	@ManyToOne
-	@JoinColumn(name = "id_producaoAcademica")
-	private ProducaoAcademica producaoAcademica;	
+		
 	
 	public Integer getIdExterno() {
 		return this.idExterno;
@@ -50,6 +44,37 @@ public class Externo  extends EntidadeBase{
 
 	public void setTipoParticipacao(Integer tipoParticipacao) {
 		this.tipoParticipacao = tipoParticipacao;
+	}
+	
+	public boolean equals(Object obj) {
+
+		int flag = 0;
+		if (obj instanceof Externo) {
+			Externo outroExterno = (Externo) obj;
+			if (outroExterno.getNome().trim().equals(this.getNome().trim())) {
+				// flag = 1;
+			}
+		}
+		if (flag == 1) {
+
+			return true;
+
+		} else {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (!(obj instanceof Externo))
+				return false;
+			Externo other = (Externo) obj;
+			if (idExterno == null) {
+				if (other.idExterno != null)
+					return false;
+			} else if (!idExterno.equals(other.idExterno))
+				return false;
+			return true;
+		}
+
 	}
 	
 }

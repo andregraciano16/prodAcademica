@@ -33,10 +33,13 @@ public class Projeto implements Serializable{
 
 	@Column(name = "orgaoFinanciador")
 	private String orgaoFinanciador;
-
+	
 	@Column(name = "dataInicio")
 	@Temporal(TemporalType.DATE)
 	private Date dataInicio;
+	
+	@Column(name = "horasDedicadasSemana")
+	private String horasDedicadasSemana;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_tipoProjeto")
@@ -54,12 +57,18 @@ public class Projeto implements Serializable{
 	@JoinColumn(name = "id_docente")
 	private Docente docenteResponsavel;
 	
+	@ManyToOne
+	@JoinColumn(name = "id_externo")
+	private Externo externoResponsavel;
+	
 	@ManyToMany
 	private List<Aluno> alunosParticipantes;
 	
 	@ManyToMany
 	private List<Docente> docentesParticipantes;
 	
+	@ManyToMany
+	private List<Externo> externoParticipantes;
 
 	public Integer getIdProjeto() {
 		return this.idProjeto;
@@ -147,6 +156,30 @@ public class Projeto implements Serializable{
 
 	public void setDocentesParticipantes(List<Docente> docentesParticipantes) {
 		this.docentesParticipantes = docentesParticipantes;
+	}
+
+	public String getHorasDedicadasSemana() {
+		return horasDedicadasSemana;
+	}
+
+	public void setHorasDedicadasSemana(String horasDedicadasSemana) {
+		this.horasDedicadasSemana = horasDedicadasSemana;
+	}
+
+	public Externo getExternoResponsavel() {
+		return externoResponsavel;
+	}
+
+	public void setExternoResponsavel(Externo externoResponsavel) {
+		this.externoResponsavel = externoResponsavel;
+	}
+
+	public List<Externo> getExternoParticipantes() {
+		return externoParticipantes;
+	}
+
+	public void setExternoParticipantes(List<Externo> externoParticipantes) {
+		this.externoParticipantes = externoParticipantes;
 	}
 
 	public boolean equals(Object obj) {
