@@ -107,7 +107,20 @@
 										</div>
 										<br/>
 										<div class="row">
-											   <div class="col-md-4">
+											   <div class="col-md-2">
+													<h:outputLabel for="idConceitoQualis" value="Conceito Qualis:" styleClass="control-label"/>
+								                    <div class="input-group">
+														 <span class="input-group-addon">
+															<span class="glyphicon glyphicon-tag"></span>
+														 </span>
+														<h:inputText value="#{producaoAcademicaMB.producaoAcademica.conceitoQualis}" 
+															         class= "form-control" 
+															         maxlength="10"
+															         id="idConceitoQualis"/>
+													</div>
+										        </div>
+											   
+											   <div class="col-md-2">
 					                                <div class="form-group">
 														<h:outputLabel for="idDivulgacao" value="Divulgação:" styleClass="control-label" />
 													      <div class="input-group">
@@ -132,45 +145,6 @@
 														         class= "form-control" maxlength="100" id="idURL"/>
 												    </div>
 												</div>
-										</div>
-										<br/>
-										<div class="row">
-							                <div class="col-md-4">
-												<h:outputLabel for="idConceitoQualis" value="Conceito Qualis:" styleClass="control-label"/>
-							                    <div class="input-group">
-													 <span class="input-group-addon">
-														<span class="glyphicon glyphicon-tag"></span>
-													 </span>
-													<h:inputText value="#{producaoAcademicaMB.producaoAcademica.conceitoQualis}" 
-														         class= "form-control" 
-														         maxlength="10"
-														         id="idConceitoQualis"/>
-												</div>
-									        </div>
-									        <div class="col-md-4">
-												<h:outputLabel for="idNomeExterno" value="Participante externo:" styleClass="control-label"/>
-									            <div class="input-group">
-													 <span class="input-group-addon">
-														<span class="glyphicon glyphicon-tag"></span>
-													 </span>
-													<h:inputText value="#{producaoAcademicaMB.externo.nome}" 
-														         class= "form-control" 
-														         maxlength="45"
-														         id="idNomeExterno"/>
-											    </div>
-									        </div>
-									        <div class="col-md-4">
-											    <h:outputLabel for="idPartExterno" value="Participação externo:" styleClass="control-label"/>
-											    <div class="input-group">
-													 <span class="input-group-addon">
-														<span class="glyphicon glyphicon-tag"></span>
-													 </span>
-												     <h:inputText value="#{producaoAcademicaMB.externo.tipoParticipacao}" 
-													         class= "form-control" 
-													         maxlength="45"
-													         id="idPartExterno"/>
-											   </div>
-									        </div>
 										</div>
 										<br/>
 										<div class="row">
@@ -205,8 +179,73 @@
 										        </div>
 									        </div>
 										</div>
+										<br/>
 										<div class="row">
-									         <div class="col-md-6">
+									        <div class="col-md-4">
+												<h:outputLabel for="idNomeExterno" value="Participante externo:" styleClass="control-label"/>
+									            <div class="input-group">
+													 <span class="input-group-addon">
+														<span class="glyphicon glyphicon-tag"></span>
+													 </span>
+													<h:inputText value="#{producaoAcademicaMB.externo.nome}" 
+														         class= "form-control" 
+														         maxlength="45"
+														         id="idNomeExterno"/>
+											    </div>
+									        </div>
+									        <div class="col-md-4">
+											    <h:outputLabel for="idPartExterno" value="Participação externo:" styleClass="control-label"/>
+											    <div class="input-group">
+													 <span class="input-group-addon">
+														<span class="glyphicon glyphicon-tag"></span>
+													 </span>
+												     <h:inputText value="#{producaoAcademicaMB.externo.tipoParticipacao}" 
+													         class= "form-control" 
+													         maxlength="45"
+													         id="idPartExterno"/>
+											   </div>
+									        </div>
+									        <div class="col-md-4">
+										        <div class="form-group">
+									                <h:outputLabel for="btnAddEx" value=" " styleClass="control-label" />
+									                <div class="form-group">
+														<p:commandButton value="Adicionar" title="Adicionar" action="#{producaoAcademicaMB.adicionarExterno()}" update="@form" 
+														                 class="btn btn-primary" id="btnAddEx"/>
+												    </div>
+												</div>
+											</div>
+										</div>
+										<br/>
+									    <br/>
+									    <div class="row">
+									        <div class="col-md-1"></div>
+									        <div class="col-md-10">
+										    	<h:panelGroup id="painelExterno" rendered="#{producaoAcademicaMB.habilitarTabelaExterno()}">
+										    	     <p:dataTable var="ex" value="#{producaoAcademicaMB.externos}">
+													    <f:facet name="header">
+												            Participante(s) Externo Selecionado(s)
+												        </f:facet>
+													    <p:column headerText="Nome">
+													        <h:outputText value="#{ex.nome}" />
+													    </p:column>
+													    <p:column headerText="Participação">
+													        <h:outputText value="#{ex.tipoParticipacao}" />
+													    </p:column>
+													 
+													    <p:column headerText="Ação" style="width:12%;text-align:center;">
+													 		<p:commandLink action="#{producaoAcademicaMB.removerExterno(ex)}" update="@form">
+														         <span class="glyphicon glyphicon-remove" />
+														    </p:commandLink>
+														</p:column>
+													</p:dataTable>									    	
+										    	</h:panelGroup>
+										    </div>
+									        <div class="col-md-1"></div>
+									    </div>
+									    <br/>
+										<br/>
+										<div class="row">
+									         <div class="col-md-8">
 									              <div class="form-group">
 													  <h:outputLabel for="idAutor" value="Autor(es):" styleClass="control-label" />
 													  <div class="input-group">
@@ -225,20 +264,24 @@
 										        <div class="form-group">
 									                <h:outputLabel for="btnAdd" value=" " styleClass="control-label" />
 									                <div class="form-group">
-														<p:commandButton value="Adicionar Autor" title="Adicionar" action="#{producaoAcademicaMB.adicionarAutor()}" update="@form" 
+														<p:commandButton value="Adicionar" title="Adicionar" action="#{producaoAcademicaMB.adicionarAutor()}" update="@form" 
 														                 class="btn btn-primary" id="btnAdd"/>
-														<p:commandButton value="Excluir Autor" title="Excluir" class="btn btn-primary-cinza" action="#{producaoAcademicaMB.removerAutor()}" 
+														<p:commandButton value="Excluir" title="Excluir" class="btn btn-primary-cinza" action="#{producaoAcademicaMB.removerAutor()}" 
 															             update="@form"/>
 												    </div>
 										    	</div>
 										    </div>
 									    </div>
-									    <p/>
+									    <br/>
+									    <br/>
 									    <div class="row">
 									        <div class="col-md-1"></div>
 									        <div class="col-md-10">
 										    	<h:panelGroup id="painelAutores" rendered="#{producaoAcademicaMB.habilitarTabelaAutores()}">
 										    	     <p:dataTable var="autor" value="#{producaoAcademicaMB.autoresVO}">
+													    <f:facet name="header">
+												            Autore(s) Selecionado(s)
+												        </f:facet>
 													    <p:column headerText="ID">
 													        <h:outputText value="#{autor.id}" />
 													    </p:column>
@@ -258,9 +301,9 @@
 										    	</h:panelGroup>
 										    </div>
 									        <div class="col-md-1"></div>
-									        <br/>
 									    </div>
-									    <p/>
+									    <br/>
+									    <br/>
 										<div class="row">
 										     <div class="col-md-12">
 											     <h:outputLabel for="idArquivo" value="Escolha o(s) arquivo(s): " styleClass="control-label"/>
@@ -274,12 +317,16 @@
 												 </div>
 											 </div>
 									    </div>
+									    <br/>
+									    <br/>
 									    <div class="row">
-									        <p/><p/>
 									        <div class="col-md-1"></div>
 									        <div class="col-md-10">
 										    	<h:panelGroup id="painelArquivos" rendered="#{producaoAcademicaMB.habilitarTabelaArquivos()}">
 										    	     <p:dataTable var="arq" value="#{producaoAcademicaMB.uploadFiles}">
+													    <f:facet name="header">
+												            Arquivo(s) Selecionado(s)
+												        </f:facet>
 													    <p:column headerText="Nome Arquivo">
 													        <h:outputText value="#{arq.fileName}" />
 													    </p:column>
@@ -295,7 +342,7 @@
 									        <div class="col-md-1"></div>
 									        <br/>
 									    </div>
-									    
+									    <br/>
 									    <br/>
 									    <h:panelGroup id="paineis" rendered="#{producaoAcademicaMB.tipoProducao != null}">
 										    <h:panelGroup id="painelPeriodico" rendered="#{producaoAcademicaMB.isArtigoPeriodico()}">

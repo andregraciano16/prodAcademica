@@ -20,6 +20,7 @@ import br.ucb.VO.AutorVO;
 import br.ucb.dao.AlunoDao;
 import br.ucb.dao.AutorDao;
 import br.ucb.dao.DocenteDao;
+import br.ucb.dao.ExternoDao;
 import br.ucb.dao.JornalRevistaDao;
 import br.ucb.dao.LinhaPesquisaDao;
 import br.ucb.dao.LivroDao;
@@ -30,6 +31,7 @@ import br.ucb.dao.TipoProducaoDao;
 import br.ucb.dao.impl.AlunoDaoImpl;
 import br.ucb.dao.impl.AutorDaoImpl;
 import br.ucb.dao.impl.DocenteDaoImpl;
+import br.ucb.dao.impl.ExternoDaoImpl;
 import br.ucb.dao.impl.JornalRevistaDaoImpl;
 import br.ucb.dao.impl.LinhaPesquisaDaoImpl;
 import br.ucb.dao.impl.LivroDaoImpl;
@@ -89,9 +91,12 @@ public class ProducaoAcademicaMB extends BaseMB {
 	private AutorVO             autorSelecionado;
 	private List<AutorVO>       autoresVO;
 	private List<Autor>         autores;
+	private List<Externo>       externos;
+	private ExternoDao          externoDao;
 	
 	@PostConstruct
 	public void init() {
+		this.externoDao        = new ExternoDaoImpl();
 		this.autorDao          = new AutorDaoImpl();
 		this.alunoDao          = new AlunoDaoImpl();
 		this.producaoAcDao     = new ProducaoAcademicaDaoImpl();
@@ -116,6 +121,7 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.autorSelecionado  = new AutorVO                 ();
 		this.uploadFiles       = new ArrayList<UploadedFile> ();
 		this.autores           = new ArrayList<Autor>();
+		this.externos          = new ArrayList<Externo>();
 	}
 
 	public void upload(FileUploadEvent event) {
@@ -146,6 +152,10 @@ public class ProducaoAcademicaMB extends BaseMB {
 		uploadFiles.remove(file);
 	}
 	
+	public void removerExterno(Externo ex){
+		this.externos.remove(ex);
+	}
+	
 	public void cadastrar() {
 		this.producaoAcademica.setDataCadastro(new Date());
 		this.producaoAcademica.setLinhaPesquisa(this.linhaPesquisaDao.findById(this.linhaPesquisa.getIdLinhaPesquisa()));
@@ -153,8 +163,17 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.producaoAcademica.setStatusProducao(this.statusProducao);
 		salvarTipoProducao();
 		salvarAutores();
+		salvarExterno();
 	}
 	
+	private void salvarExterno() {
+		ProducaoAcademica pa = this.producaoAcDao.findByProdAc(this.producaoAcademica);
+		for (Externo ex : externos) {
+			ex.setProducaoAcademica(pa);
+			this.externoDao.save(ex);		
+		}
+	}
+
 	private void salvarAutores(){
 		ProducaoAcademica pa = this.producaoAcDao.findByProdAc(this.producaoAcademica);
 		montarAutores(pa);
@@ -309,6 +328,17 @@ public class ProducaoAcademicaMB extends BaseMB {
 	public boolean habilitarTabelaArquivos(){
 		if(uploadFiles != null && !uploadFiles.isEmpty())
 			return Boolean.TRUE;
+		return Boolean.FALSE;
+	}
+	
+	public void adicionarExterno(){
+		this.externos.add(this.externo);
+	}
+	
+	public boolean habilitarTabelaExterno(){
+		if(this.externos != null && !this.externos.isEmpty()){
+			return Boolean.TRUE;
+		}
 		return Boolean.FALSE;
 	}
 	
@@ -499,6 +529,14 @@ public class ProducaoAcademicaMB extends BaseMB {
 
 	public void setUploadFiles(List<UploadedFile> uploadFiles) {
 		this.uploadFiles = uploadFiles;
+	}
+
+	public List<Externo> getExternos() {
+		return this.externos;
+	}
+
+	public void setExternos(List<Externo> externos) {
+		this.externos = externos;
 	}
 	
 }

@@ -1,10 +1,13 @@
 package br.ucb.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 @Entity
 public class Externo  extends EntidadeBase{
 
@@ -21,7 +24,18 @@ public class Externo  extends EntidadeBase{
 	@Column(name = " tipoParticipacao")
 	private String tipoParticipacao;
 		
+	@OneToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name = "id_producaoAcademica")
+	private ProducaoAcademica producaoAcademica;
 	
+	public ProducaoAcademica getProducaoAcademica() {
+		return this.producaoAcademica;
+	}
+
+	public void setProducaoAcademica(ProducaoAcademica producaoAcademica) {
+		this.producaoAcademica = producaoAcademica;
+	}
+
 	public Integer getIdExterno() {
 		return this.idExterno;
 	}
