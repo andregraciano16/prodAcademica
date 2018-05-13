@@ -45,15 +45,6 @@ public class ArtigoJornalRevista extends EntidadeBase{
 	@Column(name = "ISSN")
 	private String ISSN;
 
-	@Column(name = "divulgacao")
-	private Integer divulgacao; // DivulgacaoEnum
-
-	@Column(name = "URL")
-	private String URL;
-
-	@Column(name = "observacao")
-	private String observacao;
-
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_producaoAcademica")
 	private ProducaoAcademica producaoAcademica;
@@ -128,30 +119,6 @@ public class ArtigoJornalRevista extends EntidadeBase{
 
 	public void setISSN(String iSSN) {
 		this.ISSN = iSSN;
-	}
-
-	public Integer getDivulgacao() {
-		return this.divulgacao;
-	}
-
-	public void setDivulgacao(Integer divulgacao) {
-		this.divulgacao = divulgacao;
-	}
-
-	public String getURL() {
-		return this.URL;
-	}
-
-	public void setURL(String uRL) {
-		this.URL = uRL;
-	}
-
-	public String getObservacao() {
-		return this.observacao;
-	}
-
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
 	}
 
 }

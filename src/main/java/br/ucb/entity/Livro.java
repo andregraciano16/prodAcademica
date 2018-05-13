@@ -28,12 +28,6 @@ public class Livro extends EntidadeBase{
 	@Column(name = "nroPagina")
 	private Integer nroPagina;
 
-	@Column(name = "divulgacao")
-	private Integer divulgacao; // DivulgacaoEnum
-
-	@Column(name = "URL")
-	private String URL;
-
 	@Column(name = "idioma")
 	private Integer idioma; // Idioma Enum
 
@@ -55,7 +49,7 @@ public class Livro extends EntidadeBase{
 	@Column(name = "financiador")
 	private String financiador;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "id_producaoAcademica")
 	private ProducaoAcademica producaoAcademica;
 	
@@ -97,22 +91,6 @@ public class Livro extends EntidadeBase{
 
 	public void setNroPagina(Integer nroPagina) {
 		this.nroPagina = nroPagina;
-	}
-
-	public Integer getDivulgacao() {
-		return this.divulgacao;
-	}
-
-	public void setDivulgacao(Integer divulgacao) {
-		this.divulgacao = divulgacao;
-	}
-
-	public String getURL() {
-		return this.URL;
-	}
-
-	public void setURL(String uRL) {
-		this.URL = uRL;
 	}
 
 	public Integer getIdioma() {

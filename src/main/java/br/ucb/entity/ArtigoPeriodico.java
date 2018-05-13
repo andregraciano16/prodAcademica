@@ -46,15 +46,6 @@ public class ArtigoPeriodico extends EntidadeBase {
 	@Column(name = "numPagFim")
 	private Integer numPagFim;
 
-	@Column(name = "divulgacao")
-	private Integer divulgacao;
-
-	@Column(name = "URL")
-	private String URL;
-
-	@Column(name = "observacao")
-	private String observacao;
-
 	@Column(name = "DOI")
 	private String DOI; // Digital Object Identify
 	
@@ -149,31 +140,7 @@ public class ArtigoPeriodico extends EntidadeBase {
 	public void setNumPagFim(Integer numPagFim) {
 		this.numPagFim = numPagFim;
 	}
-
-	public Integer getDivulgacao() {
-		return this.divulgacao;
-	}
-
-	public void setDivulgacao(Integer divulgacao) {
-		this.divulgacao = divulgacao;
-	}
-
-	public String getURL() {
-		return this.URL;
-	}
-
-	public void setURL(String uRL) {
-		this.URL = uRL;
-	}
-
-	public String getObservacao() {
-		return this.observacao;
-	}
-
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
-	}
-
+	
 	public String getDOI() {
 		return this.DOI;
 	}

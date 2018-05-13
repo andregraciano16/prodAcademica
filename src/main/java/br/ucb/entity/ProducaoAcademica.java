@@ -39,6 +39,15 @@ public class ProducaoAcademica extends EntidadeBase implements Comparable<Produc
 	@Column(name = "dataCadastro")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCadastro;
+	
+	@Column(name = "divulgacao")
+	private Integer divulgacao; // DivulgacaoEnum
+
+	@Column(name = "URL")
+	private String URL;
+
+	@Column(name = "observacao")
+	private String observacao;
 
 	@ManyToOne
 	@JoinColumn(name = "id_tipoProducao")
@@ -52,28 +61,28 @@ public class ProducaoAcademica extends EntidadeBase implements Comparable<Produc
 	@JoinColumn(name = "id_statusProducao")
 	private StatusProducao statusProducao;
 	
-	@OneToMany
-	@JoinColumn(name = "id_producaoAcademica")
-	private List<Autor> autores;
-
-	@OneToMany
-	@JoinColumn(name = "id_producaoAcademica")
-	private List<Externo> externos;
-	
-	public List<Externo> getExternos() {
-		return this.externos;
+	public Integer getDivulgacao() {
+		return this.divulgacao;
 	}
 
-	public void setExternos(List<Externo> externos) {
-		this.externos = externos;
+	public void setDivulgacao(Integer divulgacao) {
+		this.divulgacao = divulgacao;
 	}
 
-	public List<Autor> getAutores() {
-		return this.autores;
+	public String getURL() {
+		return this.URL;
 	}
 
-	public void setAutores(List<Autor> autores) {
-		this.autores = autores;
+	public void setURL(String uRL) {
+		this.URL = uRL;
+	}
+
+	public String getObservacao() {
+		return this.observacao;
+	}
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
 	}
 
 	public Integer getIdProducaoAcademica() {
