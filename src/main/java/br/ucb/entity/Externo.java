@@ -19,7 +19,7 @@ public class Externo  extends EntidadeBase{
 	private String nome;
 	
 	@Column(name = " tipoParticipacao")
-	private Integer tipoParticipacao;
+	private String tipoParticipacao;
 		
 	
 	public Integer getIdExterno() {
@@ -38,11 +38,11 @@ public class Externo  extends EntidadeBase{
 		this.nome = nome;
 	}
 
-	public Integer getTipoParticipacao() {
+	public String getTipoParticipacao() {
 		return this.tipoParticipacao;
 	}
 
-	public void setTipoParticipacao(Integer tipoParticipacao) {
+	public void setTipoParticipacao(String tipoParticipacao) {
 		this.tipoParticipacao = tipoParticipacao;
 	}
 	
