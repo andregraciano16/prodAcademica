@@ -32,6 +32,7 @@
 		<class>br.ucb.entity.Externo</class>
 		<class>br.ucb.entity.Autor</class>
 		<class>br.ucb.entity.StatusProjeto</class>
+		<class>br.ucb.entity.StatusAprovacao</class>
         <properties>    
             <!-- Propriedades JDBC -->
             <property name="javax.persistence.jdbc.driver" 

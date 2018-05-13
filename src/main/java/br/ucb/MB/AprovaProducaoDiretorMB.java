@@ -9,21 +9,22 @@ import javax.faces.bean.ViewScoped;
 
 import br.ucb.VO.AprovacaoProducaoVO;
 import br.ucb.dao.ProducaoAcademicaDao;
-import br.ucb.dao.StatusProducaoDao;
+import br.ucb.dao.StatusAprovacaoDao;
 import br.ucb.dao.impl.ProducaoAcademicaDaoImpl;
-import br.ucb.dao.impl.StatusProducaoDaoImpl;
-import br.ucb.entity.StatusProducao;
+import br.ucb.dao.impl.StatusAprovacaoDaoImpl;
+import br.ucb.entity.StatusAprovacao;
+
 
 @ManagedBean(name = "aprovaProducaoDiretorMB")
 @ViewScoped
-public class aprovaProducaoDiretorMB extends BaseMB {
+public class AprovaProducaoDiretorMB extends BaseMB {
 
 	private static final long serialVersionUID = 479227576693611217L;
 
 	private List<AprovacaoProducaoVO> aprovaProducoes;
 	private ProducaoAcademicaDao producaoAcademicaDao;
-	private StatusProducao statusProducao;
-	private StatusProducaoDao statusProducaoDao;
+	private StatusAprovacao statusAprovacao;
+	private StatusAprovacaoDao statusAprovacaoDao;
 	private AprovacaoProducaoVO producao;
 
 	
@@ -42,21 +43,21 @@ public class aprovaProducaoDiretorMB extends BaseMB {
 	private void inicializa() {
 		this.setAprovaProducoes(new ArrayList<AprovacaoProducaoVO>());
 		this.producaoAcademicaDao = new ProducaoAcademicaDaoImpl();
-		this.statusProducao = new StatusProducao();
-		this.statusProducaoDao = new StatusProducaoDaoImpl();
+		this.statusAprovacao = new StatusAprovacao();
+		this.statusAprovacaoDao = new StatusAprovacaoDaoImpl();
 
 	}
 
 	public void aprovar(AprovacaoProducaoVO producao) {
-		this.statusProducao = statusProducaoDao.findByDescricaoAndTipo(null, "Aprovado").get(0);
-		producao.setStatusProducao(this.statusProducao);
+		this.statusAprovacao = statusAprovacaoDao.findByDescricao("Aprovado").get(0);
+		producao.setStatusAprovacao(this.statusAprovacao);
 		this.producaoAcademicaDao.updateResultado(producao);
 		this.aprovaProducoes.remove(producao);
 	}
 
 	public void reprovar(AprovacaoProducaoVO producao) {
-		this.statusProducao = statusProducaoDao.findByDescricaoAndTipo(null, "Reprovado").get(0);
-		producao.setStatusProducao(this.statusProducao);
+		this.statusAprovacao = statusAprovacaoDao.findByDescricao("Reprovado").get(0);
+		producao.setStatusAprovacao(this.statusAprovacao);
 		this.producaoAcademicaDao.updateResultado(producao);
 		this.aprovaProducoes.remove(producao);
 	}
@@ -71,20 +72,20 @@ public class aprovaProducaoDiretorMB extends BaseMB {
 		this.producaoAcademicaDao = producaoAcademicaDao;
 	}
 
-	public StatusProducao getStatusProducao() {
-		return statusProducao;
+	public StatusAprovacao getStatusAprovacao() {
+		return statusAprovacao;
 	}
 
-	public void setStatusProducao(StatusProducao statusProducao) {
-		this.statusProducao = statusProducao;
+	public void setStatusAprovacao(StatusAprovacao statusAprovacao) {
+		this.statusAprovacao = statusAprovacao;
 	}
 
-	public StatusProducaoDao getStatusProducaoDao() {
-		return statusProducaoDao;
+	public StatusAprovacaoDao getStatusAprovacaoDao() {
+		return statusAprovacaoDao;
 	}
 
-	public void setStatusProducaoDao(StatusProducaoDao statusProducaoDao) {
-		this.statusProducaoDao = statusProducaoDao;
+	public void setStatusAprovacaoDao(StatusAprovacaoDao statusAprovacaoDao) {
+		this.statusAprovacaoDao = statusAprovacaoDao;
 	}
 
 	public AprovacaoProducaoVO getProducao() {

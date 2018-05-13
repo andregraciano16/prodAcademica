@@ -7,24 +7,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class StatusAluno extends EntidadeBase {
+public class StatusAprovacao extends EntidadeBase {
 
 	private static final long serialVersionUID = 1L;
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_statusAluno")
-	private Integer idStatusAluno;
+	@Column(name = "id_statusAprovacao")
+	private Integer idStatusAprovacao;
 
 	@Column(name = "descricao")
 	private String descricao;
 
-	public Integer getIdStatusAluno() {
-		return idStatusAluno;
+	public Integer getIdStatusAprovacao() {
+		return idStatusAprovacao;
 	}
 
-	public void setIdStatusAluno(Integer idStatusAluno) {
-		this.idStatusAluno = idStatusAluno;
+	public void setIdStatusAprovacao(Integer idStatusAprovacao) {
+		this.idStatusAprovacao = idStatusAprovacao;
 	}
 
 	public String getDescricao() {
@@ -35,39 +36,31 @@ public class StatusAluno extends EntidadeBase {
 		this.descricao = descricao;
 	}
 
+	
 	@Override
 	public boolean equals(Object obj) {
 
-		int flag = 0;
-		if (obj instanceof StatusAluno) {
-			StatusAluno outroStatusAluno = (StatusAluno) obj;
-			if (outroStatusAluno.getDescricao().trim().equals(this.getDescricao().trim())) {
-				flag = 1;
-			}
-		}
-		if (flag == 1) {
-
-			return true;
-
-		} else {
+	
 			if (this == obj)
 				return true;
 			if (obj == null)
 				return false;
-			if (!(obj instanceof StatusAluno))
+			if (!(obj instanceof StatusAprovacao))
 				return false;
-			StatusAluno other = (StatusAluno) obj;
-			if (idStatusAluno == null) {
-				if (other.idStatusAluno != null)
+			StatusAprovacao other = (StatusAprovacao) obj;
+			if (idStatusAprovacao == null) {
+				if (other.idStatusAprovacao != null)
 					return false;
-			} else if (!idStatusAluno.equals(other.idStatusAluno))
+			} else if (!idStatusAprovacao.equals(other.idStatusAprovacao))
 				return false;
 			return true;
 		}
 
-	}
+	
 
 	public int hashCode() {
 		return this.getDescricao().hashCode();
 	}
+	
+	
 }

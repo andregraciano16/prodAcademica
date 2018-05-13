@@ -1,14 +1,14 @@
 package br.ucb.VO;
 
 
-import br.ucb.entity.StatusProducao;
+import br.ucb.entity.StatusAprovacao;
 
 public class AprovacaoProducaoVO {
 	
 	private Integer id;
 	private String titulo;
 	private String descricao;
-	private StatusProducao statusProducao;
+	private StatusAprovacao statusAprovacao;
 	public Integer getId() {
 		return id;
 	}
@@ -27,13 +27,13 @@ public class AprovacaoProducaoVO {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	public StatusProducao getStatusProducao() {
-		return statusProducao;
-	}
-	public void setStatusProducao(StatusProducao statusProducao) {
-		this.statusProducao = statusProducao;
-	}
 	
+	public StatusAprovacao getStatusAprovacao() {
+		return statusAprovacao;
+	}
+	public void setStatusAprovacao(StatusAprovacao statusAprovacao) {
+		this.statusAprovacao = statusAprovacao;
+	}
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
