@@ -1,11 +1,14 @@
 package br.ucb.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Query;
 
+import br.ucb.VO.AprovacaoProducaoVO;
 import br.ucb.dao.ProducaoAcademicaDao;
 import br.ucb.entity.ProducaoAcademica;
+import br.ucb.entity.StatusProducao;
 
 
 public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica, Integer> implements ProducaoAcademicaDao {
@@ -82,25 +85,82 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		@SuppressWarnings("unchecked")
 		List<Object[]> resultados = getManager()
 				.createQuery(
-						"select year(pa.dataCadastro), pa.conceitoQualis, pa.dataCadastro from ProducaoAcademica pa order by pa.dataCadastro asc")
+						"select year(pa.dataCadastro), pa.conceitoQualis, pa.dataCadastro from ProducaoAcademica pa order by year(pa.dataCadastro) asc")
 				.getResultList();
 
-	
 		return resultados;
 
-		
 	}
-	
-    public List<Date> listSimpleDatas(){
-		
+
+	public List<Date> listSimpleDatas() {
+
+		List<Date> resultados = getManager()
+				.createQuery("select pa.dataCadastro from ProducaoAcademica pa order by pa.dataCadastro asc",
+						Date.class)
+				.getResultList();
+
+		return resultados;
+
+	}
+
+	public List<Object[]> listSimpleQualisFiltro(String anoInicio, String anoFim) {
+
+		@SuppressWarnings("unchecked")
+		List<Object[]> resultados = getManager()
+				.createQuery(
+						"select year(pa.dataCadastro), pa.conceitoQualis, pa.dataCadastro from ProducaoAcademica pa where year(pa.dataCadastro) between ?1 and ?2 order by year(pa.dataCadastro) asc")
+				.setParameter(1, Integer.valueOf(anoInicio)).setParameter(2, Integer.valueOf(anoFim)).getResultList();
+
+		return resultados;
+
+	}
+
+	public List<Date> listSimpleProdFiltro(String anoInicio, String anoFim) {
+
 		List<Date> resultados = getManager()
 				.createQuery(
-						"select pa.dataCadastro from ProducaoAcademica pa order by pa.dataCadastro asc", Date.class)
+						"select pa.dataCadastro from ProducaoAcademica pa where year(pa.dataCadastro) between ?1 and ?2 order by pa.dataCadastro asc",
+						Date.class)
+				.setParameter(1, Integer.valueOf(anoInicio)).setParameter(2, Integer.valueOf(anoFim)).getResultList();
+
+		return resultados;
+	}
+
+	@Override
+	public List<AprovacaoProducaoVO> listAprovaDiretor() {
+
+		// Lista de Objetos
+		// [0] - idProducaoAcademica
+		// [1] - titulo
+		// [2] - descricao
+		// [3] - statusProducao
+
+		AprovacaoProducaoVO producao = new AprovacaoProducaoVO();
+		List<AprovacaoProducaoVO> producoes = new ArrayList<AprovacaoProducaoVO>();
+
+		@SuppressWarnings("unchecked")
+		List<Object[]> resultados = getManager()
+				.createQuery(
+						"select pa.idProducaoAcademica, pa.titulo, pa.descricao, pa.statusProducao from ProducaoAcademica pa where pa.statusProducao.descricao = 'Pendente Aprovação' order by pa.dataCadastro asc")
 				.getResultList();
 
-	
-		return resultados;
+		for (Object[] obj : resultados) {
+			producao.setId((Integer) obj[0]);
+			producao.setTitulo((String) obj[1]);
+			producao.setDescricao((String) obj[2]);
+			producao.setStatusProducao((StatusProducao) obj[3]);
+			producoes.add(producao);
+		}
 
-		
+		return producoes;
+	}
+
+	public void updateResultado(AprovacaoProducaoVO prodAcademica) {
+
+		ProducaoAcademica producaoAcademica = getManager().find(ProducaoAcademica.class, prodAcademica.getId());
+		getManager().getTransaction().begin();
+		producaoAcademica.setStatusProducao(prodAcademica.getStatusProducao());
+		getManager().getTransaction().commit();
+
 	}
 }

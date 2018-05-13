@@ -1,7 +1,9 @@
 package br.ucb.dao;
 
-import br.ucb.entity.Endereco;
+import br.ucb.entity.Externo;
 
-public interface ExternoDao extends DaoGenerico<Endereco, Integer> {
+public interface ExternoDao extends DaoGenerico<Externo, Integer> {
+
+	Externo findById(Integer integer);
 
 }

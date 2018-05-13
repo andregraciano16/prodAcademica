@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="./template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+	<ui:define name="Conteudo">
+
+		<h:form id="idFormulario">
+
+			<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<ol class="breadcrumb" style="color: blue; background: #30a5ff">
+								<div class="titulo-centro-grande">Aprova Produções -
+									Diretor</div>
+							</ol>
+
+						</div>
+
+						<p:messages id="messages" globalOnly="true" closable="true"
+							styleClass="mensagem-tela" />
+						<br />
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3>Produções a serem aprovadas</h3>
+									<br /> <br />
+								</div>
+
+								<div class="panel-body">
+									<p:dataTable id="idTable" var="item"
+										value="#{aprovaProducaoDiretorMB.aprovaProducoes}"
+										editable="true"
+										styleClass="table table-striped table-bordered table-hover"
+										paginator="true" rowsPerPageTemplate="10,20,30"
+										currentPageReportTemplate="{startRecord} de {endRecord}"
+										paginatorPosition="bottom"
+										emptyMessage="Não foram encontrados registros"
+										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+										<p:column headerText="Titulo">
+											<h:outputText value="#{item.titulo}" />
+										</p:column>
+
+										<p:column headerText="Descrição">
+											<h:outputText value="#{item.descricao}" />
+										</p:column>
+
+
+										<p:column headerText="Ações"
+											style="width:26%;text-align:center;">
+
+											<p:commandButton icon="fa fa-check" value="Aprovar"
+												action="#{aprovaProducaoDiretorMB.aprovar(item)}"
+												update="@form">
+
+												<p:confirm message="Aprovar produção?"
+													header="Aviso" icon="ui-icon-alert" />
+											</p:commandButton>
+										&nbsp;
+											<p:commandButton
+												action="#{aprovaProducaoDiretorMB.reprovar(item)}"
+												icon="fa fa-close" value="Reprovar" update="@form">
+												<p:confirm message="Reprovar produção?"
+													header="Aviso" icon="ui-icon-alert" />
+											</p:commandButton>
+
+										</p:column>
+
+									</p:dataTable>
+									<p:confirmDialog global="true">
+										<p:commandButton value="Sim" type="button"
+											icon="ui-icon-check" styleClass="ui-confirmdialog-yes" />
+										<p:commandButton value="Não" type="button"
+											icon="ui-icon-close" styleClass="ui-confirmdialog-no" />
+									</p:confirmDialog>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

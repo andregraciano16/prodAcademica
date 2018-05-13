@@ -10,17 +10,20 @@ import javax.faces.bean.ViewScoped;
 
 import br.ucb.dao.AlunoDao;
 import br.ucb.dao.DocenteDao;
+import br.ucb.dao.ExternoDao;
 import br.ucb.dao.ProjetoDao;
 import br.ucb.dao.StatusProjetoDao;
 import br.ucb.dao.impl.ProjetoDaoImpl;
 import br.ucb.dao.impl.AlunoDaoImpl;
 import br.ucb.dao.impl.DocenteDaoImpl;
+import br.ucb.dao.impl.ExternoDaoImpl;
 import br.ucb.dao.impl.LinhaPesquisaDaoImpl;
 import br.ucb.dao.impl.StatusProjetoDaoImpl;
 import br.ucb.dao.impl.TipoProjetoDaoImpl;
 import br.ucb.entity.Projeto;
 import br.ucb.entity.Aluno;
 import br.ucb.entity.Docente;
+import br.ucb.entity.Externo;
 import br.ucb.entity.LinhaPesquisa;
 import br.ucb.entity.StatusProjeto;
 import br.ucb.entity.TipoProjeto;
@@ -43,20 +46,29 @@ public class ProjetoMB extends BaseMB {
 	private Docente docenteSelecionado;
 	private List<Aluno> alunos;
 	private List<Aluno> alunosSelecionados;
+	private List<Externo> externos;
+	private List<Externo> externosSelecionados;
+	private Externo externoSelecionado;
 	private AlunoDao alunoDao;
 	private Aluno alunoSelecionado;
 	private Docente temp;
+	private Externo tempE;
 	private DocenteDao docenteDao;
+	private ExternoDao externoDao;
 	private StatusProjetoDao statusProjetoDao;
 	private TipoProjetoDaoImpl tipoProjetoDao;
 	private LinhaPesquisaDaoImpl linhaPesquisaDao;
 	private AcaoEnum acaoEnum;
+	private String selecionaCoordenador = "1";
 
 	@PostConstruct
 	public void init() {
 		inicializa();
 		buscar();
 		this.setAcaoEnum(AcaoEnum.LISTAR);
+	}
+
+	public void selecionaFiltro() {
 	}
 
 	public void cadastrar() {
@@ -66,6 +78,8 @@ public class ProjetoMB extends BaseMB {
 
 			if (this.projetos.contains(this.projeto)) {
 				setMessageError("Já contém este registro, por favor insira um novo.");
+			} else if (this.projeto.getExternoResponsavel() != null && this.projeto.getDocenteResponsavel() != null) {
+				setMessageError("Escolha só um coordenador.");
 			} else {
 				this.projetoDao.save(this.projeto);
 				setMessageSuccess("Cadastrado com sucesso.");
@@ -74,6 +88,9 @@ public class ProjetoMB extends BaseMB {
 		} else if (this.docentesSelecionados.contains(projeto.getDocenteResponsavel())) {
 			setMessageError(
 					"Este docente não pode ser um participante, pois já é o responsavel do projeto, por favor retire o mesmo da lista de docentes.");
+		} else if (this.externosSelecionados.contains(projeto.getExternoResponsavel())) {
+			setMessageError(
+					"Este externo não pode ser um participante, pois já é o responsavel do projeto, por favor retire o mesmo da lista de externo.");
 		} else {
 			setMessageError("Preencha os campos corretamente.");
 		}
@@ -102,6 +119,13 @@ public class ProjetoMB extends BaseMB {
 		this.projeto = projeto;
 		this.docentesSelecionados = projeto.getDocentesParticipantes();
 		this.alunosSelecionados = projeto.getAlunosParticipantes();
+		this.externosSelecionados = projeto.getExternoParticipantes();
+		
+		if(this.projeto.getDocenteResponsavel() != null){
+			this.selecionaCoordenador = "1";
+		}else{
+			this.selecionaCoordenador = "2";
+		}
 		acaoEnum = AcaoEnum.EDITAR;
 	}
 
@@ -109,6 +133,13 @@ public class ProjetoMB extends BaseMB {
 		this.projeto = projeto;
 		this.docentesSelecionados = projeto.getDocentesParticipantes();
 		this.alunosSelecionados = projeto.getAlunosParticipantes();
+		this.externosSelecionados = projeto.getExternoParticipantes();
+		
+		if(this.projeto.getDocenteResponsavel() != null){
+			this.selecionaCoordenador = "1";
+		}else{
+			this.selecionaCoordenador = "2";
+		}
 		acaoEnum = AcaoEnum.VISUALIZAR;
 	}
 
@@ -149,14 +180,6 @@ public class ProjetoMB extends BaseMB {
 				setMessageError("Este aluno já foi selecionado.");
 		}
 
-	}
-
-	public List<Aluno> getAlunos() {
-		return alunos;
-	}
-
-	public void setAlunos(List<Aluno> alunos) {
-		this.alunos = alunos;
 	}
 
 	public void removeParticipanteAluno(Aluno selecionado) {
@@ -218,6 +241,60 @@ public class ProjetoMB extends BaseMB {
 		this.docentes.add(selecionado);
 	}
 
+	public void verificaExternoResponsavel(Externo responsavel) {
+		if (responsavel != null && this.externos.contains(responsavel)) {
+			this.externos.remove(responsavel);
+			this.tempE = responsavel;
+		} else if (responsavel == null && this.tempE != null) {
+			this.externos.add(this.tempE);
+			this.tempE = null;
+		}
+	}
+
+	public List<Externo> escolheExterno(String query) {
+		List<Externo> externosFiltrados = new ArrayList<Externo>();
+
+		for (int i = 0; i < this.externos.size(); i++) {
+			Externo externo = this.externos.get(i);
+			if (externo.getNome().toLowerCase().startsWith(query)) {
+				externosFiltrados.add(externo);
+			}
+		}
+
+		return externosFiltrados;
+	}
+
+	public List<Externo> escolheParticipanteExterno(String query) {
+		List<Externo> externosFiltrados = new ArrayList<Externo>();
+
+		for (int i = 0; i < this.externos.size(); i++) {
+			Externo externo = this.externos.get(i);
+			if (externo.getNome().toLowerCase().startsWith(query)) {
+				externosFiltrados.add(externo);
+			}
+		}
+
+		return externosFiltrados;
+	}
+
+	public void guardaParticipanteExterno(Externo selecionado) {
+		if (selecionado != null && this.externos.contains(selecionado)) {
+			this.externosSelecionados.add(selecionado);
+			this.externos.remove(selecionado);
+		} else {
+			if (selecionado == null)
+				setMessageError("Esse externo não existe ou já é o reponsável pelo projeto.");
+			if (selecionado != null && this.externosSelecionados.contains(selecionado))
+				setMessageError("Este externo já foi selecionado.");
+		}
+
+	}
+
+	public void removeParticipanteExterno(Externo selecionado) {
+		this.externosSelecionados.remove(selecionado);
+		this.externos.add(selecionado);
+	}
+
 	public void buscar() {
 
 		if (this.projeto != null) {
@@ -228,6 +305,7 @@ public class ProjetoMB extends BaseMB {
 				this.linhasPesquisa = this.linhaPesquisaDao.list();
 				this.docentes = this.docenteDao.list();
 				this.alunos = this.alunoDao.list();
+				this.externos = this.externoDao.list();
 			} else {
 				this.projetos = this.projetoDao.findBySearch(this.projeto);
 				this.variosStatus = this.statusProjetoDao.list();
@@ -235,6 +313,7 @@ public class ProjetoMB extends BaseMB {
 				this.linhasPesquisa = this.linhaPesquisaDao.list();
 				this.docentes = this.docenteDao.list();
 				this.alunos = this.alunoDao.list();
+				this.externos = this.externoDao.list();
 			}
 		}
 	}
@@ -260,21 +339,25 @@ public class ProjetoMB extends BaseMB {
 		this.projeto.setLinhaPesquisa(null);
 		this.projeto.setTipoProjeto(null);
 		this.projeto.setDocenteResponsavel(null);
+		this.projeto.setExternoResponsavel(null);
 
 		this.projeto.setAlunosParticipantes(null);
 		this.projeto.setDocentesParticipantes(null);
+		this.projeto.setExternoParticipantes(null);
 
 		this.variosTipos = new ArrayList<TipoProjeto>();
 		this.variosStatus = new ArrayList<StatusProjeto>();
 		this.linhasPesquisa = new ArrayList<LinhaPesquisa>();
 		this.docentesSelecionados = new ArrayList<Docente>();
 		this.alunosSelecionados = new ArrayList<Aluno>();
+		this.externosSelecionados = new ArrayList<Externo>();
 		this.projetoDao = new ProjetoDaoImpl();
 		this.statusProjetoDao = new StatusProjetoDaoImpl();
 		this.tipoProjetoDao = new TipoProjetoDaoImpl();
 		this.linhaPesquisaDao = new LinhaPesquisaDaoImpl();
 		this.docenteDao = new DocenteDaoImpl();
 		this.alunoDao = new AlunoDaoImpl();
+		this.externoDao = new ExternoDaoImpl();
 
 	}
 
@@ -288,6 +371,7 @@ public class ProjetoMB extends BaseMB {
 		projeto.setOrgaoFinanciador(projeto.getOrgaoFinanciador().trim());
 		projeto.setDocentesParticipantes(this.docentesSelecionados);
 		projeto.setAlunosParticipantes(this.alunosSelecionados);
+		projeto.setExternoParticipantes(this.externosSelecionados);
 
 	}
 
@@ -340,7 +424,7 @@ public class ProjetoMB extends BaseMB {
 			return true;
 		}
 
-		if (projeto.getDocenteResponsavel() == null) {
+		if (projeto.getDocenteResponsavel() == null && projeto.getExternoResponsavel() == null) {
 			return true;
 		}
 
@@ -477,6 +561,46 @@ public class ProjetoMB extends BaseMB {
 
 	public void setAlunoSelecionado(Aluno alunoSelecionado) {
 		this.alunoSelecionado = alunoSelecionado;
+	}
+
+	public String getSelecionaCoordenador() {
+		return selecionaCoordenador;
+	}
+
+	public void setSelecionaCoordenador(String selecionaCoordenador) {
+		this.selecionaCoordenador = selecionaCoordenador;
+	}
+
+	public List<Aluno> getAlunos() {
+		return alunos;
+	}
+
+	public void setAlunos(List<Aluno> alunos) {
+		this.alunos = alunos;
+	}
+
+	public Externo getExternoSelecionado() {
+		return externoSelecionado;
+	}
+
+	public void setExternoSelecionado(Externo externoSelecionado) {
+		this.externoSelecionado = externoSelecionado;
+	}
+
+	public List<Externo> getExternos() {
+		return externos;
+	}
+
+	public void setExternos(List<Externo> externos) {
+		this.externos = externos;
+	}
+
+	public List<Externo> getExternosSelecionados() {
+		return externosSelecionados;
+	}
+
+	public void setExternosSelecionados(List<Externo> externosSelecionados) {
+		this.externosSelecionados = externosSelecionados;
 	}
 
 }
