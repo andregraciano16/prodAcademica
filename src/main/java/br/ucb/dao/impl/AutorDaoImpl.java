@@ -1,8 +1,8 @@
 package br.ucb.dao.impl;
 
 import br.ucb.dao.AutorDao;
-import br.ucb.entity.Comentario;
+import br.ucb.entity.Autor;
 
-public class AutorDaoImpl  extends DaoGenericoImpl<Comentario, Integer> implements AutorDao {
+public class AutorDaoImpl  extends DaoGenericoImpl<Autor, Integer> implements AutorDao {
 
 }

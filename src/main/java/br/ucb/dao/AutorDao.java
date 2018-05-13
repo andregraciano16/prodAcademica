@@ -1,7 +1,7 @@
 package br.ucb.dao;
 
-import br.ucb.entity.Comentario;
+import br.ucb.entity.Autor;
 
-public interface AutorDao extends DaoGenerico<Comentario, Integer> {
+public interface AutorDao extends DaoGenerico<Autor, Integer> {
 
 }

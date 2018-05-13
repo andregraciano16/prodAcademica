@@ -12,13 +12,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.fileupload.FileUpload;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.NativeUploadedFile;
 import org.primefaces.model.UploadedFile;
 
 import br.ucb.VO.AutorVO;
 import br.ucb.dao.AlunoDao;
+import br.ucb.dao.AutorDao;
 import br.ucb.dao.DocenteDao;
 import br.ucb.dao.JornalRevistaDao;
 import br.ucb.dao.LinhaPesquisaDao;
@@ -28,6 +28,7 @@ import br.ucb.dao.ProducaoAcademicaDao;
 import br.ucb.dao.StatusProducaoDao;
 import br.ucb.dao.TipoProducaoDao;
 import br.ucb.dao.impl.AlunoDaoImpl;
+import br.ucb.dao.impl.AutorDaoImpl;
 import br.ucb.dao.impl.DocenteDaoImpl;
 import br.ucb.dao.impl.JornalRevistaDaoImpl;
 import br.ucb.dao.impl.LinhaPesquisaDaoImpl;
@@ -71,6 +72,7 @@ public class ProducaoAcademicaMB extends BaseMB {
 	private PeriodicoDao         periodicoDao;
 	private LivroDao             livroDao;
 	private AlunoDao             alunoDao;
+	private AutorDao autorDao;
 	
 	private Livro               livro;
 	private ProducaoAcademica   producaoAcademica;
@@ -86,9 +88,11 @@ public class ProducaoAcademicaMB extends BaseMB {
 	private Externo             externo;
 	private AutorVO             autorSelecionado;
 	private List<AutorVO>       autoresVO;
+	private List<Autor>         autores;
 	
 	@PostConstruct
 	public void init() {
+		this.autorDao          = new AutorDaoImpl();
 		this.alunoDao          = new AlunoDaoImpl();
 		this.producaoAcDao     = new ProducaoAcademicaDaoImpl();
 		this.producaoAcademica = new ProducaoAcademica       ();
@@ -111,6 +115,7 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.orientador        = new Autor                   ();
 		this.autorSelecionado  = new AutorVO                 ();
 		this.uploadFiles       = new ArrayList<UploadedFile> ();
+		this.autores           = new ArrayList<Autor>();
 	}
 
 	public void upload(FileUploadEvent event) {
@@ -146,8 +151,59 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.producaoAcademica.setLinhaPesquisa(this.linhaPesquisaDao.findById(this.linhaPesquisa.getIdLinhaPesquisa()));
 		this.producaoAcademica.setTipoProducao(this.tipoProducao);
 		this.producaoAcademica.setStatusProducao(this.statusProducao);
-		this.producaoAcademica.setAutores(new ArrayList<Autor>(Arrays.asList(montarOrientador("ORIENTADOR"), montarOrientador("COORIENTADOR"))));
 		salvarTipoProducao();
+		salvarAutores();
+	}
+	
+	private void salvarAutores(){
+		ProducaoAcademica pa = this.producaoAcDao.findByProdAc(this.producaoAcademica);
+		montarAutores(pa);
+		this.autores.add(montarOrientador("ORIENTADOR", pa));
+		this.autores.add(montarOrientador("COORIENTADOR", pa));
+		for (Autor autor : autores) {
+			this.autorDao.save(autor);
+		}
+	}
+	
+	private void montarAutores(ProducaoAcademica pa){
+		Autor autorCad;
+		for (AutorVO autor : autoresVO) {
+			Docente docente  = this.docenteDao.findById(autor.getId());
+			if(docente != null){
+				autorCad = new Autor();
+				autorCad.setCodAutor(docente.getIdDocente());
+				autorCad.setTipoAutor(docente.getTipoDocente().getTipo());
+				autorCad.setTipoAcao("AUTOR");
+				autorCad.setProducaoAcademica(pa);
+				this.autores.add(autorCad);
+			}else{
+				Aluno aluno = this.alunoDao.findById(autor.getId());
+				autorCad = new Autor();
+				autorCad.setCodAutor(aluno.getIdAluno());
+				autorCad.setTipoAutor("ALUNO");
+				autorCad.setTipoAcao("AUTOR");
+				autorCad.setProducaoAcademica(pa);
+				this.autores.add(autorCad);
+			}
+		}
+	}
+	
+	private void montarCoorientador(ProducaoAcademica pa){
+		Docente docente  = this.docenteDao.findById(this.orientador.getCodAutor());
+		if(docente != null){
+			this.orientador.setTipoAcao("COORIENTADOR");
+			this.orientador.setTipoAutor(docente.getTipoDocente().getTipo());
+            this.orientador.setProducaoAcademica(pa);
+			this.autores.add(this.orientador);
+	    }
+	}
+
+	private void montarOrientador(ProducaoAcademica pa){
+	     Docente docente  = this.docenteDao.findById(this.orientador.getCodAutor());
+	     this.orientador.setTipoAcao("ORIENTADOR");
+	     this.orientador.setTipoAutor(docente.getTipoDocente().getTipo());
+	     this.orientador.setProducaoAcademica(pa);
+	     this.autores.add(this.orientador);
 	}
 	
 	private void salvarTipoProducao(){
@@ -197,7 +253,7 @@ public class ProducaoAcademicaMB extends BaseMB {
 		return montarListaAutores();
 	}
 	
-	public Autor montarOrientador(String tipo){
+	public Autor montarOrientador(String tipo, ProducaoAcademica pa){
 		if(this.coorientador != null){
 			Docente  docente = docenteDao.findById(this.coorientador.getCodAutor());
 			if(docente != null){
@@ -205,6 +261,8 @@ public class ProducaoAcademicaMB extends BaseMB {
 				autor.setCodAutor(docente.getIdDocente());
 				autor.setTipoAcao(tipo);
 				autor.setTipoAutor(docente.getTipoDocente().getTipo());
+				autor.setProducaoAcademica(this.producaoAcademica);
+				autor.setProducaoAcademica(pa);
 				return autor;
 			}
 		}

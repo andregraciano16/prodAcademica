@@ -1,5 +1,6 @@
 package br.ucb.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +29,7 @@ public class Autor extends EntidadeBase {
 	private Integer codAutor;
 
 	@ManyToOne
-	@JoinColumn(name = "id_producaoAcademica")
+	@JoinColumn(name = "id_producaoAcademica", insertable = true, updatable = true)
 	private ProducaoAcademica producaoAcademica;
 	
 	public Integer getIdAutor() {
@@ -61,6 +62,14 @@ public class Autor extends EntidadeBase {
 
 	public void setCodAutor(Integer codAutor) {
 		this.codAutor = codAutor;
+	}
+
+	public ProducaoAcademica getProducaoAcademica() {
+		return this.producaoAcademica;
+	}
+
+	public void setProducaoAcademica(ProducaoAcademica producaoAcademica) {
+		this.producaoAcademica = producaoAcademica;
 	}
 
 }
