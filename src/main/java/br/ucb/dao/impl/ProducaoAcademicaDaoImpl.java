@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import br.ucb.VO.AprovacaoProducaoVO;
 import br.ucb.dao.ProducaoAcademicaDao;
 import br.ucb.entity.ProducaoAcademica;
+import br.ucb.entity.StatusAprovacao;
 import br.ucb.entity.StatusProducao;
 
 
@@ -141,14 +142,14 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		@SuppressWarnings("unchecked")
 		List<Object[]> resultados = getManager()
 				.createQuery(
-						"select pa.idProducaoAcademica, pa.titulo, pa.descricao, pa.statusProducao from ProducaoAcademica pa where pa.statusProducao.descricao = 'Pendente Aprovação' order by pa.dataCadastro asc")
+						"select pa.idProducaoAcademica, pa.titulo, pa.descricao, pa.statusAprovacao from ProducaoAcademica pa where pa.statusAprovacao.descricao = 'Pendente' order by pa.dataCadastro asc")
 				.getResultList();
 
 		for (Object[] obj : resultados) {
 			producao.setId((Integer) obj[0]);
 			producao.setTitulo((String) obj[1]);
 			producao.setDescricao((String) obj[2]);
-			producao.setStatusProducao((StatusProducao) obj[3]);
+			producao.setStatusAprovacao((StatusAprovacao) obj[3]);
 			producoes.add(producao);
 		}
 
@@ -159,7 +160,7 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 
 		ProducaoAcademica producaoAcademica = getManager().find(ProducaoAcademica.class, prodAcademica.getId());
 		getManager().getTransaction().begin();
-		producaoAcademica.setStatusProducao(prodAcademica.getStatusProducao());
+		producaoAcademica.setStatusAprovacao(prodAcademica.getStatusAprovacao());
 		getManager().getTransaction().commit();
 
 	}

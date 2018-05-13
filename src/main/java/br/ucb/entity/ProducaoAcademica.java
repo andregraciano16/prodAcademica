@@ -48,6 +48,15 @@ public class ProducaoAcademica extends EntidadeBase implements Comparable<Produc
 
 	@Column(name = "observacao")
 	private String observacao;
+	
+	
+	@ManyToOne
+	@JoinColumn(name = "id_statusAprovacao")
+	private StatusAprovacao statusAprovacao;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_projeto")
+	private Projeto projeto;
 
 	@ManyToOne
 	@JoinColumn(name = "id_tipoProducao")
@@ -157,6 +166,22 @@ public class ProducaoAcademica extends EntidadeBase implements Comparable<Produc
 		this.statusProducao = statusProducao;
 	}
 	
+	public StatusAprovacao getStatusAprovacao() {
+		return statusAprovacao;
+	}
+
+	public void setStatusAprovacao(StatusAprovacao statusAprovacao) {
+		this.statusAprovacao = statusAprovacao;
+	}
+
+	public Projeto getProjeto() {
+		return projeto;
+	}
+
+	public void setProjeto(Projeto projeto) {
+		this.projeto = projeto;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 
