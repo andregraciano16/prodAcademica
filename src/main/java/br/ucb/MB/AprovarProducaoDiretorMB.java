@@ -16,7 +16,7 @@ import br.ucb.entity.StatusAprovacao;
 
 @ManagedBean(name = "aprovarProducaoDiretorMB")
 @ViewScoped
-public class aprovarProducaoDiretorMB extends BaseMB {
+public class AprovarProducaoDiretorMB extends BaseMB {
 
 	private static final long serialVersionUID = 3018502226740620474L;
 
