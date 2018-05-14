@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
 				template="./template.xhtml"
@@ -119,7 +118,6 @@
 															         id="idConceitoQualis"/>
 													</div>
 										        </div>
-											   
 											   <div class="col-md-2">
 					                                <div class="form-group">
 														<h:outputLabel for="idDivulgacao" value="Divulgação:" styleClass="control-label" />
@@ -134,7 +132,6 @@
 													   </div>
 												   </div>
 												</div>
-												        
 												<div class="col-md-8">
 											        <h:outputLabel for="idURL" value="URL:" styleClass="control-label"/>
 												    <div class="input-group">
@@ -302,8 +299,7 @@
 										    </div>
 									        <div class="col-md-1"></div>
 									    </div>
-									    <br/>
-									    <br/>
+									    <br/><br/>
 										<div class="row">
 										     <div class="col-md-12">
 											     <h:outputLabel for="idArquivo" value="Escolha o(s) arquivo(s): " styleClass="control-label"/>
@@ -330,7 +326,6 @@
 													    <p:column headerText="Nome Arquivo">
 													        <h:outputText value="#{arq.fileName}" />
 													    </p:column>
-													 
 													    <p:column headerText="Ação" style="width:12%;text-align:center;">
 													 		<p:commandLink action="#{producaoAcademicaMB.removerArquivo(arq)}" update="@form">
 														         <span class="glyphicon glyphicon-remove" />
@@ -342,8 +337,7 @@
 									        <div class="col-md-1"></div>
 									        <br/>
 									    </div>
-									    <br/>
-									    <br/>
+									    <br/><br/>
 									    <h:panelGroup id="paineis" rendered="#{producaoAcademicaMB.tipoProducao != null}">
 										    <h:panelGroup id="painelPeriodico" rendered="#{producaoAcademicaMB.isArtigoPeriodico()}">
 											    	<div class="row">
@@ -361,7 +355,6 @@
 															    </div>
 													        </div>
 												        </div>
-												        	
 												        <div class="col-md-4">
 														    <h:outputLabel for="idISSN" value="ISSN:" styleClass="control-label"/>
 															<div class="input-group">
@@ -372,7 +365,6 @@
 																         class= "form-control" maxlength="10" id="idISSN"/>
 														    </div>
 												        </div>
-												        
 												        <div class="col-md-4">
 														    <h:outputLabel for="idNomeEditora" value="Nome Editora:" styleClass="control-label"/>
 														    <div class="input-group">
@@ -383,84 +375,56 @@
 																         class= "form-control" maxlength="50" id="idNomeEditora"/>
 														    </div>
 												        </div>
-												        
 												     </div>
 												     <br/>
 												     <div class="row">
-												        
 												        <div class="col-md-4">
 														    <h:outputLabel for="idCidadeEditora" value="Cidade da Editora:" styleClass="control-label"/>
 														    <div class="input-group">
-																 <span class="input-group-addon">
-																	<span class="glyphicon glyphicon-tag"></span>
-																 </span>
-															     <h:inputText value="#{producaoAcademicaMB.periodico.cidadeEditora}" 
-																         class= "form-control" maxlength="50" id="idCidadeEditora"/>
+																 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+															     <h:inputText value="#{producaoAcademicaMB.periodico.cidadeEditora}" class= "form-control" maxlength="50" id="idCidadeEditora"/>
 												             </div>
 												        </div>
-												        
 												        <div class="col-md-4">
 														    <h:outputLabel for="idVolume" value="Volume:" styleClass="control-label"/>
 														    <div class="input-group">
-																 <span class="input-group-addon">
-																	<span class="glyphicon glyphicon-tag"></span>
-																 </span>
-															     <h:inputText value="#{producaoAcademicaMB.periodico.volume}" 
-																         class= "form-control" maxlength="50" id="idVolume"/>
+																 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+															     <h:inputText value="#{producaoAcademicaMB.periodico.volume}" class= "form-control" maxlength="50" id="idVolume"/>
 															</div>
 												        </div>
-												        
 												        <div class="col-md-4">
 														    <h:outputLabel for="idFasciculo" value="Fasciculo:" styleClass="control-label"/>
-															<div class="input-group">
-																 <span class="input-group-addon">
-																	<span class="glyphicon glyphicon-tag"></span>
-																 </span>
-															     <h:inputText value="#{producaoAcademicaMB.periodico.fasciculo}" 
-																         class= "form-control" maxlength="50" id="idFasciculo"/>
+															<div class="input-group"><span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+															     <h:inputText value="#{producaoAcademicaMB.periodico.fasciculo}" class= "form-control" maxlength="50" id="idFasciculo"/>
 														    </div>
 												        </div>
-												        
 												     </div>
 												     <br/>
 												     <div class="row">
-												     
 												        <div class="col-md-4">
 														    <h:outputLabel for="idSerie" value="Serie:" styleClass="control-label"/>
 														    <div class="input-group">
-																 <span class="input-group-addon">
-																	<span class="glyphicon glyphicon-tag"></span>
-																 </span>
-															     <h:inputText value="#{producaoAcademicaMB.periodico.serie}" 
-																         class= "form-control" maxlength="50" id="idSerie"/>
+																 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+															     <h:inputText value="#{producaoAcademicaMB.periodico.serie}" class= "form-control" maxlength="50" id="idSerie"/>
 														    </div>
 												        </div>
-												        
 												        <div class="col-md-4">
 														    <h:outputLabel for="idPgIni" value="Página Inicial:" styleClass="control-label"/>
 														    <div class="input-group">
-																 <span class="input-group-addon">
-																	<span class="glyphicon glyphicon-tag"></span>
-																 </span>
-															     <h:inputText value="#{producaoAcademicaMB.periodico.numPagInicial}" 
-																         class= "form-control" maxlength="50" id="idPgIni"/>
+														         <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+															     <h:inputText value="#{producaoAcademicaMB.periodico.numPagInicial}" class= "form-control" maxlength="50" id="idPgIni"/>
 														     </div>
 												        </div>
-												        
 												        <div class="col-md-4">
 														    <h:outputLabel for="idPgFim" value="Página Final:" styleClass="control-label"/>
 															<div class="input-group">
-																 <span class="input-group-addon">
-																	<span class="glyphicon glyphicon-tag"></span>
-																 </span>
-															     <h:inputText value="#{producaoAcademicaMB.periodico.numPagFim}" 
-																         class= "form-control" maxlength="50" id="idPgFim"/>
+																 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+															     <h:inputText value="#{producaoAcademicaMB.periodico.numPagFim}" class= "form-control" maxlength="50" id="idPgFim"/>
 												        	</div>
 												        </div>
 												     </div>
 												     <br/>
 												     <div class="row">   
-												        
 												        <div class="col-md-4">
 														    <h:outputLabel for="idDOI" value="DOI (Digital Object Identify):" styleClass="control-label"/>
 															<div class="input-group">
@@ -470,7 +434,6 @@
 																<h:inputText value="#{producaoAcademicaMB.periodico.DOI}" class= "form-control" maxlength="50" id="idDOI"/>
 															</div>
 												        </div>
-												        	
 											        </div>
 											</h:panelGroup>
 											<h:panelGroup id="painelRevista" rendered="#{producaoAcademicaMB.isRevista()}">
@@ -487,7 +450,6 @@
 															</div>
 											        	</div>
 											         </div>
-											         
 											         <div class="col-md-4">
 													     <h:outputLabel for="idPgIniRev" value="Página Inicial:" styleClass="control-label"/>
 														 <div class="input-group">
@@ -498,7 +460,6 @@
 																	  class= "form-control" maxlength="50" id="idPgIniRev"/>
 											             </div>
 													 </div>
-													        
 													 <div class="col-md-4">
 													      <h:outputLabel for="idPgFimRev" value="Página Final:" styleClass="control-label"/>
 														  <div class="input-group">
@@ -510,23 +471,18 @@
 														 </div>
 													 </div>
 												</div>
-												<div class="row">
-												<br/>											
+												<div class="row"><br/>											
 												    <div class="col-md-4">
 					                               	    <div class="form-group">
 															<h:outputLabel for="idIdiomaRev" value="Idioma:" styleClass="control-label" />
 															<div class="input-group">
-																 <span class="input-group-addon">
-																	<span class="glyphicon glyphicon-tag"></span>
-																 </span>
+																 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
 														         <h:selectOneMenu id="idIdiomaRev" value="#{producaoAcademicaMB.jornalRevista.idioma}" styleClass="form-control">
-																	<f:selectItems itemLabel="#{tipo.descricao}" itemValue="#{tipo.codigo}" var="tipo"
-																	               value="#{producaoAcademicaMB.getIdiomas()}" />
+																	<f:selectItems itemLabel="#{tipo.descricao}" itemValue="#{tipo.codigo}" var="tipo" value="#{producaoAcademicaMB.getIdiomas()}" />
 														         </h:selectOneMenu>
 														    </div>
 													     </div>
 												     </div>
-												
 												     <div class="col-md-4">
 													     <h:outputLabel for="idCidade" value="Cidade:" styleClass="control-label"/>
 													     <div class="input-group">
@@ -540,14 +496,10 @@
 												     <div class="col-md-4">
 													     <h:outputLabel for="idPais" value="País:" styleClass="control-label"/>
 														 <div class="input-group">
-																 <span class="input-group-addon">
-																	<span class="glyphicon glyphicon-tag"></span>
-																 </span>
-														         <h:inputText value="#{producaoAcademicaMB.jornalRevista.pais}" 
-															          class= "form-control" maxlength="50" id="idPais"/>
+															 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+														     <h:inputText value="#{producaoAcademicaMB.jornalRevista.pais}" class= "form-control" maxlength="50" id="idPais"/>
 														 </div>
 												     </div>
-												     
 												</div>
 												<br/>
 												<div class="row">
@@ -561,9 +513,7 @@
 															          class= "form-control" maxlength="50" id="idISSNRev"/>
 														</div>
 												     </div>   
-													 
 												</div>
-											
 											</h:panelGroup>
 											<h:panelGroup id="panelLivro" rendered="#{producaoAcademicaMB.isTipoLivro()}">
 												<div class="row">
@@ -694,17 +644,124 @@
 												      </div>
 											     </div>
 											</h:panelGroup>
-											
+											<h:panelGroup id="painelTrabAnais" rendered="#{producaoAcademicaMB.isTipoTrabalhoEmAnais()}">
+											     <div class="row">
+												     <div class="col-md-4">
+					                                    <div class="form-group">
+														    <h:outputLabel for="idNaturezaTEA" value="Natureza:" styleClass="control-label"  />
+														    <div class="input-group">
+															   <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+													           <h:selectOneMenu id="idNaturezaTEA" value="#{producaoAcademicaMB.trabalhoEmAnais.natureza}" styleClass="form-control">
+																   <f:selectItems itemLabel="#{naturez.descricao}" itemValue="#{naturez.codigo}" var="naturez" value="#{producaoAcademicaMB.natureza}" />
+													           </h:selectOneMenu>
+													        </div>
+												       </div>
+												     </div>
+												     <div class="col-md-4">
+													    <h:outputLabel for="idEdicaoNro" value="Edição / Número:" styleClass="control-label"/>
+													    <div class="input-group">
+															 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+														     <h:inputText value="#{producaoAcademicaMB.trabalhoEmAnais.edicaoNumero}" class= "form-control" maxlength="10" id="idEdicaoNro"/>
+													     </div>
+												     </div>
+												     <div class="col-md-4">
+													    <h:outputLabel for="idNomeEvento" value="Nome Evento:" styleClass="control-label"/>
+													    <div class="input-group">
+															 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+														     <h:inputText value="#{producaoAcademicaMB.trabalhoEmAnais.edicaoNumero}" class= "form-control" maxlength="50" id="idNomeEvento"/>
+													     </div>
+												     </div>
+												  </div><br/>
+												  <div class="row">
+												  		<div class="col-md-4">
+														    <h:outputLabel for="idISBN_TEA" value="ISBN:" styleClass="control-label"/>
+														    <div class="input-group">
+															     <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+														         <h:inputText value="#{producaoAcademicaMB.trabalhoEmAnais.ISBN}" class= "form-control" maxlength="50" id="idISBN_TEA"/>
+															</div>
+													    </div> 
+														<div class="col-md-4">
+														     <h:outputLabel for="idPaisTEA" value="País:" styleClass="control-label"/>
+															 <div class="input-group">
+																 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+															     <h:inputText value="#{producaoAcademicaMB.trabalhoEmAnais.pais}" class= "form-control" maxlength="50" id="idPaisTEA"/>
+															 </div>
+													    </div>
+													    <div class="col-md-4">
+														     <h:outputLabel for="idTitulosDosAnais" value="Titulos dos Anais:" styleClass="control-label"/>
+															 <div class="input-group">
+																 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+															     <h:inputText value="#{producaoAcademicaMB.trabalhoEmAnais.tituloDosAnais}" class= "form-control" maxlength="50" id="idTitulosDosAnais"/>
+															 </div>
+													    </div>
+												  </div><br/>
+												  <div class="row">
+												      <div class="col-md-4">
+													      <h:outputLabel for="idVolumeTEA" value="Volume:" styleClass="control-label"/>
+													      <div class="input-group">
+															 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+														     <h:inputText value="#{producaoAcademicaMB.trabalhoEmAnais.volume}" class= "form-control" maxlength="50" id="idVolumeTEA"/>
+														  </div>
+												      </div>
+												      <div class="col-md-4">
+														    <h:outputLabel for="idFasciculoTEA" value="Fasciculo:" styleClass="control-label"/>
+															<div class="input-group">
+															     <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+															     <h:inputText value="#{producaoAcademicaMB.trabalhoEmAnais.fasciculo}" class= "form-control" maxlength="50" id="idFasciculoTEA"/>
+														    </div>
+												      </div>
+												      <div class="col-md-4">
+														    <h:outputLabel for="idSerieTEA" value="Serie:" styleClass="control-label"/>
+														    <div class="input-group">
+																 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+															     <h:inputText value="#{producaoAcademicaMB.trabalhoEmAnais.serie}" class= "form-control" maxlength="50" id="idSerieTEA"/>
+														    </div>
+												       </div>  
+												  </div><br/>
+												  <div class="row">
+												  	  <div class="col-md-4">
+													     <h:outputLabel for="idPgIniTEA" value="Página Inicial:" styleClass="control-label"/>
+													     <div class="input-group">
+													         <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+														     <h:inputText value="#{producaoAcademicaMB.trabalhoEmAnais.nroPagInicial}" class= "form-control" maxlength="8" id="idPgIniTEA"/>
+													     </div>
+												      </div>
+												      <div class="col-md-4">
+													     <h:outputLabel for="idPgFimTEA" value="Página Final:" styleClass="control-label"/>
+														 <div class="input-group">
+															 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+														     <h:inputText value="#{producaoAcademicaMB.trabalhoEmAnais.nroPagFinal}" class= "form-control" maxlength="8" id="idPgFimTEA"/>
+												      	 </div>
+												      </div>
+												      <div class="col-md-4">
+														  <h:outputLabel for="idCidadeEvento" value="Cidade do Evento:" styleClass="control-label"/>
+														  <div class="input-group">
+															 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+														     <h:inputText value="#{producaoAcademicaMB.trabalhoEmAnais.cidadeEvento}" class= "form-control" maxlength="50" id="idCidadeEvento"/>
+												          </div>
+												       </div>
+												    </div><br/>
+												    <div class="row">
+												    	 <div class="col-md-4">
+						                               	    <div class="form-group">
+																<h:outputLabel for="idIdiomaTEA" value="Idioma:" styleClass="control-label" />
+																<div class="input-group">
+																	 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+															         <h:selectOneMenu id="idIdiomaTEA" value="#{producaoAcademicaMB.jornalRevista.idioma}" styleClass="form-control">
+																		<f:selectItems itemLabel="#{tipo.descricao}" itemValue="#{tipo.codigo}" var="tipo" value="#{producaoAcademicaMB.getIdiomas()}" />
+															         </h:selectOneMenu>
+															    </div>
+														     </div>
+												        </div>
+												    </div>
+											</h:panelGroup>
 										</h:panelGroup>
 									    <br/>
 			                            <div class="form-group">
 												<p:commandButton value="Salvar" actionListener="#{producaoAcademicaMB.cadastrar()}" update="@form" class="btn btn-primary"/>
-												<p:commandButton value="Limpar" title="Limpar" class="btn btn-primary-cinza" actionListener="#{producaoAcademicaMB.limpar()}" 
-													             update="@form"/>
+												<p:commandButton value="Limpar" title="Limpar" class="btn btn-primary-cinza" actionListener="#{producaoAcademicaMB.limpar()}" update="@form"/>
 										</div>
-										<br />
-										<br /> 
-										<br />
+										<br /><br /><br />
 									</div>	
 							   </div>
 						</div>

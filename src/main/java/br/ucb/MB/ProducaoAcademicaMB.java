@@ -28,6 +28,7 @@ import br.ucb.dao.PeriodicoDao;
 import br.ucb.dao.ProducaoAcademicaDao;
 import br.ucb.dao.StatusProducaoDao;
 import br.ucb.dao.TipoProducaoDao;
+import br.ucb.dao.TrabalhoEmAnaisDao;
 import br.ucb.dao.impl.AlunoDaoImpl;
 import br.ucb.dao.impl.AutorDaoImpl;
 import br.ucb.dao.impl.DocenteDaoImpl;
@@ -39,6 +40,7 @@ import br.ucb.dao.impl.PeriodicoDaoImpl;
 import br.ucb.dao.impl.ProducaoAcademicaDaoImpl;
 import br.ucb.dao.impl.StatusProducaoDaoImpl;
 import br.ucb.dao.impl.TipoProducaoDaoImpl;
+import br.ucb.dao.impl.TrabalhoEmAnaisDaoImpl;
 import br.ucb.entity.Aluno;
 import br.ucb.entity.ArtigoJornalRevista;
 import br.ucb.entity.ArtigoPeriodico;
@@ -50,6 +52,7 @@ import br.ucb.entity.Livro;
 import br.ucb.entity.ProducaoAcademica;
 import br.ucb.entity.StatusProducao;
 import br.ucb.entity.TipoProducao;
+import br.ucb.entity.TrabalhoEmAnais;
 import br.ucb.enums.DivulgacaoEnum;
 import br.ucb.enums.IdiomaEnum;
 import br.ucb.enums.NaturezaConteudoEnum;
@@ -74,7 +77,8 @@ public class ProducaoAcademicaMB extends BaseMB {
 	private PeriodicoDao         periodicoDao;
 	private LivroDao             livroDao;
 	private AlunoDao             alunoDao;
-	private AutorDao autorDao;
+	private AutorDao             autorDao;
+	private TrabalhoEmAnaisDao   trabalhoEmAnaisDao;       
 	
 	private Livro               livro;
 	private ProducaoAcademica   producaoAcademica;
@@ -93,12 +97,13 @@ public class ProducaoAcademicaMB extends BaseMB {
 	private List<Autor>         autores;
 	private List<Externo>       externos;
 	private ExternoDao          externoDao;
+	private TrabalhoEmAnais     trabalhoEmAnais;
 	
 	@PostConstruct
 	public void init() {
-		this.externoDao        = new ExternoDaoImpl();
-		this.autorDao          = new AutorDaoImpl();
-		this.alunoDao          = new AlunoDaoImpl();
+		this.externoDao        = new ExternoDaoImpl          ();
+		this.autorDao          = new AutorDaoImpl            ();
+		this.alunoDao          = new AlunoDaoImpl            ();
 		this.producaoAcDao     = new ProducaoAcademicaDaoImpl();
 		this.producaoAcademica = new ProducaoAcademica       ();
 		this.linhaPesquisaDao  = new LinhaPesquisaDaoImpl    ();
@@ -107,12 +112,6 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.linhaPesquisa     = new LinhaPesquisa           ();
 		this.statusProducao    = new StatusProducao          ();
 		this.tipoProducao      = new TipoProducao            ();
-		this.periodico         = new ArtigoPeriodico         ();
-		this.jornalRevista     = new ArtigoJornalRevista     ();
-		this.livro             = new Livro                   ();
-		this.jornalRevistaDao  = new JornalRevistaDaoImpl    ();   
-		this.periodicoDao      = new PeriodicoDaoImpl        ();
-		this.livroDao          = new LivroDaoImpl            ();
 		this.docenteDao        = new DocenteDaoImpl          ();
 		this.externo           = new Externo                 ();
 		this.autoresVO         = new ArrayList<AutorVO>      ();
@@ -120,8 +119,22 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.orientador        = new Autor                   ();
 		this.autorSelecionado  = new AutorVO                 ();
 		this.uploadFiles       = new ArrayList<UploadedFile> ();
-		this.autores           = new ArrayList<Autor>();
-		this.externos          = new ArrayList<Externo>();
+		this.autores           = new ArrayList<Autor>        ();
+		this.externos          = new ArrayList<Externo>      ();
+		initTiposProducao();
+	}
+	
+	private void initTiposProducao(){
+		this.periodico         = new ArtigoPeriodico         ();
+		this.jornalRevista     = new ArtigoJornalRevista     ();
+		this.livro             = new Livro                   ();
+		this.trabalhoEmAnais   = new TrabalhoEmAnais         ();
+		
+		this.jornalRevistaDao   = new JornalRevistaDaoImpl    ();   
+		this.periodicoDao       = new PeriodicoDaoImpl        ();
+		this.livroDao           = new LivroDaoImpl            ();
+		this.trabalhoEmAnaisDao = new TrabalhoEmAnaisDaoImpl  (); 
+		
 	}
 
 	public void upload(FileUploadEvent event) {
@@ -234,7 +247,10 @@ public class ProducaoAcademicaMB extends BaseMB {
 			this.jornalRevistaDao.save(this.jornalRevista);
 		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(3))){
 			this.periodico.setProducaoAcademica(this.producaoAcademica);
-		   this.periodicoDao.save(this.periodico);
+		    this.periodicoDao.save(this.periodico);
+		} else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(4))){
+			this.trabalhoEmAnais.setProducaoAcademica(this.producaoAcademica);
+			this.trabalhoEmAnaisDao.save(this.trabalhoEmAnais);
 		}
 	}
 
@@ -261,6 +277,12 @@ public class ProducaoAcademicaMB extends BaseMB {
 	public boolean isTipoLivro() {
 		if (this.tipoProducao.getIdTipoProducao() != null)
 			return this.tipoProducao.getIdTipoProducao().equals(new Integer(1));
+		return Boolean.FALSE;
+	}
+	
+	public boolean isTipoTrabalhoEmAnais(){
+		if(this.tipoProducao.getIdTipoProducao() != null)
+			return this.tipoProducao.getIdTipoProducao().equals(new Integer(4));
 		return Boolean.FALSE;
 	}
 	
@@ -537,6 +559,22 @@ public class ProducaoAcademicaMB extends BaseMB {
 
 	public void setExternos(List<Externo> externos) {
 		this.externos = externos;
+	}
+
+	public List<Autor> getAutores() {
+		return this.autores;
+	}
+
+	public void setAutores(List<Autor> autores) {
+		this.autores = autores;
+	}
+
+	public TrabalhoEmAnais getTrabalhoEmAnais() {
+		return this.trabalhoEmAnais;
+	}
+
+	public void setTrabalhoEmAnais(TrabalhoEmAnais trabalhoEmAnais) {
+		this.trabalhoEmAnais = trabalhoEmAnais;
 	}
 	
 }
