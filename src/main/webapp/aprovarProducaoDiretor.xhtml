@@ -37,7 +37,7 @@
 
 								<div class="panel-body">
 									<p:dataTable id="idTable" var="item"
-										value="#{aprovaProducaoDiretorMB.aprovaProducoes}"
+										value="#{aprovarProducaoDiretorMB.aprovaProducoes}"
 										editable="true"
 										styleClass="table table-striped table-bordered table-hover"
 										paginator="true" rowsPerPageTemplate="10,20,30"
@@ -59,7 +59,7 @@
 											style="width:26%;text-align:center;">
 
 											<p:commandButton icon="fa fa-check" value="Aprovar"
-												action="#{aprovaProducaoDiretorMB.aprovar(item)}"
+												action="#{aprovarProducaoDiretorMB.aprovar(item)}"
 												update="@form">
 
 												<p:confirm message="Aprovar produção?"
@@ -67,7 +67,7 @@
 											</p:commandButton>
 										&nbsp;
 											<p:commandButton
-												action="#{aprovaProducaoDiretorMB.reprovar(item)}"
+												action="#{aprovarProducaoDiretorMB.reprovar(item)}"
 												icon="fa fa-close" value="Reprovar" update="@form">
 												<p:confirm message="Reprovar produção?"
 													header="Aviso" icon="ui-icon-alert" />

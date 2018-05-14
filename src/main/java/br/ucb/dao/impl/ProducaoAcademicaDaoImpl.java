@@ -9,7 +9,6 @@ import br.ucb.VO.AprovacaoProducaoVO;
 import br.ucb.dao.ProducaoAcademicaDao;
 import br.ucb.entity.ProducaoAcademica;
 import br.ucb.entity.StatusAprovacao;
-import br.ucb.entity.StatusProducao;
 
 
 public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica, Integer> implements ProducaoAcademicaDao {

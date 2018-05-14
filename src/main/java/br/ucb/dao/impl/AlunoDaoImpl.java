@@ -13,6 +13,7 @@ import br.ucb.entity.Aluno;
 
 public class AlunoDaoImpl extends DaoGenericoImpl<Aluno, Integer> implements AlunoDao{
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Aluno> findBySearch(Aluno aluno) {
 		String where = montarWhere(aluno);
