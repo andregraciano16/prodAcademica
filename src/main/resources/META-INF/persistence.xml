@@ -33,6 +33,19 @@
 		<class>br.ucb.entity.Autor</class>
 		<class>br.ucb.entity.StatusProjeto</class>
 		<class>br.ucb.entity.StatusAprovacao</class>
+		<class>br.ucb.entity.TrabalhoEmAnais</class>
+		<class>br.ucb.entity.Traducao</class>
+		<class>br.ucb.entity.ServicosTecnicos</class>
+		<class>br.ucb.entity.CartaMapaSimilares</class>
+		<class>br.ucb.entity.CursoCurtaDuracao</class>
+		<class>br.ucb.entity.DesenvApp</class>
+		<class>br.ucb.entity.DesenvDidaticoInstitucional</class>
+		<class>br.ucb.entity.DesenvProduto</class>
+		<class>br.ucb.entity.DesenvTecnica</class>
+		<class>br.ucb.entity.Editora</class>
+		<class>br.ucb.entity.OrganizacaoEvento</class>
+		<class>br.ucb.entity.RelatorioPesquisa</class>
+		<class>br.ucb.entity.ApresentacaoTrabalho</class>
         <properties>    
             <!-- Propriedades JDBC -->
             <property name="javax.persistence.jdbc.driver" 
