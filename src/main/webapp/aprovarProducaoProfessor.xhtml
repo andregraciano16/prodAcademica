@@ -27,65 +27,77 @@
 						<br />
 					</div>
 
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h3>Produções a serem aprovadas</h3>
-									<br /> <br />
-								</div>
-
-								<div class="panel-body">
-									<p:dataTable id="idTable" var="item"
-										value="#{aprovarProducaoProfessorMB.aprovaProducoes}"
-										editable="true"
-										styleClass="table table-striped table-bordered table-hover"
-										paginator="true" rowsPerPageTemplate="10,20,30"
-										currentPageReportTemplate="{startRecord} de {endRecord}"
-										paginatorPosition="bottom"
-										emptyMessage="Não foram encontrados registros"
-										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-
-										<p:column headerText="Titulo">
-											<h:outputText value="#{item.titulo}" />
-										</p:column>
-
-										<p:column headerText="Descrição">
-											<h:outputText value="#{item.descricao}" />
-										</p:column>
-
-
-										<p:column headerText="Ações"
-											style="width:26%;text-align:center;">
-
-											<p:commandButton icon="fa fa-check" value="Aprovar"
-												action="#{aprovarProducaoProfessorMB.aprovar(item)}"
-												update="@form">
-
-												<p:confirm message="Aprovar produção?" header="Aviso"
-													icon="ui-icon-alert" />
-											</p:commandButton>
-										&nbsp;
-											<p:commandButton
-												action="#{aprovarProducaoProfessorMB.reprovar(item)}"
-												icon="fa fa-close" value="Reprovar" update="@form">
-												<p:confirm message="Reprovar produção?" header="Aviso"
-													icon="ui-icon-alert" />
-											</p:commandButton>
-
-										</p:column>
-
-									</p:dataTable>
-									<p:confirmDialog global="true">
-										<p:commandButton value="Sim" type="button"
-											icon="ui-icon-check" styleClass="ui-confirmdialog-yes" />
-										<p:commandButton value="Não" type="button"
-											icon="ui-icon-close" styleClass="ui-confirmdialog-no" />
-									</p:confirmDialog>
+					<h:panelGroup rendered="#{!menuMB.isDiretor() and !menuMB.isProfessor()}">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<div class="row">
+									<h2>Acesso negado.</h2>
 								</div>
 							</div>
 						</div>
-					</div>
+					</h:panelGroup>
+					<h:panelGroup
+						rendered="#{menuMB.isDiretor() || menuMB.isProfessor()}">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h3>Produções a serem aprovadas</h3>
+										<br /> <br />
+									</div>
+
+									<div class="panel-body">
+										<p:dataTable id="idTable" var="item"
+											value="#{aprovarProducaoProfessorMB.aprovaProducoes}"
+											editable="true"
+											styleClass="table table-striped table-bordered table-hover"
+											paginator="true" rowsPerPageTemplate="10,20,30"
+											currentPageReportTemplate="{startRecord} de {endRecord}"
+											paginatorPosition="bottom"
+											emptyMessage="Não foram encontrados registros"
+											paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+											<p:column headerText="Titulo">
+												<h:outputText value="#{item.titulo}" />
+											</p:column>
+
+											<p:column headerText="Descrição">
+												<h:outputText value="#{item.descricao}" />
+											</p:column>
+
+
+											<p:column headerText="Ações"
+												style="width:26%;text-align:center;">
+
+												<p:commandButton icon="fa fa-check" value="Aprovar"
+													action="#{aprovarProducaoProfessorMB.aprovar(item)}"
+													update="@form">
+
+													<p:confirm message="Aprovar produção?" header="Aviso"
+														icon="ui-icon-alert" />
+												</p:commandButton>
+										&nbsp;
+											<p:commandButton
+													action="#{aprovarProducaoProfessorMB.reprovar(item)}"
+													icon="fa fa-close" value="Reprovar" update="@form">
+													<p:confirm message="Reprovar produção?" header="Aviso"
+														icon="ui-icon-alert" />
+												</p:commandButton>
+
+											</p:column>
+
+										</p:dataTable>
+										<p:confirmDialog global="true">
+											<p:commandButton value="Sim" type="button"
+												icon="ui-icon-check" styleClass="ui-confirmdialog-yes" />
+											<p:commandButton value="Não" type="button"
+												icon="ui-icon-close" styleClass="ui-confirmdialog-no" />
+										</p:confirmDialog>
+									</div>
+								</div>
+							</div>
+						</div>
+					</h:panelGroup>
 				</div>
 			</div>
 		</h:form>
