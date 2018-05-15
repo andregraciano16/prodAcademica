@@ -313,7 +313,7 @@ public class ProducaoAcademicaMB extends BaseMB {
 	public List<AutorVO> montarListaAutores(){
 		List<AutorVO> autores = new ArrayList<AutorVO>(); 
 		autores.addAll(convertDocenteEmAutorVO());
-	   // autores.addAll(convertAlunoEmAutorVO());
+	    autores.addAll(convertAlunoEmAutorVO());
 	    return autores;
 	}
 	
