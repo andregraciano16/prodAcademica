@@ -3,6 +3,8 @@ package br.ucb.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -13,6 +15,7 @@ public class DesenvProduto extends EntidadeBase {
 	private static final long serialVersionUID = -536116017760700024L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_DesenProd")
 	private Integer idDesenvProd;
 
