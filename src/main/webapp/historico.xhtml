@@ -11,194 +11,214 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<div class="row">
-								<ol class="breadcrumb" style="color: blue; background: #30a5ff">
-									<div class="titulo-centro-grande">Histórico</div>
-									<p:messages id="message" globalOnly="true" closable="true" />
-								</ol>
-							</div>
+							<ol class="breadcrumb" style="color: blue; background: #30a5ff">
+								<div class="titulo-centro-grande">Histórico</div>
+							</ol>
 						</div>
-
-						<h:panelGroup
-							rendered="#{historicoMB.acaoEnum.getCodigo() == 3 || historicoMB.acaoEnum.getCodigo() == 0}">
+						<p:messages id="messages" globalOnly="true" closable="true"
+							styleClass="mensagem-tela" />
+						<br />
+					</div>
+					
+					<h:panelGroup rendered="#{!menuMB.isDiretor()}">
+						<div class="panel panel-default">
 							<div class="panel-body">
 								<div class="row">
+									<h2>Acesso negado.</h2>
+								</div>
+							</div>
+						</div>
+					</h:panelGroup>
 
-									<div class="col-md-4">
-										<p:outputLabel for="idData" value="Data: "
-											styleClass="control-label" />
-										<div class="input-group">
-											<span class="input-group-addon"> <span
-												class="glyphicon glyphicon-tag"></span>
-											</span>
-											<p:inputMask id="idData"
-												value="#{historicoMB.historico.dataAlteracao}"
-												mask="99/99/9999" class="form-control"
-												converter="dataConverter"
-												readonly="#{historicoMB.acaoEnum.getCodigo() == 0}">
-												<p:watermark value="Dia/Mês/Ano" for="idData" />
-											</p:inputMask>
+					<h:panelGroup rendered="#{menuMB.isDiretor()}">
+						<div class="panel panel-default">
+							<h:panelGroup
+								rendered="#{historicoMB.acaoEnum.getCodigo() == 3 || historicoMB.acaoEnum.getCodigo() == 0}">
+								<div class="panel-body">
+									<div class="row">
+
+										<div class="col-md-4">
+											<p:outputLabel for="idData" value="Data: "
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<p:inputMask id="idData"
+													value="#{historicoMB.historico.dataAlteracao}"
+													mask="99/99/9999" class="form-control"
+													converter="dataConverter"
+													readonly="#{historicoMB.acaoEnum.getCodigo() == 0}">
+													<p:watermark value="Dia/Mês/Ano" for="idData" />
+												</p:inputMask>
+											</div>
 										</div>
 									</div>
 
-									<div class="col-md-4">
-										<p:outputLabel for="idAlunoSel" value="Aluno:"
-											styleClass="control-label" />
-										<div class="input-group">
-											<span class="input-group-addon"> <span
-												class="glyphicon glyphicon-tag"></span>
-											</span>
+									<div class="row">
+										<div class="col-md-4">
+											<p:outputLabel for="idAlunoSel" value="Aluno:"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
 
-											<p:autoComplete value="#{historicoMB.historico.aluno}"
-												maxlength="45" id="idAlunoSel"
-												completeMethod="#{historicoMB.escolheAluno}" effect="fade"
-												var="aluno" itemLabel="#{aluno.nome}" itemValue="#{aluno}"
-												forceSelection="true"
-												readonly="#{historicoMB.acaoEnum.getCodigo() == 0}" />
+												<p:autoComplete value="#{historicoMB.historico.aluno}"
+													maxlength="45" id="idAlunoSel"
+													completeMethod="#{historicoMB.escolheAluno}" effect="fade"
+													var="aluno" itemLabel="#{aluno.nome}" itemValue="#{aluno}"
+													forceSelection="true"
+													readonly="#{historicoMB.acaoEnum.getCodigo() == 0}" />
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<p:outputLabel for="idDocenteSel" value="Docente:"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+
+												<p:autoComplete value="#{historicoMB.historico.docente}"
+													maxlength="45" id="idDocenteSel"
+													completeMethod="#{historicoMB.escolheDocente}"
+													effect="fade" var="docente" itemLabel="#{docente.nome}"
+													itemValue="#{docente}" forceSelection="true"
+													readonly="#{historicoMB.acaoEnum.getCodigo() == 0}" />
+											</div>
 										</div>
 									</div>
 
-									<div class="col-md-4">
-										<p:outputLabel for="idDocenteSel" value="Docente:"
-											styleClass="control-label" />
-										<div class="input-group">
-											<span class="input-group-addon"> <span
-												class="glyphicon glyphicon-tag"></span>
-											</span>
+									<div class="row">
 
-											<p:autoComplete value="#{historicoMB.historico.docente}"
-												maxlength="45" id="idDocenteSel"
-												completeMethod="#{historicoMB.escolheDocente}" effect="fade"
-												var="docente" itemLabel="#{docente.nome}"
-												itemValue="#{docente}" forceSelection="true"
-												readonly="#{historicoMB.acaoEnum.getCodigo() == 0}" />
+										<div class="col-md-4">
+											<p:outputLabel for="idProdSel" value="Produção Acadêmica:"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+
+												<p:autoComplete
+													value="#{historicoMB.historico.producaoAcademica}"
+													maxlength="45" id="idProdSel"
+													completeMethod="#{historicoMB.escolheProducao}"
+													effect="fade" var="prod" itemLabel="#{prod.titulo}"
+													itemValue="#{prod}" forceSelection="true"
+													readonly="#{historicoMB.acaoEnum.getCodigo() == 0}" />
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<p:outputLabel for="idProjetoSel" value="Projeto:"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+
+												<p:autoComplete value="#{historicoMB.historico.projeto}"
+													maxlength="45" id="idProjetoSel"
+													completeMethod="#{historicoMB.escolheProjeto}"
+													effect="fade" var="projeto" itemLabel="#{projeto.nome}"
+													itemValue="#{projeto}" forceSelection="true"
+													readonly="#{historicoMB.acaoEnum.getCodigo() == 0}" />
+											</div>
 										</div>
 									</div>
+
+									<div class="row">
+										<div class="col-md-8">
+											<p:outputLabel for="idAlteracao" value="Alteração:"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputTextarea class="form-control"
+													value="#{historicoMB.historico.alteracao}" id="idAlteracao"
+													placeholder="Pesquise aqui a informação" rows="10"
+													readonly="#{historicoMB.acaoEnum.getCodigo() == 0}" />
+											</div>
+										</div>
+									</div>
+
+									<h:panelGroup
+										rendered="#{historicoMB.acaoEnum.getCodigo() == 3}">
+										<div class="form-group"
+											style="padding-top: 70px; text-align: right;">
+
+											<p:commandButton value="Pesquisar" title="Pesquisar"
+												actionListener="#{historicoMB.buscar}" update="@form"
+												styleClass="btn btn-primary" id="btnPesquisar" />
+											&nbsp;&nbsp;
+											<p:commandButton value="Limpar" title="Limpar"
+												actionListener="#{historicoMB.limpar}" update="@form"
+												styleClass="btn btn-default" id="btnLimpar" />
+
+										</div>
+									</h:panelGroup>
+
+									<h:panelGroup
+										rendered="#{historicoMB.acaoEnum.getCodigo() == 0}">
+										<div class="form-group"
+											style="padding-top: 70px; text-align: right;">
+
+											<p:commandButton value="Voltar" title="Voltar"
+												actionListener="#{historicoMB.limpar}" update="@form"
+												styleClass="btn btn-default" id="btnVoltar" />
+
+										</div>
+									</h:panelGroup>
+									<br /> <br />
 
 								</div>
+							</h:panelGroup>
+						</div>
 
-								<div class="row">
-
-									<div class="col-md-4">
-										<p:outputLabel for="idProdSel" value="Produção Acadêmica:"
-											styleClass="control-label" />
-										<div class="input-group">
-											<span class="input-group-addon"> <span
-												class="glyphicon glyphicon-tag"></span>
-											</span>
-
-											<p:autoComplete
-												value="#{historicoMB.historico.producaoAcademica}"
-												maxlength="45" id="idProdSel"
-												completeMethod="#{historicoMB.escolheProducao}"
-												effect="fade" var="prod" itemLabel="#{prod.titulo}"
-												itemValue="#{prod}" forceSelection="true"
-												readonly="#{historicoMB.acaoEnum.getCodigo() == 0}" />
-										</div>
-									</div>
-
-									<div class="col-md-4">
-										<p:outputLabel for="idProjetoSel" value="Projeto:"
-											styleClass="control-label" />
-										<div class="input-group">
-											<span class="input-group-addon"> <span
-												class="glyphicon glyphicon-tag"></span>
-											</span>
-
-											<p:autoComplete value="#{historicoMB.historico.projeto}"
-												maxlength="45" id="idProjetoSel"
-												completeMethod="#{historicoMB.escolheProjeto}" effect="fade"
-												var="projeto" itemLabel="#{projeto.nome}"
-												itemValue="#{projeto}" forceSelection="true"
-												readonly="#{historicoMB.acaoEnum.getCodigo() == 0}" />
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-md-8">
-										<p:outputLabel for="idAlteracao" value="Alteração:"
-											styleClass="control-label" />
-										<div class="input-group">
-											<span class="input-group-addon"> <span
-												class="glyphicon glyphicon-tag"></span>
-											</span>
-											<h:inputTextarea class="form-control"
-												value="#{historicoMB.historico.alteracao}" id="idAlteracao"
-												placeholder="Pesquise aqui a informação" rows="10"
-												readonly="#{historicoMB.acaoEnum.getCodigo() == 0}" />
-										</div>
-									</div>
-								</div>
-
-								<h:panelGroup
-									rendered="#{historicoMB.acaoEnum.getCodigo() == 3}">
-									<div class="form-group"
-										style="padding-top: 70px; text-align: right;">
-
-										<p:commandButton value="Pesquisar" title="Pesquisar"
-											actionListener="#{historicoMB.buscar}" update="@form"
-											styleClass="btn btn-primary" id="btnPesquisar" />
-										&nbsp;&nbsp;
-										<p:commandButton value="Limpar" title="Limpar"
-											actionListener="#{historicoMB.limpar}" update="@form"
-											styleClass="btn btn-default" id="btnLimpar" />
-
-									</div>
-								</h:panelGroup>
-
-								<h:panelGroup
-									rendered="#{historicoMB.acaoEnum.getCodigo() == 0}">
-									<div class="form-group"
-										style="padding-top: 70px; text-align: right;">
-
-										<p:commandButton value="Voltar" title="Limpar"
-											actionListener="#{historicoMB.limpar}" update="@form"
-											styleClass="btn btn-default" id="btnLimpar" />
-
-									</div>
-								</h:panelGroup>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3>Histórico</h3>
 								<br /> <br />
+							</div>
+							<div class="panel-body">
+								<p:dataTable id="idTable" var="item"
+									value="#{historicoMB.historicos}" editable="true"
+									styleClass="table table-striped table-bordered table-hover"
+									paginator="true" rowsPerPageTemplate="10,20,30"
+									currentPageReportTemplate="{startRecord} de {endRecord}"
+									paginatorPosition="bottom"
+									emptyMessage="Não foram encontrados registros"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+									<p:column headerText="Data"
+										style="width:12%;text-align:center;">
+										<h:outputText value="#{item.dataAlteracao}">
+											<f:convertDateTime locale="pt" pattern="dd/MM/yyyy HH:mm" />
+										</h:outputText>
+									</p:column>
+
+									<p:column headerText="Produção Acadêmica">
+										<h:outputText value="#{item.producaoAcademica.titulo}" />
+									</p:column>
+
+									<p:column headerText="Projeto">
+										<h:outputText value="#{item.projeto.nome}" />
+									</p:column>
+
+									<p:column headerText="Visualizar" styleClass="coluna-acao">
+										<p:commandLink action="#{historicoMB.visualizar(item)}"
+											update="@form">
+											<span class="glyphicon glyphicon-search" />
+										</p:commandLink>
+									</p:column>
+								</p:dataTable>
 
 							</div>
-						</h:panelGroup>
-					</div>
-
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<p:dataTable id="idTable" var="item"
-								value="#{historicoMB.historicos}" editable="true"
-								styleClass="table table-striped table-bordered table-hover"
-								paginator="true" rowsPerPageTemplate="10,20,30"
-								currentPageReportTemplate="{startRecord} de {endRecord}"
-								paginatorPosition="bottom"
-								emptyMessage="Não foram encontrados registros"
-								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-
-								<p:column headerText="Data">
-									<h:outputText value="#{item.dataAlteracao}">
-										<f:convertDateTime locale="pt" pattern="dd/MM/yyyy" />
-									</h:outputText>
-								</p:column>
-
-								<p:column headerText="Produção Acadêmica">
-									<h:outputText value="#{item.producaoAcademica.titulo}" />
-								</p:column>
-
-								<p:column headerText="Projeto">
-									<h:outputText value="#{item.projeto.nome}" />
-								</p:column>
-
-								<p:column headerText="Visualizar" styleClass="coluna-acao">
-									<p:commandLink action="#{historicoMB.visualizar(item)}"
-										update="@form">
-										<span class="glyphicon glyphicon-search" />
-									</p:commandLink>
-								</p:column>
-							</p:dataTable>
-
 						</div>
-					</div>
+					</h:panelGroup>
 				</div>
 			</div>
 		</h:form>
