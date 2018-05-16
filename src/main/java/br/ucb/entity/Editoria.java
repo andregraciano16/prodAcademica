@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Editora extends EntidadeBase{
+public class Editoria extends EntidadeBase{
 
 	private static final long serialVersionUID = 1L;
 

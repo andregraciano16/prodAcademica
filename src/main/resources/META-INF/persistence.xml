@@ -42,7 +42,7 @@
 		<class>br.ucb.entity.DesenvDidaticoInstitucional</class>
 		<class>br.ucb.entity.DesenvProduto</class>
 		<class>br.ucb.entity.DesenvTecnica</class>
-		<class>br.ucb.entity.Editora</class>
+		<class>br.ucb.entity.Editoria</class>
 		<class>br.ucb.entity.OrganizacaoEvento</class>
 		<class>br.ucb.entity.RelatorioPesquisa</class>
 		<class>br.ucb.entity.ApresentacaoTrabalho</class>

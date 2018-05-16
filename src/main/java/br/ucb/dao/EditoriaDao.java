@@ -1,7 +1,7 @@
 package br.ucb.dao;
 
-import br.ucb.entity.Editora;
+import br.ucb.entity.Editoria;
 
-public interface EditoraDao extends DaoGenerico<Editora, Integer> {
+public interface EditoriaDao extends DaoGenerico<Editoria, Integer> {
 
 }

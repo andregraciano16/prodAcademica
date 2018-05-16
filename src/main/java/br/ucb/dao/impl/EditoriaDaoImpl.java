@@ -1,8 +1,8 @@
 package br.ucb.dao.impl;
 
-import br.ucb.dao.EditoraDao;
-import br.ucb.entity.Editora;
+import br.ucb.dao.EditoriaDao;
+import br.ucb.entity.Editoria;
 
-public class EditoraDaoImpl extends DaoGenericoImpl<Editora, Integer> implements EditoraDao{
+public class EditoriaDaoImpl extends DaoGenericoImpl<Editoria, Integer> implements EditoriaDao {
 
 }
