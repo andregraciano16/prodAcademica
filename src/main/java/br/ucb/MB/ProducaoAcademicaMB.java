@@ -18,41 +18,77 @@ import org.primefaces.model.UploadedFile;
 
 import br.ucb.VO.AutorVO;
 import br.ucb.dao.AlunoDao;
+import br.ucb.dao.ApresentacaoTrabalhoDao;
 import br.ucb.dao.AutorDao;
+import br.ucb.dao.CartasMapasSimilaresDao;
+import br.ucb.dao.CursoCurtaDuracaoDao;
+import br.ucb.dao.DesenvAppDao;
+import br.ucb.dao.DesenvDidaticoInstDao;
+import br.ucb.dao.DesenvProdutoDao;
+import br.ucb.dao.DesenvTecnicaDao;
 import br.ucb.dao.DocenteDao;
+import br.ucb.dao.EditoriaDao;
 import br.ucb.dao.ExternoDao;
 import br.ucb.dao.JornalRevistaDao;
 import br.ucb.dao.LinhaPesquisaDao;
 import br.ucb.dao.LivroDao;
+import br.ucb.dao.OrganizacaoEventoDao;
 import br.ucb.dao.PeriodicoDao;
 import br.ucb.dao.ProducaoAcademicaDao;
+import br.ucb.dao.RelatorioPesquisaDao;
+import br.ucb.dao.ServicoTecnicosDao;
 import br.ucb.dao.StatusProducaoDao;
 import br.ucb.dao.TipoProducaoDao;
 import br.ucb.dao.TrabalhoEmAnaisDao;
+import br.ucb.dao.TraducaoDao;
 import br.ucb.dao.impl.AlunoDaoImpl;
+import br.ucb.dao.impl.ApresentacaoTrabalhoDaoImpl;
 import br.ucb.dao.impl.AutorDaoImpl;
+import br.ucb.dao.impl.CartasMapasSimilaresDaoImpl;
+import br.ucb.dao.impl.CursoCurtaDuracaoDaoImpl;
+import br.ucb.dao.impl.DesenvAppDaoImpl;
+import br.ucb.dao.impl.DesenvDidaticoInstDaoImpl;
+import br.ucb.dao.impl.DesenvProdutoDaoImpl;
+import br.ucb.dao.impl.DesenvTecnicaDaoImpl;
 import br.ucb.dao.impl.DocenteDaoImpl;
+import br.ucb.dao.impl.EditoriaDaoImpl;
 import br.ucb.dao.impl.ExternoDaoImpl;
 import br.ucb.dao.impl.JornalRevistaDaoImpl;
 import br.ucb.dao.impl.LinhaPesquisaDaoImpl;
 import br.ucb.dao.impl.LivroDaoImpl;
+import br.ucb.dao.impl.OrganizacaoEventoDaoImpl;
 import br.ucb.dao.impl.PeriodicoDaoImpl;
 import br.ucb.dao.impl.ProducaoAcademicaDaoImpl;
+import br.ucb.dao.impl.RelatorioPesquisaDaoImpl;
+import br.ucb.dao.impl.ServicoTecnicosDaoImpl;
 import br.ucb.dao.impl.StatusProducaoDaoImpl;
 import br.ucb.dao.impl.TipoProducaoDaoImpl;
 import br.ucb.dao.impl.TrabalhoEmAnaisDaoImpl;
+import br.ucb.dao.impl.TraducaoDaoImpl;
 import br.ucb.entity.Aluno;
+import br.ucb.entity.ApresentacaoTrabalho;
 import br.ucb.entity.ArtigoJornalRevista;
 import br.ucb.entity.ArtigoPeriodico;
 import br.ucb.entity.Autor;
+import br.ucb.entity.CartaMapaSimilares;
+import br.ucb.entity.CursoCurtaDuracao;
+import br.ucb.entity.DesenvApp;
+import br.ucb.entity.DesenvDidaticoInstitucional;
+import br.ucb.entity.DesenvProduto;
+import br.ucb.entity.DesenvTecnica;
 import br.ucb.entity.Docente;
+import br.ucb.entity.Editoria;
 import br.ucb.entity.Externo;
 import br.ucb.entity.LinhaPesquisa;
 import br.ucb.entity.Livro;
+import br.ucb.entity.OrganizacaoEvento;
 import br.ucb.entity.ProducaoAcademica;
+import br.ucb.entity.RelatorioPesquisa;
+import br.ucb.entity.ServicosTecnicos;
 import br.ucb.entity.StatusProducao;
 import br.ucb.entity.TipoProducao;
 import br.ucb.entity.TrabalhoEmAnais;
+import br.ucb.entity.Traducao;
 import br.ucb.enums.DivulgacaoEnum;
 import br.ucb.enums.IdiomaEnum;
 import br.ucb.enums.NaturezaConteudoEnum;
@@ -61,6 +97,10 @@ import br.ucb.enums.TipoContribuicaoObraEnum;
 import br.ucb.enums.TipoEditoraEnum;
 import br.ucb.util.FileUtil;
 
+/**
+ * @author andre
+ *
+ */
 @ManagedBean(name = "producaoAcademicaMB")
 @ViewScoped
 public class ProducaoAcademicaMB extends BaseMB {
@@ -79,6 +119,19 @@ public class ProducaoAcademicaMB extends BaseMB {
 	private AlunoDao             alunoDao;
 	private AutorDao             autorDao;
 	private TrabalhoEmAnaisDao   trabalhoEmAnaisDao;       
+	private ExternoDao           externoDao;
+	private TraducaoDao          traducaoDao;
+	private ServicoTecnicosDao  servicosTecnicosDao;
+	private CartasMapasSimilaresDao cartaMapaSimilaresDao;
+	private CursoCurtaDuracaoDao    cursoCurtaDuracaoDao;
+	private DesenvAppDao            desenvAppDao;
+	private DesenvDidaticoInstDao   desenvDidaticoInstiDao;
+	private DesenvProdutoDao        desenvProdutoDao;
+	private DesenvTecnicaDao        desenvTecnicaDao;
+	private EditoriaDao              editoriaDao;
+	private OrganizacaoEventoDao    organizEnventDao;
+	private RelatorioPesquisaDao    relatorioPesquisaDao;
+	private ApresentacaoTrabalhoDao apresentacaoTrabalhoDao;    
 	
 	private Livro               livro;
 	private ProducaoAcademica   producaoAcademica;
@@ -96,8 +149,19 @@ public class ProducaoAcademicaMB extends BaseMB {
 	private List<AutorVO>       autoresVO;
 	private List<Autor>         autores;
 	private List<Externo>       externos;
-	private ExternoDao          externoDao;
 	private TrabalhoEmAnais     trabalhoEmAnais;
+	private Traducao            traducao;
+	private ServicosTecnicos    servicosTecnicos;
+	private CartaMapaSimilares  cartaMapaSimilares;  
+	private CursoCurtaDuracao   cursoCurtaDuracao;
+	private DesenvApp           desenvApp;
+	private DesenvDidaticoInstitucional desenvDidaticoInst;
+	private DesenvProduto       desenvProduto;
+	private DesenvTecnica       desenvTecnica;
+	private Editoria             editoria;
+	private OrganizacaoEvento   organizacaoEvento;
+	private RelatorioPesquisa   relatorioPesquisa;
+	private ApresentacaoTrabalho apresentacaoTrabalho;
 	
 	@PostConstruct
 	public void init() {
@@ -125,16 +189,22 @@ public class ProducaoAcademicaMB extends BaseMB {
 	}
 	
 	private void initTiposProducao(){
-		this.periodico         = new ArtigoPeriodico         ();
-		this.jornalRevista     = new ArtigoJornalRevista     ();
-		this.livro             = new Livro                   ();
-		this.trabalhoEmAnais   = new TrabalhoEmAnais         ();
-		
-		this.jornalRevistaDao   = new JornalRevistaDaoImpl    ();   
-		this.periodicoDao       = new PeriodicoDaoImpl        ();
-		this.livroDao           = new LivroDaoImpl            ();
-		this.trabalhoEmAnaisDao = new TrabalhoEmAnaisDaoImpl  (); 
-		
+		this.periodico          = new ArtigoPeriodico         ();
+		this.jornalRevista      = new ArtigoJornalRevista     ();
+		this.livro              = new Livro                   ();
+		this.trabalhoEmAnais    = new TrabalhoEmAnais         ();
+		this.traducao           = new Traducao                ();
+		this.servicosTecnicos   = new ServicosTecnicos        ();
+		this.cartaMapaSimilares = new CartaMapaSimilares      ();
+		this.cursoCurtaDuracao  = new CursoCurtaDuracao       ();
+		this.desenvApp          = new DesenvApp               ();
+		this.desenvDidaticoInst = new DesenvDidaticoInstitucional();
+		this.desenvProduto      = new DesenvProduto           ();
+		this.desenvTecnica      = new DesenvTecnica           ();
+		this.editoria           = new Editoria                ();
+		this.organizacaoEvento  = new OrganizacaoEvento       ();
+		this.relatorioPesquisa  = new RelatorioPesquisa       ();
+		this.apresentacaoTrabalho = new ApresentacaoTrabalho  ();		
 	}
 
 	public void upload(FileUploadEvent event) {
@@ -220,40 +290,138 @@ public class ProducaoAcademicaMB extends BaseMB {
 		}
 	}
 	
-	private void montarCoorientador(ProducaoAcademica pa){
-		Docente docente  = this.docenteDao.findById(this.orientador.getCodAutor());
-		if(docente != null){
-			this.orientador.setTipoAcao("COORIENTADOR");
-			this.orientador.setTipoAutor(docente.getTipoDocente().getTipo());
-            this.orientador.setProducaoAcademica(pa);
-			this.autores.add(this.orientador);
-	    }
-	}
-
-	private void montarOrientador(ProducaoAcademica pa){
-	     Docente docente  = this.docenteDao.findById(this.orientador.getCodAutor());
-	     this.orientador.setTipoAcao("ORIENTADOR");
-	     this.orientador.setTipoAutor(docente.getTipoDocente().getTipo());
-	     this.orientador.setProducaoAcademica(pa);
-	     this.autores.add(this.orientador);
-	}
-	
 	private void salvarTipoProducao(){
 		if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(1))){
-			this.livro.setProducaoAcademica(this.producaoAcademica);
-		    this.livroDao.save(this.livro);	
+			salvarLivro();
 		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(2))){
-			this.jornalRevista.setProducaoAcademica(this.producaoAcademica);
-			this.jornalRevistaDao.save(this.jornalRevista);
+			salvarRevista();
 		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(3))){
-			this.periodico.setProducaoAcademica(this.producaoAcademica);
-		    this.periodicoDao.save(this.periodico);
+			salvarPeriodico();
 		} else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(4))){
-			this.trabalhoEmAnais.setProducaoAcademica(this.producaoAcademica);
-			this.trabalhoEmAnaisDao.save(this.trabalhoEmAnais);
+			salvarTrabalhoEmAnais();
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(5))){
+			salvarTraducao();
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(6))){
+			salvarServicosTecnicos();
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(7))){
+			salvarMapaCartaSimilares();
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(8))){
+			salvarCursoCurtaDuracao();
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(9))){
+			salvarDesenvApp();
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(10))){
+			salvarDesenvMdi();
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(11))){
+			salvarDesenvProduto();
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(12))){
+			salvarDesenvTecnica();
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(13))){
+			salvarEditoria();
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(14))){
+			salvarOranizacaoEvento();
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(15))){
+			salvarRelatorioPesquisa();
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(16))){
+			salvarApresentacaoTrabalho();
 		}
 	}
+	
+	private void salvarApresentacaoTrabalho() {
+         this.apresentacaoTrabalhoDao = new ApresentacaoTrabalhoDaoImpl();
+         this.apresentacaoTrabalho.setProducaoAcademica(this.producaoAcademica);
+         this.apresentacaoTrabalhoDao.save(this.apresentacaoTrabalho);
+	}
 
+	private void salvarRelatorioPesquisa() {
+		this.relatorioPesquisaDao = new RelatorioPesquisaDaoImpl();
+		this.relatorioPesquisa.setProducaoAcademica(this.producaoAcademica);
+		this.relatorioPesquisaDao.save(this.relatorioPesquisa);
+	}
+
+	private void salvarOranizacaoEvento() {
+		this.organizEnventDao = new OrganizacaoEventoDaoImpl();
+		this.organizacaoEvento.setProducaoAcademica(this.producaoAcademica);
+		this.organizEnventDao.save(this.organizacaoEvento);
+	}
+
+	private void salvarEditoria() {
+       this.editoriaDao = new EditoriaDaoImpl();
+       this.editoria.setProducaoAcademica(this.producaoAcademica);
+       this.editoriaDao.save(this.editoria);
+	}
+
+	private void salvarDesenvTecnica() {
+        this.desenvTecnicaDao = new DesenvTecnicaDaoImpl();
+        this.desenvTecnica.setProducaoAcademica(this.producaoAcademica);
+        this.desenvTecnicaDao.save(this.desenvTecnica);
+	}
+
+	private void salvarDesenvProduto() {
+        this.desenvProdutoDao = new DesenvProdutoDaoImpl();
+        this.desenvProduto.setProducaoAcademica(this.producaoAcademica);
+        this.desenvProdutoDao.save(this.desenvProduto);
+	}
+
+	private void salvarDesenvMdi() {
+		this.desenvDidaticoInstiDao = new DesenvDidaticoInstDaoImpl();
+		this.desenvDidaticoInst.setProducaoAcademica(this.producaoAcademica);
+		this.desenvDidaticoInstiDao.save(this.desenvDidaticoInst);
+	}
+
+	private void salvarDesenvApp() {
+        this.desenvAppDao = new DesenvAppDaoImpl();	
+        this.desenvApp.setProducaoAcademica(this.producaoAcademica);
+        this.desenvAppDao.save(this.desenvApp);
+	}
+
+	private void salvarCursoCurtaDuracao() {
+        this.cursoCurtaDuracaoDao = new CursoCurtaDuracaoDaoImpl();
+        this.cursoCurtaDuracao.setProducaoAcademica(this.producaoAcademica);
+        this.cursoCurtaDuracaoDao.save(this.cursoCurtaDuracao);
+	}
+
+	private void salvarMapaCartaSimilares() {
+		this.cartaMapaSimilaresDao = new CartasMapasSimilaresDaoImpl();
+		this.cartaMapaSimilares.setProducaoAcademica(this.producaoAcademica);
+		this.cartaMapaSimilaresDao.save(this.cartaMapaSimilares);
+	}
+
+	public void salvarServicosTecnicos(){
+		this.servicosTecnicosDao = new ServicoTecnicosDaoImpl();
+		this.servicosTecnicos.setProducaoAcademica(this.producaoAcademica);
+		this.servicosTecnicosDao.save(this.servicosTecnicos);
+	}
+	
+	public void salvarTraducao(){
+		this.traducaoDao = new TraducaoDaoImpl();
+		this.traducao.setProducaoAcademica(this.producaoAcademica);
+		this.traducaoDao.save(this.traducao);
+	}
+	
+	public void salvarTrabalhoEmAnais(){
+		this.trabalhoEmAnaisDao = new TrabalhoEmAnaisDaoImpl();
+		this.trabalhoEmAnais.setProducaoAcademica(this.producaoAcademica);
+		this.trabalhoEmAnaisDao.save(this.trabalhoEmAnais);
+	}
+	
+	public void salvarPeriodico(){
+		this.periodicoDao = new PeriodicoDaoImpl();
+		this.periodico.setProducaoAcademica(this.producaoAcademica);
+	    this.periodicoDao.save(this.periodico);
+	}
+	
+	public void salvarRevista(){
+		this.jornalRevistaDao = new JornalRevistaDaoImpl(); 
+		this.jornalRevista.setProducaoAcademica(this.producaoAcademica);
+		this.jornalRevistaDao.save(this.jornalRevista);
+	}
+
+	public void salvarLivro(){
+		this.livroDao = new LivroDaoImpl();
+		this.livro.setProducaoAcademica(this.producaoAcademica);
+	    this.livroDao.save(this.livro);	
+	}
+	
 	public void editar(ProducaoAcademica producaoAcademica) {
 		this.producaoAcDao.update(producaoAcademica);
 	}
@@ -283,6 +451,12 @@ public class ProducaoAcademicaMB extends BaseMB {
 	public boolean isTipoTrabalhoEmAnais(){
 		if(this.tipoProducao.getIdTipoProducao() != null)
 			return this.tipoProducao.getIdTipoProducao().equals(new Integer(4));
+		return Boolean.FALSE;
+	}
+
+	public boolean isTipoTraducao(){
+		if(this.tipoProducao.getIdTipoProducao() != null)
+			return this.tipoProducao.getIdTipoProducao().equals(new Integer(5));
 		return Boolean.FALSE;
 	}
 	
@@ -575,6 +749,110 @@ public class ProducaoAcademicaMB extends BaseMB {
 
 	public void setTrabalhoEmAnais(TrabalhoEmAnais trabalhoEmAnais) {
 		this.trabalhoEmAnais = trabalhoEmAnais;
+	}
+
+	public Traducao getTraducao() {
+		return this.traducao;
+	}
+
+	public void setTraducao(Traducao traducao) {
+		this.traducao = traducao;
+	}
+
+	public ServicosTecnicos getServicosTecnicos() {
+		return this.servicosTecnicos;
+	}
+
+	public void setServicosTecnicos(ServicosTecnicos servicosTecnicos) {
+		this.servicosTecnicos = servicosTecnicos;
+	}
+
+	public DesenvAppDao getDesenvAppDao() {
+		return this.desenvAppDao;
+	}
+
+	public void setDesenvAppDao(DesenvAppDao desenvAppDao) {
+		this.desenvAppDao = desenvAppDao;
+	}
+
+	public DesenvApp getDesenvApp() {
+		return this.desenvApp;
+	}
+
+	public void setDesenvApp(DesenvApp desenvApp) {
+		this.desenvApp = desenvApp;
+	}
+
+	public DesenvDidaticoInstitucional getDesenvDidaticoInst() {
+		return this.desenvDidaticoInst;
+	}
+
+	public void setDesenvDidaticoInst(DesenvDidaticoInstitucional desenvDidaticoInst) {
+		this.desenvDidaticoInst = desenvDidaticoInst;
+	}
+
+	public DesenvProduto getDesenvProduto() {
+		return this.desenvProduto;
+	}
+
+	public void setDesenvProduto(DesenvProduto desenvProduto) {
+		this.desenvProduto = desenvProduto;
+	}
+
+	public DesenvTecnica getDesenvTecnica() {
+		return this.desenvTecnica;
+	}
+
+	public void setDesenvTecnica(DesenvTecnica desenvTecnica) {
+		this.desenvTecnica = desenvTecnica;
+	}
+
+	public OrganizacaoEvento getOrganizacaoEvento() {
+		return this.organizacaoEvento;
+	}
+
+	public void setOrganizacaoEvento(OrganizacaoEvento organizacaoEvento) {
+		this.organizacaoEvento = organizacaoEvento;
+	}
+
+	public RelatorioPesquisa getRelatorioPesquisa() {
+		return this.relatorioPesquisa;
+	}
+
+	public void setRelatorioPesquisa(RelatorioPesquisa relatorioPesquisa) {
+		this.relatorioPesquisa = relatorioPesquisa;
+	}
+
+	public CartaMapaSimilares getCartaMapaSimilares() {
+		return this.cartaMapaSimilares;
+	}
+
+	public void setCartaMapaSimilares(CartaMapaSimilares cartaMapaSimilares) {
+		this.cartaMapaSimilares = cartaMapaSimilares;
+	}
+
+	public CursoCurtaDuracao getCursoCurtaDuracao() {
+		return this.cursoCurtaDuracao;
+	}
+
+	public void setCursoCurtaDuracao(CursoCurtaDuracao cursoCurtaDuracao) {
+		this.cursoCurtaDuracao = cursoCurtaDuracao;
+	}
+
+	public Editoria getEditoria() {
+		return this.editoria;
+	}
+
+	public void setEditoria(Editoria editoria) {
+		this.editoria = editoria;
+	}
+
+	public ApresentacaoTrabalho getApresentacaoTrabalho() {
+		return this.apresentacaoTrabalho;
+	}
+
+	public void setApresentacaoTrabalho(ApresentacaoTrabalho apresentacaoTrabalho) {
+		this.apresentacaoTrabalho = apresentacaoTrabalho;
 	}
 	
 }
