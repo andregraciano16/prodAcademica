@@ -38,6 +38,10 @@ public class HistoricoDaoImpl extends DaoGenericoImpl<Historico, Integer> implem
 		if(historico.getProjeto() != null){
 			query.setParameter(5,historico.getProjeto());
 		}
+		
+		if(historico.getAlteracao() != null && !historico.getAlteracao().trim().isEmpty()){
+			query.setParameter(6,historico.getAlteracao());
+		}
 	}
 	
 	public String montarWhere(Historico historico){
@@ -56,11 +60,15 @@ public class HistoricoDaoImpl extends DaoGenericoImpl<Historico, Integer> implem
 		}
 		
 		if(historico.getProducaoAcademica() != null){
-			consulta.append(" and h.producaoAcademica like ?3 ");
+			consulta.append(" and h.producaoAcademica like ?4 ");
 		}
 		
 		if(historico.getProjeto() != null){
-			consulta.append(" and h.projeto like ?3 ");
+			consulta.append(" and h.projeto like ?5 ");
+		}
+		
+		if(historico.getAlteracao() != null && !historico.getAlteracao().trim().isEmpty()){
+			consulta.append(" and h.projeto like ?6 ");
 		}
 		return consulta.toString();
 	}

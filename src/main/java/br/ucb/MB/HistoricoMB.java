@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-
-import org.primefaces.event.RowEditEvent;
 import br.ucb.entity.Historico;
 import br.ucb.dao.AlunoDao;
 import br.ucb.dao.HistoricoDao;
@@ -23,6 +19,7 @@ import br.ucb.entity.ProducaoAcademica;
 import br.ucb.dao.ProducaoAcademicaDao;
 import br.ucb.dao.impl.ProducaoAcademicaDaoImpl;
 import br.ucb.entity.Projeto;
+import br.ucb.enums.AcaoEnum;
 import br.ucb.dao.ProjetoDao;
 import br.ucb.dao.impl.ProjetoDaoImpl;
 
@@ -45,25 +42,15 @@ public class HistoricoMB extends BaseMB {
 	private ProducaoAcademicaDao producaoAcademicaDao;
 	private List<Projeto> projetos;
 	private ProjetoDao projetoDao;
+	private AcaoEnum acaoEnum;
 
 	@PostConstruct
-	public void init() {
-		this.historicos = new ArrayList<Historico>();
-		this.historico = new Historico();
-		this.historico.setDataAlteracao(null);
-		this.historicoDao = new HistoricoDaoImpl();
-		this.editavel = new Historico();
-		this.alunos = new ArrayList<Aluno>();
-		this.alunoDao = new AlunoDaoImpl();
-		this.docentes = new ArrayList<Docente>();
-		this.docenteDao = new DocenteDaoImpl();
-		this.producoes = new ArrayList<ProducaoAcademica>();
-		this.producaoAcademicaDao = new ProducaoAcademicaDaoImpl();
-		this.projetos = new ArrayList<Projeto>();
-		this.projetoDao = new ProjetoDaoImpl();
-
+	public void init() {	
+		inicializa();
 		buscar();
+		this.setAcaoEnum(AcaoEnum.LISTAR);
 	}
+
 
 	public void buscar() {
 
@@ -86,6 +73,13 @@ public class HistoricoMB extends BaseMB {
 		}
 	}
 
+	
+	public void visualizar(Historico historico){
+		this.historico = historico;
+		this.setAcaoEnum(AcaoEnum.VISUALIZAR);
+	}
+
+	
 	public void limpar() {
 		init();
 	}
@@ -142,6 +136,24 @@ public class HistoricoMB extends BaseMB {
 		}
 
 		return projetosFiltrados;
+	}
+	
+	
+	public void inicializa(){
+		this.historicos = new ArrayList<Historico>();
+		this.historico = new Historico();
+		this.historico.setDataAlteracao(null);
+		this.historicoDao = new HistoricoDaoImpl();
+		this.editavel = new Historico();
+		this.alunos = new ArrayList<Aluno>();
+		this.alunoDao = new AlunoDaoImpl();
+		this.docentes = new ArrayList<Docente>();
+		this.docenteDao = new DocenteDaoImpl();
+		this.producoes = new ArrayList<ProducaoAcademica>();
+		this.producaoAcademicaDao = new ProducaoAcademicaDaoImpl();
+		this.projetos = new ArrayList<Projeto>();
+		this.projetoDao = new ProjetoDaoImpl();
+		
 	}
 	public List<Historico> getHistoricos() {
 		return historicos;
@@ -253,5 +265,14 @@ public class HistoricoMB extends BaseMB {
 
 	public void setProjetos(List<Projeto> projetos) {
 		this.projetos = projetos;
+	}
+	
+
+	public AcaoEnum getAcaoEnum() {
+		return acaoEnum;
+	}
+
+	public void setAcaoEnum(AcaoEnum acaoEnum) {
+		this.acaoEnum = acaoEnum;
 	}
 }
