@@ -82,5 +82,14 @@ public class DocenteDaoImpl extends DaoGenericoImpl<Docente, Integer> implements
 	
 		return resultados;
 	}
+
+	@Override
+	public Integer getIdbyMatricula(String matricula) {
+		
+			Query query = getManager().createQuery(" select d.idDocente from Docente d  WHERE d.matricula = ?1 ");
+			query.setParameter(1,matricula);
+			
+			return (Integer) query.getSingleResult();
+	}
 	
 }

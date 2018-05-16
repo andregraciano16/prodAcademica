@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-
-import org.primefaces.event.RowEditEvent;
 import br.ucb.entity.Historico;
 import br.ucb.dao.AlunoDao;
 import br.ucb.dao.HistoricoDao;
@@ -23,6 +19,7 @@ import br.ucb.entity.ProducaoAcademica;
 import br.ucb.dao.ProducaoAcademicaDao;
 import br.ucb.dao.impl.ProducaoAcademicaDaoImpl;
 import br.ucb.entity.Projeto;
+import br.ucb.enums.AcaoEnum;
 import br.ucb.dao.ProjetoDao;
 import br.ucb.dao.impl.ProjetoDaoImpl;
 
@@ -45,94 +42,15 @@ public class HistoricoMB extends BaseMB {
 	private ProducaoAcademicaDao producaoAcademicaDao;
 	private List<Projeto> projetos;
 	private ProjetoDao projetoDao;
+	private AcaoEnum acaoEnum;
 
 	@PostConstruct
-	public void init() {
-		this.historicos = new ArrayList<Historico>();
-		this.historico = new Historico();
-		this.historico.setDataAlteracao(null);
-		this.historicoDao = new HistoricoDaoImpl();
-		this.editavel = new Historico();
-		this.alunos = new ArrayList<Aluno>();
-		this.alunoDao = new AlunoDaoImpl();
-		this.docentes = new ArrayList<Docente>();
-		this.docenteDao = new DocenteDaoImpl();
-		this.producoes = new ArrayList<ProducaoAcademica>();
-		this.producaoAcademicaDao = new ProducaoAcademicaDaoImpl();
-		this.projetos = new ArrayList<Projeto>();
-		this.projetoDao = new ProjetoDaoImpl();
-
+	public void init() {	
+		inicializa();
 		buscar();
+		this.setAcaoEnum(AcaoEnum.LISTAR);
 	}
 
-	public void cadastrar(Historico historico) {
-		if (this.historico.getDataAlteracao() != null && this.historico.getAluno() != null
-				&& this.historico.getDocente() != null && this.historico.getProducaoAcademica() != null
-				&& this.historico.getProjeto() != null) {
-			if (this.historicos.contains(this.historico)) {
-				msg = "Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
-			} else {
-				montarHistorico();
-				this.historicoDao.save(this.historico);
-				msg = "Cadastrado com sucesso.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-			}
-		} else {
-			msg = "Preencha os campos corretamente.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
-		}
-		init();
-	}
-
-	private void montarHistorico() {
-		if (this.historico == null) {
-			this.historico = new Historico();
-		}
-		this.historico.setIdHistorico(null);
-		this.historico.setDataAlteracao(this.historico.getDataAlteracao());
-		this.historico.setAluno(this.historico.getAluno());
-		this.historico.setDocente(this.historico.getDocente());
-		this.historico.setProducaoAcademica(this.historico.getProducaoAcademica());
-		this.historico.setProjeto(this.historico.getProjeto());
-	}
-
-	public void excluir(Historico historico) {
-		this.historicoDao.remove(historico);
-		msg = "Excluído com sucesso.";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-		init();
-	}
-
-	public void editar(RowEditEvent event) {
-
-		if (this.editavel.getDataAlteracao() != null) {
-
-			historico = (Historico) event.getObject();
-			historico.setDataAlteracao(editavel.getDataAlteracao());
-			historico.setAluno(editavel.getAluno());
-			historico.setDocente(editavel.getDocente());
-			historico.setProducaoAcademica(editavel.getProducaoAcademica());
-			historico.setProjeto(editavel.getProjeto());
-			this.historicoDao.update(this.historico);
-			msg = "Atualizado com sucesso.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-
-		} else {
-			msg = "Preencha os campos corretamente.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
-		}
-		init();
-
-	}
-
-	public void cancela(RowEditEvent event) {
-
-		String msg = "Atualização cancelada.";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-	}
 
 	public void buscar() {
 
@@ -155,10 +73,88 @@ public class HistoricoMB extends BaseMB {
 		}
 	}
 
+	
+	public void visualizar(Historico historico){
+		this.historico = historico;
+		this.setAcaoEnum(AcaoEnum.VISUALIZAR);
+	}
+
+	
 	public void limpar() {
 		init();
 	}
 
+	public List<Aluno> escolheAluno(String query) {
+		List<Aluno> alunosFiltrados = new ArrayList<Aluno>();
+
+		for (int i = 0; i < this.alunos.size(); i++) {
+			Aluno aluno = this.alunos.get(i);
+			if (aluno.getNome().toLowerCase().startsWith(query)) {
+				alunosFiltrados.add(aluno);
+			}
+		}
+
+		return alunosFiltrados;
+	}
+	
+	
+	public List<Docente> escolheDocente(String query) {
+		List<Docente> docentesFiltrados = new ArrayList<Docente>();
+
+		for (int i = 0; i < this.docentes.size(); i++) {
+			Docente docente = this.docentes.get(i);
+			if (docente.getNome().toLowerCase().startsWith(query)) {
+				docentesFiltrados.add(docente);
+			}
+		}
+
+		return docentesFiltrados;
+	}
+	
+	
+	public List<ProducaoAcademica> escolheProducao(String query) {
+		List<ProducaoAcademica> producoesFiltradas = new ArrayList<ProducaoAcademica>();
+
+		for (int i = 0; i < this.producoes.size(); i++) {
+			ProducaoAcademica producao = this.producoes.get(i);
+			if (producao.getTitulo().toLowerCase().startsWith(query)) {
+				producoesFiltradas.add(producao);
+			}
+		}
+
+		return producoesFiltradas;
+	}
+	
+	public List<Projeto> escolheProjeto(String query) {
+		List<Projeto> projetosFiltrados = new ArrayList<Projeto>();
+
+		for (int i = 0; i < this.projetos.size(); i++) {
+			Projeto projeto = this.projetos.get(i);
+			if (projeto.getNome().toLowerCase().startsWith(query)) {
+				projetosFiltrados.add(projeto);
+			}
+		}
+
+		return projetosFiltrados;
+	}
+	
+	
+	public void inicializa(){
+		this.historicos = new ArrayList<Historico>();
+		this.historico = new Historico();
+		this.historico.setDataAlteracao(null);
+		this.historicoDao = new HistoricoDaoImpl();
+		this.editavel = new Historico();
+		this.alunos = new ArrayList<Aluno>();
+		this.alunoDao = new AlunoDaoImpl();
+		this.docentes = new ArrayList<Docente>();
+		this.docenteDao = new DocenteDaoImpl();
+		this.producoes = new ArrayList<ProducaoAcademica>();
+		this.producaoAcademicaDao = new ProducaoAcademicaDaoImpl();
+		this.projetos = new ArrayList<Projeto>();
+		this.projetoDao = new ProjetoDaoImpl();
+		
+	}
 	public List<Historico> getHistoricos() {
 		return historicos;
 	}
@@ -269,5 +265,14 @@ public class HistoricoMB extends BaseMB {
 
 	public void setProjetos(List<Projeto> projetos) {
 		this.projetos = projetos;
+	}
+	
+
+	public AcaoEnum getAcaoEnum() {
+		return acaoEnum;
+	}
+
+	public void setAcaoEnum(AcaoEnum acaoEnum) {
+		this.acaoEnum = acaoEnum;
 	}
 }

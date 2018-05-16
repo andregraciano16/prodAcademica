@@ -29,6 +29,10 @@ public class Historico extends EntidadeBase{
 	@Column(name = "dataAlteracao")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataAlteracao;
+	
+	
+	@Column(name = "alteracao")
+	private String alteracao;
 
 	@ManyToOne
 	@JoinColumn(name = "id_aluno")
@@ -92,6 +96,14 @@ public class Historico extends EntidadeBase{
 
 	public void setProjeto(Projeto projeto) {
 		this.projeto = projeto;
+	}
+
+	public String getAlteracao() {
+		return alteracao;
+	}
+
+	public void setAlteracao(String alteracao) {
+		this.alteracao = alteracao;
 	}
 
 	public boolean equals(Object obj) {
