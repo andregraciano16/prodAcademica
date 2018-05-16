@@ -43,5 +43,77 @@ public class ApresentacaoTrabalho extends EntidadeBase {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_producaoAcademica")
 	private ProducaoAcademica producaoAcademica;
+
+	public Integer getIdApresentacaoTrabalho() {
+		return this.idApresentacaoTrabalho;
+	}
+
+	public void setIdApresentacaoTrabalho(Integer idApresentacaoTrabalho) {
+		this.idApresentacaoTrabalho = idApresentacaoTrabalho;
+	}
+
+	public Integer getNatureza() {
+		return this.natureza;
+	}
+
+	public void setNatureza(Integer natureza) {
+		this.natureza = natureza;
+	}
+
+	public Integer getEvento() {
+		return this.evento;
+	}
+
+	public void setEvento(Integer evento) {
+		this.evento = evento;
+	}
+
+	public String getInstituicaoPromotora() {
+		return this.instituicaoPromotora;
+	}
+
+	public void setInstituicaoPromotora(String instituicaoPromotora) {
+		this.instituicaoPromotora = instituicaoPromotora;
+	}
+
+	public Integer getIdioma() {
+		return this.idioma;
+	}
+
+	public void setIdioma(Integer idioma) {
+		this.idioma = idioma;
+	}
+
+	public Integer getLocal() {
+		return this.local;
+	}
+
+	public void setLocal(Integer local) {
+		this.local = local;
+	}
+
+	public String getCidade() {
+		return this.cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+	public String getPais() {
+		return this.pais;
+	}
+
+	public void setPais(String pais) {
+		this.pais = pais;
+	}
+
+	public ProducaoAcademica getProducaoAcademica() {
+		return this.producaoAcademica;
+	}
+
+	public void setProducaoAcademica(ProducaoAcademica producaoAcademica) {
+		this.producaoAcademica = producaoAcademica;
+	}
 	
 }
