@@ -1,6 +1,7 @@
 package br.ucb.MB;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -9,11 +10,14 @@ import javax.faces.bean.ViewScoped;
 
 import br.ucb.VO.AprovacaoProducaoVO;
 import br.ucb.dao.DocenteDao;
+import br.ucb.dao.HistoricoDao;
 import br.ucb.dao.ProducaoAcademicaDao;
 import br.ucb.dao.StatusAprovacaoDao;
 import br.ucb.dao.impl.DocenteDaoImpl;
+import br.ucb.dao.impl.HistoricoDaoImpl;
 import br.ucb.dao.impl.ProducaoAcademicaDaoImpl;
 import br.ucb.dao.impl.StatusAprovacaoDaoImpl;
+import br.ucb.entity.Historico;
 import br.ucb.entity.StatusAprovacao;
 import br.ucb.security.Seguranca;
 import br.ucb.security.UsuarioSistema;
@@ -31,6 +35,8 @@ public class AprovarProducaoProfessorMB extends BaseMB {
 	private StatusAprovacao reprovar;
 	private UsuarioSistema user;
 	private DocenteDao docenteDao;
+	private Historico historico;
+	private HistoricoDao historicoDao;
 
 	@PostConstruct
 	public void init() {
@@ -46,6 +52,8 @@ public class AprovarProducaoProfessorMB extends BaseMB {
 		this.reprovar = new StatusAprovacao();
 		this.user = new Seguranca().getUsuarioLogado();
 		this.docenteDao = new DocenteDaoImpl();
+		this.historico = new Historico();
+		this.historicoDao = new HistoricoDaoImpl();
 
 	}
 
@@ -61,6 +69,7 @@ public class AprovarProducaoProfessorMB extends BaseMB {
 		producao.setStatusAprovacao(this.aprovar);
 		this.producaoAcademicaDao.updateResultado(producao);
 		this.aprovaProducoes.remove(producao);
+		cadastraHistorico("Produção foi aprovada.", producao);
 		
 		
 	}
@@ -69,6 +78,17 @@ public class AprovarProducaoProfessorMB extends BaseMB {
 		producao.setStatusAprovacao(this.reprovar);
 		this.producaoAcademicaDao.updateResultado(producao);
 		this.aprovaProducoes.remove(producao);
+		cadastraHistorico("Produção foi reprovada.", producao);
+	}
+	
+	
+	public void cadastraHistorico(String mensagem, AprovacaoProducaoVO producao) {
+		this.historico.setDataAlteracao(new Date());
+		this.historico.setProducaoAcademica(this.producaoAcademicaDao.findById(producao.getId()));
+		this.historico.setDocente(this.docenteDao.getDocentebyMatricula(user.getUsuario().getMatricula()));
+		this.historico.setAlteracao("Produção Acadêmica: " + producao.getTitulo() + "\n" + mensagem + "\n"
+				+ "Responsável: " + this.historico.getDocente().getNome());
+		this.historicoDao.save(historico);
 	}
 
 	public List<AprovacaoProducaoVO> getAprovaProducoes() {
