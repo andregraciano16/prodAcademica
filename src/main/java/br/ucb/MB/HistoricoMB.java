@@ -2,7 +2,6 @@ package br.ucb.MB;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -61,7 +60,7 @@ public class HistoricoMB extends BaseMB {
 				&& this.historico.getDocente() == null
 				&& this.historico.getProducaoAcademica() == null
 				&& this.historico.getProjeto() == null) {
-			this.historicos = this.historicoDao.list();
+			this.historicos = this.historicoDao.listOrder();
 			this.alunos = this.alunoDao.list();
 			this.docentes = this.docenteDao.list();
 			this.producoes = this.producaoAcademicaDao.list();
@@ -73,6 +72,7 @@ public class HistoricoMB extends BaseMB {
 			this.producoes = this.producaoAcademicaDao.list();
 			this.projetos = this.projetoDao.list();
 		}
+		
 	}
 
 	
@@ -140,6 +140,11 @@ public class HistoricoMB extends BaseMB {
 		return projetosFiltrados;
 	}
 	
+	public void excluir(){
+		this.historicoDao.remove(this.historico);
+		setMessageSuccess("Histórico removido com sucesso.");
+		init();
+	}
 	
 	public void inicializa(){
 		this.historicos = new ArrayList<Historico>();
