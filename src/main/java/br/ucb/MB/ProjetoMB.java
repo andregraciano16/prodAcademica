@@ -93,7 +93,7 @@ public class ProjetoMB extends BaseMB {
 				setMessageError("Escolha só um coordenador.");
 			} else {
 				this.projetoDao.save(this.projeto);
-				cadastraHistorico("Foi cadastrado com sucesso.",this.projetoDao.find(this.projeto));
+				cadastraHistorico("Foi cadastrado com sucesso.", this.projetoDao.find(this.projeto));
 				setMessageSuccess("Cadastrado com sucesso.");
 			}
 
@@ -118,9 +118,13 @@ public class ProjetoMB extends BaseMB {
 	public void editar() {
 
 		if (this.projeto != null && !verificaVazio(this.projeto)) {
-			this.projetoDao.update(this.projeto);
-			cadastraHistorico("Foi alterado com sucesso.", this.projeto);
-			setMessageSuccess("Atualizado com sucesso.");
+			if (this.projeto.getExternoResponsavel() != null && this.projeto.getDocenteResponsavel() != null) {
+				setMessageError("Escolha só um coordenador.");
+			} else {
+				this.projetoDao.update(this.projeto);
+				cadastraHistorico("Foi alterado com sucesso.", this.projeto);
+				setMessageSuccess("Atualizado com sucesso.");
+			}
 		} else {
 			setMessageError("Preencha os campos corretamente.");
 		}
@@ -412,10 +416,10 @@ public class ProjetoMB extends BaseMB {
 		this.historico.setProjeto(projeto);
 		if (isDiretor() || isProfessor()) {
 			this.historico.setDocente(this.docenteDao.getDocentebyMatricula(user.getUsuario().getMatricula()));
-		}else{
+		} else {
 			this.historico.setAluno(this.alunoDao.getAlunobyMatricula(user.getUsuario().getMatricula()));
 		}
-		
+
 		this.historico.setAlteracao("Projeto: " + projeto.getNome() + "\n" + mensagem + "\n" + "Responsável: "
 				+ this.historico.getDocente().getNome());
 		this.historicoDao.save(historico);
@@ -634,28 +638,28 @@ public class ProjetoMB extends BaseMB {
 		this.externosSelecionados = externosSelecionados;
 	}
 
-	public boolean isDiretor(){
+	public boolean isDiretor() {
 		Iterator<GrantedAuthority> iterator = user.getAuthorities().iterator();
-		if(iterator.next().getAuthority().equals("ROLE_DIRETOR")){
+		if (iterator.next().getAuthority().equals("ROLE_DIRETOR")) {
 			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;
 	}
-	
-	public boolean isAluno(){
+
+	public boolean isAluno() {
 		Iterator<GrantedAuthority> iterator = user.getAuthorities().iterator();
-		if(iterator.next().getAuthority().equals("ROLE_ALUNO")){
+		if (iterator.next().getAuthority().equals("ROLE_ALUNO")) {
 			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;
 	}
-	
-	public boolean isProfessor(){
+
+	public boolean isProfessor() {
 		Iterator<GrantedAuthority> iterator = user.getAuthorities().iterator();
-		if(iterator.next().getAuthority().equals("ROLE_PROFESSOR")){
+		if (iterator.next().getAuthority().equals("ROLE_PROFESSOR")) {
 			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;
 	}
-	
+
 }
