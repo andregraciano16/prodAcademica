@@ -183,15 +183,7 @@ public class Aluno extends EntidadeBase implements Comparable<Aluno> {
 		int flag = 0;
 		if (obj instanceof Aluno) {
 			Aluno outroAluno = (Aluno) obj;
-			if (outroAluno.getNome().equals(this.getNome())
-					&& outroAluno.getTelefoneFixo().equals(this.getTelefoneFixo())
-					&& outroAluno.getCelular().equals(this.getCelular()) && outroAluno.getSexo() == this.getSexo()
-					&& outroAluno.getDataNascimento().equals(this.getDataNascimento())
-					&& outroAluno.getMatricula().equals(this.getMatricula())
-					&& outroAluno.getDataCadastro().equals(this.getDataCadastro())
-					&& outroAluno.getEndereco().equals(this.getEndereco())
-					&& outroAluno.getCurso().equals(this.getCurso())
-					&& outroAluno.getStatusAluno().equals(this.getStatusAluno())) {
+			if (outroAluno.getMatricula().equals(this.getMatricula())){
 				flag = 1;
 			}
 		}

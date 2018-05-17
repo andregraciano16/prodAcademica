@@ -11,5 +11,7 @@ public interface ProjetoDao extends DaoGenerico<Projeto, Integer>{
 
 	public List<Projeto> findBySearch(Projeto projeto);
 	
+	public Projeto find(Projeto projeto);
+	
 }
 

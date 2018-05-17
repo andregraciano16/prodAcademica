@@ -1,6 +1,7 @@
 package br.ucb.MB;
 
 import java.util.Date;
+
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -38,6 +39,7 @@ public class DocenteMB extends BaseMB{
 	private EnderecoDao enderecoDao;
     private AcaoEnum acaoEnum;
     private DocenteVO docentePesq;
+
 	
 	@PostConstruct
 	public void init() {

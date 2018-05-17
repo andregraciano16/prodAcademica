@@ -1,22 +1,27 @@
 package br.ucb.MB;
 
 import java.util.ArrayList;
-
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import br.ucb.dao.AlunoDao;
 import br.ucb.dao.DocenteDao;
 import br.ucb.dao.ExternoDao;
+import br.ucb.dao.HistoricoDao;
 import br.ucb.dao.ProjetoDao;
 import br.ucb.dao.StatusProjetoDao;
 import br.ucb.dao.impl.ProjetoDaoImpl;
 import br.ucb.dao.impl.AlunoDaoImpl;
 import br.ucb.dao.impl.DocenteDaoImpl;
 import br.ucb.dao.impl.ExternoDaoImpl;
+import br.ucb.dao.impl.HistoricoDaoImpl;
 import br.ucb.dao.impl.LinhaPesquisaDaoImpl;
 import br.ucb.dao.impl.StatusProjetoDaoImpl;
 import br.ucb.dao.impl.TipoProjetoDaoImpl;
@@ -24,10 +29,13 @@ import br.ucb.entity.Projeto;
 import br.ucb.entity.Aluno;
 import br.ucb.entity.Docente;
 import br.ucb.entity.Externo;
+import br.ucb.entity.Historico;
 import br.ucb.entity.LinhaPesquisa;
 import br.ucb.entity.StatusProjeto;
 import br.ucb.entity.TipoProjeto;
 import br.ucb.enums.AcaoEnum;
+import br.ucb.security.Seguranca;
+import br.ucb.security.UsuarioSistema;
 
 @ManagedBean(name = "projetoMB")
 @ViewScoped
@@ -60,6 +68,9 @@ public class ProjetoMB extends BaseMB {
 	private LinhaPesquisaDaoImpl linhaPesquisaDao;
 	private AcaoEnum acaoEnum;
 	private String selecionaCoordenador = "1";
+	private Historico historico;
+	private HistoricoDao historicoDao;
+	private UsuarioSistema user;
 
 	@PostConstruct
 	public void init() {
@@ -82,6 +93,7 @@ public class ProjetoMB extends BaseMB {
 				setMessageError("Escolha só um coordenador.");
 			} else {
 				this.projetoDao.save(this.projeto);
+				cadastraHistorico("Foi cadastrado com sucesso.",this.projetoDao.find(this.projeto));
 				setMessageSuccess("Cadastrado com sucesso.");
 			}
 
@@ -107,6 +119,7 @@ public class ProjetoMB extends BaseMB {
 
 		if (this.projeto != null && !verificaVazio(this.projeto)) {
 			this.projetoDao.update(this.projeto);
+			cadastraHistorico("Foi alterado com sucesso.", this.projeto);
 			setMessageSuccess("Atualizado com sucesso.");
 		} else {
 			setMessageError("Preencha os campos corretamente.");
@@ -120,10 +133,10 @@ public class ProjetoMB extends BaseMB {
 		this.docentesSelecionados = projeto.getDocentesParticipantes();
 		this.alunosSelecionados = projeto.getAlunosParticipantes();
 		this.externosSelecionados = projeto.getExternoParticipantes();
-		
-		if(this.projeto.getDocenteResponsavel() != null){
+
+		if (this.projeto.getDocenteResponsavel() != null) {
 			this.selecionaCoordenador = "1";
-		}else{
+		} else {
 			this.selecionaCoordenador = "2";
 		}
 		acaoEnum = AcaoEnum.EDITAR;
@@ -134,10 +147,10 @@ public class ProjetoMB extends BaseMB {
 		this.docentesSelecionados = projeto.getDocentesParticipantes();
 		this.alunosSelecionados = projeto.getAlunosParticipantes();
 		this.externosSelecionados = projeto.getExternoParticipantes();
-		
-		if(this.projeto.getDocenteResponsavel() != null){
+
+		if (this.projeto.getDocenteResponsavel() != null) {
 			this.selecionaCoordenador = "1";
-		}else{
+		} else {
 			this.selecionaCoordenador = "2";
 		}
 		acaoEnum = AcaoEnum.VISUALIZAR;
@@ -358,6 +371,10 @@ public class ProjetoMB extends BaseMB {
 		this.docenteDao = new DocenteDaoImpl();
 		this.alunoDao = new AlunoDaoImpl();
 		this.externoDao = new ExternoDaoImpl();
+		this.historico = new Historico();
+		this.historicoDao = new HistoricoDaoImpl();
+		this.user = new Seguranca().getUsuarioLogado();
+		this.docenteDao = new DocenteDaoImpl();
 
 	}
 
@@ -388,6 +405,20 @@ public class ProjetoMB extends BaseMB {
 
 		return false;
 
+	}
+
+	public void cadastraHistorico(String mensagem, Projeto projeto) {
+		this.historico.setDataAlteracao(new Date());
+		this.historico.setProjeto(projeto);
+		if (isDiretor() || isProfessor()) {
+			this.historico.setDocente(this.docenteDao.getDocentebyMatricula(user.getUsuario().getMatricula()));
+		}else{
+			this.historico.setAluno(this.alunoDao.getAlunobyMatricula(user.getUsuario().getMatricula()));
+		}
+		
+		this.historico.setAlteracao("Projeto: " + projeto.getNome() + "\n" + mensagem + "\n" + "Responsável: "
+				+ this.historico.getDocente().getNome());
+		this.historicoDao.save(historico);
 	}
 
 	private boolean verificaVazio(Projeto projeto) {
@@ -603,4 +634,28 @@ public class ProjetoMB extends BaseMB {
 		this.externosSelecionados = externosSelecionados;
 	}
 
+	public boolean isDiretor(){
+		Iterator<GrantedAuthority> iterator = user.getAuthorities().iterator();
+		if(iterator.next().getAuthority().equals("ROLE_DIRETOR")){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+	
+	public boolean isAluno(){
+		Iterator<GrantedAuthority> iterator = user.getAuthorities().iterator();
+		if(iterator.next().getAuthority().equals("ROLE_ALUNO")){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+	
+	public boolean isProfessor(){
+		Iterator<GrantedAuthority> iterator = user.getAuthorities().iterator();
+		if(iterator.next().getAuthority().equals("ROLE_PROFESSOR")){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+	
 }

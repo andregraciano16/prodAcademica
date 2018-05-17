@@ -12,17 +12,24 @@ import javax.faces.bean.ViewScoped;
 
 import br.ucb.dao.AlunoDao;
 import br.ucb.dao.CursoDao;
+import br.ucb.dao.DocenteDao;
 import br.ucb.dao.EnderecoDao;
+import br.ucb.dao.HistoricoDao;
 import br.ucb.dao.StatusAlunoDao;
 import br.ucb.dao.impl.AlunoDaoImpl;
 import br.ucb.dao.impl.CursoDaoImpl;
+import br.ucb.dao.impl.DocenteDaoImpl;
 import br.ucb.dao.impl.EnderecoDaoImpl;
+import br.ucb.dao.impl.HistoricoDaoImpl;
 import br.ucb.dao.impl.StatusAlunoDaoImpl;
 import br.ucb.entity.Aluno;
 import br.ucb.entity.Curso;
 import br.ucb.entity.Endereco;
+import br.ucb.entity.Historico;
 import br.ucb.entity.StatusAluno;
 import br.ucb.enums.AcaoEnum;
+import br.ucb.security.Seguranca;
+import br.ucb.security.UsuarioSistema;
 
 @ManagedBean(name = "alunoMB")
 @ViewScoped
@@ -42,6 +49,10 @@ public class AlunoMB extends BaseMB {
 	private EnderecoDao enderecoDao;
 	private Endereco endereco;
 	private AcaoEnum acaoEnum;
+	private Historico historico;
+	private HistoricoDao historicoDao;
+	private UsuarioSistema user;
+	private DocenteDao docenteDao;
 
 
 	@PostConstruct
@@ -61,6 +72,7 @@ public class AlunoMB extends BaseMB {
 			} else {
 				montar(this.aluno, this.endereco);
 				this.alunoDao.save(this.aluno);
+				cadastraHistorico("Foi cadastrado com sucesso.", this.alunoDao.getAlunobyMatricula(this.aluno.getMatricula()));
 				setMessageSuccess("Cadastrado com sucesso.");
 			}
 
@@ -71,8 +83,14 @@ public class AlunoMB extends BaseMB {
 	}
 
 	public void excluir(Aluno aluno) {
-		this.alunoDao.remove(aluno);
-		setMessageSuccess("Excluído com sucesso.");
+		if(aluno.isAtivo()){
+        	aluno.setAtivo(Boolean.FALSE);
+			this.alunoDao.update(aluno);
+			cadastraHistorico("Foi desativado.", aluno);
+			setMessageSuccess("Inativado com sucesso!");
+        }else{
+        	setMessageError("Aluno já está inativado!");
+        }
 		init();
 	}
 
@@ -81,6 +99,7 @@ public class AlunoMB extends BaseMB {
 		if (this.aluno != null && !verificaVazio(this.aluno, this.endereco)) {
 			this.enderecoDao.update(this.endereco);
 			this.alunoDao.update(this.aluno);
+			cadastraHistorico("Foi alterado com sucesso.", this.aluno);
 			setMessageSuccess("Atualizado com sucesso.");
 		} else {
 			setMessageError("Preencha os campos corretamente.");
@@ -150,7 +169,10 @@ public class AlunoMB extends BaseMB {
 		this.enderecos = new ArrayList<Endereco>();
 		this.enderecoDao = new EnderecoDaoImpl();
 		this.endereco = new Endereco();
-
+		this.historico = new Historico();
+		this.historicoDao = new HistoricoDaoImpl();
+		this.user = new Seguranca().getUsuarioLogado();
+		this.docenteDao = new DocenteDaoImpl();
 	}
 
 	private void montar(Aluno aluno, Endereco endereco) {
@@ -178,8 +200,16 @@ public class AlunoMB extends BaseMB {
 	public void habilitarNovo() {
 		this.acaoEnum = AcaoEnum.CADASTRAR;
 	}
-
 	
+	public void cadastraHistorico(String mensagem, Aluno aluno) {
+		this.historico.setDataAlteracao(new Date());
+		this.historico.setAluno(aluno);
+		this.historico.setDocente(this.docenteDao.getDocentebyMatricula(user.getUsuario().getMatricula()));
+		this.historico.setAlteracao("Aluno: " + aluno.getNome() + "\n" + "Matrícula: " + aluno.getMatricula() + "\n"
+				+ mensagem + "\n" + "Responsável: " + this.historico.getDocente().getNome());
+		this.historicoDao.save(historico);
+	}
+
 	private boolean verificaVazio(Aluno aluno, Endereco endereco) {
 
 		if (aluno.getNome() == null || aluno.getNome().trim().isEmpty()) {

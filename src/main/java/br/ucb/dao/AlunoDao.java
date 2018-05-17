@@ -15,6 +15,8 @@ public interface AlunoDao extends DaoGenerico<Aluno, Integer>{
 	UsuarioVO findByMatricula(String matricula);
 
 	List<Aluno> listFiltro(String anoInicio, String anoFim);
+	
+	Aluno getAlunobyMatricula(String matricula);
 
 
 }

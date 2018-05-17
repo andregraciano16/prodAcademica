@@ -2,6 +2,7 @@ package br.ucb.MB;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -43,6 +44,7 @@ public class HistoricoMB extends BaseMB {
 	private List<Projeto> projetos;
 	private ProjetoDao projetoDao;
 	private AcaoEnum acaoEnum;
+	 
 
 	@PostConstruct
 	public void init() {	
