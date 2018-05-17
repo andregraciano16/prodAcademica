@@ -132,8 +132,8 @@
 												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}" />
 										</div>
 									</div>
-									
-									
+
+
 									<div class="col-md-3">
 										<p:outputLabel for="idHoras"
 											value="Horas dedicadas (Semanal):" styleClass="control-label" />
@@ -147,12 +147,12 @@
 												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}"
 												converterMessage="Campo horas dedicadas é numérico.">
 												<f:convertNumber integerOnly="true" />
-												<f:convertNumber pattern="#######" maxFractionDigits="0"/>
+												<f:convertNumber pattern="#######" maxFractionDigits="0" />
 											</h:inputText>
 										</div>
 									</div>
-									
-																		
+
+
 								</div>
 								<div class="row">
 									<div class="col-md-8">
@@ -514,7 +514,8 @@
 										style="padding-top: 70px; text-align: right;">
 										<p:commandButton value="Editar" class="btn-primary btn-md"
 											action="#{projetoMB.prepararEdicao(projetoMB.projeto)}"
-											update="@form" styleClass="btn btn-primary" id="btnEditar" />
+											update="@form" styleClass="btn btn-primary" id="btnEditar"
+											rendered="#{menuMB.isDiretor()}" />
 										&nbsp;&nbsp;
 										<p:commandButton value="Voltar" class="btn-primary btn-md"
 											action="#{projetoMB.limpar}" update="@form"
@@ -681,7 +682,7 @@
 									<p:column headerText="Ações" styleClass="coluna-acao">
 
 										<p:commandLink action="#{projetoMB.prepararEdicao(item)}"
-											update="@form">
+											update="@form" rendered="#{menuMB.isDiretor()}">
 											<span class="glyphicon glyphicon-pencil" />
 										</p:commandLink>
 										&nbsp;
@@ -691,7 +692,7 @@
 										</p:commandLink>
 										&nbsp;
 										<p:commandLink action="#{projetoMB.excluir(item)}"
-											update="@form">
+											update="@form" rendered="#{menuMB.isDiretor()}">
 											<span class="glyphicon glyphicon-trash" />
 
 

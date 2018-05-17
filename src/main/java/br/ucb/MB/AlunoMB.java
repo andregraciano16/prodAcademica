@@ -1,6 +1,5 @@
 package br.ucb.MB;
 
-
 import java.util.ArrayList;
 
 import java.util.Date;
@@ -53,7 +52,8 @@ public class AlunoMB extends BaseMB {
 	private HistoricoDao historicoDao;
 	private UsuarioSistema user;
 	private DocenteDao docenteDao;
-
+	private String verificaSenha;
+	private String verificaMatricula;
 
 	@PostConstruct
 	public void init() {
@@ -62,17 +62,18 @@ public class AlunoMB extends BaseMB {
 		this.setAcaoEnum(AcaoEnum.LISTAR);
 	}
 
-	
-
 	public void cadastrar() {
 		if (!verificaVazio(this.aluno, this.endereco)) {
 
 			if (this.alunos.contains(this.aluno)) {
-				setMessageError("Já contém este registro, por favor insira um novo.");
+				setMessageError("Esta matricula já está cadastrada, por favor insira uma nova.");
+			} else if (!this.aluno.getSenha().equals(verificaSenha)) {
+				setMessageError("Os campos de senha estão diferentes, por favor, insira novamente.");
 			} else {
 				montar(this.aluno, this.endereco);
 				this.alunoDao.save(this.aluno);
-				cadastraHistorico("Foi cadastrado com sucesso.", this.alunoDao.getAlunobyMatricula(this.aluno.getMatricula()));
+				cadastraHistorico("Foi cadastrado com sucesso.",
+						this.alunoDao.getAlunobyMatricula(this.aluno.getMatricula()));
 				setMessageSuccess("Cadastrado com sucesso.");
 			}
 
@@ -83,24 +84,32 @@ public class AlunoMB extends BaseMB {
 	}
 
 	public void excluir(Aluno aluno) {
-		if(aluno.isAtivo()){
-        	aluno.setAtivo(Boolean.FALSE);
+		if (aluno.isAtivo()) {
+			aluno.setAtivo(Boolean.FALSE);
 			this.alunoDao.update(aluno);
 			cadastraHistorico("Foi desativado.", aluno);
 			setMessageSuccess("Inativado com sucesso!");
-        }else{
-        	setMessageError("Aluno já está inativado!");
-        }
+		} else {
+			setMessageError("Aluno já está inativado!");
+		}
 		init();
 	}
 
 	public void editar() {
 
 		if (this.aluno != null && !verificaVazio(this.aluno, this.endereco)) {
-			this.enderecoDao.update(this.endereco);
-			this.alunoDao.update(this.aluno);
-			cadastraHistorico("Foi alterado com sucesso.", this.aluno);
-			setMessageSuccess("Atualizado com sucesso.");
+			if (!this.verificaMatricula.equals(this.aluno.getMatricula()) && this.alunos.contains(this.aluno)) {
+				setMessageError("Esta matricula já está cadastrada, por favor insira uma nova.");
+			} else if (this.aluno.getSenha().isEmpty()) {
+				setMessageError("Preencha o campo senha novamente.");
+			} else if (!this.aluno.getSenha().equals(verificaSenha)) {
+				setMessageError("Os campos de senha estão diferentes, por favor, insira novamente.");
+			} else {
+				this.enderecoDao.update(this.endereco);
+				this.alunoDao.update(this.aluno);
+				cadastraHistorico("Foi alterado com sucesso.", this.aluno);
+				setMessageSuccess("Atualizado com sucesso.");
+			}
 		} else {
 			setMessageError("Preencha os campos corretamente.");
 		}
@@ -111,6 +120,7 @@ public class AlunoMB extends BaseMB {
 	public void prepararEdicao(Aluno aluno) {
 		this.aluno = aluno;
 		this.endereco = aluno.getEndereco();
+		this.verificaMatricula = aluno.getMatricula();
 		acaoEnum = AcaoEnum.EDITAR;
 	}
 
@@ -200,7 +210,7 @@ public class AlunoMB extends BaseMB {
 	public void habilitarNovo() {
 		this.acaoEnum = AcaoEnum.CADASTRAR;
 	}
-	
+
 	public void cadastraHistorico(String mensagem, Aluno aluno) {
 		this.historico.setDataAlteracao(new Date());
 		this.historico.setAluno(aluno);
@@ -425,5 +435,20 @@ public class AlunoMB extends BaseMB {
 		this.acaoEnum = acaoEnum;
 	}
 
+	public DocenteDao getDocenteDao() {
+		return docenteDao;
+	}
+
+	public void setDocenteDao(DocenteDao docenteDao) {
+		this.docenteDao = docenteDao;
+	}
+
+	public String getVerificaSenha() {
+		return verificaSenha;
+	}
+
+	public void setVerificaSenha(String verificaSenha) {
+		this.verificaSenha = verificaSenha;
+	}
 
 }

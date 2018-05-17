@@ -120,24 +120,6 @@
 
 										<div class="col-md-4">
 											<div class="form-group">
-												<h:outputLabel value="Ativo: " for="idAtivo"
-													styleClass="control-label"></h:outputLabel>
-												<div class="input-group">
-													<span class="input-group-addon"> <span
-														class="glyphicon glyphicon-tag"></span>
-													</span>
-													<h:selectOneMenu id="idAtivo"
-														value="#{alunoMB.aluno.ativo}" styleClass="form-control"
-														disabled="#{alunoMB.acaoEnum.getCodigo() == 0}">
-														<f:selectItem itemLabel="Sim" itemValue="#{true}" />
-														<f:selectItem itemLabel="Não" itemValue="#{false}" />
-													</h:selectOneMenu>
-												</div>
-											</div>
-										</div>
-
-										<div class="col-md-8">
-											<div class="form-group">
 												<h:outputLabel value="Email:" for="idEmail"
 													styleClass="control-label"></h:outputLabel>
 												<div class="input-group">
@@ -149,6 +131,38 @@
 														disabled="#{alunoMB.acaoEnum.getCodigo() == 0}"
 														id="idEmail">
 													</p:inputText>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<h:outputLabel value="Senha:" for="idSenha"
+													styleClass="control-label"></h:outputLabel>
+												<div class="input-group">
+													<span class="input-group-addon"> <span
+														class="glyphicon glyphicon-tag"></span>
+													</span>
+													<h:inputSecret id="idSenha" class="form-control"
+														name="password" type="password"
+														disabled="#{alunoMB.acaoEnum.getCodigo() == 0}"
+														value="#{alunoMB.aluno.senha}" />
+												</div>
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<h:outputLabel value="Repita a senha:" for="idRSenha"
+													styleClass="control-label"></h:outputLabel>
+												<div class="input-group">
+													<span class="input-group-addon"> <span
+														class="glyphicon glyphicon-tag"></span>
+													</span>
+													<h:inputSecret id="idRSenha" class="form-control"
+														name="password" type="password"
+														disabled="#{alunoMB.acaoEnum.getCodigo() == 0}"
+														value="#{alunoMB.verificaSenha}" />
 												</div>
 											</div>
 										</div>
@@ -215,6 +229,25 @@
 										</div>
 									</div>
 
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group">
+												<h:outputLabel value="Ativo: " for="idAtivo"
+													styleClass="control-label"></h:outputLabel>
+												<div class="input-group">
+													<span class="input-group-addon"> <span
+														class="glyphicon glyphicon-tag"></span>
+													</span>
+													<h:selectOneMenu id="idAtivo"
+														value="#{alunoMB.aluno.ativo}" styleClass="form-control"
+														disabled="#{alunoMB.acaoEnum.getCodigo() == 0}">
+														<f:selectItem itemLabel="Sim" itemValue="#{true}" />
+														<f:selectItem itemLabel="Não" itemValue="#{false}" />
+													</h:selectOneMenu>
+												</div>
+											</div>
+										</div>
+									</div>
 									<div class="row">
 										<div class="col-md-4">
 											<p:outputLabel for="idEstado" value="Estado"
@@ -448,14 +481,16 @@
 										</p:column>
 
 										<p:column headerText="Ativo">
-									               <h:outputText value="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}" title="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}" />
-										       </p:column>
+											<h:outputText
+												value="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}"
+												title="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}" />
+										</p:column>
 
 
 										<p:column headerText="Ações" styleClass="coluna-acao">
 
 											<p:commandLink action="#{alunoMB.prepararEdicao(item)}"
-												update="@form">
+												update="@form" rendered="#{menuMB.isDiretor()}">
 												<span class="glyphicon glyphicon-pencil" />
 											</p:commandLink>
 										&nbsp;
@@ -465,7 +500,7 @@
 											</p:commandLink>
 										&nbsp;
 										<p:commandLink action="#{alunoMB.excluir(item)}"
-												update="@form">
+												update="@form" rendered="#{menuMB.isDiretor()}">
 												<span class="glyphicon glyphicon-trash" />
 
 
