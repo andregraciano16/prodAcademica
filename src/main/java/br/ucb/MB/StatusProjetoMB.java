@@ -24,8 +24,6 @@ public class StatusProjetoMB extends BaseMB {
 	private List<StatusProjeto> variosStatus;
 	private StatusProjeto statusProjeto;
 	private StatusProjetoDao statusProjetoDao;
-	private String msg;
-	private StatusProjeto editavel;
 
 	@PostConstruct
 	public void init() {
@@ -33,26 +31,20 @@ public class StatusProjetoMB extends BaseMB {
 		this.statusProjeto = new StatusProjeto();
 		this.statusProjeto.setDescricao("");
 		this.statusProjetoDao = new StatusProjetoDaoImpl();
-		this.editavel = new StatusProjeto();
 		buscar();
 	}
 
 	public void cadastrar(StatusProjeto statusProjeto) {
 		if (this.statusProjeto.getDescricao() != null && !this.statusProjeto.getDescricao().trim().isEmpty()) {
 			if (this.variosStatus.contains(this.statusProjeto)) {
-				msg = "Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+				setMessageError("Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.");
 			} else {
 				montarStatusProjeto();
 				this.statusProjetoDao.save(this.statusProjeto);
-				msg = "Cadastrado com sucesso.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+				setMessageSuccess("Cadastrado com sucesso.");
 			}
 		} else {
-			msg = "Preencha os campos corretamente.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+			setMessageError( "Preencha o campo corretamente.");
 		}
 		init();
 	}
@@ -67,24 +59,17 @@ public class StatusProjetoMB extends BaseMB {
 
 	public void excluir(StatusProjeto statusProjeto) {
 		this.statusProjetoDao.remove(statusProjeto);
-		msg = "Excluído com sucesso.";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+		setMessageSuccess("Excluído com sucesso.");
 		init();
 	}
 
-	public void editar(RowEditEvent event) {
+	public void editar(StatusProjeto statusProjeto) {
 
-		if (this.editavel.getDescricao() != null && !this.editavel.getDescricao().isEmpty()) {
-
-			statusProjeto = (StatusProjeto) event.getObject();
-			statusProjeto.setDescricao(editavel.getDescricao());
-			this.statusProjetoDao.update(this.statusProjeto);
-			msg = "Atualizado com sucesso.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-
+		if (statusProjeto.getDescricao() != null && !statusProjeto.getDescricao().trim().isEmpty()) {
+			this.statusProjetoDao.update(statusProjeto);
+			setMessageSuccess("Atualizado com sucesso.");
 		} else {
-			msg = "Descrição não pode ficar vazia.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+			setMessageError("Descrição não pode ficar vazia.");
 		}
 		init();
 
@@ -126,14 +111,6 @@ public class StatusProjetoMB extends BaseMB {
 
 	public void setStatusProjetoDao(StatusProjetoDao statusProjetoDao) {
 		this.statusProjetoDao = statusProjetoDao;
-	}
-
-	public StatusProjeto getEditavel() {
-		return editavel;
-	}
-
-	public void setEditavel(StatusProjeto editavel) {
-		this.editavel = editavel;
 	}
 
 	public StatusProjeto getStatusProjeto() {

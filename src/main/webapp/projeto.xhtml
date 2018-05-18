@@ -59,7 +59,7 @@
 										<div class="col-md-8">
 											<p:outputLabel for="idDocenteResp"
 												value="Docente Responsável:" styleClass="control-label"
-												rendered="#{projetoMB.selecionaCoordenador.equals('1')}" />
+												rendered="#{projetoMB.selecionaCoordenador.equals('1')}"/>
 
 											<div class="input-group">
 												<h:panelGroup
@@ -75,7 +75,7 @@
 													completeMethod="#{projetoMB.escolheDocente}" effect="fade"
 													readonly="#{projetoMB.acaoEnum.getCodigo() == 0}"
 													var="docente" itemLabel="#{docente.nome}"
-													itemValue="#{docente}" forceSelection="true"
+													itemValue="#{docente}" forceSelection="true" 
 													rendered="#{projetoMB.selecionaCoordenador.equals('1')}">
 													<p:ajax event="change"
 														listener="#{projetoMB.verificaDocenteResponsavel(projetoMB.projeto.docenteResponsavel)}"
@@ -480,10 +480,10 @@
 										style="padding-top: 70px; text-align: right;">
 
 										<p:commandButton value="Cadastrar" class="btn-primary btn-md"
-											action="#{projetoMB.cadastrar()}" update="@form"
-											styleClass="btn btn-primary" id="btnCadastrar" />
+											action="#{projetoMB.cadastrar()}" process="@form"
+											update="@form"
+											styleClass="btn btn-primary" id="btnCadastrar"/>
 										&nbsp;&nbsp;
-
 										<p:commandButton value="Limpar" title="Limpar"
 											actionListener="#{projetoMB.limparCadastro}" update="@form"
 											styleClass="btn btn-defaut" id="btnLimpar" />
