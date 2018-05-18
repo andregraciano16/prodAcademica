@@ -24,6 +24,7 @@ public class StatusAlunoMB extends BaseMB {
 	private List<StatusAluno> variosStatus;
 	private StatusAluno statusAluno;
 	private StatusAlunoDao statusAlunoDao;
+	private boolean resultado;
 
 	@PostConstruct
 	public void init() {
@@ -41,8 +42,13 @@ public class StatusAlunoMB extends BaseMB {
 						"Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.");
 			} else {
 				montarStatusAluno();
-				this.statusAlunoDao.save(this.statusAluno);
-				setMessageSuccess("Cadastrado com sucesso.");
+				this.resultado = this.statusAlunoDao.saveM(this.statusAluno);
+				if (this.resultado) {
+					setMessageSuccess("Cadastrado com sucesso.");
+				} else {
+					setMessageError("Houve um erro ao salvar no sistema.");
+				}
+
 			}
 		} else {
 			setMessageError("Preencha os campos corretamente.");
@@ -59,16 +65,27 @@ public class StatusAlunoMB extends BaseMB {
 	}
 
 	public void excluir(StatusAluno statusAluno) {
-		this.statusAlunoDao.remove(statusAluno);
-		setMessageSuccess("Excluído com sucesso.");
+		this.resultado = this.statusAlunoDao.removeM(statusAluno);
+		if (this.resultado) {
+			setMessageSuccess("Excluído com sucesso.");
+		} else {
+			setMessageError(
+					"Houve um erro ao deletar no sistema. Por favor, apague o histórico e qualquer relação com este registro.");
+		}
+
 		init();
 	}
 
 	public void editar(StatusAluno statusAluno) {
 
 		if (statusAluno.getDescricao() != null && !statusAluno.getDescricao().isEmpty()) {
-			this.statusAlunoDao.update(statusAluno);
-			setMessageSuccess("Atualizado com sucesso.");
+			this.resultado = this.statusAlunoDao.updateM(statusAluno);
+			if (this.resultado) {
+				setMessageSuccess("Atualizado com sucesso.");
+			} else {
+				setMessageError("Houve um erro ao salvar no sistema.");
+			}
+
 		} else {
 			setMessageError("Descrição não pode ficar vazia.");
 		}

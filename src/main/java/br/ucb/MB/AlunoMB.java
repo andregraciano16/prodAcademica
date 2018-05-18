@@ -54,6 +54,7 @@ public class AlunoMB extends BaseMB {
 	private DocenteDao docenteDao;
 	private String verificaSenha;
 	private String verificaMatricula;
+	private boolean resultado;
 
 	@PostConstruct
 	public void init() {
@@ -71,10 +72,13 @@ public class AlunoMB extends BaseMB {
 				setMessageError("Os campos de senha estão diferentes, por favor, insira novamente.");
 			} else {
 				montar(this.aluno, this.endereco);
-				this.alunoDao.save(this.aluno);
-				cadastraHistorico("Foi cadastrado com sucesso.",
-						this.alunoDao.getAlunobyMatricula(this.aluno.getMatricula()));
-				setMessageSuccess("Cadastrado com sucesso.");
+				this.resultado = this.alunoDao.saveM(this.aluno);
+				if (this.resultado) {
+					setMessageSuccess("Cadastrado com sucesso.");
+					cadastraHistorico("Foi cadastrado com sucesso.",
+							this.alunoDao.getAlunobyMatricula(this.aluno.getMatricula()));
+				} else
+					setMessageError("Houve um erro no sistema ao salvar.");
 			}
 
 		} else {
@@ -106,9 +110,12 @@ public class AlunoMB extends BaseMB {
 				setMessageError("Os campos de senha estão diferentes, por favor, insira novamente.");
 			} else {
 				this.enderecoDao.update(this.endereco);
-				this.alunoDao.update(this.aluno);
-				cadastraHistorico("Foi alterado com sucesso.", this.aluno);
-				setMessageSuccess("Atualizado com sucesso.");
+				this.resultado = this.alunoDao.updateM(this.aluno);
+				if (this.resultado) {
+					cadastraHistorico("Foi alterado com sucesso.", this.aluno);
+					setMessageSuccess("Atualizado com sucesso.");
+				} else
+					setMessageError("Houve um erro ao salvar no sistema.");
 			}
 		} else {
 			setMessageError("Preencha os campos corretamente.");

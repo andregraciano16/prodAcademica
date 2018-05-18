@@ -24,6 +24,7 @@ public class StatusAprovacaoMB extends BaseMB {
 	private List<StatusAprovacao> variosStatus;
 	private StatusAprovacao statusAprovacao;
 	private StatusAprovacaoDao statusAprovacaoDao;
+	private boolean resultado;
 
 	@PostConstruct
 	public void init() {
@@ -37,11 +38,16 @@ public class StatusAprovacaoMB extends BaseMB {
 	public void cadastrar(StatusAprovacao statusAprovacao) {
 		if (this.statusAprovacao.getDescricao() != null && !this.statusAprovacao.getDescricao().trim().isEmpty()) {
 			if (this.variosStatus.contains(this.statusAprovacao)) {
-				setMessageError("Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.");
+				setMessageError(
+						"Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.");
 			} else {
 				montarStatusAprovacao();
-				this.statusAprovacaoDao.save(this.statusAprovacao);
-				setMessageSuccess("Cadastrado com sucesso.");
+				this.resultado = this.statusAprovacaoDao.saveM(this.statusAprovacao);
+				if (this.resultado) {
+					setMessageSuccess("Cadastrado com sucesso.");
+				} else {
+					setMessageError("Houve um erro ao salvar no sistema.");
+				}
 			}
 		} else {
 			setMessageError("Preencha os campos corretamente.");
@@ -58,8 +64,14 @@ public class StatusAprovacaoMB extends BaseMB {
 	}
 
 	public void excluir(StatusAprovacao statusAprovacao) {
-		this.statusAprovacaoDao.remove(statusAprovacao);
-		setMessageSuccess("Excluído com sucesso.");
+		this.resultado = this.statusAprovacaoDao.removeM(statusAprovacao);
+		if (this.resultado) {
+			setMessageSuccess("Excluído com sucesso.");
+		} else {
+			setMessageError(
+					"Houve um erro ao deletar no sistema. Por favor, apague o histórico e qualquer relação com este registro.");
+		}
+
 		init();
 	}
 
@@ -67,8 +79,12 @@ public class StatusAprovacaoMB extends BaseMB {
 
 		if (statusAprovacao.getDescricao() != null && !statusAprovacao.getDescricao().isEmpty()) {
 
-			this.statusAprovacaoDao.update(statusAprovacao);
-			setMessageSuccess("Atualizado com sucesso.");
+			this.resultado = this.statusAprovacaoDao.updateM(statusAprovacao);
+			if (this.resultado) {
+				setMessageSuccess("Atualizado com sucesso.");
+			} else {
+				setMessageError("Houve um erro ao salvar no sistema.");
+			}
 		} else {
 			setMessageError("Descrição não pode ficar vazia.");
 		}

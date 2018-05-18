@@ -1,6 +1,5 @@
 package br.ucb.MB;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,17 +15,16 @@ import br.ucb.dao.TipoProjetoDao;
 import br.ucb.dao.impl.TipoProjetoDaoImpl;
 import br.ucb.entity.TipoProjeto;
 
-
 @ManagedBean(name = "tipoProjetoMB")
 @ViewScoped
-public class TipoProjetoMB extends BaseMB{
-	
+public class TipoProjetoMB extends BaseMB {
+
 	private static final long serialVersionUID = 1L;
 
 	private List<TipoProjeto> tiposProjeto;
 	private TipoProjeto tipoProjeto;
 	private TipoProjetoDao tipoProjetoDao;
-
+	private boolean resultado;
 
 	@PostConstruct
 	public void init() {
@@ -39,14 +37,19 @@ public class TipoProjetoMB extends BaseMB{
 	}
 
 	public void cadastrar(TipoProjeto tipoProjeto) {
-		if (this.tipoProjeto.getDescricao() != null && !this.tipoProjeto.getDescricao().trim().isEmpty() &&
-				this.tipoProjeto.getTipo() != null && !this.tipoProjeto.getTipo().trim().isEmpty()) {
+		if (this.tipoProjeto.getDescricao() != null && !this.tipoProjeto.getDescricao().trim().isEmpty()
+				&& this.tipoProjeto.getTipo() != null && !this.tipoProjeto.getTipo().trim().isEmpty()) {
 			if (this.tiposProjeto.contains(this.tipoProjeto)) {
-				setMessageError("Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.");
+				setMessageError(
+						"Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.");
 			} else {
 				montarTipoProjeto();
-				this.tipoProjetoDao.save(this.tipoProjeto);
-				setMessageSuccess("Cadastrado com sucesso.");
+				this.resultado = this.tipoProjetoDao.saveM(this.tipoProjeto);
+				if (this.resultado) {
+					setMessageSuccess("Cadastrado com sucesso.");
+				} else {
+					setMessageError("Houve um erro ao salvar no sistema.");
+				}
 			}
 		} else {
 			setMessageError("Preencha os campos corretamente.");
@@ -64,16 +67,26 @@ public class TipoProjetoMB extends BaseMB{
 	}
 
 	public void excluir(TipoProjeto tipoProjeto) {
-		this.tipoProjetoDao.remove(tipoProjeto);
-		setMessageSuccess("Excluído com sucesso.");
+		this.resultado = this.tipoProjetoDao.removeM(tipoProjeto);
+		if (this.resultado) {
+			setMessageSuccess("Excluído com sucesso.");
+		} else {
+			setMessageError(
+					"Houve um erro ao deletar no sistema. Por favor, apague o histórico e qualquer relação com este registro.");
+		}
+
 		init();
 	}
 
 	public void editar(TipoProjeto tipoProjeto) {
 
 		if (tipoProjeto.getDescricao() != null && !tipoProjeto.getDescricao().isEmpty()) {
-			this.tipoProjetoDao.update(tipoProjeto);
-			setMessageSuccess("Atualizado com sucesso.");
+			this.resultado = this.tipoProjetoDao.updateM(tipoProjeto);
+			if (this.resultado) {
+				setMessageSuccess("Atualizado com sucesso.");
+			} else {
+				setMessageError("Houve um erro ao salvar no sistema.");
+			}
 		} else {
 			setMessageError("Descrição não pode ficar vazia.");
 		}
@@ -92,7 +105,7 @@ public class TipoProjetoMB extends BaseMB{
 		if (this.tipoProjeto.getDescricao() != null) {
 			if (this.tipoProjeto.getDescricao().isEmpty() && this.tipoProjeto.getTipo().isEmpty()) {
 				this.tiposProjeto = this.tipoProjetoDao.list();
-			}else{
+			} else {
 				this.tiposProjeto = this.tipoProjetoDao.findBySearch(this.tipoProjeto);
 			}
 		}

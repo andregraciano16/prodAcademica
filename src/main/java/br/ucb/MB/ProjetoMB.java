@@ -71,6 +71,7 @@ public class ProjetoMB extends BaseMB {
 	private Historico historico;
 	private HistoricoDao historicoDao;
 	private UsuarioSistema user;
+	private boolean resultado;
 
 	@PostConstruct
 	public void init() {
@@ -92,9 +93,13 @@ public class ProjetoMB extends BaseMB {
 			} else if (this.projeto.getExternoResponsavel() != null && this.projeto.getDocenteResponsavel() != null) {
 				setMessageError("Escolha só um coordenador.");
 			} else {
-				this.projetoDao.save(this.projeto);
-				cadastraHistorico("Foi cadastrado com sucesso.", this.projetoDao.find(this.projeto));
-				setMessageSuccess("Cadastrado com sucesso.");
+				resultado = this.projetoDao.saveM(this.projeto);
+				if (this.resultado) {
+					cadastraHistorico("Foi cadastrado com sucesso.", this.projetoDao.find(this.projeto));
+					setMessageSuccess("Cadastrado com sucesso.");
+				} else {
+					setMessageError("Houve um erro ao salvar no sistema.");
+				}
 			}
 
 		} else if (this.docentesSelecionados.contains(projeto.getDocenteResponsavel())) {
@@ -110,8 +115,13 @@ public class ProjetoMB extends BaseMB {
 	}
 
 	public void excluir(Projeto projeto) {
-		this.projetoDao.remove(projeto);
-		setMessageSuccess("Excluído com sucesso.");
+		this.resultado = this.projetoDao.removeM(projeto);
+		if (this.resultado) {
+			setMessageSuccess("Excluído com sucesso.");
+		} else {
+			setMessageError(
+					"Houve um erro ao deletar no sistema. Por favor, apague o histórico e qualquer relação com este registro.");
+		}
 		init();
 	}
 
@@ -121,10 +131,20 @@ public class ProjetoMB extends BaseMB {
 			if (this.projeto.getExternoResponsavel() != null && this.projeto.getDocenteResponsavel() != null) {
 				setMessageError("Escolha só um coordenador.");
 			} else {
-				this.projetoDao.update(this.projeto);
-				cadastraHistorico("Foi alterado com sucesso.", this.projeto);
-				setMessageSuccess("Atualizado com sucesso.");
+				this.resultado = this.projetoDao.updateM(this.projeto);
+				if (this.resultado) {
+					cadastraHistorico("Foi alterado com sucesso.", this.projeto);
+					setMessageSuccess("Atualizado com sucesso.");
+				} else {
+					setMessageError("Houve um erro ao salvar no sistema.");
+				}
 			}
+		} else if (this.docentesSelecionados.contains(projeto.getDocenteResponsavel())) {
+			setMessageError(
+					"Este docente não pode ser um participante, pois já é o responsavel do projeto, por favor retire o mesmo da lista de docentes.");
+		} else if (this.externosSelecionados.contains(projeto.getExternoResponsavel())) {
+			setMessageError(
+					"Este externo não pode ser um participante, pois já é o responsavel do projeto, por favor retire o mesmo da lista de externo.");
 		} else {
 			setMessageError("Preencha os campos corretamente.");
 		}

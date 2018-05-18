@@ -24,6 +24,7 @@ public class LinhaPesquisaMB extends BaseMB {
 	private List<LinhaPesquisa> linhasPesquisa;
 	private LinhaPesquisa linhaPesquisa;
 	private LinhaPesquisaDao linhaPesquisaDao;
+	private boolean resultado;
 
 	@PostConstruct
 	public void init() {
@@ -41,8 +42,12 @@ public class LinhaPesquisaMB extends BaseMB {
 						"Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.");
 			} else {
 				montarLinhaPesquisa();
-				this.linhaPesquisaDao.save(this.linhaPesquisa);
-				setMessageSuccess("Cadastrado com sucesso.");
+				this.resultado = this.linhaPesquisaDao.saveM(this.linhaPesquisa);
+				if (this.resultado) {
+					setMessageSuccess("Cadastrado com sucesso.");
+				} else {
+					setMessageError("Houve um erro ao salvar no sistema.");
+				}
 			}
 		} else {
 			setMessageError("Preencha os campos corretamente.");
@@ -59,8 +64,13 @@ public class LinhaPesquisaMB extends BaseMB {
 	}
 
 	public void excluir(LinhaPesquisa linhaPesquisa) {
-		this.linhaPesquisaDao.remove(linhaPesquisa);
-		setMessageSuccess("Excluído com sucesso.");
+		this.resultado = this.linhaPesquisaDao.removeM(linhaPesquisa);
+		if (this.resultado) {
+			setMessageSuccess("Excluído com sucesso.");
+		} else {
+			setMessageError("Houve um erro ao excluir no sistema. Por favor, delete todo histórico e relações com este registro.");
+		}
+		
 		init();
 	}
 
@@ -68,8 +78,12 @@ public class LinhaPesquisaMB extends BaseMB {
 
 		if (linhaPesquisa.getDescricao() != null && !linhaPesquisa.getDescricao().isEmpty()) {
 
-			this.linhaPesquisaDao.update(linhaPesquisa);
-			setMessageSuccess("Atualizado com sucesso.");
+			this.resultado = this.linhaPesquisaDao.updateM(linhaPesquisa);
+			if (this.resultado) {
+				setMessageSuccess("Atualizado com sucesso.");
+			} else {
+				setMessageError("Houve um erro ao salvar no sistema.");
+			}
 		} else {
 			setMessageError("Descrição não pode ficar vazia.");
 		}

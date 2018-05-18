@@ -37,6 +37,7 @@ public class AprovarProducaoDiretorMB extends BaseMB {
 	private HistoricoDao historicoDao;
 	private UsuarioSistema user;
 	private DocenteDao docenteDao;
+	private boolean resultado;
 
 	@PostConstruct
 	public void init() {
@@ -66,17 +67,25 @@ public class AprovarProducaoDiretorMB extends BaseMB {
 
 	public void aprovar(AprovacaoProducaoVO producao) {
 		producao.setStatusAprovacao(this.aprovar);
-		this.producaoAcademicaDao.updateResultado(producao);
-		this.aprovaProducoes.remove(producao);
-		cadastraHistorico("Produção foi aprovada.", producao);
+		this.resultado = this.producaoAcademicaDao.updateResultadoM(producao);
+		if (this.resultado) {
+			setMessageSuccess("Produção foi aprovada com sucesso.");
+			this.aprovaProducoes.remove(producao);
+			cadastraHistorico("Produção foi aprovada.", producao);
+		} else
+			setMessageError("Houve um problema ao aprovar a produção.");
 
 	}
 
 	public void reprovar(AprovacaoProducaoVO producao) {
 		producao.setStatusAprovacao(this.reprovar);
-		this.producaoAcademicaDao.updateResultado(producao);
-		this.aprovaProducoes.remove(producao);
-		cadastraHistorico("Produção foi reprovada.", producao);
+		this.resultado = this.producaoAcademicaDao.updateResultadoM(producao);
+		if (this.resultado) {
+			setMessageSuccess("Produção foi reprovada com sucesso.");
+			this.aprovaProducoes.remove(producao);
+			cadastraHistorico("Produção foi reprovada.", producao);
+		} else
+			setMessageError("Houve um problema ao reprovar a produção.");
 	}
 
 	public void cadastraHistorico(String mensagem, AprovacaoProducaoVO producao) {

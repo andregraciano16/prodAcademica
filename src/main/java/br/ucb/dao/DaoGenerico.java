@@ -14,5 +14,12 @@ public interface DaoGenerico<T extends Serializable, Key> {
 	public T findByKey(Class<T> t, Key key);
 
 	public void remove(T t);
+	
+	public boolean saveM(T t);
+
+	public boolean updateM(T t);
+
+	public boolean removeM(T t);
+
 
 }

@@ -20,8 +20,7 @@ import br.ucb.entity.Materia;
 
 @ManagedBean(name = "materiaMB")
 @ViewScoped
-public class MateriaMB extends BaseMB{
-
+public class MateriaMB extends BaseMB {
 
 	private static final long serialVersionUID = 1L;
 
@@ -30,6 +29,7 @@ public class MateriaMB extends BaseMB{
 	private MateriaDao materiaDao;
 	private List<LinhaPesquisa> linhasPesquisa;
 	private LinhaPesquisaDao linhaPesquisaDao;
+	private boolean resultado;
 
 	@PostConstruct
 	public void init() {
@@ -43,14 +43,19 @@ public class MateriaMB extends BaseMB{
 	}
 
 	public void cadastrar(Materia materia) {
-		if (this.materia.getDescricao() != null && !this.materia.getDescricao().trim().isEmpty() &&
-				this.materia.getLinhaPesquisa() != null) {
+		if (this.materia.getDescricao() != null && !this.materia.getDescricao().trim().isEmpty()
+				&& this.materia.getLinhaPesquisa() != null) {
 			if (this.materias.contains(this.materia)) {
-				setMessageError("Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.");
+				setMessageError(
+						"Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.");
 			} else {
 				montarMateria();
-				this.materiaDao.save(this.materia);
-				setMessageSuccess("Cadastrado com sucesso.");
+				this.resultado = this.materiaDao.saveM(this.materia);
+				if (this.resultado) {
+					setMessageSuccess("Cadastrado com sucesso.");
+				}else{
+					setMessageError("Houve um erro ao salvar no sistema.");
+				}
 			}
 		} else {
 			setMessageError("Preencha os campos corretamente.");
@@ -68,16 +73,25 @@ public class MateriaMB extends BaseMB{
 	}
 
 	public void excluir(Materia materia) {
-		this.materiaDao.remove(materia);
-		setMessageSuccess("Excluído com sucesso.");
+		this.resultado = this.materiaDao.removeM(materia);
+		if (this.resultado) {
+			setMessageSuccess("Excluído com sucesso.");
+		}else{
+			setMessageError("Houve um erro ao deletar no sistema. Por favor, apague o histórico e qualquer relação com este registro.");
+		}
+		
 		init();
 	}
 
 	public void editar(Materia materia) {
 
 		if (materia.getDescricao() != null && !materia.getDescricao().isEmpty()) {
-			this.materiaDao.update(materia);
-			setMessageSuccess("Atualizado com sucesso.");
+			this.resultado = this.materiaDao.updateM(materia);
+			if (this.resultado) {
+				setMessageSuccess("Atualizado com sucesso.");
+			}else{
+				setMessageError("Houve um erro ao salvar no sistema.");
+			}	
 		} else {
 			setMessageError("Descrição não pode ficar vazia.");
 		}
@@ -148,6 +162,5 @@ public class MateriaMB extends BaseMB{
 	public void setLinhaPesquisaDao(LinhaPesquisaDao linhaPesquisaDao) {
 		this.linhaPesquisaDao = linhaPesquisaDao;
 	}
-
 
 }
