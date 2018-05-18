@@ -552,7 +552,7 @@
 										</div>
 									</div>
 
-									<div class="col-md-8">
+									<div class="col-md-4">
 										<p:outputLabel for="idDocenteRespPesq"
 											value="Docente Responsável:" styleClass="control-label" />
 										<div class="input-group">
@@ -569,9 +569,29 @@
 												itemValue="#{docente}" forceSelection="true" />
 										</div>
 									</div>
+									
+									<div class="col-md-4">
+										<p:outputLabel for="idExternoRespPesq"
+											value="Externo Responsável:" styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+
+											<p:autoComplete
+												value="#{projetoMB.projeto.externoResponsavel}"
+												maxlength="45" id="idExternoRespPesq"
+												completeMethod="#{projetoMB.escolheExterno}" effect="fade"
+												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}"
+												var="externo" itemLabel="#{externo.nome}"
+												itemValue="#{externo}" forceSelection="true" />
+										</div>
+									</div>
 
 								</div>
 
+								
+								
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
