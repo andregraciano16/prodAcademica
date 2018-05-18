@@ -404,7 +404,7 @@ public class ProjetoMB extends BaseMB {
 
 		if (projeto.getNome() == null || projeto.getNome().trim().isEmpty() && projeto.getStatusProjeto() == null
 				&& projeto.getTipoProjeto() == null && projeto.getLinhaPesquisa() == null
-				&& projeto.getDocenteResponsavel() == null || projeto.getExternoResponsavel() == null)
+				&& projeto.getDocenteResponsavel() == null && projeto.getExternoResponsavel() == null)
 			return true;
 
 		return false;
