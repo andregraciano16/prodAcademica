@@ -1,27 +1,39 @@
 package br.ucb.dao.impl;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
-import javax.persistence.TemporalType;
 
 import br.ucb.dao.HistoricoDao;
 import br.ucb.entity.Historico;
 
 public class HistoricoDaoImpl extends DaoGenericoImpl<Historico, Integer> implements HistoricoDao {
+	private Calendar c = Calendar.getInstance();
+	private Date date = new Date();
 
 	@Override
 	public List<Historico> findBySearch(Historico historico) {
 		String where = montarWhere(historico);
-		Query query = getManager().createQuery(" From Historico h " + where);
+		Query query = getManager().createQuery(" From Historico h" + where + " order by h.dataAlteracao desc");
 		montarParametrs(query, historico);
 		return query.getResultList();
 
 	}
 	
+	public List <Historico> listOrder(){
+		Query query = getManager().createQuery(" From Historico h order by h.dataAlteracao desc");
+		return query.getResultList();
+	}
+	
 	public void montarParametrs(Query query, Historico historico){
 		if(historico.getDataAlteracao()!= null){
-			query.setParameter(1, historico.getDataAlteracao(), TemporalType.TIMESTAMP);
+			this.c.setTime(historico.getDataAlteracao());
+			this.c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 1);
+			this.date = c.getTime();
+			query.setParameter(1, historico.getDataAlteracao());
+			query.setParameter(7, this.date);
 		}
 		if(historico.getAluno() != null){
 			query.setParameter(2,historico.getAluno());
@@ -48,7 +60,7 @@ public class HistoricoDaoImpl extends DaoGenericoImpl<Historico, Integer> implem
 		StringBuilder consulta = new StringBuilder();
 		consulta.append(" WHERE 1=1 ");
 		if(historico.getDataAlteracao() != null){
-			consulta.append(" and h.dataAlteracao like ?1 ");
+			consulta.append(" and h.dataAlteracao >= ?1 and h.dataAlteracao < ?7");
 		}
 		
 		if(historico.getAluno() != null){

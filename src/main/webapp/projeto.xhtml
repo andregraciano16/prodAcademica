@@ -59,7 +59,7 @@
 										<div class="col-md-8">
 											<p:outputLabel for="idDocenteResp"
 												value="Docente Responsável:" styleClass="control-label"
-												rendered="#{projetoMB.selecionaCoordenador.equals('1')}" />
+												rendered="#{projetoMB.selecionaCoordenador.equals('1')}"/>
 
 											<div class="input-group">
 												<h:panelGroup
@@ -75,7 +75,7 @@
 													completeMethod="#{projetoMB.escolheDocente}" effect="fade"
 													readonly="#{projetoMB.acaoEnum.getCodigo() == 0}"
 													var="docente" itemLabel="#{docente.nome}"
-													itemValue="#{docente}" forceSelection="true"
+													itemValue="#{docente}" forceSelection="true" 
 													rendered="#{projetoMB.selecionaCoordenador.equals('1')}">
 													<p:ajax event="change"
 														listener="#{projetoMB.verificaDocenteResponsavel(projetoMB.projeto.docenteResponsavel)}"
@@ -132,8 +132,8 @@
 												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}" />
 										</div>
 									</div>
-									
-									
+
+
 									<div class="col-md-3">
 										<p:outputLabel for="idHoras"
 											value="Horas dedicadas (Semanal):" styleClass="control-label" />
@@ -147,12 +147,12 @@
 												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}"
 												converterMessage="Campo horas dedicadas é numérico.">
 												<f:convertNumber integerOnly="true" />
-												<f:convertNumber pattern="#######" maxFractionDigits="0"/>
+												<f:convertNumber pattern="#######" maxFractionDigits="0" />
 											</h:inputText>
 										</div>
 									</div>
-									
-																		
+
+
 								</div>
 								<div class="row">
 									<div class="col-md-8">
@@ -480,10 +480,10 @@
 										style="padding-top: 70px; text-align: right;">
 
 										<p:commandButton value="Cadastrar" class="btn-primary btn-md"
-											action="#{projetoMB.cadastrar()}" update="@form"
-											styleClass="btn btn-primary" id="btnCadastrar" />
+											action="#{projetoMB.cadastrar()}" process="@form"
+											update="@form"
+											styleClass="btn btn-primary" id="btnCadastrar"/>
 										&nbsp;&nbsp;
-
 										<p:commandButton value="Limpar" title="Limpar"
 											actionListener="#{projetoMB.limparCadastro}" update="@form"
 											styleClass="btn btn-defaut" id="btnLimpar" />
@@ -514,7 +514,8 @@
 										style="padding-top: 70px; text-align: right;">
 										<p:commandButton value="Editar" class="btn-primary btn-md"
 											action="#{projetoMB.prepararEdicao(projetoMB.projeto)}"
-											update="@form" styleClass="btn btn-primary" id="btnEditar" />
+											update="@form" styleClass="btn btn-primary" id="btnEditar"
+											rendered="#{menuMB.isDiretor()}" />
 										&nbsp;&nbsp;
 										<p:commandButton value="Voltar" class="btn-primary btn-md"
 											action="#{projetoMB.limpar}" update="@form"
@@ -551,7 +552,7 @@
 										</div>
 									</div>
 
-									<div class="col-md-8">
+									<div class="col-md-4">
 										<p:outputLabel for="idDocenteRespPesq"
 											value="Docente Responsável:" styleClass="control-label" />
 										<div class="input-group">
@@ -568,9 +569,29 @@
 												itemValue="#{docente}" forceSelection="true" />
 										</div>
 									</div>
+									
+									<div class="col-md-4">
+										<p:outputLabel for="idExternoRespPesq"
+											value="Externo Responsável:" styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+
+											<p:autoComplete
+												value="#{projetoMB.projeto.externoResponsavel}"
+												maxlength="45" id="idExternoRespPesq"
+												completeMethod="#{projetoMB.escolheExterno}" effect="fade"
+												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}"
+												var="externo" itemLabel="#{externo.nome}"
+												itemValue="#{externo}" forceSelection="true" />
+										</div>
+									</div>
 
 								</div>
 
+								
+								
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
@@ -681,7 +702,7 @@
 									<p:column headerText="Ações" styleClass="coluna-acao">
 
 										<p:commandLink action="#{projetoMB.prepararEdicao(item)}"
-											update="@form">
+											update="@form" rendered="#{menuMB.isDiretor()}">
 											<span class="glyphicon glyphicon-pencil" />
 										</p:commandLink>
 										&nbsp;
@@ -691,7 +712,7 @@
 										</p:commandLink>
 										&nbsp;
 										<p:commandLink action="#{projetoMB.excluir(item)}"
-											update="@form">
+											update="@form" rendered="#{menuMB.isDiretor()}">
 											<span class="glyphicon glyphicon-trash" />
 
 

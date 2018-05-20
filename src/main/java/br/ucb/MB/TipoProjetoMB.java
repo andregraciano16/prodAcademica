@@ -1,6 +1,5 @@
 package br.ucb.MB;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,18 +15,16 @@ import br.ucb.dao.TipoProjetoDao;
 import br.ucb.dao.impl.TipoProjetoDaoImpl;
 import br.ucb.entity.TipoProjeto;
 
-
 @ManagedBean(name = "tipoProjetoMB")
 @ViewScoped
-public class TipoProjetoMB extends BaseMB{
-	
+public class TipoProjetoMB extends BaseMB {
+
 	private static final long serialVersionUID = 1L;
 
 	private List<TipoProjeto> tiposProjeto;
 	private TipoProjeto tipoProjeto;
 	private TipoProjetoDao tipoProjetoDao;
-	private String msg;
-	private TipoProjeto editavel;
+	private boolean resultado;
 
 	@PostConstruct
 	public void init() {
@@ -36,27 +33,26 @@ public class TipoProjetoMB extends BaseMB{
 		this.tipoProjeto.setTipo("");
 		this.tipoProjeto.setDescricao("");
 		this.tipoProjetoDao = new TipoProjetoDaoImpl();
-		this.editavel = new TipoProjeto();
 		buscar();
 	}
 
 	public void cadastrar(TipoProjeto tipoProjeto) {
-		if (this.tipoProjeto.getDescricao() != null && !this.tipoProjeto.getDescricao().trim().isEmpty() &&
-				this.tipoProjeto.getTipo() != null && !this.tipoProjeto.getTipo().trim().isEmpty()) {
+		if (this.tipoProjeto.getDescricao() != null && !this.tipoProjeto.getDescricao().trim().isEmpty()
+				&& this.tipoProjeto.getTipo() != null && !this.tipoProjeto.getTipo().trim().isEmpty()) {
 			if (this.tiposProjeto.contains(this.tipoProjeto)) {
-				msg = "Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+				setMessageError(
+						"Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.");
 			} else {
 				montarTipoProjeto();
-				this.tipoProjetoDao.save(this.tipoProjeto);
-				msg = "Cadastrado com sucesso.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+				this.resultado = this.tipoProjetoDao.saveM(this.tipoProjeto);
+				if (this.resultado) {
+					setMessageSuccess("Cadastrado com sucesso.");
+				} else {
+					setMessageError("Houve um erro ao salvar no sistema.");
+				}
 			}
 		} else {
-			msg = "Preencha os campos corretamente.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+			setMessageError("Preencha os campos corretamente.");
 		}
 		init();
 	}
@@ -71,26 +67,28 @@ public class TipoProjetoMB extends BaseMB{
 	}
 
 	public void excluir(TipoProjeto tipoProjeto) {
-		this.tipoProjetoDao.remove(tipoProjeto);
-		msg = "Excluído com sucesso.";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+		this.resultado = this.tipoProjetoDao.removeM(tipoProjeto);
+		if (this.resultado) {
+			setMessageSuccess("Excluído com sucesso.");
+		} else {
+			setMessageError(
+					"Houve um erro ao deletar no sistema. Por favor, apague o histórico e qualquer relação com este registro.");
+		}
+
 		init();
 	}
 
-	public void editar(RowEditEvent event) {
+	public void editar(TipoProjeto tipoProjeto) {
 
-		if (this.editavel.getDescricao() != null && !this.editavel.getDescricao().isEmpty()) {
-
-			tipoProjeto = (TipoProjeto) event.getObject();
-			tipoProjeto.setTipo(editavel.getTipo());
-			tipoProjeto.setDescricao(editavel.getDescricao());
-			this.tipoProjetoDao.update(this.tipoProjeto);
-			msg = "Atualizado com sucesso.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-
+		if (tipoProjeto.getDescricao() != null && !tipoProjeto.getDescricao().isEmpty()) {
+			this.resultado = this.tipoProjetoDao.updateM(tipoProjeto);
+			if (this.resultado) {
+				setMessageSuccess("Atualizado com sucesso.");
+			} else {
+				setMessageError("Houve um erro ao salvar no sistema.");
+			}
 		} else {
-			msg = "Descrição não pode ficar vazia.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+			setMessageError("Descrição não pode ficar vazia.");
 		}
 		init();
 
@@ -107,7 +105,7 @@ public class TipoProjetoMB extends BaseMB{
 		if (this.tipoProjeto.getDescricao() != null) {
 			if (this.tipoProjeto.getDescricao().isEmpty() && this.tipoProjeto.getTipo().isEmpty()) {
 				this.tiposProjeto = this.tipoProjetoDao.list();
-			}else{
+			} else {
 				this.tiposProjeto = this.tipoProjetoDao.findBySearch(this.tipoProjeto);
 			}
 		}
@@ -132,14 +130,6 @@ public class TipoProjetoMB extends BaseMB{
 
 	public void setTipoProjetoDao(TipoProjetoDao tipoProjetoDao) {
 		this.tipoProjetoDao = tipoProjetoDao;
-	}
-
-	public TipoProjeto getEditavel() {
-		return editavel;
-	}
-
-	public void setEditavel(TipoProjeto editavel) {
-		this.editavel = editavel;
 	}
 
 	public TipoProjeto getTipoProjeto() {

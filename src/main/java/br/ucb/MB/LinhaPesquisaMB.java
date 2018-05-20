@@ -24,8 +24,7 @@ public class LinhaPesquisaMB extends BaseMB {
 	private List<LinhaPesquisa> linhasPesquisa;
 	private LinhaPesquisa linhaPesquisa;
 	private LinhaPesquisaDao linhaPesquisaDao;
-	private String msg;
-	private LinhaPesquisa editavel;
+	private boolean resultado;
 
 	@PostConstruct
 	public void init() {
@@ -33,26 +32,25 @@ public class LinhaPesquisaMB extends BaseMB {
 		this.linhaPesquisa = new LinhaPesquisa();
 		this.linhaPesquisa.setDescricao("");
 		this.linhaPesquisaDao = new LinhaPesquisaDaoImpl();
-		this.editavel = new LinhaPesquisa();
 		buscar();
 	}
 
 	public void cadastrar(LinhaPesquisa linhaPesquisa) {
 		if (this.linhaPesquisa.getDescricao() != null && !this.linhaPesquisa.getDescricao().trim().isEmpty()) {
 			if (this.linhasPesquisa.contains(this.linhaPesquisa)) {
-				msg = "Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+				setMessageError(
+						"Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.");
 			} else {
 				montarLinhaPesquisa();
-				this.linhaPesquisaDao.save(this.linhaPesquisa);
-				msg = "Cadastrado com sucesso.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+				this.resultado = this.linhaPesquisaDao.saveM(this.linhaPesquisa);
+				if (this.resultado) {
+					setMessageSuccess("Cadastrado com sucesso.");
+				} else {
+					setMessageError("Houve um erro ao salvar no sistema.");
+				}
 			}
 		} else {
-			msg = "Preencha os campos corretamente.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+			setMessageError("Preencha os campos corretamente.");
 		}
 		init();
 	}
@@ -66,25 +64,28 @@ public class LinhaPesquisaMB extends BaseMB {
 	}
 
 	public void excluir(LinhaPesquisa linhaPesquisa) {
-		this.linhaPesquisaDao.remove(linhaPesquisa);
-		msg = "Excluído com sucesso.";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+		this.resultado = this.linhaPesquisaDao.removeM(linhaPesquisa);
+		if (this.resultado) {
+			setMessageSuccess("Excluído com sucesso.");
+		} else {
+			setMessageError("Houve um erro ao excluir no sistema. Por favor, delete todo histórico e relações com este registro.");
+		}
+		
 		init();
 	}
 
-	public void editar(RowEditEvent event) {
+	public void editar(LinhaPesquisa linhaPesquisa) {
 
-		if (this.editavel.getDescricao() != null && !this.editavel.getDescricao().isEmpty()) {
+		if (linhaPesquisa.getDescricao() != null && !linhaPesquisa.getDescricao().isEmpty()) {
 
-			linhaPesquisa = (LinhaPesquisa) event.getObject();
-			linhaPesquisa.setDescricao(editavel.getDescricao());
-			this.linhaPesquisaDao.update(this.linhaPesquisa);
-			msg = "Atualizado com sucesso.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-
+			this.resultado = this.linhaPesquisaDao.updateM(linhaPesquisa);
+			if (this.resultado) {
+				setMessageSuccess("Atualizado com sucesso.");
+			} else {
+				setMessageError("Houve um erro ao salvar no sistema.");
+			}
 		} else {
-			msg = "Descrição não pode ficar vazia.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+			setMessageError("Descrição não pode ficar vazia.");
 		}
 		init();
 
@@ -126,14 +127,6 @@ public class LinhaPesquisaMB extends BaseMB {
 
 	public void setLinhaPesquisaDao(LinhaPesquisaDao linhaPesquisaDao) {
 		this.linhaPesquisaDao = linhaPesquisaDao;
-	}
-
-	public LinhaPesquisa getEditavel() {
-		return editavel;
-	}
-
-	public void setEditavel(LinhaPesquisa editavel) {
-		this.editavel = editavel;
 	}
 
 	public LinhaPesquisa getLinhaPesquisa() {

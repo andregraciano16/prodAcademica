@@ -7,149 +7,130 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 
 	<ui:define name="Conteudo">
-		
+
 		<h:form id="idFormulario">
 
 			<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<div class="row">
-								<ol class="breadcrumb" style="color: blue; background: #30a5ff">
-									<div class="titulo-centro-grande">Status da Aprovação</div>
-								</ol>
-							</div>
+							<ol class="breadcrumb" style="color: blue; background: #30a5ff">
+								<div class="titulo-centro-grande">Status da Aprovação</div>
+							</ol>
 						</div>
-						
+
 						<div class="panel-body">
-						
-									
-						<p:messages id="message" globalOnly="true" closable="true" />	
-							
+
+
+							<p:messages id="message" globalOnly="true" closable="true" />
+
 							<div class="row">
 
-								<div class="col-md-12">
-								
-								<br/>
-								<br/>
-								
-									<p:outputLabel for="idDescricao" 
-										value="Descrição:"
+								<div class="col-md-4">
+
+									<br /> <br />
+
+									<p:outputLabel for="idDescricao" value="Descrição:"
 										styleClass="control-label" />
-										
-									<h:inputText value="#{statusAprovacaoMB.statusAprovacao.descricao}"
-										class="form-control" 
-										maxlength="45" 
-										id="idDescricao" 
-										validatorMessage="A descrição não pode ser maior que 45 caracteres."/>
-										
-										
+									<div class="input-group">
+										<span class="input-group-addon"> <span
+											class="glyphicon glyphicon-tag"></span>
+										</span>
+										<h:inputText
+											value="#{statusAprovacaoMB.statusAprovacao.descricao}"
+											class="form-control" maxlength="45" id="idDescricao"
+											validatorMessage="A descrição não pode ser maior que 45 caracteres." />
+									</div>
+
 								</div>
 
 							</div>
 
-							<br/>
-							<br/>
-							<br/>
-							<br/>
-							<div class="form-group" style="padding-top:70px;text-align:right;">
+							<div class="form-group"
+								style="padding-top: 70px; text-align: right;">
 
-								<p:commandButton value="Cadastrar" 
-											     class="btn-primary btn-md" 
-											     action="#{statusAprovacaoMB.cadastrar(statusAprovacaoMB.statusAprovacao)}" 
-											     update="@form"
-											     styleClass="btn btn-primary" 
-											     id="btnCadastrar"/>
-								&nbsp;&nbsp;			     
-								<p:commandButton value="Pesquisar" 
-											     title="Pesquisar"
-												 actionListener="#{statusAprovacaoMB.buscar}" 
-												 update="@form"
-												 styleClass="btn btn-default"
-												 id="btnPesquisar"/>
+								<p:commandButton value="Cadastrar" class="btn-primary btn-md"
+									action="#{statusAprovacaoMB.cadastrar(statusAprovacaoMB.statusAprovacao)}"
+									update="@form" styleClass="btn btn-primary" id="btnCadastrar" />
 								&nbsp;&nbsp;
-								<p:commandButton value="Limpar" 
-											     title="Limpar"
-												 actionListener="#{statusAprovacaoMB.limpar}" 
-												 update="@form"
-												 styleClass="btn btn-primary"
-												 id="btnLimpar"/>
-									
+								<p:commandButton value="Pesquisar" title="Pesquisar"
+									actionListener="#{statusAprovacaoMB.buscar}" update="@form"
+									styleClass="btn btn-default" id="btnPesquisar" />
+								&nbsp;&nbsp;
+								<p:commandButton value="Limpar" title="Limpar"
+									actionListener="#{statusAprovacaoMB.limpar}" update="@form"
+									styleClass="btn btn-primary" id="btnLimpar" />
+
 							</div>
-							
-							<br/>
-							<br/>
+
+							<br /> <br />
 						</div>
 					</div>
-							<div class="panel panel-default">
-							<div class="panel-body">				 
-							<p:dataTable id="idTable" var="item" value="#{statusAprovacaoMB.variosStatus}" editable="true"
-						                 styleClass="table table-striped table-bordered table-hover" paginator="true" 
-						                 rowsPerPageTemplate="10,20,30" currentPageReportTemplate="{startRecord} de {endRecord}"
-						                 paginatorPosition="bottom" emptyMessage="Não foram encontrados registros"
-						                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-											
-									<p:ajax event="rowEdit" 
-											listener="#{statusAprovacaoMB.editar}" 
-											update="idFormulario:idTable"/>
-											
-									<p:ajax event="rowEditCancel" 
-											listener="#{statusAprovacaoMB.cancela}"
-											update="idFormulario:idTable"/>
-											
-										<p:column headerText="Descrição" >
-											
-											<p:cellEditor>
-											
-												<f:facet name="output">
-													<h:outputText value="#{item.descricao}" />
-												</f:facet>
-											
-												<f:facet name="input">
-														<h:inputText value="#{statusAprovacaoMB.editavel.descricao}"
-																	 class="form-control" 
-																	 maxlength="45" 
-																	 id="idEditDescricao" 
-																	 validatorMessage="A descrição não pode ser maior que 45 caracteres."/>
-												</f:facet>
-											
-											</p:cellEditor>
-												
-										</p:column>
-											
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<p:dataTable id="idTable" var="item"
+								value="#{statusAprovacaoMB.variosStatus}" editable="true"
+								styleClass="table table-striped table-bordered table-hover"
+								paginator="true" rowsPerPageTemplate="10,20,30"
+								currentPageReportTemplate="{startRecord} de {endRecord}"
+								paginatorPosition="bottom"
+								emptyMessage="Não foram encontrados registros"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
-										<p:column headerText="Ações" 
-												  styleClass="coluna-acao">
-										
-											<p:rowEditor/>
+								<p:ajax event="rowEdit"
+									listener="#{statusAprovacaoMB.editar(item)}"
+									update="idFormulario:idTable" />
+
+								<p:ajax event="rowEditCancel"
+									listener="#{statusAprovacaoMB.cancela}"
+									update="idFormulario:idTable" />
+
+								<p:column headerText="Descrição">
+
+									<p:cellEditor>
+
+										<f:facet name="output">
+											<h:outputText value="#{item.descricao}" />
+										</f:facet>
+
+										<f:facet name="input">
+											<p:inputText value="#{item.descricao}" style="width:100%"
+												maxlength="45" id="idEditDescricao"
+												validatorMessage="A descrição não pode ser maior que 45 caracteres." />
+										</f:facet>
+
+									</p:cellEditor>
+
+								</p:column>
+
+
+								<p:column headerText="Ações" styleClass="coluna-acao">
+
+									<p:rowEditor />
 											&nbsp;
-											<p:commandLink action="#{statusAprovacaoMB.excluir(item)}"  update="@form">
-												   <span class="glyphicon glyphicon-trash" />
-											 
-														   	 
-												<p:confirm message="Tem certeza que deseja apagar?" 
-														   header="Aviso"  
-														   icon="ui-icon-alert"/>
-															
-											 </p:commandLink>
+											<p:commandLink action="#{statusAprovacaoMB.excluir(item)}"
+										update="@form">
+										<span class="glyphicon glyphicon-trash" />
 
-										</p:column>
-										
-								</p:dataTable>
-								
-								<p:confirmDialog global="true" >
-								
-									<p:commandButton value="Sim" 
-													 type="button" 
-													 icon="ui-icon-check"
-													 styleClass="ui-confirmdialog-yes"/>
-													 
-									<p:commandButton value="Não"
-													 type="button"
-													 icon="ui-icon-close"
-													 styleClass="ui-confirmdialog-no"/>
-											
-								</p:confirmDialog>
+
+										<p:confirm message="Tem certeza que deseja apagar?"
+											header="Aviso" icon="ui-icon-alert" />
+
+									</p:commandLink>
+
+								</p:column>
+
+							</p:dataTable>
+
+							<p:confirmDialog global="true">
+
+								<p:commandButton value="Sim" type="button" icon="ui-icon-check"
+									styleClass="ui-confirmdialog-yes" />
+
+								<p:commandButton value="Não" type="button" icon="ui-icon-close"
+									styleClass="ui-confirmdialog-no" />
+
+							</p:confirmDialog>
 
 						</div>
 					</div>

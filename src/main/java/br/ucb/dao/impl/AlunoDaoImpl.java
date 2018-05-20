@@ -9,6 +9,7 @@ import javax.persistence.TemporalType;
 import br.ucb.VO.UsuarioVO;
 import br.ucb.dao.AlunoDao;
 import br.ucb.entity.Aluno;
+import br.ucb.entity.Docente;
 
 
 public class AlunoDaoImpl extends DaoGenericoImpl<Aluno, Integer> implements AlunoDao{
@@ -146,5 +147,11 @@ public class AlunoDaoImpl extends DaoGenericoImpl<Aluno, Integer> implements Alu
 		return resultados;
 	}
 	
+	public Aluno getAlunobyMatricula(String matricula) {
+		Query query = getManager().createQuery(" from Aluno a  WHERE a.matricula like ?1 ");
+		query.setParameter(1,matricula);
+		
+		return (Aluno) query.getSingleResult();
+	}
 	
 }

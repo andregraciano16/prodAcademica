@@ -57,6 +57,10 @@ public class ProjetoDaoImpl extends DaoGenericoImpl<Projeto, Integer> implements
 			query.setParameter(8, projeto.getDocenteResponsavel());
 		}
 		
+		if(projeto.getExternoResponsavel() != null){
+			query.setParameter(9, projeto.getExternoResponsavel());
+		}
+		
 		
 	}
 
@@ -91,7 +95,25 @@ public class ProjetoDaoImpl extends DaoGenericoImpl<Projeto, Integer> implements
 			consulta.append(" and p.docenteResponsavel like ?8 ");
 		}
 		
+		if(projeto.getExternoResponsavel() != null){
+			consulta.append(" and p.externoResponsavel like ?9 ");
+		}
+		
 		return consulta.toString();
+	}
+
+	@Override
+	public Projeto find(Projeto projeto) {
+		Query query = getManager().createQuery(" from Projeto p  WHERE p.dataInicio like ?1  and p.descricao like ?2 and p.horasDedicadasSemana like ?3 and p.nome like ?4 and p.orgaoFinanciador like ?5"
+				+ " and tipoProjeto = ?6");
+		query.setParameter(1, projeto.getDataInicio());
+		query.setParameter(2, projeto.getDescricao());
+		query.setParameter(3, projeto.getHorasDedicadasSemana());
+		query.setParameter(4, projeto.getNome());
+		query.setParameter(5, projeto.getOrgaoFinanciador());
+		query.setParameter(6, projeto.getTipoProjeto());
+		
+		return (Projeto) query.getResultList().get(0);
 	}
 
 

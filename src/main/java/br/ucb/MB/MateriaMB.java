@@ -20,18 +20,16 @@ import br.ucb.entity.Materia;
 
 @ManagedBean(name = "materiaMB")
 @ViewScoped
-public class MateriaMB extends BaseMB{
-
+public class MateriaMB extends BaseMB {
 
 	private static final long serialVersionUID = 1L;
 
 	private List<Materia> materias;
 	private Materia materia;
 	private MateriaDao materiaDao;
-	private String msg;
-	private Materia editavel;
 	private List<LinhaPesquisa> linhasPesquisa;
 	private LinhaPesquisaDao linhaPesquisaDao;
+	private boolean resultado;
 
 	@PostConstruct
 	public void init() {
@@ -39,29 +37,28 @@ public class MateriaMB extends BaseMB{
 		this.materia = new Materia();
 		this.materia.setDescricao("");
 		this.materiaDao = new MateriaDaoImpl();
-		this.editavel = new Materia();
 		this.linhasPesquisa = new ArrayList<LinhaPesquisa>();
 		this.linhaPesquisaDao = new LinhaPesquisaDaoImpl();
 		buscar();
 	}
 
 	public void cadastrar(Materia materia) {
-		if (this.materia.getDescricao() != null && !this.materia.getDescricao().trim().isEmpty() &&
-				this.materia.getLinhaPesquisa() != null) {
+		if (this.materia.getDescricao() != null && !this.materia.getDescricao().trim().isEmpty()
+				&& this.materia.getLinhaPesquisa() != null) {
 			if (this.materias.contains(this.materia)) {
-				msg = "Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+				setMessageError(
+						"Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.");
 			} else {
 				montarMateria();
-				this.materiaDao.save(this.materia);
-				msg = "Cadastrado com sucesso.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+				this.resultado = this.materiaDao.saveM(this.materia);
+				if (this.resultado) {
+					setMessageSuccess("Cadastrado com sucesso.");
+				}else{
+					setMessageError("Houve um erro ao salvar no sistema.");
+				}
 			}
 		} else {
-			msg = "Preencha os campos corretamente.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+			setMessageError("Preencha os campos corretamente.");
 		}
 		init();
 	}
@@ -76,26 +73,27 @@ public class MateriaMB extends BaseMB{
 	}
 
 	public void excluir(Materia materia) {
-		this.materiaDao.remove(materia);
-		msg = "Excluído com sucesso.";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+		this.resultado = this.materiaDao.removeM(materia);
+		if (this.resultado) {
+			setMessageSuccess("Excluído com sucesso.");
+		}else{
+			setMessageError("Houve um erro ao deletar no sistema. Por favor, apague o histórico e qualquer relação com este registro.");
+		}
+		
 		init();
 	}
 
-	public void editar(RowEditEvent event) {
+	public void editar(Materia materia) {
 
-		if (this.editavel.getDescricao() != null && !this.editavel.getDescricao().isEmpty()) {
-
-			materia = (Materia) event.getObject();
-			materia.setDescricao(editavel.getDescricao());
-			materia.setLinhaPesquisa(editavel.getLinhaPesquisa());
-			this.materiaDao.update(this.materia);
-			msg = "Atualizado com sucesso.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-
+		if (materia.getDescricao() != null && !materia.getDescricao().isEmpty()) {
+			this.resultado = this.materiaDao.updateM(materia);
+			if (this.resultado) {
+				setMessageSuccess("Atualizado com sucesso.");
+			}else{
+				setMessageError("Houve um erro ao salvar no sistema.");
+			}	
 		} else {
-			msg = "Descrição não pode ficar vazia.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+			setMessageError("Descrição não pode ficar vazia.");
 		}
 		init();
 
@@ -141,14 +139,6 @@ public class MateriaMB extends BaseMB{
 		this.materiaDao = materiaDao;
 	}
 
-	public Materia getEditavel() {
-		return editavel;
-	}
-
-	public void setEditavel(Materia editavel) {
-		this.editavel = editavel;
-	}
-
 	public Materia getMateria() {
 		return this.materia;
 	}
@@ -172,6 +162,5 @@ public class MateriaMB extends BaseMB{
 	public void setLinhaPesquisaDao(LinhaPesquisaDao linhaPesquisaDao) {
 		this.linhaPesquisaDao = linhaPesquisaDao;
 	}
-
 
 }

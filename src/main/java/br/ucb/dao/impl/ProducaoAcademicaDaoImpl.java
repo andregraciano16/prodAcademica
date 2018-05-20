@@ -3,6 +3,8 @@ package br.ucb.dao.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 import br.ucb.VO.AprovacaoProducaoVO;
@@ -150,12 +152,30 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 	}
 
 	public void updateResultado(AprovacaoProducaoVO prodAcademica) {
+		try {
+			ProducaoAcademica producaoAcademica = getManager().find(ProducaoAcademica.class, prodAcademica.getId());
+			getManager().getTransaction().begin();
+			producaoAcademica.setStatusAprovacao(prodAcademica.getStatusAprovacao());
+			getManager().getTransaction().commit();
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			getManager().getTransaction().rollback();
+		}
 
-		ProducaoAcademica producaoAcademica = getManager().find(ProducaoAcademica.class, prodAcademica.getId());
-		getManager().getTransaction().begin();
-		producaoAcademica.setStatusAprovacao(prodAcademica.getStatusAprovacao());
-		getManager().getTransaction().commit();
+	}
 
+	public boolean updateResultadoM(AprovacaoProducaoVO prodAcademica) {
+		try {
+			ProducaoAcademica producaoAcademica = getManager().find(ProducaoAcademica.class, prodAcademica.getId());
+			getManager().getTransaction().begin();
+			producaoAcademica.setStatusAprovacao(prodAcademica.getStatusAprovacao());
+			getManager().getTransaction().commit();
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			getManager().getTransaction().rollback();
+			return false;
+		}
+		return true;
 	}
 
 	@Override

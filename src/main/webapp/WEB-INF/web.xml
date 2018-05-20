@@ -57,6 +57,12 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+	<context-param>
+        <param-name>
+            javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE
+        </param-name>
+        <param-value>true</param-value>
+    </context-param>
 
 	<!-- Tipo de arquivo que será filtrado pelo Faces Servlet. -->
 	<servlet-mapping>

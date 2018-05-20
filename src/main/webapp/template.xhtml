@@ -54,6 +54,30 @@
 
 
 
+
+
+			<li><h:panelGroup rendered="#{menuMB.isDiretor()}">
+					<a href="visualizarComentario.xhtml"> <em
+						class="glyphicon glyphicon-comment">&nbsp;</em>Comentários
+					</a>
+				</h:panelGroup></li>
+			<li><h:panelGroup rendered="#{!menuMB.isDiretor()}">
+					<a href="comentario.xhtml"> <em
+						class="glyphicon glyphicon-comment">&nbsp;</em>Comentários
+					</a>
+				</h:panelGroup></li>
+
+			<li><h:panelGroup rendered="#{menuMB.isDiretor()}">
+					<a href="historico.xhtml"> <em class="glyphicon glyphicon-time">&nbsp;</em>Histórico
+					</a>
+				</h:panelGroup></li>
+
+			<li><h:panelGroup rendered="#{menuMB.isProfessor()}">
+					<a href="aprovarProducaoProfessor.xhtml"> <em
+						class="glyphicon glyphicon-thumbs-up">&nbsp;</em>Aprovar Produções
+					</a>
+				</h:panelGroup></li>
+
 			<li class="parent "><h:panelGroup
 					rendered="#{menuMB.isDiretor()}">
 					<a data-toggle="collapse" href="#sub-item-2"> <em
@@ -74,34 +98,18 @@
 
 						<li><a class="" href="relatorioProducaoAcademica.xhtml">
 								<span class="glyphicon glyphicon-triangle-right">&nbsp;</span>Produções
-								
+
 						</a></li>
 
 					</ul>
 				</h:panelGroup></li>
 
-			<li><h:panelGroup rendered="#{menuMB.isDiretor()}">
-					<a href="visualizarComentario.xhtml"> <em
-						class="glyphicon glyphicon-comment">&nbsp;</em>Comentários
-					</a>
-				</h:panelGroup></li>
-			<li><h:panelGroup rendered="#{!menuMB.isDiretor()}">
-					<a href="comentario.xhtml"> <em
-						class="glyphicon glyphicon-comment">&nbsp;</em>Comentários
-					</a>
-				</h:panelGroup></li>
-				<li><h:panelGroup rendered="#{menuMB.isProfessor()}">
-					<a href="aprovarProducaoProfessor.xhtml"> <em
-						class="glyphicon glyphicon-thumbs-up">&nbsp;</em>Aprovar Produções
-					</a>
-				</h:panelGroup></li>
-				
-				<li class="parent "><h:panelGroup
+			<li class="parent "><h:panelGroup
 					rendered="#{menuMB.isDiretor()}">
 					<a data-toggle="collapse" href="#sub-item-3"> <em
-						class="glyphicon glyphicon-thumbs-up">&nbsp;</em> Aprovar Produções <span
-						data-toggle="collapse" href="#sub-item-3" class="icon pull-right">
-							<em class="fa fa-plus"></em>
+						class="glyphicon glyphicon-thumbs-up">&nbsp;</em> Aprovar
+						Produções <span data-toggle="collapse" href="#sub-item-3"
+						class="icon pull-right"> <em class="fa fa-plus"></em>
 					</span>
 					</a>
 					<ul class="children collapse" id="sub-item-3">
@@ -116,7 +124,7 @@
 
 					</ul>
 				</h:panelGroup></li>
-				
+
 			<li class="parent "><h:panelGroup
 					rendered="#{menuMB.isDiretor()}">
 					<a data-toggle="collapse"> <em class="fa fa-cog">&nbsp;</em>

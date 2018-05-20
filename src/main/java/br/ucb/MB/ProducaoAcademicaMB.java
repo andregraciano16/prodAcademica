@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +16,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.NativeUploadedFile;
 import org.primefaces.model.UploadedFile;
+import org.springframework.security.core.GrantedAuthority;
 
 import br.ucb.VO.AutorVO;
 import br.ucb.dao.AlunoDao;
@@ -29,6 +31,7 @@ import br.ucb.dao.DesenvTecnicaDao;
 import br.ucb.dao.DocenteDao;
 import br.ucb.dao.EditoriaDao;
 import br.ucb.dao.ExternoDao;
+import br.ucb.dao.HistoricoDao;
 import br.ucb.dao.JornalRevistaDao;
 import br.ucb.dao.LinhaPesquisaDao;
 import br.ucb.dao.LivroDao;
@@ -79,6 +82,7 @@ import br.ucb.entity.DesenvTecnica;
 import br.ucb.entity.Docente;
 import br.ucb.entity.Editoria;
 import br.ucb.entity.Externo;
+import br.ucb.entity.Historico;
 import br.ucb.entity.LinhaPesquisa;
 import br.ucb.entity.Livro;
 import br.ucb.entity.OrganizacaoEvento;
@@ -109,6 +113,8 @@ import br.ucb.enums.TipoContribuicaoObraEnum;
 import br.ucb.enums.TipoDesenvolvimentoProdutoEnum;
 import br.ucb.enums.TipoEditoraEnum;
 import br.ucb.enums.TipoOrganizacaoEventoEnum;
+import br.ucb.security.Seguranca;
+import br.ucb.security.UsuarioSistema;
 import br.ucb.util.FileUtil;
 
 /**
@@ -176,6 +182,9 @@ public class ProducaoAcademicaMB extends BaseMB {
 	private OrganizacaoEvento   organizacaoEvento;
 	private RelatorioPesquisa   relatorioPesquisa;
 	private ApresentacaoTrabalho apresentacaoTrabalho;
+	private Historico 			historico;
+	private HistoricoDao 		historicoDao;
+	private UsuarioSistema 		user;
 	
 	@PostConstruct
 	public void init() {
@@ -199,6 +208,9 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.uploadFiles       = new ArrayList<UploadedFile> ();
 		this.autores           = new ArrayList<Autor>        ();
 		this.externos          = new ArrayList<Externo>      ();
+		this.historico 		   = new Historico();
+		this.historicoDao 	   = new HistoricoDaoImpl();
+		this.user 			   = new Seguranca().getUsuarioLogado();
 		initTiposProducao();
 	}
 	
@@ -261,6 +273,7 @@ public class ProducaoAcademicaMB extends BaseMB {
 		salvarTipoProducao();
 		salvarAutores();
 		salvarExterno();
+		cadastraHistorico("Foi cadastrado com sucesso.",this.producaoAcDao.findByProdAc(this.producaoAcademica));
 	}
 	
 	private void salvarExterno() {
@@ -438,6 +451,8 @@ public class ProducaoAcademicaMB extends BaseMB {
 	
 	public void editar(ProducaoAcademica producaoAcademica) {
 		this.producaoAcDao.update(producaoAcademica);
+		cadastraHistorico("Foi alterado com sucesso.", producaoAcademica);
+		
 	}
 
 	public void excluir(ProducaoAcademica producaoAcademica) {
@@ -549,6 +564,20 @@ public class ProducaoAcademicaMB extends BaseMB {
 				}
 			}
 		}
+	}
+	
+	
+	public void cadastraHistorico(String mensagem, ProducaoAcademica producao) {
+		this.historico.setDataAlteracao(new Date());
+		this.historico.setProducaoAcademica(producao);
+		if (isDiretor() || isProfessor()) {
+			this.historico.setDocente(this.docenteDao.getDocentebyMatricula(user.getUsuario().getMatricula()));
+		}else{
+			this.historico.setAluno(this.alunoDao.getAlunobyMatricula(user.getUsuario().getMatricula()));
+		}		
+		this.historico.setAlteracao("Produção Acadêmica: " + producao.getTitulo() + "\n" + mensagem + "\n" + "Responsável: "
+				+ this.historico.getDocente().getNome());
+		this.historicoDao.save(historico);
 	}
 	
 	public List<Docente> getListDocentes(){
@@ -901,4 +930,28 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.apresentacaoTrabalho = apresentacaoTrabalho;
 	}
 	
+	
+	public boolean isDiretor(){
+		Iterator<GrantedAuthority> iterator = user.getAuthorities().iterator();
+		if(iterator.next().getAuthority().equals("ROLE_DIRETOR")){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+	
+	public boolean isAluno(){
+		Iterator<GrantedAuthority> iterator = user.getAuthorities().iterator();
+		if(iterator.next().getAuthority().equals("ROLE_ALUNO")){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+	
+	public boolean isProfessor(){
+		Iterator<GrantedAuthority> iterator = user.getAuthorities().iterator();
+		if(iterator.next().getAuthority().equals("ROLE_PROFESSOR")){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
 }

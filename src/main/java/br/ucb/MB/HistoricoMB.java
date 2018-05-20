@@ -43,6 +43,7 @@ public class HistoricoMB extends BaseMB {
 	private List<Projeto> projetos;
 	private ProjetoDao projetoDao;
 	private AcaoEnum acaoEnum;
+	 
 
 	@PostConstruct
 	public void init() {	
@@ -59,7 +60,7 @@ public class HistoricoMB extends BaseMB {
 				&& this.historico.getDocente() == null
 				&& this.historico.getProducaoAcademica() == null
 				&& this.historico.getProjeto() == null) {
-			this.historicos = this.historicoDao.list();
+			this.historicos = this.historicoDao.listOrder();
 			this.alunos = this.alunoDao.list();
 			this.docentes = this.docenteDao.list();
 			this.producoes = this.producaoAcademicaDao.list();
@@ -71,6 +72,7 @@ public class HistoricoMB extends BaseMB {
 			this.producoes = this.producaoAcademicaDao.list();
 			this.projetos = this.projetoDao.list();
 		}
+		
 	}
 
 	
@@ -138,6 +140,11 @@ public class HistoricoMB extends BaseMB {
 		return projetosFiltrados;
 	}
 	
+	public void excluir(){
+		this.historicoDao.remove(this.historico);
+		setMessageSuccess("Histórico removido com sucesso.");
+		init();
+	}
 	
 	public void inicializa(){
 		this.historicos = new ArrayList<Historico>();

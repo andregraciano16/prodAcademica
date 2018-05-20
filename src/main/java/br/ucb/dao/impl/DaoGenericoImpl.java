@@ -60,6 +60,50 @@ public class DaoGenericoImpl<T extends Serializable, Key> implements DaoGenerico
 		}
 	}
 
+	
+	public boolean saveM(T t) {
+		try {
+			manager = JPAUtil.getEntityManaged();
+			manager.getTransaction().begin();
+			manager.persist(manager.merge(t));
+			manager.getTransaction().commit();
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			return false;
+			//manager.getTransaction().rollback();
+			
+		}
+		return true;
+	}
+
+	public boolean updateM(T t) {
+		try {
+			manager = JPAUtil.getEntityManaged();
+			manager.getTransaction().begin();
+			manager.merge(t);
+			manager.getTransaction().commit();
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			return false;
+			//manager.getTransaction().rollback();
+		}
+		return true;
+	}
+
+	public boolean removeM(T t) {
+		try {
+			manager = JPAUtil.getEntityManaged();
+			manager.getTransaction().begin();
+			manager.remove(manager.merge(t));
+			manager.getTransaction().commit();
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			return false;
+			//manager.getTransaction().rollback();
+			
+		}
+		return true;
+	}
 	private Class<?> getTypeClass() {
 		Class<?> clazz = (Class<?>) ((ParameterizedType) this.getClass().getGenericSuperclass())
 				.getActualTypeArguments()[0];

@@ -15,8 +15,6 @@ import br.ucb.dao.StatusAprovacaoDao;
 import br.ucb.dao.impl.StatusAprovacaoDaoImpl;
 import br.ucb.entity.StatusAprovacao;
 
-
-
 @ManagedBean(name = "statusAprovacaoMB")
 @ViewScoped
 public class StatusAprovacaoMB extends BaseMB {
@@ -26,37 +24,33 @@ public class StatusAprovacaoMB extends BaseMB {
 	private List<StatusAprovacao> variosStatus;
 	private StatusAprovacao statusAprovacao;
 	private StatusAprovacaoDao statusAprovacaoDao;
-	private String msg;
-	private StatusAprovacao editavel;
-	
+	private boolean resultado;
 
-	@PostConstruct 
+	@PostConstruct
 	public void init() {
 		this.variosStatus = new ArrayList<StatusAprovacao>();
 		this.statusAprovacao = new StatusAprovacao();
 		this.statusAprovacao.setDescricao("");
 		this.statusAprovacaoDao = new StatusAprovacaoDaoImpl();
-		this.editavel = new StatusAprovacao();
 		buscar();
 	}
-	
-	
+
 	public void cadastrar(StatusAprovacao statusAprovacao) {
 		if (this.statusAprovacao.getDescricao() != null && !this.statusAprovacao.getDescricao().trim().isEmpty()) {
 			if (this.variosStatus.contains(this.statusAprovacao)) {
-				msg = "Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+				setMessageError(
+						"Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.");
 			} else {
 				montarStatusAprovacao();
-				this.statusAprovacaoDao.save(this.statusAprovacao);
-				msg = "Cadastrado com sucesso.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+				this.resultado = this.statusAprovacaoDao.saveM(this.statusAprovacao);
+				if (this.resultado) {
+					setMessageSuccess("Cadastrado com sucesso.");
+				} else {
+					setMessageError("Houve um erro ao salvar no sistema.");
+				}
 			}
 		} else {
-			msg = "Preencha os campos corretamente.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+			setMessageError("Preencha os campos corretamente.");
 		}
 		init();
 	}
@@ -70,25 +64,29 @@ public class StatusAprovacaoMB extends BaseMB {
 	}
 
 	public void excluir(StatusAprovacao statusAprovacao) {
-		this.statusAprovacaoDao.remove(statusAprovacao);
-		msg = "Excluído com sucesso.";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+		this.resultado = this.statusAprovacaoDao.removeM(statusAprovacao);
+		if (this.resultado) {
+			setMessageSuccess("Excluído com sucesso.");
+		} else {
+			setMessageError(
+					"Houve um erro ao deletar no sistema. Por favor, apague o histórico e qualquer relação com este registro.");
+		}
+
 		init();
 	}
 
-	public void editar(RowEditEvent event) {
+	public void editar(StatusAprovacao statusAprovacao) {
 
-		if (this.editavel.getDescricao() != null && !this.editavel.getDescricao().isEmpty()) {
+		if (statusAprovacao.getDescricao() != null && !statusAprovacao.getDescricao().isEmpty()) {
 
-			statusAprovacao = (StatusAprovacao) event.getObject();
-			statusAprovacao.setDescricao(editavel.getDescricao());
-			this.statusAprovacaoDao.update(this.statusAprovacao);
-			msg = "Atualizado com sucesso.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
-
+			this.resultado = this.statusAprovacaoDao.updateM(statusAprovacao);
+			if (this.resultado) {
+				setMessageSuccess("Atualizado com sucesso.");
+			} else {
+				setMessageError("Houve um erro ao salvar no sistema.");
+			}
 		} else {
-			msg = "Descrição não pode ficar vazia.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+			setMessageError("Descrição não pode ficar vazia.");
 		}
 		init();
 
@@ -115,9 +113,6 @@ public class StatusAprovacaoMB extends BaseMB {
 	public void limpar() {
 		init();
 	}
-	
-	
-	
 
 	public List<StatusAprovacao> getVariosStatus() {
 		return variosStatus;
@@ -135,14 +130,6 @@ public class StatusAprovacaoMB extends BaseMB {
 		this.statusAprovacaoDao = statusAprovacaoDao;
 	}
 
-	public StatusAprovacao getEditavel() {
-		return editavel;
-	}
-
-	public void setEditavel(StatusAprovacao editavel) {
-		this.editavel = editavel;
-	}
-
 	public StatusAprovacao getStatusAprovacao() {
 		return this.statusAprovacao;
 	}
@@ -150,6 +137,5 @@ public class StatusAprovacaoMB extends BaseMB {
 	public void setStatusAprovacao(StatusAprovacao statusAprovacao) {
 		this.statusAprovacao = statusAprovacao;
 	}
-
 
 }

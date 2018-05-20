@@ -29,5 +29,8 @@ public interface ProducaoAcademicaDao extends DaoGenerico<ProducaoAcademica, Int
 	public List<AprovacaoProducaoVO> listAprovaProfessor(Integer cod);
 	
 	public void updateResultado(AprovacaoProducaoVO prodAcademica);
+	
+	public boolean updateResultadoM(AprovacaoProducaoVO prodAcademica);
+	
 
 }

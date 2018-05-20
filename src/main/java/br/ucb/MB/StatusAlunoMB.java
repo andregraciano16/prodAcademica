@@ -15,8 +15,6 @@ import br.ucb.dao.StatusAlunoDao;
 import br.ucb.dao.impl.StatusAlunoDaoImpl;
 import br.ucb.entity.StatusAluno;
 
-
-
 @ManagedBean(name = "statusAlunoMB")
 @ViewScoped
 public class StatusAlunoMB extends BaseMB {
@@ -26,36 +24,34 @@ public class StatusAlunoMB extends BaseMB {
 	private List<StatusAluno> variosStatus;
 	private StatusAluno statusAluno;
 	private StatusAlunoDao statusAlunoDao;
-	private String msg;
-	private StatusAluno editavel;
-	
+	private boolean resultado;
 
-	@PostConstruct 
+	@PostConstruct
 	public void init() {
 		this.variosStatus = new ArrayList<StatusAluno>();
 		this.statusAluno = new StatusAluno();
 		this.statusAluno.setDescricao("");
 		this.statusAlunoDao = new StatusAlunoDaoImpl();
-		this.editavel = new StatusAluno();
 		buscar();
 	}
 
 	public void cadastrar(StatusAluno statusAluno) {
 		if (this.statusAluno.getDescricao() != null && !this.statusAluno.getDescricao().trim().isEmpty()) {
 			if (this.variosStatus.contains(this.statusAluno)) {
-				msg = "Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+				setMessageError(
+						"Já existe um cadastro com estes dados. Por favor altere o respectivo ou insira um novo dado.");
 			} else {
 				montarStatusAluno();
-				this.statusAlunoDao.save(this.statusAluno);
-				msg = "Cadastrado com sucesso.";
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+				this.resultado = this.statusAlunoDao.saveM(this.statusAluno);
+				if (this.resultado) {
+					setMessageSuccess("Cadastrado com sucesso.");
+				} else {
+					setMessageError("Houve um erro ao salvar no sistema.");
+				}
+
 			}
 		} else {
-			msg = "Preencha os campos corretamente.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg));
+			setMessageError("Preencha os campos corretamente.");
 		}
 		init();
 	}
@@ -69,25 +65,29 @@ public class StatusAlunoMB extends BaseMB {
 	}
 
 	public void excluir(StatusAluno statusAluno) {
-		this.statusAlunoDao.remove(statusAluno);
-		msg = "Excluído com sucesso.";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+		this.resultado = this.statusAlunoDao.removeM(statusAluno);
+		if (this.resultado) {
+			setMessageSuccess("Excluído com sucesso.");
+		} else {
+			setMessageError(
+					"Houve um erro ao deletar no sistema. Por favor, apague o histórico e qualquer relação com este registro.");
+		}
+
 		init();
 	}
 
-	public void editar(RowEditEvent event) {
+	public void editar(StatusAluno statusAluno) {
 
-		if (this.editavel.getDescricao() != null && !this.editavel.getDescricao().isEmpty()) {
-
-			statusAluno = (StatusAluno) event.getObject();
-			statusAluno.setDescricao(editavel.getDescricao());
-			this.statusAlunoDao.update(this.statusAluno);
-			msg = "Atualizado com sucesso.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+		if (statusAluno.getDescricao() != null && !statusAluno.getDescricao().isEmpty()) {
+			this.resultado = this.statusAlunoDao.updateM(statusAluno);
+			if (this.resultado) {
+				setMessageSuccess("Atualizado com sucesso.");
+			} else {
+				setMessageError("Houve um erro ao salvar no sistema.");
+			}
 
 		} else {
-			msg = "Descrição não pode ficar vazia.";
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+			setMessageError("Descrição não pode ficar vazia.");
 		}
 		init();
 
@@ -114,9 +114,6 @@ public class StatusAlunoMB extends BaseMB {
 	public void limpar() {
 		init();
 	}
-	
-	
-	
 
 	public List<StatusAluno> getVariosStatus() {
 		return variosStatus;
@@ -134,14 +131,6 @@ public class StatusAlunoMB extends BaseMB {
 		this.statusAlunoDao = statusAlunoDao;
 	}
 
-	public StatusAluno getEditavel() {
-		return editavel;
-	}
-
-	public void setEditavel(StatusAluno editavel) {
-		this.editavel = editavel;
-	}
-
 	public StatusAluno getStatusAluno() {
 		return this.statusAluno;
 	}
@@ -149,6 +138,5 @@ public class StatusAlunoMB extends BaseMB {
 	public void setStatusAluno(StatusAluno statusAluno) {
 		this.statusAluno = statusAluno;
 	}
-
 
 }
