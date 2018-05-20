@@ -3,18 +3,24 @@ package br.ucb.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Editoria extends EntidadeBase{
+public class Editoria extends EntidadeBase {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "id_Editora")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idEditora;
+
+	@Column(name = "tipo")
+	private Integer tipo;
 
 	@Column(name = "natureza")
 	private Integer natureza;
@@ -24,7 +30,7 @@ public class Editoria extends EntidadeBase{
 
 	@Column(name = "nroPag")
 	private Integer nroPag;
-	
+
 	@Column(name = "instituicaoPromotora")
 	private String instituicaoPromotora;
 
@@ -112,5 +118,13 @@ public class Editoria extends EntidadeBase{
 	public void setProducaoAcademica(ProducaoAcademica producaoAcademica) {
 		this.producaoAcademica = producaoAcademica;
 	}
-	
+
+	public Integer getTipo() {
+		return this.tipo;
+	}
+
+	public void setTipo(Integer tipo) {
+		this.tipo = tipo;
+	}
+
 }

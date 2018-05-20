@@ -19,6 +19,9 @@ public class DesenvProduto extends EntidadeBase {
 	@Column(name = "id_DesenProd")
 	private Integer idDesenvProd;
 
+	@Column(name = "tipo")
+	private Integer tipo;
+
 	@Column(name = "natureza")
 	private Integer natureza;
 
@@ -114,6 +117,14 @@ public class DesenvProduto extends EntidadeBase {
 
 	public void setProducaoAcademica(ProducaoAcademica producaoAcademica) {
 		this.producaoAcademica = producaoAcademica;
+	}
+
+	public Integer getTipo() {
+		return this.tipo;
+	}
+
+	public void setTipo(Integer tipo) {
+		this.tipo = tipo;
 	}
 
 }

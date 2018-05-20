@@ -32,10 +32,10 @@ public class OrganizacaoEvento extends EntidadeBase {
 	private Integer duracao;
 
 	@Column(name = "itinerante")
-	private String itinerante;
+	private Integer itinerante;
 
 	@Column(name = "catalogo")
-	private String catalogo;
+	private Integer catalogo;
 
 	@Column(name = "local")
 	private String local;
@@ -90,19 +90,19 @@ public class OrganizacaoEvento extends EntidadeBase {
 		this.duracao = duracao;
 	}
 
-	public String getItinerante() {
+	public Integer getItinerante() {
 		return this.itinerante;
 	}
 
-	public void setItinerante(String itinerante) {
+	public void setItinerante(Integer itinerante) {
 		this.itinerante = itinerante;
 	}
 
-	public String getCatalogo() {
+	public Integer getCatalogo() {
 		return this.catalogo;
 	}
 
-	public void setCatalogo(String catalogo) {
+	public void setCatalogo(Integer catalogo) {
 		this.catalogo = catalogo;
 	}
 

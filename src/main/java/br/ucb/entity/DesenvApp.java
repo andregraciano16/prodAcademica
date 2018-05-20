@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
-public class DesenvApp  extends EntidadeBase{
+public class DesenvApp extends EntidadeBase {
 
 	private static final long serialVersionUID = -206001031329406206L;
 
@@ -31,11 +31,8 @@ public class DesenvApp  extends EntidadeBase{
 	@Column(name = "ambiente")
 	private String ambiente;
 
-	@Column(name = "registroDreto")
-	private Integer registroDreto;
-
-	@Column(name = "autoral")
-	private String autoral;
+	@Column(name = "registroDireito")
+	private Integer registroDireito;
 
 	@Column(name = "disponibilidade")
 	private String disponibilidade;
@@ -87,20 +84,12 @@ public class DesenvApp  extends EntidadeBase{
 		this.ambiente = ambiente;
 	}
 
-	public Integer getRegistroDreto() {
-		return this.registroDreto;
+	public Integer getRegistroDireito() {
+		return this.registroDireito;
 	}
 
-	public void setRegistroDreto(Integer registroDreto) {
-		this.registroDreto = registroDreto;
-	}
-
-	public String getAutoral() {
-		return this.autoral;
-	}
-
-	public void setAutoral(String autoral) {
-		this.autoral = autoral;
+	public void setRegistroDireito(Integer registroDireito) {
+		this.registroDireito = registroDireito;
 	}
 
 	public String getDisponibilidade() {
@@ -126,5 +115,5 @@ public class DesenvApp  extends EntidadeBase{
 	public void setProducaoAcademica(ProducaoAcademica producaoAcademica) {
 		this.producaoAcademica = producaoAcademica;
 	}
-	
+
 }

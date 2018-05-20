@@ -20,7 +20,7 @@ public class DesenvDidaticoInstitucional extends EntidadeBase {
 	private Integer idDesenvApp;
 
 	@Column(name = "natureza")
-	private Integer natureza;
+	private String natureza;
 
 	@Column(name = "finalidade")
 	private String finalidade;
@@ -37,11 +37,11 @@ public class DesenvDidaticoInstitucional extends EntidadeBase {
 		this.idDesenvApp = idDesenvApp;
 	}
 
-	public Integer getNatureza() {
+	public String getNatureza() {
 		return this.natureza;
 	}
 
-	public void setNatureza(Integer natureza) {
+	public void setNatureza(String natureza) {
 		this.natureza = natureza;
 	}
 
