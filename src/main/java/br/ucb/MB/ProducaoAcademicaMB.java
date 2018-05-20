@@ -56,6 +56,7 @@ import br.ucb.dao.impl.DesenvTecnicaDaoImpl;
 import br.ucb.dao.impl.DocenteDaoImpl;
 import br.ucb.dao.impl.EditoriaDaoImpl;
 import br.ucb.dao.impl.ExternoDaoImpl;
+import br.ucb.dao.impl.HistoricoDaoImpl;
 import br.ucb.dao.impl.JornalRevistaDaoImpl;
 import br.ucb.dao.impl.LinhaPesquisaDaoImpl;
 import br.ucb.dao.impl.LivroDaoImpl;
