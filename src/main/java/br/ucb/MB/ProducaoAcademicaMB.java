@@ -89,12 +89,26 @@ import br.ucb.entity.StatusProducao;
 import br.ucb.entity.TipoProducao;
 import br.ucb.entity.TrabalhoEmAnais;
 import br.ucb.entity.Traducao;
+import br.ucb.enums.DescisaoEnum;
+import br.ucb.enums.DisponibilidadeEnum;
 import br.ucb.enums.DivulgacaoEnum;
 import br.ucb.enums.IdiomaEnum;
+import br.ucb.enums.NaturezaApresentacaoTrabalhoEnum;
+import br.ucb.enums.NaturezaCartaEnum;
 import br.ucb.enums.NaturezaConteudoEnum;
+import br.ucb.enums.NaturezaDesenvolvimentoAppEnum;
+import br.ucb.enums.NaturezaDesenvolvimentoProdutoEnum;
+import br.ucb.enums.NaturezaDesenvolvimentoTecnicaEnum;
+import br.ucb.enums.NaturezaEditoriaEnum;
 import br.ucb.enums.NaturezaEnum;
+import br.ucb.enums.NaturezaOrganizacaoEventoEnum;
+import br.ucb.enums.NaturezaServicoTecnicosEnum;
+import br.ucb.enums.NaturezaTraducaoEnum;
+import br.ucb.enums.NivelCursoCurtaDuaracaoEnum;
 import br.ucb.enums.TipoContribuicaoObraEnum;
+import br.ucb.enums.TipoDesenvolvimentoProdutoEnum;
 import br.ucb.enums.TipoEditoraEnum;
+import br.ucb.enums.TipoOrganizacaoEventoEnum;
 import br.ucb.util.FileUtil;
 
 /**
@@ -430,36 +444,12 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.producaoAcDao.remove(producaoAcademica);
 	}
 
-	public boolean isArtigoPeriodico() {
+	public boolean isTipoProducaoByCod(Integer codigo) {
 		if (this.tipoProducao.getIdTipoProducao() != null)
-			return this.tipoProducao.getIdTipoProducao().equals(new Integer(3));
+			return this.tipoProducao.getIdTipoProducao().equals(new Integer(codigo));
 		return Boolean.FALSE;
 	}
 
-	public boolean isRevista() {
-		if (this.tipoProducao.getIdTipoProducao() != null)
-			return this.tipoProducao.getIdTipoProducao().equals(new Integer(2));
-		return Boolean.FALSE;
-	}
-
-	public boolean isTipoLivro() {
-		if (this.tipoProducao.getIdTipoProducao() != null)
-			return this.tipoProducao.getIdTipoProducao().equals(new Integer(1));
-		return Boolean.FALSE;
-	}
-	
-	public boolean isTipoTrabalhoEmAnais(){
-		if(this.tipoProducao.getIdTipoProducao() != null)
-			return this.tipoProducao.getIdTipoProducao().equals(new Integer(4));
-		return Boolean.FALSE;
-	}
-
-	public boolean isTipoTraducao(){
-		if(this.tipoProducao.getIdTipoProducao() != null)
-			return this.tipoProducao.getIdTipoProducao().equals(new Integer(5));
-		return Boolean.FALSE;
-	}
-	
 	public List<Docente> getListaOrientadores(){
 		return docenteDao.list();
 	}
@@ -574,13 +564,61 @@ public class ProducaoAcademicaMB extends BaseMB {
 	public void limpar() {
 		init();
 	}
+	
+	public List<DescisaoEnum> getDescisao(){
+		return DescisaoEnum.list();
+	}
+	
+	public List<NaturezaApresentacaoTrabalhoEnum> getNaturezaApresentacaoTrabalho(){
+		return NaturezaApresentacaoTrabalhoEnum.list();
+	}
+	
+	public List<NaturezaOrganizacaoEventoEnum> getNaturezaOrganizacaoEvento(){
+		return NaturezaOrganizacaoEventoEnum.list();
+	}
+	
+	public List<NaturezaDesenvolvimentoAppEnum> getNaturezaDesenvApp(){
+		return NaturezaDesenvolvimentoAppEnum.list();
+	}
+	
+	public List<NaturezaDesenvolvimentoProdutoEnum> getNaturezaDesenvProduto(){
+		return NaturezaDesenvolvimentoProdutoEnum.list();
+	}
+	
+	public List<NaturezaEditoriaEnum> getNaturezaEditoria(){
+		return NaturezaEditoriaEnum.list();
+	}
+	
+	public List<NaturezaDesenvolvimentoTecnicaEnum> getNaturezaDesenvTecnica(){
+		return NaturezaDesenvolvimentoTecnicaEnum.list();
+	}
 
 	public List<NaturezaEnum> getNatureza() {
 		return new ArrayList<NaturezaEnum>(Arrays.asList(NaturezaEnum.values()));
 	}
+	
+	public List<NaturezaTraducaoEnum> getNaturezaTraducao(){
+		return NaturezaTraducaoEnum.list();
+	}
+	
+	public List<NaturezaServicoTecnicosEnum> getNaturezaServicosTecnicos(){
+		return NaturezaServicoTecnicosEnum.list();
+	}
+	
+	public List<NaturezaCartaEnum> getNaturezaCarta(){
+		return NaturezaCartaEnum.list();
+	}
+	
+	public List<DisponibilidadeEnum> getDisponibilidade(){
+		return DisponibilidadeEnum.list();
+	}
 
 	public List<DivulgacaoEnum> getDivulgacao() {
 		return DivulgacaoEnum.list();
+	}
+	
+	public List<NivelCursoCurtaDuaracaoEnum> getNivelCursoCurtaDuracao(){
+		return NivelCursoCurtaDuaracaoEnum.list();
 	}
 	
 	public List<DivulgacaoEnum> getDivulgacaoLivro() {
@@ -593,6 +631,14 @@ public class ProducaoAcademicaMB extends BaseMB {
 	
 	public  List<NaturezaConteudoEnum> getListNaturezaConteudo(){
 		return NaturezaConteudoEnum.list();
+	}
+	
+	public List<TipoOrganizacaoEventoEnum> getTipoOrganizacaoEvento(){
+		return TipoOrganizacaoEventoEnum.list();
+	}
+	
+	public List<TipoDesenvolvimentoProdutoEnum> getTipoDesenvProd(){
+		return TipoDesenvolvimentoProdutoEnum.list();
 	}
 	
 	public List<TipoContribuicaoObraEnum> getTipoContribuicaoObra(){
