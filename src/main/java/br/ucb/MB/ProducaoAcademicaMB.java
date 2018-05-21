@@ -118,10 +118,6 @@ import br.ucb.security.Seguranca;
 import br.ucb.security.UsuarioSistema;
 import br.ucb.util.FileUtil;
 
-/**
- * @author andre
- *
- */
 @ManagedBean(name = "producaoAcademicaMB")
 @ViewScoped
 public class ProducaoAcademicaMB extends BaseMB {
@@ -271,10 +267,22 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.producaoAcademica.setLinhaPesquisa(this.linhaPesquisaDao.findById(this.linhaPesquisa.getIdLinhaPesquisa()));
 		this.producaoAcademica.setTipoProducao(this.tipoProducao);
 		this.producaoAcademica.setStatusProducao(this.statusProducao);
+		montarNomeArquivos();
 		salvarTipoProducao();
 		salvarAutores();
 		salvarExterno();
 		cadastraHistorico("Foi cadastrado com sucesso.",this.producaoAcDao.findByProdAc(this.producaoAcademica));
+	}
+	
+	private void montarNomeArquivos(){
+		StringBuilder sb = new StringBuilder();
+		if(this.uploadFiles != null){
+			for (UploadedFile file : uploadFiles) {
+				sb.append(file.getFileName());
+				sb.append(";");
+			}
+			this.producaoAcademica.setArquivo(sb.toString());
+		}
 	}
 	
 	private void salvarExterno() {
