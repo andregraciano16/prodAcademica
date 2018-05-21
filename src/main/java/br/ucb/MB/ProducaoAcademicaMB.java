@@ -8,10 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.NativeUploadedFile;
@@ -239,8 +237,6 @@ public class ProducaoAcademicaMB extends BaseMB {
 			e.printStackTrace();
 		}
 	    uploadFiles.add(this.uploadFile);
-		FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 	
 	public double convertBiteEmKBites(Long tamanho){
@@ -272,6 +268,7 @@ public class ProducaoAcademicaMB extends BaseMB {
 		salvarAutores();
 		salvarExterno();
 		cadastraHistorico("Foi cadastrado com sucesso.",this.producaoAcDao.findByProdAc(this.producaoAcademica));
+		setMessageSuccess("Cadastrado com sucesso!");
 	}
 	
 	private void montarNomeArquivos(){
