@@ -32,5 +32,8 @@ public interface ProducaoAcademicaDao extends DaoGenerico<ProducaoAcademica, Int
 	
 	public boolean updateResultadoM(AprovacaoProducaoVO prodAcademica);
 	
+	public List<Object[]> listSimpleQualisFiltroMeu(String anoInicio, String anoFim, Integer cod);
+	
+	public List<Object[]> listSimpleQualisMeu(Integer cod);
 
 }

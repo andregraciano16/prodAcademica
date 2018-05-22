@@ -1,9 +1,12 @@
 package br.ucb.MB;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+
+import org.springframework.security.core.GrantedAuthority;
 
 //import br.ucb.enums.TipoUsuarioEnum;
 
@@ -31,4 +34,5 @@ public abstract class BaseMB implements Serializable{
 		this.tipoUsuarioEnum = tipoUsuarioEnum;
 	}
 */
+	
 }

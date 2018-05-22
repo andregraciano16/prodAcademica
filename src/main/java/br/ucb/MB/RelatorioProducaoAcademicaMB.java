@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,8 +20,15 @@ import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
+import org.springframework.security.core.GrantedAuthority;
 
+import br.ucb.dao.AlunoDao;
+import br.ucb.dao.DocenteDao;
+import br.ucb.dao.impl.AlunoDaoImpl;
+import br.ucb.dao.impl.DocenteDaoImpl;
 import br.ucb.dao.impl.ProducaoAcademicaDaoImpl;
+import br.ucb.security.Seguranca;
+import br.ucb.security.UsuarioSistema;
 
 @ManagedBean(name = "relatorioProducaoAcademicaMB")
 @ViewScoped
@@ -30,12 +38,14 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 	private LineChartModel grafico;
 	private BarChartModel graficoBarra;
 	private BarChartModel graficoBarraTipo;
+	private BarChartModel graficoBarraMeu;
 	private String graficoFiltroLine = "1";
 	private String graficoFiltroBarQualis = "1";
 	private String graficoFiltroBarTipo = "1";
 	private String graficoFiltroBarQualisMeu = "1";
 	private ProducaoAcademicaDaoImpl producaoAcademicaDaoImpl;
 	private List<Object[]> listaSimples;
+	private List<Object[]> listaSimplesMeu;
 	private List<Date> listaDatas;
 	private String anoInicioProd;
 	private String anoFimProd;
@@ -45,11 +55,14 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 	private String anoFimQualis;
 	private String anoTempInicioQualis;
 	private String anoTempFimQualis;
-	private String anoInicioQualisMeu;
-	private String anoFimQualisMeu;
-	private String anoTempInicioQualisMeu;
-	private String anoTempFimQualisMeu;
+	private String anoInicioMeuQualis;
+	private String anoFimMeuQualis;
+	private String anoTempInicioMeuQualis;
+	private String anoTempFimMeuQualis;
 	private Calendar anoAtual;
+	private UsuarioSistema user;
+	private DocenteDao docenteDao;
+	private AlunoDao alunoDao;
 
 	@PostConstruct
 	public void init() {
@@ -66,6 +79,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		createGraficoLine();
 		createGraficoBarQualis();
 		createGraficoBarTipo();
+		createGraficoBarMeuQualis();
 
 	}
 
@@ -124,6 +138,56 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	}
 
+	private void createGraficoBarMeuQualis() {
+
+		initIntervalo(this.anoTempInicioMeuQualis, this.anoTempFimMeuQualis, this.anoInicioMeuQualis,
+				this.anoFimMeuQualis, 3);
+
+		if (getGraficoFiltroBarQualisMeu().equals("1")) {
+			if (!isAluno()) {
+				this.listaSimplesMeu = this.producaoAcademicaDaoImpl.listSimpleQualisFiltroMeu(this.anoInicioQualis,
+						this.anoFimQualis, this.docenteDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			} else {
+				this.listaSimplesMeu = this.producaoAcademicaDaoImpl.listSimpleQualisFiltroMeu(this.anoInicioQualis,
+						this.anoFimQualis, this.alunoDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			}
+			this.graficoBarraMeu = initGraficoQualisFiltro(this.listaSimplesMeu);
+
+		} else if (getGraficoFiltroBarQualisMeu().equals("2")) {
+			if (!isAluno()) {
+				this.listaSimplesMeu = this.producaoAcademicaDaoImpl.listSimpleQualisFiltroMeu(this.anoInicioQualis,
+						this.anoFimQualis, this.docenteDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			} else {
+				this.listaSimplesMeu = this.producaoAcademicaDaoImpl.listSimpleQualisFiltroMeu(this.anoInicioQualis,
+						this.anoFimQualis, this.alunoDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			}
+			this.graficoBarraMeu = initGraficoQualisTotalFiltro(this.listaSimplesMeu);
+
+		} else if (getGraficoFiltroBarQualisMeu().equals("3")) {
+			if (!isAluno()) {
+				this.listaSimplesMeu = this.producaoAcademicaDaoImpl
+						.listSimpleQualisMeu(this.docenteDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			} else {
+				this.listaSimplesMeu = this.producaoAcademicaDaoImpl
+						.listSimpleQualisMeu(this.alunoDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			}
+			this.graficoBarraMeu = initGraficoQualisAnos(this.listaSimplesMeu);
+
+		} else if (getGraficoFiltroBarQualisMeu().equals("4")) {
+			if (!isAluno()) {
+				this.listaSimplesMeu = this.producaoAcademicaDaoImpl
+						.listSimpleQualisMeu(this.docenteDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			} else {
+				this.listaSimplesMeu = this.producaoAcademicaDaoImpl
+						.listSimpleQualisMeu(this.alunoDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			}
+			this.graficoBarraMeu = initGraficoQualis(this.listaSimplesMeu);
+		}
+
+		initBarChartModel();
+
+	}
+
 	private void initIntervalo(String anoTempInicio, String anoTempFim, String anoInicio, String anoFim,
 			Integer valor) {
 
@@ -149,6 +213,12 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			this.anoInicioQualis = anoInicio;
 			this.anoFimQualis = anoFim;
 			verificaGraficoFiltro(anoTempInicio, anoTempFim, anoInicio, anoFim, 2);
+		} else if (valor == 3) {
+			this.anoTempInicioMeuQualis = anoTempInicio;
+			this.anoTempFimMeuQualis = anoTempFim;
+			this.anoInicioMeuQualis = anoInicio;
+			this.anoFimMeuQualis = anoFim;
+			verificaGraficoFiltro(anoTempInicio, anoTempFim, anoInicio, anoFim, 3);
 		}
 	}
 
@@ -205,6 +275,11 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			this.anoTempFimQualis = anoTempFim;
 			this.anoInicioQualis = anoInicio;
 			this.anoFimQualis = anoFim;
+		} else if (valor == 3) {
+			this.anoTempInicioMeuQualis = anoTempInicio;
+			this.anoTempFimMeuQualis = anoTempFim;
+			this.anoInicioMeuQualis = anoInicio;
+			this.anoFimMeuQualis = anoFim;
 		}
 	}
 
@@ -453,18 +528,18 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		ChartSeries meses = new ChartSeries();
 		DateFormat df2 = new SimpleDateFormat("MMM", new Locale("pt", "BR"));
 
-		meses.set("jan", -1);
-		meses.set("fev", -1);
-		meses.set("mar", -1);
-		meses.set("abr", -1);
-		meses.set("mai", -1);
-		meses.set("jun", -1);
-		meses.set("jul", -1);
-		meses.set("ago", -1);
-		meses.set("set", -1);
-		meses.set("out", -1);
-		meses.set("nov", -1);
-		meses.set("dez", -1);
+		meses.set("jan", 0);
+		meses.set("fev", 0);
+		meses.set("mar", 0);
+		meses.set("abr", 0);
+		meses.set("mai", 0);
+		meses.set("jun", 0);
+		meses.set("jul", 0);
+		meses.set("ago", 0);
+		meses.set("set", 0);
+		meses.set("out", 0);
+		meses.set("nov", 0);
+		meses.set("dez", 0);
 
 		for (Date producaoAcademica : listaDatas) {
 
@@ -484,18 +559,18 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 				meses.setLabel(String.valueOf(ultimoAno));
 				model.addSeries(meses);
 				meses = new ChartSeries();
-				meses.set("jan", -1);
-				meses.set("fev", -1);
-				meses.set("mar", -1);
-				meses.set("abr", -1);
-				meses.set("mai", -1);
-				meses.set("jun", -1);
-				meses.set("jul", -1);
-				meses.set("ago", -1);
-				meses.set("set", -1);
-				meses.set("out", -1);
-				meses.set("nov", -1);
-				meses.set("dez", -1);
+				meses.set("jan", 0);
+				meses.set("fev", 0);
+				meses.set("mar", 0);
+				meses.set("abr", 0);
+				meses.set("mai", 0);
+				meses.set("jun", 0);
+				meses.set("jul", 0);
+				meses.set("ago", 0);
+				meses.set("set", 0);
+				meses.set("out", 0);
+				meses.set("nov", 0);
+				meses.set("dez", 0);
 				meses.set(df2.format(producaoAcademica), getCadastroMes(listaDatas, c));
 				ultimoMes = c.get(Calendar.MONTH);
 				ultimoAno = c.get(Calendar.YEAR);
@@ -543,18 +618,18 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		ChartSeries meses = new ChartSeries();
 		DateFormat df2 = new SimpleDateFormat("MMM", new Locale("pt", "BR"));
 
-		meses.set("jan", -1);
-		meses.set("fev", -1);
-		meses.set("mar", -1);
-		meses.set("abr", -1);
-		meses.set("mai", -1);
-		meses.set("jun", -1);
-		meses.set("jul", -1);
-		meses.set("ago", -1);
-		meses.set("set", -1);
-		meses.set("out", -1);
-		meses.set("nov", -1);
-		meses.set("dez", -1);
+		meses.set("jan", 0);
+		meses.set("fev", 0);
+		meses.set("mar", 0);
+		meses.set("abr", 0);
+		meses.set("mai", 0);
+		meses.set("jun", 0);
+		meses.set("jul", 0);
+		meses.set("ago", 0);
+		meses.set("set", 0);
+		meses.set("out", 0);
+		meses.set("nov", 0);
+		meses.set("dez", 0);
 
 		for (Date producaoAcademica : listaDatas) {
 
@@ -574,18 +649,18 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 				meses.setLabel(String.valueOf(ultimoAno));
 				model.addSeries(meses);
 				meses = new ChartSeries();
-				meses.set("jan", -1);
-				meses.set("fev", -1);
-				meses.set("mar", -1);
-				meses.set("abr", -1);
-				meses.set("mai", -1);
-				meses.set("jun", -1);
-				meses.set("jul", -1);
-				meses.set("ago", -1);
-				meses.set("set", -1);
-				meses.set("out", -1);
-				meses.set("nov", -1);
-				meses.set("dez", -1);
+				meses.set("jan", 0);
+				meses.set("fev", 0);
+				meses.set("mar", 0);
+				meses.set("abr", 0);
+				meses.set("mai", 0);
+				meses.set("jun", 0);
+				meses.set("jul", 0);
+				meses.set("ago", 0);
+				meses.set("set", 0);
+				meses.set("out", 0);
+				meses.set("nov", 0);
+				meses.set("dez", 0);
 				meses.set(df2.format(producaoAcademica), getCadastroMes(listaDatas, c));
 				ultimoMes = c.get(Calendar.MONTH);
 				ultimoAno = c.get(Calendar.YEAR);
@@ -687,14 +762,14 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		String ultimaNota = "";
 		int ultimoAno = 0;
 
-		qualis.set("A1", -1);
-		qualis.set("A2", -1);
-		qualis.set("B1", -1);
-		qualis.set("B2", -1);
-		qualis.set("B3", -1);
-		qualis.set("B4", -1);
-		qualis.set("B5", -1);
-		qualis.set("C", -1);
+		qualis.set("A1", 0);
+		qualis.set("A2", 0);
+		qualis.set("B1", 0);
+		qualis.set("B2", 0);
+		qualis.set("B3", 0);
+		qualis.set("B4", 0);
+		qualis.set("B5", 0);
+		qualis.set("C", 0);
 
 		// 0 - ano
 		// 1 - conceito qualis
@@ -713,14 +788,14 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 				qualis.setLabel(String.valueOf(ultimoAno));
 				model.addSeries(qualis);
 				qualis = new ChartSeries();
-				qualis.set("A1", -1);
-				qualis.set("A2", -1);
-				qualis.set("B1", -1);
-				qualis.set("B2", -1);
-				qualis.set("B3", -1);
-				qualis.set("B4", -1);
-				qualis.set("B5", -1);
-				qualis.set("C", -1);
+				qualis.set("A1", 0);
+				qualis.set("A2", 0);
+				qualis.set("B1", 0);
+				qualis.set("B2", 0);
+				qualis.set("B3", 0);
+				qualis.set("B4", 0);
+				qualis.set("B5", 0);
+				qualis.set("C", 0);
 				qualis.set(producaoAcademica[1],
 						getQuantidadeProducaoQualis(listaSimples, producaoAcademica[0], producaoAcademica[1]));
 				ultimoAno = (Integer) producaoAcademica[0];
@@ -765,14 +840,14 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		String ultimaNota = "";
 		int ultimoAno = 0;
 
-		qualis.set("A1", -1);
-		qualis.set("A2", -1);
-		qualis.set("B1", -1);
-		qualis.set("B2", -1);
-		qualis.set("B3", -1);
-		qualis.set("B4", -1);
-		qualis.set("B5", -1);
-		qualis.set("C", -1);
+		qualis.set("A1", 0);
+		qualis.set("A2", 0);
+		qualis.set("B1", 0);
+		qualis.set("B2", 0);
+		qualis.set("B3", 0);
+		qualis.set("B4", 0);
+		qualis.set("B5", 0);
+		qualis.set("C", 0);
 
 		// 0 - ano
 		// 1 - conceito qualis
@@ -791,14 +866,14 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 				qualis.setLabel(String.valueOf(ultimoAno));
 				model.addSeries(qualis);
 				qualis = new ChartSeries();
-				qualis.set("A1", -1);
-				qualis.set("A2", -1);
-				qualis.set("B1", -1);
-				qualis.set("B2", -1);
-				qualis.set("B3", -1);
-				qualis.set("B4", -1);
-				qualis.set("B5", -1);
-				qualis.set("C", -1);
+				qualis.set("A1", 0);
+				qualis.set("A2", 0);
+				qualis.set("B1", 0);
+				qualis.set("B2", 0);
+				qualis.set("B3", 0);
+				qualis.set("B4", 0);
+				qualis.set("B5", 0);
+				qualis.set("C", 0);
 				qualis.set(producaoAcademica[1],
 						getQuantidadeProducaoQualis(listaSimples, producaoAcademica[0], producaoAcademica[1]));
 				ultimoAno = (Integer) producaoAcademica[0];
@@ -850,15 +925,15 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			boolean resultadoAno = false;
 			boolean salvou = false;
 			boolean primeiro = true;
-			qualis.set("A1", -1);
-			qualis.set("A2", -1);
-			qualis.set("B1", -1);
-			qualis.set("B2", -1);
-			qualis.set("B3", -1);
-			qualis.set("B4", -1);
-			qualis.set("B5", -1);
-			qualis.set("C", -1);
-
+			qualis.set("A1", 0);
+			qualis.set("A2", 0);
+			qualis.set("B1", 0);
+			qualis.set("B2", 0);
+			qualis.set("B3", 0);
+			qualis.set("B4", 0);
+			qualis.set("B5", 0);
+			qualis.set("C", 0);
+			
 			producaoAcademica = listaSimples.get(0);
 			ultimoAno = (Integer) producaoAcademica[0];
 			ultimaNota = (String) producaoAcademica[1];
@@ -895,14 +970,14 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 								model.addSeries(qualis);
 								salvou = true;
 								qualis = new ChartSeries();
-								qualis.set("A1", -1);
-								qualis.set("A2", -1);
-								qualis.set("B1", -1);
-								qualis.set("B2", -1);
-								qualis.set("B3", -1);
-								qualis.set("B4", -1);
-								qualis.set("B5", -1);
-								qualis.set("C", -1);
+								qualis.set("A1", 0);
+								qualis.set("A2", 0);
+								qualis.set("B1", 0);
+								qualis.set("B2", 0);
+								qualis.set("B3", 0);
+								qualis.set("B4", 0);
+								qualis.set("B5", 0);
+								qualis.set("C", 0);
 								qualis.set(producaoAcademica[1], getQuantidadeProducaoQualisAnos(listaSimples,
 										producaoAcademica[0], producaoAcademica[1]));
 								ultimoAno = (Integer) producaoAcademica[0];
@@ -927,14 +1002,14 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 					qualis.setLabel(String.valueOf(anoAtual - 3) + " - " + String.valueOf(anoAtual));
 					model.addSeries(qualis);
 					qualis = new ChartSeries();
-					qualis.set("A1", -1);
-					qualis.set("A2", -1);
-					qualis.set("B1", -1);
-					qualis.set("B2", -1);
-					qualis.set("B3", -1);
-					qualis.set("B4", -1);
-					qualis.set("B5", -1);
-					qualis.set("C", -1);
+					qualis.set("A1", 0);
+					qualis.set("A2", 0);
+					qualis.set("B1", 0);
+					qualis.set("B2", 0);
+					qualis.set("B3", 0);
+					qualis.set("B4", 0);
+					qualis.set("B5", 0);
+					qualis.set("C", 0);
 				}
 			}
 		}
@@ -994,14 +1069,14 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			boolean resultadoAno = false;
 			boolean salvou = false;
 			boolean primeiro = true;
-			qualis.set("A1", -1);
-			qualis.set("A2", -1);
-			qualis.set("B1", -1);
-			qualis.set("B2", -1);
-			qualis.set("B3", -1);
-			qualis.set("B4", -1);
-			qualis.set("B5", -1);
-			qualis.set("C", -1);
+			qualis.set("A1", 0);
+			qualis.set("A2", 0);
+			qualis.set("B1", 0);
+			qualis.set("B2", 0);
+			qualis.set("B3", 0);
+			qualis.set("B4", 0);
+			qualis.set("B5", 0);
+			qualis.set("C", 0);
 
 			producaoAcademica = this.listaSimples.get(0);
 			ultimoAno = (Integer) producaoAcademica[0];
@@ -1039,14 +1114,14 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 								model.addSeries(qualis);
 								salvou = true;
 								qualis = new ChartSeries();
-								qualis.set("A1", -1);
-								qualis.set("A2", -1);
-								qualis.set("B1", -1);
-								qualis.set("B2", -1);
-								qualis.set("B3", -1);
-								qualis.set("B4", -1);
-								qualis.set("B5", -1);
-								qualis.set("C", -1);
+								qualis.set("A1", 0);
+								qualis.set("A2", 0);
+								qualis.set("B1", 0);
+								qualis.set("B2", 0);
+								qualis.set("B3", 0);
+								qualis.set("B4", 0);
+								qualis.set("B5", 0);
+								qualis.set("C", 0);
 								qualis.set(producaoAcademica[1], getQuantidadeProducaoQualisAnos(this.listaSimples,
 										producaoAcademica[0], producaoAcademica[1]));
 								ultimoAno = (Integer) producaoAcademica[0];
@@ -1071,14 +1146,14 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 					qualis.setLabel(String.valueOf(anoAtual - 3) + " - " + String.valueOf(anoAtual));
 					model.addSeries(qualis);
 					qualis = new ChartSeries();
-					qualis.set("A1", -1);
-					qualis.set("A2", -1);
-					qualis.set("B1", -1);
-					qualis.set("B2", -1);
-					qualis.set("B3", -1);
-					qualis.set("B4", -1);
-					qualis.set("B5", -1);
-					qualis.set("C", -1);
+					qualis.set("A1", 0);
+					qualis.set("A2", 0);
+					qualis.set("B1", 0);
+					qualis.set("B2", 0);
+					qualis.set("B3", 0);
+					qualis.set("B4", 0);
+					qualis.set("B5", 0);
+					qualis.set("C", 0);
 				}
 			}
 		}
@@ -1142,6 +1217,13 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		this.anoFimProd = "";
 		this.anoTempInicioProd = "";
 		this.anoTempFimProd = "";
+		this.anoInicioMeuQualis = "";
+		this.anoFimMeuQualis = "";
+		this.anoTempInicioMeuQualis = "";
+		this.anoTempFimMeuQualis = "";
+		this.user = new Seguranca().getUsuarioLogado();
+		this.alunoDao = new AlunoDaoImpl();
+		this.docenteDao = new DocenteDaoImpl();
 
 	}
 
@@ -1265,35 +1347,76 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		this.graficoFiltroBarQualisMeu = graficoFiltroBarQualisMeu;
 	}
 
-	public String getAnoInicioQualisMeu() {
-		return anoInicioQualisMeu;
+	public String getAnoInicioMeuQualis() {
+		return anoInicioMeuQualis;
 	}
 
-	public void setAnoInicioQualisMeu(String anoInicioQualisMeu) {
-		this.anoInicioQualisMeu = anoInicioQualisMeu;
+	public void setAnoInicioMeuQualis(String anoInicioMeuQualis) {
+		this.anoInicioMeuQualis = anoInicioMeuQualis;
 	}
 
-	public String getAnoFimQualisMeu() {
-		return anoFimQualisMeu;
+	public String getAnoFimMeuQualis() {
+		return anoFimMeuQualis;
 	}
 
-	public void setAnoFimQualisMeu(String anoFimQualisMeu) {
-		this.anoFimQualisMeu = anoFimQualisMeu;
+	public void setAnoFimMeuQualis(String anoFimMeuQualis) {
+		this.anoFimMeuQualis = anoFimMeuQualis;
 	}
 
-	public String getAnoTempInicioQualisMeu() {
-		return anoTempInicioQualisMeu;
+	public String getAnoTempInicioMeuQualis() {
+		return anoTempInicioMeuQualis;
 	}
 
-	public void setAnoTempInicioQualisMeu(String anoTempInicioQualisMeu) {
-		this.anoTempInicioQualisMeu = anoTempInicioQualisMeu;
+	public void setAnoTempInicioMeuQualis(String anoTempInicioMeuQualis) {
+		this.anoTempInicioMeuQualis = anoTempInicioMeuQualis;
 	}
 
-	public String getAnoTempFimQualisMeu() {
-		return anoTempFimQualisMeu;
+	public String getAnoTempFimMeuQualis() {
+		return anoTempFimMeuQualis;
 	}
 
-	public void setAnoTempFimQualisMeu(String anoTempFimQualisMeu) {
-		this.anoTempFimQualisMeu = anoTempFimQualisMeu;
+	public void setAnoTempFimMeuQualis(String anoTempFimMeuQualis) {
+		this.anoTempFimMeuQualis = anoTempFimMeuQualis;
 	}
+
+	public BarChartModel getGraficoBarraMeu() {
+		return graficoBarraMeu;
+	}
+
+	public void setGraficoBarraMeu(BarChartModel graficoBarraMeu) {
+		this.graficoBarraMeu = graficoBarraMeu;
+	}
+
+	public boolean isDiretor() {
+		Iterator<GrantedAuthority> iterator = user.getAuthorities().iterator();
+		if (iterator.next().getAuthority().equals("ROLE_DIRETOR")) {
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+
+	public boolean isAluno() {
+		Iterator<GrantedAuthority> iterator = user.getAuthorities().iterator();
+		if (iterator.next().getAuthority().equals("ROLE_ALUNO")) {
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+
+	public boolean isProfessor() {
+		Iterator<GrantedAuthority> iterator = user.getAuthorities().iterator();
+		if (iterator.next().getAuthority().equals("ROLE_PROFESSOR")) {
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+
+	public List<Object[]> getListaSimplesMeu() {
+		return listaSimplesMeu;
+	}
+
+	public void setListaSimplesMeu(List<Object[]> listaSimplesMeu) {
+		this.listaSimplesMeu = listaSimplesMeu;
+	}
+
 }
