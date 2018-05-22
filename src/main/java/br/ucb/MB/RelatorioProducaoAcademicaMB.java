@@ -33,6 +33,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 	private String graficoFiltroLine = "1";
 	private String graficoFiltroBarQualis = "1";
 	private String graficoFiltroBarTipo = "1";
+	private String graficoFiltroBarQualisMeu = "1";
 	private ProducaoAcademicaDaoImpl producaoAcademicaDaoImpl;
 	private List<Object[]> listaSimples;
 	private List<Date> listaDatas;
@@ -44,8 +45,11 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 	private String anoFimQualis;
 	private String anoTempInicioQualis;
 	private String anoTempFimQualis;
+	private String anoInicioQualisMeu;
+	private String anoFimQualisMeu;
+	private String anoTempInicioQualisMeu;
+	private String anoTempFimQualisMeu;
 	private Calendar anoAtual;
-
 
 	@PostConstruct
 	public void init() {
@@ -59,71 +63,96 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	private void createGrafico() {
 
+		createGraficoLine();
+		createGraficoBarQualis();
+		createGraficoBarTipo();
+
+	}
+
+	private void createGraficoLine() {
+
+		initIntervalo(this.anoTempInicioProd, this.anoTempFimProd, this.anoInicioProd, this.anoFimProd, 1);
+
 		if (getGraficoFiltroLine().equals("1")) {
-
-			if (this.anoInicioProd.equals("") || this.anoInicioProd == null)
-				anoInicioProd = anoTempInicioProd;
-			if (this.anoFimProd.equals("") || this.anoFimProd == null)
-				anoFimProd = anoTempFimProd;
-			verificaGraficoProdFiltro();
-
-			grafico = initGraficoAnosFiltro();
-			initLineChartModel();
+			this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleProdFiltro(this.anoInicioProd, this.anoFimProd);
+			this.grafico = initGraficoAnosFiltro(this.listaDatas);
 		} else if (getGraficoFiltroLine().equals("2")) {
-			if (this.anoInicioProd.equals("") || this.anoInicioProd == null)
-				anoInicioProd = anoTempInicioProd;
-			if (this.anoFimProd.equals("") || this.anoFimProd == null)
-				anoFimProd = anoTempFimProd;
-			verificaGraficoProdFiltro();
-
-			grafico = initGraficoTotalFiltro();
-			initLineChartModel();
+			this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleProdFiltro(this.anoInicioProd, this.anoFimProd);
+			this.grafico = initGraficoTotalFiltro(this.listaDatas);
 		} else if (getGraficoFiltroLine().equals("3")) {
-			if (this.anoInicioProd.equals("") || this.anoInicioProd == null)
-				anoInicioProd = anoTempInicioProd;
-			if (this.anoFimProd.equals("") || this.anoFimProd == null)
-				anoFimProd = anoTempFimProd;
-			verificaGraficoProdFiltro();
-
-			grafico = initGraficoSemestreTotalFiltro();
-			initLineChartModel();
+			this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleProdFiltro(this.anoInicioProd, this.anoFimProd);
+			this.grafico = initGraficoSemestreTotalFiltro(this.listaDatas);
 		} else if (getGraficoFiltroLine().equals("4")) {
-			grafico = initGraficoAnos();
-			initLineChartModel();
+			this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleDatas();
+			this.grafico = initGraficoAnos(this.listaDatas);
 		} else if (getGraficoFiltroLine().equals("5")) {
-			grafico = initGraficoTotal();
-			initLineChartModel();
+			this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleDatas();
+			this.grafico = initGraficoTotal(this.listaDatas);
 		} else if (getGraficoFiltroLine().equals("6")) {
-			grafico = initGraficoSemestreTotal();
-			initLineChartModel();
+			this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleDatas();
+			this.grafico = initGraficoSemestreTotal(this.listaDatas);
 		}
+
+		initLineChartModel();
+
+	}
+
+	private void createGraficoBarQualis() {
+
+		initIntervalo(this.anoTempInicioQualis, this.anoTempFimQualis, this.anoInicioQualis, this.anoFimQualis, 2);
 
 		if (getGraficoFiltroBarQualis().equals("1")) {
+			this.listaSimples = this.producaoAcademicaDaoImpl.listSimpleQualisFiltro(this.anoInicioQualis,
+					this.anoFimQualis);
+			this.graficoBarra = initGraficoQualisFiltro(this.listaSimples);
 
-			if (this.anoInicioQualis.equals("") || this.anoInicioQualis == null)
-				anoInicioQualis = anoTempInicioQualis;
-			if (this.anoFimQualis.equals("") || this.anoFimQualis == null)
-				anoFimQualis = anoTempFimQualis;
-			verificaGraficoQualisFiltro();
-
-			graficoBarra = initGraficoQualisFiltro();
-			initBarChartModel();
 		} else if (getGraficoFiltroBarQualis().equals("2")) {
+			this.listaSimples = this.producaoAcademicaDaoImpl.listSimpleQualisFiltro(this.anoInicioQualis,
+					this.anoFimQualis);
+			this.graficoBarra = initGraficoQualisTotalFiltro(this.listaSimples);
 
-			if (this.anoInicioQualis.equals("") || this.anoInicioQualis == null)
-				anoInicioQualis = anoTempInicioQualis;
-			if (this.anoFimQualis.equals("") || this.anoFimQualis == null)
-				anoFimQualis = anoTempFimQualis;
-			verificaGraficoQualisFiltro();
-			graficoBarra = initGraficoQualisTotalFiltro();
-			initBarChartModel();
 		} else if (getGraficoFiltroBarQualis().equals("3")) {
-			graficoBarra = initGraficoQualisAnos();
-			initBarChartModel();
+			this.listaSimples = this.producaoAcademicaDaoImpl.listSimpleQualis();
+			this.graficoBarra = initGraficoQualisAnos(this.listaSimples);
+
 		} else if (getGraficoFiltroBarQualis().equals("4")) {
-			graficoBarra = initGraficoQualis();
-			initBarChartModel();
+			this.listaSimples = this.producaoAcademicaDaoImpl.listSimpleQualis();
+			this.graficoBarra = initGraficoQualis(this.listaSimples);
 		}
+
+		initBarChartModel();
+
+	}
+
+	private void initIntervalo(String anoTempInicio, String anoTempFim, String anoInicio, String anoFim,
+			Integer valor) {
+
+		if (anoInicio.equals("") || anoInicio == null)
+			anoInicio = anoTempInicio;
+		if (anoFim.equals("") || anoFim == null)
+			anoFim = anoTempFim;
+
+		if (anoInicio.isEmpty() && anoFim.isEmpty()) {
+			anoInicio = String.valueOf(anoAtual.get(Calendar.YEAR) - 3);
+			anoFim = String.valueOf(anoAtual.get(Calendar.YEAR));
+		}
+
+		if (valor == 1) {
+			this.anoTempInicioProd = anoTempInicio;
+			this.anoTempFimProd = anoTempFim;
+			this.anoInicioProd = anoInicio;
+			this.anoFimProd = anoFim;
+			verificaGraficoFiltro(anoTempInicio, anoTempFim, anoInicio, anoFim, 1);
+		} else if (valor == 2) {
+			this.anoTempInicioQualis = anoTempInicio;
+			this.anoTempFimQualis = anoTempFim;
+			this.anoInicioQualis = anoInicio;
+			this.anoFimQualis = anoFim;
+			verificaGraficoFiltro(anoTempInicio, anoTempFim, anoInicio, anoFim, 2);
+		}
+	}
+
+	private void createGraficoBarTipo() {
 
 		if (getGraficoFiltroBarTipo().equals("1")) {
 			graficoBarraTipo = initGraficoTipo();
@@ -132,73 +161,51 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			graficoBarraTipo = initGraficoLinha();
 			initBarChartModelTipo();
 		}
-
 	}
 
-	private void verificaGraficoQualisFiltro() {
+	private void verificaGraficoFiltro(String anoTempInicio, String anoTempFim, String anoInicio, String anoFim,
+			Integer valor) {
 
-		if (anoTempInicioQualis.isEmpty() || anoTempFimQualis.isEmpty()) {
-			this.anoTempFimQualis = String.valueOf(anoAtual.get(Calendar.YEAR));
-			this.anoTempInicioQualis = String.valueOf(anoAtual.get(Calendar.YEAR) - 3);
+		if (anoTempInicio.isEmpty() || anoTempFim.isEmpty()) {
+			anoTempFim = String.valueOf(anoAtual.get(Calendar.YEAR));
+			anoTempInicio = String.valueOf(anoAtual.get(Calendar.YEAR) - 3);
 		}
 
-		if (!anoInicioQualis.isEmpty() && !anoFimQualis.isEmpty()) {
-			if (Integer.valueOf(anoInicioQualis) > Integer.valueOf(anoFimQualis)) {
+		if (!anoInicio.isEmpty() && !anoFim.isEmpty()) {
+			if (Integer.valueOf(anoInicio) > Integer.valueOf(anoFim)) {
 				setMessageError("O ano do inicio não pode ser maior que o ano do fim.");
-				anoInicioQualis = anoTempInicioQualis;
-				anoFimQualis = anoTempFimQualis;
+				anoInicio = anoTempInicio;
+				anoFim = anoTempFim;
 			}
-			if (Integer.valueOf(anoInicioQualis) < 1950 || Integer.valueOf(anoFimQualis) < 1950) {
+			if (Integer.valueOf(anoInicio) < 1950 || Integer.valueOf(anoFim) < 1950) {
 				setMessageError("O ano mínimo é 1950.");
-				anoInicioQualis = anoTempInicioQualis;
-				anoFimQualis = anoTempFimQualis;
+				anoInicio = anoTempInicio;
+				anoFim = anoTempFim;
 			}
-			if (Integer.valueOf(anoInicioQualis) > anoAtual.get(Calendar.YEAR)
-					|| Integer.valueOf(anoFimQualis) > anoAtual.get(Calendar.YEAR)) {
+			if (Integer.valueOf(anoInicio) > anoAtual.get(Calendar.YEAR)
+					|| Integer.valueOf(anoFim) > anoAtual.get(Calendar.YEAR)) {
 				setMessageError("O ano máximo é o ano atual (" + anoAtual.get(Calendar.YEAR) + ").");
-				anoInicioQualis = anoTempInicioQualis;
-				anoFimQualis = anoTempFimQualis;
+				anoInicio = anoTempInicio;
+				anoFim = anoTempFim;
 			}
 		}
 
-		if (!this.anoInicioQualis.isEmpty())
-			anoTempInicioQualis = anoInicioQualis;
-		if (!this.anoFimQualis.isEmpty())
-			anoTempFimQualis = anoFimQualis;
+		if (!anoInicio.isEmpty())
+			anoTempInicio = anoInicio;
+		if (!anoFim.isEmpty())
+			anoTempFim = anoFim;
 
-	}
-
-	private void verificaGraficoProdFiltro() {
-
-		if (anoTempInicioProd.isEmpty() || anoTempFimProd.isEmpty()) {
-			this.anoTempFimProd = String.valueOf(anoAtual.get(Calendar.YEAR));
-			this.anoTempInicioProd = String.valueOf(anoAtual.get(Calendar.YEAR) - 3);
+		if (valor == 1) {
+			this.anoTempInicioProd = anoTempInicio;
+			this.anoTempFimProd = anoTempFim;
+			this.anoInicioProd = anoInicio;
+			this.anoFimProd = anoFim;
+		} else if (valor == 2) {
+			this.anoTempInicioQualis = anoTempInicio;
+			this.anoTempFimQualis = anoTempFim;
+			this.anoInicioQualis = anoInicio;
+			this.anoFimQualis = anoFim;
 		}
-
-		if (!anoInicioProd.isEmpty() && !anoFimProd.isEmpty()) {
-			if (Integer.valueOf(anoInicioProd) > Integer.valueOf(anoFimProd)) {
-				setMessageError("O ano do inicio não pode ser maior que o ano do fim.");
-				anoInicioProd = anoTempInicioProd;
-				anoFimProd = anoTempFimProd;
-			}
-			if (Integer.valueOf(anoInicioProd) < 1950 || Integer.valueOf(anoFimProd) < 1950) {
-				setMessageError("O ano mínimo é 1950.");
-				anoInicioProd = anoTempInicioProd;
-				anoFimProd = anoTempFimProd;
-			}
-			if (Integer.valueOf(anoInicioProd) > anoAtual.get(Calendar.YEAR)
-					|| Integer.valueOf(anoFimProd) > anoAtual.get(Calendar.YEAR)) {
-				setMessageError("O ano máximo é o ano atual (" + anoAtual.get(Calendar.YEAR) + ").");
-				anoInicioProd = anoTempInicioProd;
-				anoFimProd = anoTempFimProd;
-			}
-		}
-
-		if (!this.anoInicioProd.isEmpty())
-			anoTempInicioProd = anoInicioProd;
-		if (!this.anoFimProd.isEmpty())
-			anoTempFimProd = anoFimProd;
-
 	}
 
 	private void initLineChartModel() {
@@ -256,21 +263,11 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		yAxis.setMin(0);
 
 	}
-	
-	
-	private LineChartModel initGraficoTotalFiltro() {
+
+	private LineChartModel initGraficoTotalFiltro(List<Date> listaDatas) {
 
 		// producaoAcademica => dataCadastro das produções
 
-		
-		
-		if (this.anoInicioProd.isEmpty() && this.anoFimProd.isEmpty()) {
-			anoInicioProd = String.valueOf(anoAtual.get(Calendar.YEAR) - 3);
-			anoFimProd = String.valueOf(anoAtual.get(Calendar.YEAR));
-		}
-
-		this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleProdFiltro(this.anoInicioProd, this.anoFimProd);
-		
 		LineChartModel model = new LineChartModel();
 
 		Calendar c = Calendar.getInstance();
@@ -305,12 +302,11 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		return model;
 	}
 
-	private LineChartModel initGraficoTotal() {
+	private LineChartModel initGraficoTotal(List<Date> listaDatas) {
 
 		// producaoAcademica => dataCadastro das produções
 
 		LineChartModel model = new LineChartModel();
-		this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleDatas();
 
 		Calendar c = Calendar.getInstance();
 		int ultimoMes = 0;
@@ -339,15 +335,9 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 		return model;
 	}
-	
-	private LineChartModel initGraficoSemestreTotalFiltro() {
-		
-		if (this.anoInicioProd.isEmpty() && this.anoFimProd.isEmpty()) {
-			anoInicioProd = String.valueOf(anoAtual.get(Calendar.YEAR) - 3);
-			anoFimProd = String.valueOf(anoAtual.get(Calendar.YEAR));
-		}
-		this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleProdFiltro(this.anoInicioProd, this.anoFimProd);
-		
+
+	private LineChartModel initGraficoSemestreTotalFiltro(List<Date> listaDatas) {
+
 		LineChartModel model = new LineChartModel();
 
 		Calendar c = Calendar.getInstance();
@@ -391,21 +381,19 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			}
 
 		}
-		
+
 		if (listaDatas.isEmpty() || listaDatas == null) {
 			series1.set(" ", 0);
 			series1.setLabel("Não foram encontrados resultados.");
 		}
-		
+
 		model.addSeries(series1);
 
 		return model;
 	}
-	
 
-	private LineChartModel initGraficoSemestreTotal() {
+	private LineChartModel initGraficoSemestreTotal(List<Date> listaDatas) {
 		LineChartModel model = new LineChartModel();
-		this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleDatas();
 
 		Calendar c = Calendar.getInstance();
 		int ultimoMes = 0;
@@ -454,14 +442,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		return model;
 	}
 
-	private LineChartModel initGraficoAnosFiltro() {
-
-		if (this.anoInicioProd.isEmpty() && this.anoFimProd.isEmpty()) {
-			anoInicioProd = String.valueOf(anoAtual.get(Calendar.YEAR) - 3);
-			anoFimProd = String.valueOf(anoAtual.get(Calendar.YEAR));
-		}
-
-		this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleProdFiltro(this.anoInicioProd, this.anoFimProd);
+	private LineChartModel initGraficoAnosFiltro(List<Date> listaDatas) {
 
 		LineChartModel model = new LineChartModel();
 
@@ -552,9 +533,8 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	}
 
-	private LineChartModel initGraficoAnos() {
+	private LineChartModel initGraficoAnos(List<Date> listaDatas) {
 		LineChartModel model = new LineChartModel();
-		this.listaDatas = this.producaoAcademicaDaoImpl.listSimpleDatas();
 
 		Calendar c = Calendar.getInstance();
 
@@ -700,15 +680,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	}
 
-	private BarChartModel initGraficoQualisTotalFiltro() {
-
-		if (this.anoInicioQualis.isEmpty() && this.anoFimQualis.isEmpty()) {
-			anoInicioQualis = String.valueOf(anoAtual.get(Calendar.YEAR) - 3);
-			anoFimQualis = String.valueOf(anoAtual.get(Calendar.YEAR));
-		}
-
-		this.listaSimples = this.producaoAcademicaDaoImpl.listSimpleQualisFiltro(this.anoInicioQualis,
-				this.anoFimQualis);
+	private BarChartModel initGraficoQualisTotalFiltro(List<Object[]> listaSimples) {
 
 		BarChartModel model = new BarChartModel();
 		ChartSeries qualis = new ChartSeries();
@@ -728,11 +700,11 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		// 1 - conceito qualis
 		// 2 - dataCadastro
 
-		for (Object[] producaoAcademica : this.listaSimples) {
+		for (Object[] producaoAcademica : listaSimples) {
 
 			if (ultimoAno == 0 && ultimaNota.isEmpty()) {
 				qualis.set(producaoAcademica[1],
-						getQuantidadeProducaoQualis(this.listaSimples, producaoAcademica[0], producaoAcademica[1]));
+						getQuantidadeProducaoQualis(listaSimples, producaoAcademica[0], producaoAcademica[1]));
 				ultimaNota = (String) producaoAcademica[1];
 				ultimoAno = (Integer) producaoAcademica[0];
 			}
@@ -750,7 +722,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 				qualis.set("B5", -1);
 				qualis.set("C", -1);
 				qualis.set(producaoAcademica[1],
-						getQuantidadeProducaoQualis(this.listaSimples, producaoAcademica[0], producaoAcademica[1]));
+						getQuantidadeProducaoQualis(listaSimples, producaoAcademica[0], producaoAcademica[1]));
 				ultimoAno = (Integer) producaoAcademica[0];
 				ultimaNota = "";
 
@@ -758,7 +730,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 			if (!producaoAcademica[1].equals(ultimaNota) && (Integer) producaoAcademica[0] == ultimoAno) {
 				qualis.set(producaoAcademica[1],
-						getQuantidadeProducaoQualis(this.listaSimples, producaoAcademica[0], producaoAcademica[1]));
+						getQuantidadeProducaoQualis(listaSimples, producaoAcademica[0], producaoAcademica[1]));
 				ultimoAno = (Integer) producaoAcademica[0];
 				ultimaNota = (String) producaoAcademica[1];
 			}
@@ -786,9 +758,8 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	}
 
-	private BarChartModel initGraficoQualis() {
+	private BarChartModel initGraficoQualis(List<Object[]> listaSimples) {
 
-		this.listaSimples = this.producaoAcademicaDaoImpl.listSimpleQualis();
 		BarChartModel model = new BarChartModel();
 		ChartSeries qualis = new ChartSeries();
 		String ultimaNota = "";
@@ -807,11 +778,11 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		// 1 - conceito qualis
 		// 2 - dataCadastro
 
-		for (Object[] producaoAcademica : this.listaSimples) {
+		for (Object[] producaoAcademica : listaSimples) {
 
 			if (ultimoAno == 0 && ultimaNota.isEmpty()) {
 				qualis.set(producaoAcademica[1],
-						getQuantidadeProducaoQualis(this.listaSimples, producaoAcademica[0], producaoAcademica[1]));
+						getQuantidadeProducaoQualis(listaSimples, producaoAcademica[0], producaoAcademica[1]));
 				ultimaNota = (String) producaoAcademica[1];
 				ultimoAno = (Integer) producaoAcademica[0];
 			}
@@ -829,7 +800,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 				qualis.set("B5", -1);
 				qualis.set("C", -1);
 				qualis.set(producaoAcademica[1],
-						getQuantidadeProducaoQualis(this.listaSimples, producaoAcademica[0], producaoAcademica[1]));
+						getQuantidadeProducaoQualis(listaSimples, producaoAcademica[0], producaoAcademica[1]));
 				ultimoAno = (Integer) producaoAcademica[0];
 				ultimaNota = "";
 
@@ -837,7 +808,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 			if (!producaoAcademica[1].equals(ultimaNota) && (Integer) producaoAcademica[0] == ultimoAno) {
 				qualis.set(producaoAcademica[1],
-						getQuantidadeProducaoQualis(this.listaSimples, producaoAcademica[0], producaoAcademica[1]));
+						getQuantidadeProducaoQualis(listaSimples, producaoAcademica[0], producaoAcademica[1]));
 				ultimoAno = (Integer) producaoAcademica[0];
 				ultimaNota = (String) producaoAcademica[1];
 			}
@@ -863,25 +834,18 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	}
 
-	private BarChartModel initGraficoQualisFiltro() {
+	private BarChartModel initGraficoQualisFiltro(List<Object[]> listaSimples) {
 
-		if (this.anoInicioQualis.isEmpty() && this.anoFimQualis.isEmpty()) {
-			anoInicioQualis = String.valueOf(anoAtual.get(Calendar.YEAR) - 3);
-			anoFimQualis = String.valueOf(anoAtual.get(Calendar.YEAR));
-		}
-
-		this.listaSimples = this.producaoAcademicaDaoImpl.listSimpleQualisFiltro(this.anoInicioQualis,
-				this.anoFimQualis);
 		BarChartModel model = new BarChartModel();
 		ChartSeries qualis = new ChartSeries();
 		String ultimaNota = "";
 		int ultimoAno = 0;
 		int contador = 0;
 		int anoAtual = 0;
-		if (!this.listaSimples.isEmpty() && this.listaSimples != null) {
-			Object[] producaoAcademica = this.listaSimples.get(0);
+		if (!listaSimples.isEmpty() && listaSimples != null) {
+			Object[] producaoAcademica = listaSimples.get(0);
 			int anoComeco = (Integer) producaoAcademica[0];
-			producaoAcademica = this.listaSimples.get(this.listaSimples.size() - 1);
+			producaoAcademica = listaSimples.get(listaSimples.size() - 1);
 			int anoFim = (Integer) producaoAcademica[0];
 			boolean resultadoAno = false;
 			boolean salvou = false;
@@ -895,21 +859,21 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			qualis.set("B5", -1);
 			qualis.set("C", -1);
 
-			producaoAcademica = this.listaSimples.get(0);
+			producaoAcademica = listaSimples.get(0);
 			ultimoAno = (Integer) producaoAcademica[0];
 			ultimaNota = (String) producaoAcademica[1];
 
 			for (anoAtual = anoComeco; anoAtual <= anoFim; anoAtual++) {
-				resultadoAno = temAno(this.listaSimples, anoAtual);
+				resultadoAno = temAno(listaSimples, anoAtual);
 
 				if (resultadoAno) {
 					salvou = false;
 
 					while (ultimoAno == (Integer) producaoAcademica[0] || anoAtual == (Integer) producaoAcademica[0]) {
-						if (contador < this.listaSimples.size()) {
+						if (contador < listaSimples.size()) {
 							ultimaNota = (String) producaoAcademica[1];
 							ultimoAno = (Integer) producaoAcademica[0];
-							producaoAcademica = this.listaSimples.get(contador);
+							producaoAcademica = listaSimples.get(contador);
 						} else {
 							break;
 						}
@@ -926,7 +890,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 						}
 
 						if ((Integer) producaoAcademica[0] != ultimoAno) {
-							if (ultimoAno % 4 == 0 && temAno(this.listaSimples, ultimoAno)) {
+							if (ultimoAno % 4 == 0 && temAno(listaSimples, ultimoAno)) {
 								qualis.setLabel(String.valueOf(ultimoAno - 3) + " - " + String.valueOf(ultimoAno));
 								model.addSeries(qualis);
 								salvou = true;
@@ -939,7 +903,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 								qualis.set("B4", -1);
 								qualis.set("B5", -1);
 								qualis.set("C", -1);
-								qualis.set(producaoAcademica[1], getQuantidadeProducaoQualisAnos(this.listaSimples,
+								qualis.set(producaoAcademica[1], getQuantidadeProducaoQualisAnos(listaSimples,
 										producaoAcademica[0], producaoAcademica[1]));
 								ultimoAno = (Integer) producaoAcademica[0];
 								ultimaNota = (String) producaoAcademica[1];
@@ -952,8 +916,8 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 										&& (Integer) producaoAcademica[0] != ultimoAno) {
 							ultimoAno = (Integer) producaoAcademica[0];
 							ultimaNota = (String) producaoAcademica[1];
-							qualis.set(ultimaNota, getQuantidadeProducaoQualisAnos(this.listaSimples,
-									producaoAcademica[0], producaoAcademica[1]));
+							qualis.set(ultimaNota, getQuantidadeProducaoQualisAnos(listaSimples, producaoAcademica[0],
+									producaoAcademica[1]));
 
 						}
 
@@ -1014,9 +978,8 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		this.listaDatas = listaDatas;
 	}
 
-	private BarChartModel initGraficoQualisAnos() {
+	private BarChartModel initGraficoQualisAnos(List<Object[]> listaSimples) {
 
-		this.listaSimples = this.producaoAcademicaDaoImpl.listSimpleQualis();
 		BarChartModel model = new BarChartModel();
 		ChartSeries qualis = new ChartSeries();
 		String ultimaNota = "";
@@ -1292,5 +1255,45 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	public void setAnoAtual(Calendar anoAtual) {
 		this.anoAtual = anoAtual;
+	}
+
+	public String getGraficoFiltroBarQualisMeu() {
+		return graficoFiltroBarQualisMeu;
+	}
+
+	public void setGraficoFiltroBarQualisMeu(String graficoFiltroBarQualisMeu) {
+		this.graficoFiltroBarQualisMeu = graficoFiltroBarQualisMeu;
+	}
+
+	public String getAnoInicioQualisMeu() {
+		return anoInicioQualisMeu;
+	}
+
+	public void setAnoInicioQualisMeu(String anoInicioQualisMeu) {
+		this.anoInicioQualisMeu = anoInicioQualisMeu;
+	}
+
+	public String getAnoFimQualisMeu() {
+		return anoFimQualisMeu;
+	}
+
+	public void setAnoFimQualisMeu(String anoFimQualisMeu) {
+		this.anoFimQualisMeu = anoFimQualisMeu;
+	}
+
+	public String getAnoTempInicioQualisMeu() {
+		return anoTempInicioQualisMeu;
+	}
+
+	public void setAnoTempInicioQualisMeu(String anoTempInicioQualisMeu) {
+		this.anoTempInicioQualisMeu = anoTempInicioQualisMeu;
+	}
+
+	public String getAnoTempFimQualisMeu() {
+		return anoTempFimQualisMeu;
+	}
+
+	public void setAnoTempFimQualisMeu(String anoTempFimQualisMeu) {
+		this.anoTempFimQualisMeu = anoTempFimQualisMeu;
 	}
 }
