@@ -19,6 +19,8 @@ public interface AlunoDao extends DaoGenerico<Aluno, Integer>{
 	Aluno getAlunobyMatricula(String matricula);
 
 	Integer getIdbyMatricula(String matricula);
+	
+	String getNomebyMatricula(String matricula);
 		
 
 

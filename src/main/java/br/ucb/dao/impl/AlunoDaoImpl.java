@@ -164,4 +164,12 @@ public class AlunoDaoImpl extends DaoGenericoImpl<Aluno, Integer> implements Alu
 			
 			return (Integer) query.getSingleResult();
 	}
+	
+	@Override
+	public String getNomebyMatricula(String matricula) {
+		Query query = getManager().createQuery("select a.nome from Aluno a WHERE a.matricula like ?1 ");
+		query.setParameter(1,matricula);
+		
+		return (String) query.getSingleResult();
+	}
 }
