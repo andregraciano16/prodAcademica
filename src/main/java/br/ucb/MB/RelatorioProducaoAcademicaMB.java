@@ -36,6 +36,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	private static final long serialVersionUID = 1L;
 	private LineChartModel grafico;
+	private LineChartModel graficoMeu;
 	private BarChartModel graficoBarra;
 	private BarChartModel graficoBarraTipo;
 	private BarChartModel graficoBarraMeu;
@@ -43,14 +44,20 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 	private String graficoFiltroBarQualis = "1";
 	private String graficoFiltroBarTipo = "1";
 	private String graficoFiltroBarQualisMeu = "1";
+	private String graficoFiltroLineMeu = "1";
 	private ProducaoAcademicaDaoImpl producaoAcademicaDaoImpl;
 	private List<Object[]> listaSimples;
 	private List<Object[]> listaSimplesMeu;
 	private List<Date> listaDatas;
+	private List<Date> listaDatasMeu;
 	private String anoInicioProd;
 	private String anoFimProd;
 	private String anoTempInicioProd;
 	private String anoTempFimProd;
+	private String anoInicioMeuProd;
+	private String anoFimMeuProd;
+	private String anoTempInicioMeuProd;
+	private String anoTempFimMeuProd;
 	private String anoInicioQualis;
 	private String anoFimQualis;
 	private String anoTempInicioQualis;
@@ -80,6 +87,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		createGraficoBarQualis();
 		createGraficoBarTipo();
 		createGraficoBarMeuQualis();
+		createGraficoMeuLine();
 
 	}
 
@@ -108,6 +116,82 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		}
 
 		initLineChartModel();
+
+	}
+
+	private void createGraficoMeuLine() {
+
+		initIntervalo(this.anoTempInicioMeuProd, this.anoTempFimMeuProd, this.anoInicioMeuProd, this.anoFimMeuProd, 4);
+
+		if (getGraficoFiltroLineMeu().equals("1")) {
+
+			if (!isAluno()) {
+				this.listaDatasMeu = this.producaoAcademicaDaoImpl.listSimpleProdFiltroMeu(this.anoInicioProd,
+						this.anoFimProd, this.docenteDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			} else {
+				this.listaDatasMeu = this.producaoAcademicaDaoImpl.listSimpleProdFiltroMeu(this.anoInicioProd,
+						this.anoFimProd, this.alunoDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			}
+			this.graficoMeu = initGraficoAnosFiltro(this.listaDatasMeu);
+
+		} else if (getGraficoFiltroLineMeu().equals("2")) {
+
+			if (!isAluno()) {
+				this.listaDatasMeu = this.producaoAcademicaDaoImpl.listSimpleProdFiltroMeu(this.anoInicioProd,
+						this.anoFimProd, this.docenteDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			} else {
+				this.listaDatasMeu = this.producaoAcademicaDaoImpl.listSimpleProdFiltroMeu(this.anoInicioProd,
+						this.anoFimProd, this.alunoDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			}
+			this.graficoMeu = initGraficoTotalFiltro(this.listaDatasMeu);
+
+		} else if (getGraficoFiltroLineMeu().equals("3")) {
+
+			if (!isAluno()) {
+				this.listaDatasMeu = this.producaoAcademicaDaoImpl.listSimpleProdFiltroMeu(this.anoInicioProd,
+						this.anoFimProd, this.docenteDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			} else {
+				this.listaDatasMeu = this.producaoAcademicaDaoImpl.listSimpleProdFiltroMeu(this.anoInicioProd,
+						this.anoFimProd, this.alunoDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			}
+			this.graficoMeu = initGraficoSemestreTotalFiltro(this.listaDatasMeu);
+
+		} else if (getGraficoFiltroLineMeu().equals("4")) {
+
+			if (!isAluno()) {
+				this.listaDatasMeu = this.producaoAcademicaDaoImpl
+						.listSimplesProdMeu(this.docenteDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			} else {
+				this.listaDatasMeu = this.producaoAcademicaDaoImpl
+						.listSimplesProdMeu(this.alunoDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			}
+			this.graficoMeu = initGraficoAnos(this.listaDatasMeu);
+
+		} else if (getGraficoFiltroLineMeu().equals("5")) {
+
+			if (!isAluno()) {
+				this.listaDatasMeu = this.producaoAcademicaDaoImpl
+						.listSimplesProdMeu(this.docenteDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			} else {
+				this.listaDatasMeu = this.producaoAcademicaDaoImpl
+						.listSimplesProdMeu(this.alunoDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			}
+			this.graficoMeu = initGraficoTotal(this.listaDatasMeu);
+
+		} else if (getGraficoFiltroLineMeu().equals("6")) {
+
+			if (!isAluno()) {
+				this.listaDatasMeu = this.producaoAcademicaDaoImpl
+						.listSimplesProdMeu(this.docenteDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			} else {
+				this.listaDatasMeu = this.producaoAcademicaDaoImpl
+						.listSimplesProdMeu(this.alunoDao.getIdbyMatricula(user.getUsuario().getMatricula()));
+			}
+			this.graficoMeu = initGraficoSemestreTotal(this.listaDatasMeu);
+
+		}
+
+		initLineChartModelMeu();
 
 	}
 
@@ -184,7 +268,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			this.graficoBarraMeu = initGraficoQualis(this.listaSimplesMeu);
 		}
 
-		initBarChartModel();
+		initBarChartModelMeu();
 
 	}
 
@@ -219,6 +303,12 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			this.anoInicioMeuQualis = anoInicio;
 			this.anoFimMeuQualis = anoFim;
 			verificaGraficoFiltro(anoTempInicio, anoTempFim, anoInicio, anoFim, 3);
+		} else if (valor == 4) {
+			this.anoTempInicioMeuProd = anoTempInicio;
+			this.anoTempFimMeuProd = anoTempFim;
+			this.anoInicioMeuProd = anoInicio;
+			this.anoFimMeuProd = anoFim;
+			verificaGraficoFiltro(anoTempInicio, anoTempFim, anoInicio, anoFim, 4);
 		}
 	}
 
@@ -280,6 +370,11 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			this.anoTempFimMeuQualis = anoTempFim;
 			this.anoInicioMeuQualis = anoInicio;
 			this.anoFimMeuQualis = anoFim;
+		} else if (valor == 4) {
+			this.anoTempInicioMeuProd = anoTempInicio;
+			this.anoTempFimMeuProd = anoTempFim;
+			this.anoInicioMeuProd = anoInicio;
+			this.anoFimMeuProd = anoFim;
 		}
 	}
 
@@ -296,6 +391,27 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 		Axis yAxis = grafico.getAxis(AxisType.Y);
 		yAxis.setLabel("n° de cadastros");
+		yAxis.setTickFormat("%.0f");
+		yAxis.setTickInterval("1");
+		yAxis.setMin(0);
+
+	}
+
+	private void initLineChartModelMeu() {
+
+		graficoMeu.setTitle("Gráfico: Acompanhamento de produções");
+		graficoMeu.setLegendPosition("w");
+		graficoMeu.setShowPointLabels(true);
+		graficoMeu.getAxes().put(AxisType.X, new CategoryAxis("Tempo"));
+		graficoMeu.setZoom(true);
+		graficoMeu.setAnimate(true);
+		graficoMeu.setResetAxesOnResize(true);
+		graficoMeu.setShadow(true);
+
+		Axis yAxis = graficoMeu.getAxis(AxisType.Y);
+		yAxis.setLabel("n° de cadastros");
+		yAxis.setTickFormat("%.0f");
+		yAxis.setTickInterval("1");
 		yAxis.setMin(0);
 
 	}
@@ -312,6 +428,27 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		graficoBarra.setShadow(true);
 
 		Axis yAxis = graficoBarra.getAxis(AxisType.Y);
+		yAxis.setTickFormat("%.0f");
+		yAxis.setTickInterval("1");
+		yAxis.setLabel("Qtd de produções");
+		yAxis.setMin(0);
+
+	}
+
+	private void initBarChartModelMeu() {
+
+		graficoBarraMeu.setTitle("Gráfico: Avaliações do Qualis");
+		graficoBarraMeu.setLegendPosition("w");
+		graficoBarraMeu.setShowPointLabels(true);
+		graficoBarraMeu.getAxes().put(AxisType.X, new CategoryAxis("Avaliações"));
+		graficoBarraMeu.setZoom(true);
+		graficoBarraMeu.setAnimate(true);
+		graficoBarraMeu.setResetAxesOnResize(true);
+		graficoBarraMeu.setShadow(true);
+
+		Axis yAxis = graficoBarraMeu.getAxis(AxisType.Y);
+		yAxis.setTickFormat("%.0f");
+		yAxis.setTickInterval("1");
 		yAxis.setLabel("Qtd de produções");
 		yAxis.setMin(0);
 
@@ -933,7 +1070,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			qualis.set("B4", 0);
 			qualis.set("B5", 0);
 			qualis.set("C", 0);
-			
+
 			producaoAcademica = listaSimples.get(0);
 			ultimoAno = (Integer) producaoAcademica[0];
 			ultimaNota = (String) producaoAcademica[1];
@@ -1221,6 +1358,10 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		this.anoFimMeuQualis = "";
 		this.anoTempInicioMeuQualis = "";
 		this.anoTempFimMeuQualis = "";
+		this.anoInicioMeuProd = "";
+		this.anoFimMeuProd = "";
+		this.anoTempInicioMeuProd = "";
+		this.anoTempFimMeuProd = "";
 		this.user = new Seguranca().getUsuarioLogado();
 		this.alunoDao = new AlunoDaoImpl();
 		this.docenteDao = new DocenteDaoImpl();
@@ -1417,6 +1558,62 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 
 	public void setListaSimplesMeu(List<Object[]> listaSimplesMeu) {
 		this.listaSimplesMeu = listaSimplesMeu;
+	}
+
+	public String getGraficoFiltroLineMeu() {
+		return graficoFiltroLineMeu;
+	}
+
+	public void setGraficoFiltroLineMeu(String graficoFiltroLineMeu) {
+		this.graficoFiltroLineMeu = graficoFiltroLineMeu;
+	}
+
+	public String getAnoInicioMeuProd() {
+		return anoInicioMeuProd;
+	}
+
+	public void setAnoInicioMeuProd(String anoInicioMeuProd) {
+		this.anoInicioMeuProd = anoInicioMeuProd;
+	}
+
+	public String getAnoFimMeuProd() {
+		return anoFimMeuProd;
+	}
+
+	public void setAnoFimMeuProd(String anoFimMeuProd) {
+		this.anoFimMeuProd = anoFimMeuProd;
+	}
+
+	public String getAnoTempInicioMeuProd() {
+		return anoTempInicioMeuProd;
+	}
+
+	public void setAnoTempInicioMeuProd(String anoTempInicioMeuProd) {
+		this.anoTempInicioMeuProd = anoTempInicioMeuProd;
+	}
+
+	public String getAnoTempFimMeuProd() {
+		return anoTempFimMeuProd;
+	}
+
+	public void setAnoTempFimMeuProd(String anoTempFimMeuProd) {
+		this.anoTempFimMeuProd = anoTempFimMeuProd;
+	}
+
+	public List<Date> getListaDatasMeu() {
+		return listaDatasMeu;
+	}
+
+	public void setListaDatasMeu(List<Date> listaDatasMeu) {
+		this.listaDatasMeu = listaDatasMeu;
+	}
+
+	public LineChartModel getGraficoMeu() {
+		return graficoMeu;
+	}
+
+	public void setGraficoMeu(LineChartModel graficoMeu) {
+		this.graficoMeu = graficoMeu;
 	}
 
 }

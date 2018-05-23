@@ -248,6 +248,90 @@
 								</h:panelGroup>
 								<h:panelGroup
 									rendered="#{!relatorioProducaoAcademicaMB.listaSimplesMeu.isEmpty()}">
+									
+									<div class="row">
+
+										<div class="form-group">
+											<p:chart type="line"
+												model="#{relatorioProducaoAcademicaMB.graficoMeu}"
+												id="idGraficoLineMeu" style="width:100%;" responsive="true" />
+										</div>
+
+									</div>
+
+									<div class="row">
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<h:outputLabel value="Filtro do gráfico: "
+													for="idGraficoFiltroLineMeu" styleClass="control-label" />
+												<div class="input-group">
+													<span class="input-group-addon"> <span
+														class="glyphicon glyphicon-tag"></span>
+													</span>
+													<h:selectOneMenu id="idGraficoFiltroLineMeu"
+														value="#{relatorioProducaoAcademicaMB.graficoFiltroLineMeu}"
+														styleClass="form-control">
+														<f:selectItem itemLabel="Anual (Intervalo)" itemValue="1" />
+														<f:selectItem
+															itemLabel="Tempo total (mês/ano - Intervalo)"
+															itemValue="2" />
+														<f:selectItem
+															itemLabel="Semestral (semestre/ano - Intervalo)"
+															itemValue="3" />
+														<f:selectItem itemLabel="Anual" itemValue="4" />
+														<f:selectItem itemLabel="Tempo total (mês/ano)"
+															itemValue="5" />
+														<f:selectItem itemLabel="Semestral (semestre/ano)"
+															itemValue="6" />
+														<p:ajax event="change"
+															update="idGraficoLineMeu panelFiltroProdMeu"
+															listener="#{relatorioProducaoAcademicaMB.selecionaFiltro}" />
+													</h:selectOneMenu>
+												</div>
+											</div>
+										</div>
+
+										<h:panelGroup id="panelFiltroProdMeu">
+											<div class="col-md-1">
+												<h:outputLabel value="Início:" for="idAnoInicioMeuProd"
+													styleClass="control-label"
+													rendered="#{relatorioProducaoAcademicaMB.graficoFiltroLineMeu.equals('1') || relatorioProducaoAcademicaMB.graficoFiltroLineMeu.equals('2') || relatorioProducaoAcademicaMB.graficoFiltroLine.equals('3')}" />
+												<p:inputMask id="idAnoInicioMeuProd"
+													value="#{relatorioProducaoAcademicaMB.anoInicioMeuProd}"
+													mask="9999" class="form-control" style="height: 33px;"
+													rendered="#{relatorioProducaoAcademicaMB.graficoFiltroLineMeu.equals('1') || relatorioProducaoAcademicaMB.graficoFiltroLineMeu.equals('2') || relatorioProducaoAcademicaMB.graficoFiltroLine.equals('3')}">
+													<p:watermark
+														value="#{relatorioProducaoAcademicaMB.anoInicioMeuProd}"
+														for="idAnoInicioMeuProd" />
+													<p:ajax event="change"
+														update="idGraficoLineMeu panelFiltroProdMeu messages"
+														listener="#{relatorioProducaoAcademicaMB.selecionaFiltro}" />
+												</p:inputMask>
+											</div>
+
+											<div class="col-md-1">
+												<h:outputLabel value="Fim:" for="idAnoFimProd"
+													styleClass="control-label"
+													rendered="#{relatorioProducaoAcademicaMB.graficoFiltroLineMeu.equals('1') || relatorioProducaoAcademicaMB.graficoFiltroLineMeu.equals('2') || relatorioProducaoAcademicaMB.graficoFiltroLine.equals('3')}" />
+												<p:inputMask id="idAnoFimMeuProd"
+													value="#{relatorioProducaoAcademicaMB.anoFimMeuProd}"
+													mask="9999" class="form-control" style="height: 33px;"
+													rendered="#{relatorioProducaoAcademicaMB.graficoFiltroLineMeu.equals('1') || relatorioProducaoAcademicaMB.graficoFiltroLineMeu.equals('2') || relatorioProducaoAcademicaMB.graficoFiltroLine.equals('3')}">
+													<p:watermark
+														value="#{relatorioProducaoAcademicaMB.anoFimMeuProd}"
+														for="idAnoFimMeuProd" />
+													<p:ajax event="change"
+														update="idGraficoLineMeu panelFiltroProdMeu messages"
+														listener="#{relatorioProducaoAcademicaMB.selecionaFiltro}" />
+												</p:inputMask>
+											</div>
+										</h:panelGroup>
+									</div>
+									
+									
+									
+									
 									<div class="row">
 										<p:chart type="bar"
 											model="#{relatorioProducaoAcademicaMB.graficoBarraMeu}"

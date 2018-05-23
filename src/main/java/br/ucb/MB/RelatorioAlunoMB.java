@@ -98,6 +98,8 @@ public class RelatorioAlunoMB extends BaseMB {
 
 		Axis yAxis = grafico.getAxis(AxisType.Y);
 		yAxis.setLabel("n° de cadastros");
+		yAxis.setTickFormat("%.0f");
+		yAxis.setTickInterval("1");
 		yAxis.setMin(0);
 
 	}

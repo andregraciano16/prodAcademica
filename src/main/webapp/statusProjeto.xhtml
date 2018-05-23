@@ -17,119 +17,137 @@
 							<ol class="breadcrumb" style="color: blue; background: #30a5ff">
 								<div class="titulo-centro-grande">Status do Projeto</div>
 							</ol>
-							<br />
 						</div>
+						<br />
+					</div>
 
-						<div class="panel-body">
-							<p:messages id="message" globalOnly="true" closable="true" />
-
-							<div class="row">
-
-								<div class="col-md-4">
-
-									<br /> <br />
-
-									<p:outputLabel for="idDescricao" value="Descrição:"
-										styleClass="control-label" />
-									<div class="input-group">
-										<span class="input-group-addon"> <span
-											class="glyphicon glyphicon-tag"></span>
-										</span>
-										<h:inputText
-											value="#{statusProjetoMB.statusProjeto.descricao}"
-											class="form-control" maxlength="45" id="idDescricao"
-											validatorMessage="A descrição não pode ser maior que 45 caracteres." />
+					<h:panelGroup rendered="#{!menuMB.isDiretor()}">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-4">
+										<h2>Acesso negado.</h2>
 									</div>
 								</div>
-
 							</div>
-
-							<div class="form-group"
-								style="padding-top: 70px; text-align: right;">
-
-								<p:commandButton value="Cadastrar" class="btn-primary btn-md"
-									action="#{statusProjetoMB.cadastrar(statusProjetoMB.statusProjeto)}"
-									update="@form" styleClass="btn btn-primary" id="btnCadastrar" />
-								&nbsp;&nbsp;
-								<p:commandButton value="Pesquisar" title="Pesquisar"
-									actionListener="#{statusProjetoMB.buscar}" update="@form"
-									styleClass="btn btn-default" id="btnPesquisar" />
-								&nbsp;&nbsp;
-								<p:commandButton value="Limpar" title="Limpar"
-									actionListener="#{statusProjetoMB.limpar}" update="@form"
-									styleClass="btn btn-primary" id="btnLimpar" />
-
-							</div>
-
-							<br /> <br />
 						</div>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<p:dataTable id="idTable" var="item"
-								value="#{statusProjetoMB.variosStatus}" editable="true"
-								styleClass="table table-striped table-bordered table-hover"
-								paginator="true" rowsPerPageTemplate="10,20,30"
-								currentPageReportTemplate="{startRecord} de {endRecord}"
-								paginatorPosition="bottom"
-								emptyMessage="Não foram encontrados registros"
-								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+					</h:panelGroup>
 
-								<p:ajax event="rowEdit" listener="#{statusProjetoMB.editar(item)}"
-									update="idFormulario:idTable" />
+					<h:panelGroup rendered="#{menuMB.isDiretor()}">
 
-								<p:ajax event="rowEditCancel"
-									listener="#{statusProjetoMB.cancela}"
-									update="idFormulario:idTable" />
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<p:messages id="message" globalOnly="true" closable="true" />
 
-								<p:column headerText="Descrição">
+								<div class="row">
 
-									<p:cellEditor>
+									<div class="col-md-4">
 
-										<f:facet name="output">
-											<h:outputText value="#{item.descricao}" />
-										</f:facet>
+										<br /> <br />
 
-										<f:facet name="input">
-											<p:inputText value="#{item.descricao}"
-												style="width:100%" maxlength="45" id="idEditDescricao"
+										<p:outputLabel for="idDescricao" value="Descrição:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText
+												value="#{statusProjetoMB.statusProjeto.descricao}"
+												class="form-control" maxlength="45" id="idDescricao"
 												validatorMessage="A descrição não pode ser maior que 45 caracteres." />
-										</f:facet>
+										</div>
+									</div>
 
-									</p:cellEditor>
+								</div>
 
-								</p:column>
+								<div class="form-group"
+									style="padding-top: 70px; text-align: right;">
+
+									<p:commandButton value="Cadastrar" class="btn-primary btn-md"
+										action="#{statusProjetoMB.cadastrar(statusProjetoMB.statusProjeto)}"
+										update="@form" styleClass="btn btn-primary" id="btnCadastrar" />
+									&nbsp;&nbsp;
+									<p:commandButton value="Pesquisar" title="Pesquisar"
+										actionListener="#{statusProjetoMB.buscar}" update="@form"
+										styleClass="btn btn-default" id="btnPesquisar" />
+									&nbsp;&nbsp;
+									<p:commandButton value="Limpar" title="Limpar"
+										actionListener="#{statusProjetoMB.limpar}" update="@form"
+										styleClass="btn btn-primary" id="btnLimpar" />
+
+								</div>
+
+								<br /> <br />
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<p:dataTable id="idTable" var="item"
+									value="#{statusProjetoMB.variosStatus}" editable="true"
+									styleClass="table table-striped table-bordered table-hover"
+									paginator="true" rowsPerPageTemplate="10,20,30"
+									currentPageReportTemplate="{startRecord} de {endRecord}"
+									paginatorPosition="bottom"
+									emptyMessage="Não foram encontrados registros"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+									<p:ajax event="rowEdit"
+										listener="#{statusProjetoMB.editar(item)}"
+										update="idFormulario:idTable" />
+
+									<p:ajax event="rowEditCancel"
+										listener="#{statusProjetoMB.cancela}"
+										update="idFormulario:idTable" />
+
+									<p:column headerText="Descrição">
+
+										<p:cellEditor>
+
+											<f:facet name="output">
+												<h:outputText value="#{item.descricao}" />
+											</f:facet>
+
+											<f:facet name="input">
+												<p:inputText value="#{item.descricao}" style="width:100%"
+													maxlength="45" id="idEditDescricao"
+													validatorMessage="A descrição não pode ser maior que 45 caracteres." />
+											</f:facet>
+
+										</p:cellEditor>
+
+									</p:column>
 
 
-								<p:column headerText="Ações" styleClass="coluna-acao">
-									<p:rowEditor style="display:inline-flex"/>									
+									<p:column headerText="Ações" styleClass="coluna-acao">
+										<p:rowEditor style="display:inline-flex" />									
 											&nbsp;
 											<p:commandLink action="#{statusProjetoMB.excluir(item)}"
-										update="@form">
-										<span class="glyphicon glyphicon-trash" />
+											update="@form">
+											<span class="glyphicon glyphicon-trash" />
 
 
-										<p:confirm message="Tem certeza que deseja apagar?"
-											header="Aviso" icon="ui-icon-alert" />
+											<p:confirm message="Tem certeza que deseja apagar?"
+												header="Aviso" icon="ui-icon-alert" />
 
-									</p:commandLink>
+										</p:commandLink>
 
-								</p:column>
+									</p:column>
 
-							</p:dataTable>
+								</p:dataTable>
 
-							<p:confirmDialog global="true">
+								<p:confirmDialog global="true">
 
-								<p:commandButton value="Sim" type="button" icon="ui-icon-check"
-									styleClass="ui-confirmdialog-yes" />
+									<p:commandButton value="Sim" type="button" icon="ui-icon-check"
+										styleClass="ui-confirmdialog-yes" />
 
-								<p:commandButton value="Não" type="button" icon="ui-icon-close"
-									styleClass="ui-confirmdialog-no" />
+									<p:commandButton value="Não" type="button" icon="ui-icon-close"
+										styleClass="ui-confirmdialog-no" />
 
-							</p:confirmDialog>
+								</p:confirmDialog>
 
+							</div>
 						</div>
-					</div>
+					</h:panelGroup>
 				</div>
 			</div>
 		</h:form>
