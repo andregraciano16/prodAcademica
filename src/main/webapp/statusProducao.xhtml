@@ -70,11 +70,11 @@
 									<p:commandButton value="Cadastrar" class="btn-primary btn-md"
 										action="#{statusProducaoMB.cadastrar()}" update="@form"
 										styleClass="btn btn-primary" />
-
+										&nbsp;&nbsp;
 									<p:commandButton value="Pesquisar" name="btnPesquisar"
 										class="btn btn-primary-cinza"
 										action="#{statusProducaoMB.buscar()}" update="@form" />
-
+										&nbsp;&nbsp;
 									<p:commandButton value="Limpar" title="Limpar"
 										class="btn-primary btn-md"
 										actionListener="#{statusProducaoMB.limpar()}" update="@form"
@@ -130,10 +130,18 @@
 										<p:commandLink action="#{statusProducaoMB.excluir(item)}"
 											update="@form">
 											<span class="glyphicon glyphicon-trash" />
+											 <p:confirm message="Tem certeza que deseja excluir?"
+														header="Aviso" icon="ui-icon-alert" />
 										</p:commandLink>
 									</p:column>
 
 								</p:dataTable>
+								<p:confirmDialog global="true">
+										<p:commandButton value="Sim" type="button"
+											icon="ui-icon-check" styleClass="ui-confirmdialog-yes" />
+										<p:commandButton value="Não" type="button"
+											icon="ui-icon-close" styleClass="ui-confirmdialog-no" />
+									</p:confirmDialog>
 							</div>
 						</div>
 					</h:panelGroup>

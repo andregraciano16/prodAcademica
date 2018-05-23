@@ -58,13 +58,13 @@
 											                 class="btn btn-md btn-primary" 
 											                 action="#{tipoDocenteMB.cadastrar()}" 
 											                 update="@form"/>
-		
+												&nbsp;&nbsp;
 											<p:commandButton value="Pesquisar" 
 											                 name="btnPesquisar" 
 											                 class="btn btn-md btn-primary-cinza"
 												             action="#{tipoDocenteMB.buscar()}"
 												             update="@form" />
-		
+												&nbsp;&nbsp;
 											<p:commandButton value="Limpar" 
 											                 title="Limpar"
 											                 styleClass="btn btn-md btn-primary"
@@ -102,9 +102,17 @@
 												<p:rowEditor style="display:inline-flex" />
 												<p:commandLink action="#{tipoDocenteMB.excluir(item)}"  update="@form">
 												   <span class="glyphicon glyphicon-trash" />
+												   <p:confirm message="Tem certeza que deseja excluir?"
+														header="Aviso" icon="ui-icon-alert" />
 											  </p:commandLink>
 									    </p:column>
 									</p:dataTable>
+									<p:confirmDialog global="true">
+										<p:commandButton value="Sim" type="button"
+											icon="ui-icon-check" styleClass="ui-confirmdialog-yes" />
+										<p:commandButton value="Não" type="button"
+											icon="ui-icon-close" styleClass="ui-confirmdialog-no" />
+									</p:confirmDialog>
 							</div>	
 						</div>
 						</h:panelGroup>
