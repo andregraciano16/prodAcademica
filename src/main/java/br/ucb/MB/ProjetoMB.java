@@ -57,7 +57,6 @@ public class ProjetoMB extends BaseMB {
 	private List<Aluno> alunosSelecionados;
 	private List<Externo> externos;
 	private List<Externo> externosSelecionados;
-	private Externo novoExterno;
 	private Externo externoSelecionado;
 	private AlunoDao alunoDao;
 	private Aluno alunoSelecionado;
@@ -684,14 +683,5 @@ public class ProjetoMB extends BaseMB {
 		}
 		return Boolean.FALSE;
 	}
-
-	public Externo getNovoExterno() {
-		return novoExterno;
-	}
-
-	public void setNovoExterno(Externo novoExterno) {
-		this.novoExterno = novoExterno;
-	}
-
 
 }

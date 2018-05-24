@@ -10,4 +10,5 @@ public interface ExternoDao extends DaoGenerico<Externo, Integer> {
 
 	List<Externo> findByNome(String nome);
 
+	List<Externo> listDistinct();
 }

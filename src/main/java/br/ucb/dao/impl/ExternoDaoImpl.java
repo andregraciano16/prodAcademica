@@ -1,5 +1,6 @@
 package br.ucb.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -24,5 +25,11 @@ public class ExternoDaoImpl extends DaoGenericoImpl<Externo, Integer> implements
 		
 		return query.getResultList();
 	}
+	
 
+	public List<Externo> listDistinct() {
+		Query query = getManager().createQuery("FROM Externo e group by e.nome");
+		
+		return query.getResultList();
+	}
 }

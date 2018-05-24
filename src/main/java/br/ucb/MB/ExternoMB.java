@@ -106,7 +106,7 @@ public class ExternoMB extends BaseMB {
 			if (!this.externo.getNome().isEmpty()) {
 				this.externos = this.externoDao.findByNome(this.externo.getNome());
 			} else if (this.externo.getNome().isEmpty()) {
-				this.externos = this.externoDao.list();
+				this.externos = this.externoDao.listDistinct();
 			}
 		}
 
