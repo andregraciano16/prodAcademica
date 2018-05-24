@@ -59,7 +59,7 @@
 										<div class="col-md-8">
 											<p:outputLabel for="idDocenteResp"
 												value="Docente Responsável:" styleClass="control-label"
-												rendered="#{projetoMB.selecionaCoordenador.equals('1')}"/>
+												rendered="#{projetoMB.selecionaCoordenador.equals('1')}" />
 
 											<div class="input-group">
 												<h:panelGroup
@@ -75,7 +75,7 @@
 													completeMethod="#{projetoMB.escolheDocente}" effect="fade"
 													readonly="#{projetoMB.acaoEnum.getCodigo() == 0}"
 													var="docente" itemLabel="#{docente.nome}"
-													itemValue="#{docente}" forceSelection="true" 
+													itemValue="#{docente}" forceSelection="true"
 													rendered="#{projetoMB.selecionaCoordenador.equals('1')}">
 													<p:ajax event="change"
 														listener="#{projetoMB.verificaDocenteResponsavel(projetoMB.projeto.docenteResponsavel)}"
@@ -113,6 +113,8 @@
 														listener="#{projetoMB.verificaExternoResponsavel(projetoMB.projeto.externoResponsavel)}"
 														delay="2000" />
 												</p:autoComplete>
+
+
 											</div>
 										</div>
 									</div>
@@ -426,16 +428,17 @@
 													maxlength="45" id="idExternoSel"
 													completeMethod="#{projetoMB.escolheParticipanteExterno}"
 													effect="fade" var="externo" itemLabel="#{externo.nome}"
-													itemValue="#{externo}" forceSelection="true" />
+													itemValue="#{externo}" />
 											</div>
+
 										</div>
+
 										<br /> <br /> <br /> <br />&nbsp;&nbsp;&nbsp;
 										<p:commandButton value="Cadastrar participante"
 											action="#{projetoMB.guardaParticipanteExterno(projetoMB.externoSelecionado)}"
 											update="@form" id="btnCadastrarParticipanteE" />
 
 									</div>
-
 								</h:panelGroup>
 
 								<div class="panel-body">
@@ -481,8 +484,7 @@
 
 										<p:commandButton value="Cadastrar" class="btn-primary btn-md"
 											action="#{projetoMB.cadastrar()}" process="@form"
-											update="@form"
-											styleClass="btn btn-primary" id="btnCadastrar"/>
+											update="@form" styleClass="btn btn-primary" id="btnCadastrar" />
 										&nbsp;&nbsp;
 										<p:commandButton value="Limpar" title="Limpar"
 											actionListener="#{projetoMB.limparCadastro}" update="@form"
@@ -569,7 +571,7 @@
 												itemValue="#{docente}" forceSelection="true" />
 										</div>
 									</div>
-									
+
 									<div class="col-md-4">
 										<p:outputLabel for="idExternoRespPesq"
 											value="Externo Responsável:" styleClass="control-label" />
@@ -590,8 +592,8 @@
 
 								</div>
 
-								
-								
+
+
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">

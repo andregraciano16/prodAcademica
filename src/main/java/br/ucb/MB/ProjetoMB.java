@@ -36,6 +36,7 @@ import br.ucb.entity.TipoProjeto;
 import br.ucb.enums.AcaoEnum;
 import br.ucb.security.Seguranca;
 import br.ucb.security.UsuarioSistema;
+import javassist.expr.Instanceof;
 
 @ManagedBean(name = "projetoMB")
 @ViewScoped
@@ -56,6 +57,7 @@ public class ProjetoMB extends BaseMB {
 	private List<Aluno> alunosSelecionados;
 	private List<Externo> externos;
 	private List<Externo> externosSelecionados;
+	private Externo novoExterno;
 	private Externo externoSelecionado;
 	private AlunoDao alunoDao;
 	private Aluno alunoSelecionado;
@@ -185,7 +187,7 @@ public class ProjetoMB extends BaseMB {
 
 		for (int i = 0; i < this.alunos.size(); i++) {
 			Aluno aluno = this.alunos.get(i);
-			if (aluno.getNome().toLowerCase().startsWith(query)) {
+			if (aluno.getNome().toLowerCase().startsWith(query.toLowerCase())) {
 				alunosFiltrados.add(aluno);
 			}
 		}
@@ -198,7 +200,7 @@ public class ProjetoMB extends BaseMB {
 
 		for (int i = 0; i < this.alunos.size(); i++) {
 			Aluno aluno = this.alunos.get(i);
-			if (aluno.getNome().toLowerCase().startsWith(query)) {
+			if (aluno.getNome().toLowerCase().startsWith(query.toLowerCase())) {
 				alunosFiltrados.add(aluno);
 			}
 		}
@@ -239,7 +241,7 @@ public class ProjetoMB extends BaseMB {
 
 		for (int i = 0; i < this.docentes.size(); i++) {
 			Docente docente = this.docentes.get(i);
-			if (docente.getNome().toLowerCase().startsWith(query)) {
+			if (docente.getNome().toLowerCase().startsWith(query.toLowerCase())) {
 				docentesFiltrados.add(docente);
 			}
 		}
@@ -252,7 +254,7 @@ public class ProjetoMB extends BaseMB {
 
 		for (int i = 0; i < this.docentes.size(); i++) {
 			Docente docente = this.docentes.get(i);
-			if (docente.getNome().toLowerCase().startsWith(query)) {
+			if (docente.getNome().toLowerCase().startsWith(query.toLowerCase())) {
 				docentesFiltrados.add(docente);
 			}
 		}
@@ -293,7 +295,7 @@ public class ProjetoMB extends BaseMB {
 
 		for (int i = 0; i < this.externos.size(); i++) {
 			Externo externo = this.externos.get(i);
-			if (externo.getNome().toLowerCase().startsWith(query)) {
+			if (externo.getNome().toLowerCase().startsWith(query.toLowerCase())) {
 				externosFiltrados.add(externo);
 			}
 		}
@@ -306,7 +308,7 @@ public class ProjetoMB extends BaseMB {
 
 		for (int i = 0; i < this.externos.size(); i++) {
 			Externo externo = this.externos.get(i);
-			if (externo.getNome().toLowerCase().startsWith(query)) {
+			if (externo.getNome().toLowerCase().startsWith(query.toLowerCase())) {
 				externosFiltrados.add(externo);
 			}
 		}
@@ -314,7 +316,8 @@ public class ProjetoMB extends BaseMB {
 		return externosFiltrados;
 	}
 
-	public void guardaParticipanteExterno(Externo selecionado) {
+	public void guardaParticipanteExterno(Externo selecionado) {	
+		
 		if (selecionado != null && this.externos.contains(selecionado)) {
 			this.externosSelecionados.add(selecionado);
 			this.externos.remove(selecionado);
@@ -681,5 +684,14 @@ public class ProjetoMB extends BaseMB {
 		}
 		return Boolean.FALSE;
 	}
+
+	public Externo getNovoExterno() {
+		return novoExterno;
+	}
+
+	public void setNovoExterno(Externo novoExterno) {
+		this.novoExterno = novoExterno;
+	}
+
 
 }

@@ -22,7 +22,7 @@
 						<div class="panel panel-teal panel-widget border-right">
 							<div class="row no-padding">
 								<em class="fa fa-xl fa fa-copy color-blue"></em>
-								<div class="large">12</div>
+								<div class="large">#{relatorioProducaoAcademicaMB.listaDatas.size()}</div>
 								<div class="text-muted">Produções</div>
 							</div>
 						</div>
@@ -31,7 +31,7 @@
 						<div class="panel panel-blue panel-widget border-right">
 							<div class="row no-padding">
 								<em class="fa fa-xl fa fa-clipboard color-orange"></em>
-								<div class="large">52</div>
+								<div class="large">#{projetoMB.projetos.size()}</div>
 								<div class="text-muted">Projetos</div>
 							</div>
 						</div>
@@ -40,7 +40,7 @@
 						<div class="panel panel-orange panel-widget border-right">
 							<div class="row no-padding">
 								<em class="fa fa-xl fa-users color-teal"></em>
-								<div class="large">24</div>
+								<div class="large">#{alunoMB.alunos.size() + docenteMB.docentes.size() + projetoMB.externos.size()}</div>
 								<div class="text-muted">Usuários</div>
 							</div>
 						</div>
@@ -49,7 +49,7 @@
 						<div class="panel panel-red panel-widget ">
 							<div class="row no-padding">
 								<em class="fa fa-xl fa-search color-red"></em>
-								<div class="large">2</div>
+								<div class="large">#{aprovarProducaoDiretorMB.aprovaProducoes.size()}</div>
 								<div class="text-muted">Produções pendentes</div>
 							</div>
 						</div>
