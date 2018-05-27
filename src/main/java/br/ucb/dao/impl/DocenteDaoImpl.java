@@ -67,6 +67,7 @@ public class DocenteDaoImpl extends DaoGenericoImpl<Docente, Integer> implements
 			usuario.setMatricula(docente.getMatricula());
 			usuario.setSenha(docente.getSenha());
 			usuario.setGrupo(docente.getTipoDocente().getTipo());
+			usuario.setCodigo(docente.getIdDocente());
 		}
 		return usuario;
 	}

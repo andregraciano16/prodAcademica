@@ -130,6 +130,7 @@ public class AlunoDaoImpl extends DaoGenericoImpl<Aluno, Integer> implements Alu
 			usuario.setMatricula(aluno.getMatricula());
 			usuario.setSenha(aluno.getSenha());
 			usuario.setGrupo("ALUNO");
+			usuario.setCodigo(aluno.getIdAluno());
 		}
 		return usuario;
 	}
