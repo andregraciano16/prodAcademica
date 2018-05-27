@@ -9,6 +9,15 @@ public class UsuarioVO implements Serializable {
 	private String matricula;
 	private String senha;
 	private String grupo;
+	private Integer codigo;
+
+	public Integer getCodigo() {
+		return this.codigo;
+	}
+
+	public void setCodigo(Integer codigo) {
+		this.codigo = codigo;
+	}
 
 	public String getMatricula() {
 		return this.matricula;
