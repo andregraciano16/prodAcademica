@@ -97,7 +97,6 @@ public class DocenteMB extends BaseMB{
 		this.curso       = this.cursoDao.findById(curso.getIdCurso());
 		this.enderecoDao.save(this.docente.getEndereco());
 		this.docente.setCurso(this.curso);
-		this.docente.setDataNascimento(new Date());
 		this.docente.setTipoDocente(this.tipoDocente);
 		this.docente.setEndereco(this.enderecoDao.find(this.docente.getEndereco()));
 		this.docenteDao.save(this.docente);
