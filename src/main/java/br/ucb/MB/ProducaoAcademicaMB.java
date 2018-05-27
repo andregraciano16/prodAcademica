@@ -936,7 +936,6 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.apresentacaoTrabalho = apresentacaoTrabalho;
 	}
 	
-	
 	public boolean isDiretor(){
 		Iterator<GrantedAuthority> iterator = user.getAuthorities().iterator();
 		if(iterator.next().getAuthority().equals("ROLE_DIRETOR")){

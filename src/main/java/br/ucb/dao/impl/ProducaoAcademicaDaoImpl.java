@@ -11,9 +11,10 @@ import br.ucb.VO.AprovacaoProducaoVO;
 import br.ucb.dao.ProducaoAcademicaDao;
 import br.ucb.entity.ProducaoAcademica;
 import br.ucb.entity.StatusAprovacao;
+import br.ucb.filtro.ProdAcFiltro;
+import br.ucb.util.DataUtil;
 
-public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica, Integer>
-		implements ProducaoAcademicaDao {
+public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica, Integer> implements ProducaoAcademicaDao {
 
 	@Override
 	public ProducaoAcademica findById(Integer id) {
@@ -28,6 +29,52 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		Query query = getManager().createQuery(" From ProducaoAcademica t " + where);
 		montarParametrs(query, pa);
 		return (ProducaoAcademica) query.getSingleResult();
+	}
+
+	@Override
+	public List<ProducaoAcademica> findByFiltro(ProdAcFiltro filtro) {
+		String where = montarWhereFiltro(filtro);
+		Query query = getManager().createQuery(" From ProducaoAcademica t " + where);
+		montarParametrsFiltro(query, filtro);
+		return  query.getResultList();
+	}
+	
+	private void montarParametrsFiltro(Query query, ProdAcFiltro filtro) {
+		int contador = 1;
+		if (filtro.getDescricao() != null && !filtro.getDescricao().isEmpty()) {
+			query.setParameter(contador, "%" + filtro.getDescricao() + "%");
+			contador++;
+		}
+		if (filtro.getTitulo() != null && !filtro.getTitulo().isEmpty()) {
+			query.setParameter(contador, "%" + filtro.getTitulo() + "%");
+			contador++;
+		}
+		if(filtro.getDataCadastro() != null){
+			query.setParameter(contador, filtro.getDataCadastro());	
+			contador++;
+		}
+		if(filtro.getCodigo() != null){
+			query.setParameter(contador, filtro.getCodigo());
+			contador++;
+		}
+	}
+
+	private String montarWhereFiltro(ProdAcFiltro filtro) {
+		StringBuilder consulta = new StringBuilder();
+		consulta.append(" WHERE 1=1 ");
+		if (filtro.getDescricao() != null && !filtro.getDescricao().isEmpty()) {
+			consulta.append(" and t.descricao like ? ");
+		}
+		if (filtro.getTitulo() != null && !filtro.getTitulo().isEmpty()) {
+			consulta.append(" and t.titulo like ? ");
+		}
+		if(filtro.getDataCadastro() != null){
+			consulta.append(" and DATE(t.dataCadastro) = DATE_FORMAT(?,'%Y-%m-%d')  ");			
+		}
+		if(filtro.getCodigo() != null){
+			consulta.append(" and t.idProducaoAcademica = ? ");
+		}
+		return consulta.toString();
 	}
 
 	public void montarParametrs(Query query, ProducaoAcademica pa) {

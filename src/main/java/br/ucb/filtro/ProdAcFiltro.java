@@ -8,6 +8,24 @@ public class ProdAcFiltro {
 	private String descricao;
 	private Date dataCadastro;
 	private Integer codigo;
+	private Integer codigoParticipante;
+	private String tipoAutor;
+	
+	public String getTipoAutor() {
+		return this.tipoAutor;
+	}
+
+	public void setTipoAutor(String tipoAutor) {
+		this.tipoAutor = tipoAutor;
+	}
+
+	public Integer getCodigoParticipante() {
+		return this.codigoParticipante;
+	}
+	
+	public void setCodigoParticipante(Integer codigoParticipante) {
+		this.codigoParticipante = codigoParticipante;
+	}
 
 	public String getTitulo() {
 		return this.titulo;

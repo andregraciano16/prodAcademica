@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				template="./template.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"  
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui">
+	<ui:define name="Conteudo">
+		<h:form id="idFormulario">
+            <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+		         <div class="col-lg-12">
+		              <div class="panel panel-default">
+			               <div class="panel-heading">
+								<ol class="breadcrumb" style="color:blue;background: #30a5ff">
+									<div class="titulo-centro-grande"> Produções </div>
+							    </ol>
+							</div>
+			                <p:messages id="messages" globalOnly="true" closable="true" styleClass="mensagem-tela" /><br/>
+						</div>
+				        <h:panelGroup rendered="#{relatorioProdAcMB.acaoEnum.getCodigo() == 3}">
+							<div class="panel panel-default" >
+					        	<div class="panel-heading">
+					                 <h3>Dados para pesquisa</h3><br/><br/>
+					            </div> 
+					            <div class="panel-body">
+								       <div class="row">
+									       <div class="col-md-4">
+											   <div class="form-group">
+													<h:outputLabel value="Código:" for="idCodigo" styleClass="control-label"/>
+												    <div class="input-group">
+														 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+														 <h:inputText value="#{relatorioProdAcMB.filtro.codigo}" class= "form-control" maxlength="100" id="idCodigo"/>
+													 </div>
+												</div>
+											</div>
+									       <div class="col-md-4">
+											   <div class="form-group">
+													<h:outputLabel value="Título:" for="idTitulo" styleClass="control-label"/>
+												    <div class="input-group">
+														 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+														 <h:inputText value="#{relatorioProdAcMB.filtro.titulo}" class= "form-control" maxlength="100" id="idTitulo"/>
+													 </div>
+												</div>
+											</div>
+											<div class="col-md-4"> 	
+									            <div class="form-group">
+													<h:outputLabel value="Data Cadastro:" styleClass="control-label"></h:outputLabel>
+											        <div class="input-group">
+														<span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+	   									                <p:inputMask id="idDataNasc" value="#{relatorioProdAcMB.filtro.dataCadastro}" mask="99/99/9999"
+										                             styleClass="form-control-calendar input-group-calendar" converter="dataConverter"/>
+													</div>
+									        	</div>
+									        </div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												 <div class="form-group">
+														<h:outputLabel value="Descrição:" for="idDescricao" styleClass="control-label"/>
+													    <div class="input-group">
+															 <span class="input-group-addon">
+																<span class="glyphicon glyphicon-tag"></span>
+															 </span>	
+														<h:inputText value="#{relatorioProdAcMB.filtro.descricao}" class= "form-control" maxlength="10" id="idDescricao"/>
+													</div>
+												</div>       
+											</div>
+										</div>
+										<div class="form-group" style="text-align:right;">
+										    <p:commandButton value="Pesquisar" action="#{relatorioProdAcMB.buscar()}" update="@form" class="btn btn-primary" />
+											<p:commandButton value="Limpar" title="Limpar" class="btn btn-primary-cinza" actionListener="#{relatorioProdAcMB.limpar()}" update="@form"/>
+										    <p:commandButton value="Novo" action="#{relatorioProdAcMB.habilitarNovo()}" update="@form" class="btn btn-primary" />
+										</div>
+									</div> 
+								 </div>
+								 <div class="panel panel-default" >
+					                  <div class="panel-heading">
+					                      <h3>Produções Cadastradas</h3><br/><br/>
+					                  </div>
+							 	      <div class="panel-body">
+							 	   		  <p:dataTable id="tabelaCurso" var="item" value="#{relatorioProdAcMB.producoes}" rows="10"
+								                     styleClass="table table-striped table-bordered table-hover" paginator="true" 
+							                         rowsPerPageTemplate="10,20,30" currentPageReportTemplate="{startRecord} de {endRecord}"
+							                         paginatorPosition="bottom" emptyMessage="Não foram encontrados registros"
+							                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+						 
+										       <p:column headerText="Código">
+									               <h:outputText value="#{item.idProducaoAcademica}" title="#{item.idProducaoAcademica}" />
+										       </p:column>
+										       <p:column headerText="Título">
+									               <h:outputText value="#{item.titulo}" title="#{item.titulo}" />
+										       </p:column>
+										       <p:column headerText="Descrição">
+									               <h:outputText value="#{item.descricao}" title="#{item.descricao}" />
+										       </p:column>
+										       <p:column headerText="Data Cadastro">
+									               <h:outputText value="#{item.dataCadastro}" title="#{relatorioProdAcMB.getFomataDataCadastro(item.dataCadastro)}" />
+										       </p:column>
+										       <p:column headerText="Divulgação">
+									               <h:outputText value="#{relatorioProdAcMB.getDescrDivulgacao(item.divulgacao)}" title="#{relatorioProdAcMB.getDescrDivulgacao(item.divulgacao)}" />
+										       </p:column>
+												<p:column headerText="Ação" style="width:12%;text-align:center;">
+											    </p:column>
+											</p:dataTable>
+							 	     </div>
+							 	 </div>
+                            </h:panelGroup>
+				  </div>
+		     </div>			
+	    </h:form>
+	</ui:define>
+</ui:composition>

@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.ucb.VO.AprovacaoProducaoVO;
 import br.ucb.entity.ProducaoAcademica;
+import br.ucb.filtro.ProdAcFiltro;
 
 public interface ProducaoAcademicaDao extends DaoGenerico<ProducaoAcademica, Integer> {
 
@@ -32,5 +33,6 @@ public interface ProducaoAcademicaDao extends DaoGenerico<ProducaoAcademica, Int
 	
 	public boolean updateResultadoM(AprovacaoProducaoVO prodAcademica);
 	
-
+	List<ProducaoAcademica> findByFiltro(ProdAcFiltro filtro);
+	
 }
