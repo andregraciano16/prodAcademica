@@ -44,7 +44,7 @@ public class RelatorioProdAcMB extends BaseMB {
 		if (isDiretor()) {
 			this.filtro.setTipoAutor("DIRETOR");
 			this.producoes = this.producaoAcademicaDao.findByFiltro(this.filtro);
-		} else if (isAluno()) {
+		} else if (isDiscente()) {
 			this.filtro.setTipoAutor("ALUNO");
 			this.producoes = this.autorDao.findProducaoByFiltro(this.filtro);
 		} else if (isProfessor()) {

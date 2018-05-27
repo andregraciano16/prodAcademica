@@ -44,7 +44,7 @@ public abstract class BaseMB implements Serializable{
 		return Boolean.FALSE;
 	}
 	
-	public boolean isAluno(){
+	public boolean isDiscente(){
 		Iterator<GrantedAuthority> iterator = getUsuarioSistema().getAuthorities().iterator();
 		if(iterator.next().getAuthority().equals("ROLE_ALUNO")){
 			return Boolean.TRUE;
