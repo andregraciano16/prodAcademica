@@ -32,6 +32,15 @@ public enum DivulgacaoEnum {
 		return enums;
 	} 
 	
+	public static DivulgacaoEnum valueOfByCod(Integer codigo){
+		for (DivulgacaoEnum e : DivulgacaoEnum.values()) {
+			if(e.codigo.equals(codigo)){
+				return e;
+			}
+		}
+		return null;
+	} 
+	
 	public static List<DivulgacaoEnum> listLivroo(){
 		List<DivulgacaoEnum> enums = new ArrayList<>();
 		DivulgacaoEnum[] arrays =  DivulgacaoEnum.values();
