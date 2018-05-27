@@ -57,7 +57,7 @@ public class Docente extends EntidadeBase implements Comparable<Docente> {
 	private String ramal;
 
 	@Column(name = "dataCadastro")
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date dataCadastro;
 
 	@ManyToOne
