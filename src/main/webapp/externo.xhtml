@@ -15,7 +15,7 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<ol class="breadcrumb" style="color: blue; background: #30a5ff">
-								<div class="titulo-centro-grande">Tipo do Projeto</div>
+								<div class="titulo-centro-grande">Externo</div>
 							</ol>
 						</div>
 						<br />
@@ -36,56 +36,37 @@
 					<h:panelGroup rendered="#{menuMB.isDiretor()}">
 						<div class="panel panel-default">
 							<div class="panel-body">
-
 								<p:messages id="message" globalOnly="true" closable="true" />
-
 								<br /> <br />
 								<div class="row">
+
 									<div class="col-md-4">
-										<p:outputLabel for="idTipo" value="Tipo:"
+										<p:outputLabel for="idNome" value="Nome:"
 											styleClass="control-label" />
 										<div class="input-group">
 											<span class="input-group-addon"> <span
 												class="glyphicon glyphicon-tag"></span>
 											</span>
-											<h:inputText value="#{tipoProjetoMB.tipoProjeto.tipo}"
-												class="form-control" maxlength="45" id="idTipo"
-												validatorMessage="O Tipo não pode ser maior que 45 caracteres." />
-										</div>
-									</div>
-
-									<div class="col-md-4">
-
-										<p:outputLabel for="idDescricao" value="Descrição:"
-											styleClass="control-label" />
-										<div class="input-group">
-											<span class="input-group-addon"> <span
-												class="glyphicon glyphicon-tag"></span>
-											</span>
-											<h:inputText value="#{tipoProjetoMB.tipoProjeto.descricao}"
-												class="form-control" maxlength="45" id="idDescricao"
+											<h:inputText value="#{externoMB.externo.nome}"
+												class="form-control" maxlength="45" id="idNome"
 												validatorMessage="A descrição não pode ser maior que 45 caracteres." />
 										</div>
 									</div>
+
 								</div>
-
-								<br />
-
-								<div class="row"></div>
-
 								<div class="form-group"
 									style="padding-top: 70px; text-align: right;">
 
 									<p:commandButton value="Cadastrar" class="btn-primary btn-md"
-										action="#{tipoProjetoMB.cadastrar(tipoProjetoMB.tipoProjeto)}"
+										action="#{externoMB.cadastrar(externoMB.externo)}"
 										update="@form" styleClass="btn btn-primary" id="btnCadastrar" />
 									&nbsp;&nbsp;
 									<p:commandButton value="Pesquisar" title="Pesquisar"
-										actionListener="#{tipoProjetoMB.buscar}" update="@form"
+										actionListener="#{externoMB.buscar}" update="@form"
 										styleClass="btn btn-default" id="btnPesquisar" />
 									&nbsp;&nbsp;
 									<p:commandButton value="Limpar" title="Limpar"
-										actionListener="#{tipoProjetoMB.limpar}" update="@form"
+										actionListener="#{externoMB.limpar}" update="@form"
 										styleClass="btn btn-primary" id="btnLimpar" />
 
 								</div>
@@ -96,7 +77,7 @@
 						<div class="panel panel-default">
 							<div class="panel-body">
 								<p:dataTable id="idTable" var="item"
-									value="#{tipoProjetoMB.tiposProjeto}" editable="true"
+									value="#{externoMB.externos}" editable="true"
 									styleClass="table table-striped table-bordered table-hover"
 									paginator="true" rowsPerPageTemplate="10,20,30"
 									currentPageReportTemplate="{startRecord} de {endRecord}"
@@ -105,42 +86,23 @@
 									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
 									<p:ajax event="rowEdit"
-										listener="#{tipoProjetoMB.editar(item)}"
+										listener="#{externoMB.editar(item)}"
 										update="idFormulario:idTable" />
 
 									<p:ajax event="rowEditCancel"
-										listener="#{tipoProjetoMB.cancela}"
+										listener="#{externoMB.cancela}"
 										update="idFormulario:idTable" />
 
-									<p:column headerText="Tipo">
+									<p:column headerText="Nome">
 
 										<p:cellEditor>
 
 											<f:facet name="output">
-												<h:outputText value="#{item.tipo}" />
+												<h:outputText value="#{item.nome}" />
 											</f:facet>
 
 											<f:facet name="input">
-												<p:inputText value="#{item.tipo}" style="width:100%"
-													maxlength="45" id="idEditTipo"
-													validatorMessage="O tipo não pode ser maior que 45 caracteres." />
-											</f:facet>
-
-										</p:cellEditor>
-
-									</p:column>
-
-
-									<p:column headerText="Descrição">
-
-										<p:cellEditor>
-
-											<f:facet name="output">
-												<h:outputText value="#{item.descricao}" />
-											</f:facet>
-
-											<f:facet name="input">
-												<p:inputText value="#{item.descricao}" style="width:100%"
+												<p:inputText value="#{item.nome}" style="width:100%"
 													maxlength="45" id="idEditDescricao"
 													validatorMessage="A descrição não pode ser maior que 45 caracteres." />
 											</f:facet>
@@ -149,11 +111,12 @@
 
 									</p:column>
 
+
 									<p:column headerText="Ações" styleClass="coluna-acao">
 
 										<p:rowEditor />
 											&nbsp;
-											<p:commandLink action="#{tipoProjetoMB.excluir(item)}"
+											<p:commandLink action="#{externoMB.excluir(item)}"
 											update="@form">
 											<span class="glyphicon glyphicon-trash" />
 

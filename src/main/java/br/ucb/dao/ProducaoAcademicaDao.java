@@ -35,4 +35,11 @@ public interface ProducaoAcademicaDao extends DaoGenerico<ProducaoAcademica, Int
 	
 	List<ProducaoAcademica> findByFiltro(ProdAcFiltro filtro);
 	
+	public List<Object[]> listSimpleQualisFiltroMeu(String anoInicio, String anoFim, Integer cod);
+
+	public List<Object[]> listSimpleQualisMeu(Integer cod);
+
+	public List<Date> listSimpleProdFiltroMeu(String anoInicio, String anoFim, Integer cod);
+
+	public List<Date> listSimplesProdMeu(Integer cod);
 }

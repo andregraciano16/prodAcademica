@@ -1,23 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-				template="./template.xhtml" 
-				xmlns:h="http://java.sun.com/jsf/html"
-				xmlns:p="http://primefaces.prime.com.tr/ui"
-				xmlns:f="http://java.sun.com/jsf/core">
+	template="./template.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
 	<ui:define name="Conteudo">
 
 		<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-			<div class="row">
-				<ol class="breadcrumb">
-					<li><a href="#"> <em class="fa fa-home"></em>
-					</a></li>
-					<li class="active">Dashboard</li>
-				</ol>
-			</div> <!--/.row-->
+			
+			<!--/.row-->
 
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">Dashboard</h1>
+					<h1 class="page-header">Bem-Vindo #{menuMB.nomeUsuario}</h1>
 				</div>
 			</div>
 			<!--/.row-->
@@ -27,18 +21,18 @@
 					<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
 						<div class="panel panel-teal panel-widget border-right">
 							<div class="row no-padding">
-								<em class="fa fa-xl fa-shopping-cart color-blue"></em>
-								<div class="large">120</div>
-								<div class="text-muted">New Orders</div>
+								<em class="fa fa-xl fa fa-copy color-blue"></em>
+								<div class="large">#{relatorioProducaoAcademicaMB.listaDatas.size()}</div>
+								<div class="text-muted">Produções</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
 						<div class="panel panel-blue panel-widget border-right">
 							<div class="row no-padding">
-								<em class="fa fa-xl fa-comments color-orange"></em>
-								<div class="large">52</div>
-								<div class="text-muted">Comments</div>
+								<em class="fa fa-xl fa fa-clipboard color-orange"></em>
+								<div class="large">#{projetoMB.projetos.size()}</div>
+								<div class="text-muted">Projetos</div>
 							</div>
 						</div>
 					</div>
@@ -46,8 +40,8 @@
 						<div class="panel panel-orange panel-widget border-right">
 							<div class="row no-padding">
 								<em class="fa fa-xl fa-users color-teal"></em>
-								<div class="large">24</div>
-								<div class="text-muted">New Users</div>
+								<div class="large">#{alunoMB.alunos.size() + docenteMB.docentes.size() + projetoMB.externos.size()}</div>
+								<div class="text-muted">Usuários</div>
 							</div>
 						</div>
 					</div>
@@ -55,8 +49,8 @@
 						<div class="panel panel-red panel-widget ">
 							<div class="row no-padding">
 								<em class="fa fa-xl fa-search color-red"></em>
-								<div class="large">25.2k</div>
-								<div class="text-muted">Page Views</div>
+								<div class="large">#{aprovarProducaoDiretorMB.aprovaProducoes.size()}</div>
+								<div class="text-muted">Produções pendentes</div>
 							</div>
 						</div>
 					</div>
@@ -448,15 +442,6 @@
 		</div>
 		<!--/.main-->
 
-		<h:outputStylesheet library="js" name="bootstrap.min.css" />
-		<h:outputStylesheet library="js" name="jquery-1.11.1.min.js" />
-		<h:outputStylesheet library="js" name="bootstrap.min.js" />
-		<h:outputStylesheet library="js" name="chart.min.js" />
-		<h:outputStylesheet library="js" name="chart-data.js" />
-		<h:outputStylesheet library="js" name="easypiechart.js" />
-		<h:outputStylesheet library="js" name="easypiechart-data.js" />
-		<h:outputStylesheet library="js" name="bootstrap-datepicker.js" />
-		<h:outputStylesheet library="js" name="custom.js" />
 		<!-- 	<script type="text/javaScript">
 // 		window.onload = function () {
 // 	var chart1 = document.getElementById("line-chart").getContext("2d");
@@ -470,18 +455,22 @@
 		<!-- 	</script> -->
 
 		<script type="text/javascript">
-  WebFontConfig = {
-    google: { families: [ 'Roboto::latin' ] }
-  };
-  (function() {
-    var wf = document.createElement('script');
-    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-    wf.type = 'text/javascript';
-    wf.async = 'true';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(wf, s);
-  })(); </script>
+			WebFontConfig = {
+				google : {
+					families : [ 'Roboto::latin' ]
+				}
+			};
+			(function() {
+				var wf = document.createElement('script');
+				wf.src = ('https:' == document.location.protocol ? 'https'
+						: 'http')
+						+ '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+				wf.type = 'text/javascript';
+				wf.async = 'true';
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(wf, s);
+			})();
+		</script>
 
 	</ui:define>
 </ui:composition>

@@ -1,122 +1,150 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-				template="./template.xhtml"
-				xmlns="http://www.w3.org/1999/xhtml"  
-				xmlns:h="http://java.sun.com/jsf/html"
-				xmlns:f="http://java.sun.com/jsf/core"
-				xmlns:p="http://primefaces.org/ui">
+	template="./template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="Conteudo">
 
-	<h:form id="idFormulario">
-		<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+		<h:form id="idFormulario">
+			<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 				<div class="col-lg-12">
-				    <div class="panel panel-default">
-					    <div class="panel-heading">
-							<ol class="breadcrumb" style="color:blue;background: #30a5ff">
-								<div class="titulo-centro-grande">Tipo Produção </div>
-							</ol>	
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<ol class="breadcrumb" style="color: blue; background: #30a5ff">
+								<div class="titulo-centro-grande">Status da Produção</div>
+							</ol>
 						</div>
-			            
-				       <div class="panel-body">
-				              <p:messages id="message" globalOnly="true" closable="true" />
-							  <br/>
-							  <br/>
-							  <div class="row">
-								   <div class="col-md-4">
-								        <div class="form-group">
-										        <h:outputLabel value="Tipo:" styleClass="control-label" />
-								                <div class="input-group">
-													<span class="input-group-addon">
-													     <span class="glyphicon glyphicon-tag"></span>
-												    </span>
-													<h:inputText value="#{statusProducaoMB.statusProducao.tipo}" 
-														         class= "form-control" 
-														         maxlength="10"/>
-										        </div>
-									       </div>
-									</div>
+						<br />
+					</div>
+
+					<h:panelGroup rendered="#{!menuMB.isDiretor()}">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<div class="row">
 									<div class="col-md-4">
-									    <div class="form-group">
-											<h:outputLabel value="Descrição:" styleClass="control-label" />
-											<div class="input-group">
-											    <span class="input-group-addon">
-												    <span class="glyphicon glyphicon-tag"></span>
-												</span>
-												<h:inputText value="#{statusProducaoMB.statusProducao.descricao}" 
-													         class= "form-control" 
-													         maxlength="10"/>
-									        </div>
-									    </div>
+										<h2>Acesso negado.</h2>
 									</div>
 								</div>
-			                    <br/>
-			                    <div class="form-group" style="padding-top:70px;text-align:right;">
-								<p:commandButton value="Cadastrar" 
-								                 class="btn-primary btn-md" 
-								                 action="#{statusProducaoMB.cadastrar()}" 
-								                 update="@form"
-								                 styleClass="btn btn-primary" />
-			
-								<p:commandButton value="Pesquisar" 
-								                 name="btnPesquisar" 
-								                 class="btn btn-primary-cinza"
-									             action="#{statusProducaoMB.buscar()}"
-									             update="@form" />
-			
-								<p:commandButton value="Limpar" 
-								                 title="Limpar"
-								                 class="btn-primary btn-md"
-									             actionListener="#{statusProducaoMB.limpar()}" 
-									             update="@form"
-									             styleClass="btn btn-primary"/>
-						<br />
-						<br />
-						<br />
+							</div>
 						</div>
-						</div>
+					</h:panelGroup>
+
+
+					<h:panelGroup rendered="#{menuMB.isDiretor()}">
+
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<p:messages id="message" globalOnly="true" closable="true" />
+								<br /> <br />
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Tipo:" styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputText value="#{statusProducaoMB.statusProducao.tipo}"
+													class="form-control" maxlength="10" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Descrição:" styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputText
+													value="#{statusProducaoMB.statusProducao.descricao}"
+													class="form-control" maxlength="10" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<br />
+								<div class="form-group"
+									style="padding-top: 70px; text-align: right;">
+									<p:commandButton value="Cadastrar" class="btn-primary btn-md"
+										action="#{statusProducaoMB.cadastrar()}" update="@form"
+										styleClass="btn btn-primary" />
+										&nbsp;&nbsp;
+									<p:commandButton value="Pesquisar" name="btnPesquisar"
+										class="btn btn-primary-cinza"
+										action="#{statusProducaoMB.buscar()}" update="@form" />
+										&nbsp;&nbsp;
+									<p:commandButton value="Limpar" title="Limpar"
+										class="btn-primary btn-md"
+										actionListener="#{statusProducaoMB.limpar()}" update="@form"
+										styleClass="btn btn-primary" />
+									<br /> <br /> <br />
+								</div>
+							</div>
 						</div>
 						<div class="panel panel-default">
-								<div class="panel-body">	
-							<p:dataTable id="tabelaDocente" var="item" value="#{statusProducaoMB.status}" editable="true" 
-				             			 styleClass="table table-striped table-bordered table-hover" paginator="true" 
-							                         rowsPerPageTemplate="10,20,30" currentPageReportTemplate="{startRecord} de {endRecord}"
-							                         paginatorPosition="bottom" emptyMessage="Não foram encontrados registros"
-							                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
-		 
-						       <p:ajax event="rowEdit" listener="#{statusProducaoMB.editar(item)}" />
-						       <p:ajax event="rowEditCancel"/>
-		 
-						       <p:column headerText="Descrição">
-						           <p:cellEditor>
-						               <f:facet name="output"><h:outputText id="idOutput" value="#{item.descricao}" /></f:facet>
-						               <f:facet name="input">
-						                    <p:inputText id="modelInput" value="#{item.descricao}" style="width:100%">
-						               			<f:validateLength minimum="1" />
-						               		</p:inputText>
-						               </f:facet>
-						           </p:cellEditor>
-						       </p:column>
-						       <p:column headerText="Tipo">
-						           <p:cellEditor>
-						               <f:facet name="output"><h:outputText id="idOutputTipo" value="#{item.tipo}" /></f:facet>
-						               <f:facet name="input">
-						                    <p:inputText id="modelInputTipo" value="#{item.tipo}" style="width:100%">
-						                         <f:validateLength minimum="1" />
-						               		</p:inputText>
-						               </f:facet>
-						           </p:cellEditor>
-						       </p:column>
-								<p:column headerText="Ação" style="width:10%;text-align:center;">
-									<p:rowEditor style="display:inline-flex"/>
-									<p:commandLink action="#{statusProducaoMB.excluir(item)}" 
-										           update="@form">
-										   <span class="glyphicon glyphicon-trash" />
-									 </p:commandLink>
-							    </p:column>
-							    	
-							</p:dataTable>
+							<div class="panel-body">
+								<p:dataTable id="tabelaDocente" var="item"
+									value="#{statusProducaoMB.status}" editable="true"
+									styleClass="table table-striped table-bordered table-hover"
+									paginator="true" rowsPerPageTemplate="10,20,30"
+									currentPageReportTemplate="{startRecord} de {endRecord}"
+									paginatorPosition="bottom"
+									emptyMessage="Não foram encontrados registros"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+									<p:ajax event="rowEdit"
+										listener="#{statusProducaoMB.editar(item)}" />
+									<p:ajax event="rowEditCancel" />
+
+									<p:column headerText="Descrição">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText id="idOutput" value="#{item.descricao}" />
+											</f:facet>
+											<f:facet name="input">
+												<p:inputText id="modelInput" value="#{item.descricao}"
+													style="width:100%">
+													<f:validateLength minimum="1" />
+												</p:inputText>
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column headerText="Tipo">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputText id="idOutputTipo" value="#{item.tipo}" />
+											</f:facet>
+											<f:facet name="input">
+												<p:inputText id="modelInputTipo" value="#{item.tipo}"
+													style="width:100%">
+													<f:validateLength minimum="1" />
+												</p:inputText>
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column headerText="Ação"
+										style="width:10%;text-align:center;">
+										<p:rowEditor style="display:inline-flex" />
+										<p:commandLink action="#{statusProducaoMB.excluir(item)}"
+											update="@form">
+											<span class="glyphicon glyphicon-trash" />
+											 <p:confirm message="Tem certeza que deseja excluir?"
+														header="Aviso" icon="ui-icon-alert" />
+										</p:commandLink>
+									</p:column>
+
+								</p:dataTable>
+								<p:confirmDialog global="true">
+										<p:commandButton value="Sim" type="button"
+											icon="ui-icon-check" styleClass="ui-confirmdialog-yes" />
+										<p:commandButton value="Não" type="button"
+											icon="ui-icon-close" styleClass="ui-confirmdialog-no" />
+									</p:confirmDialog>
+							</div>
 						</div>
-					 </div>
+					</h:panelGroup>
 				</div>
 			</div>
 		</h:form>

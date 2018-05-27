@@ -169,6 +169,33 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		return resultados;
 	}
 
+	public List<Date> listSimpleProdFiltroMeu(String anoInicio, String anoFim, Integer cod) {
+		
+		List<Date> resultados = getManager()
+				.createQuery(
+						"select a.producaoAcademica.dataCadastro "
+								+ "from Autor a " 
+								+ "where year(a.producaoAcademica.dataCadastro) between ?1 and ?2 "
+								+ "and a.codAutor = ?3 " + "order by year(a.producaoAcademica.dataCadastro) asc", Date.class)
+				.setParameter(1, Integer.valueOf(anoInicio)).setParameter(2, Integer.valueOf(anoFim))
+				.setParameter(3, cod).getResultList();
+
+		return resultados;
+	}
+	
+	public List<Date> listSimplesProdMeu(Integer cod) {
+
+		List<Date> resultados = getManager().createQuery(
+				"select a.producaoAcademica.dataCadastro "
+						+ "from Autor a " 
+						+ "where a.codAutor = ?1 "
+						+ "order by year(a.producaoAcademica.dataCadastro) asc", Date.class)
+				.setParameter(1, cod).getResultList();
+
+		return resultados;
+
+	}
+	
 	@Override
 	public List<AprovacaoProducaoVO> listAprovaDiretor() {
 
@@ -255,4 +282,33 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 
 		return producoes;
 	}
+
+	public List<Object[]> listSimpleQualisFiltroMeu(String anoInicio, String anoFim, Integer cod) {
+		@SuppressWarnings("unchecked")
+		List<Object[]> resultados = getManager()
+				.createQuery(
+						"select year(a.producaoAcademica.dataCadastro), a.producaoAcademica.conceitoQualis, a.producaoAcademica.dataCadastro "
+								+ "from Autor a " 
+								+ "where year(a.producaoAcademica.dataCadastro) between ?1 and ?2 "
+								+ "and a.codAutor = ?3 " + "order by year(a.producaoAcademica.dataCadastro) asc")
+				.setParameter(1, Integer.valueOf(anoInicio)).setParameter(2, Integer.valueOf(anoFim))
+				.setParameter(3, cod).getResultList();
+
+		return resultados;
+	}
+
+	public List<Object[]> listSimpleQualisMeu(Integer cod) {
+
+		@SuppressWarnings("unchecked")
+		List<Object[]> resultados = getManager().createQuery(
+				"select year(a.producaoAcademica.dataCadastro), a.producaoAcademica.conceitoQualis, a.producaoAcademica.dataCadastro "
+						+ "from Autor a " 
+						+ "and a.codAutor = ?1 "
+						+ "order by year(a.producaoAcademica.dataCadastro) asc")
+				.setParameter(1, cod).getResultList();
+
+		return resultados;
+
+	}
+
 }

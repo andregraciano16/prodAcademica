@@ -25,98 +25,110 @@
 					</div>
 
 
-					<h:panelGroup rendered="#{relatorioAlunoMB.alunos.isEmpty()}">
+
+					<h:panelGroup rendered="#{!menuMB.isDiretor()}">
 						<div class="panel panel-default">
 							<div class="panel-body">
 								<div class="row">
-									<h2>Nada a mostrar aqui. Por favor cadastre algum dado em
-										alunos.</h2>
+									<h2>Acesso negado.</h2>
 								</div>
 							</div>
 						</div>
 					</h:panelGroup>
 
-
-					<h:panelGroup rendered="#{!relatorioAlunoMB.alunos.isEmpty()}">
-						<div class="panel panel-default">
-							<div class="panel-body">
-								<div class="row">
-
-									<div class="form-group">
-										<p:chart type="line" model="#{relatorioAlunoMB.grafico}"
-											id="idGrafico" style="width:100%;" responsive="true" />
+					<h:panelGroup rendered="#{menuMB.isDiretor()}">
+						<h:panelGroup rendered="#{relatorioAlunoMB.alunos.isEmpty()}">
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<div class="row">
+										<h2>Nada a mostrar aqui. Por favor cadastre algum dado em
+											alunos.</h2>
 									</div>
-
-								</div>
-								<div class="row">
-
-									<div class="col-md-4">
-										<div class="form-group">
-											<h:outputLabel value="Filtro do gráfico: "
-												for="idGraficoFiltro" styleClass="control-label" />
-											<div class="input-group">
-												<span class="input-group-addon"> <span
-													class="glyphicon glyphicon-tag"></span>
-												</span>
-												<h:selectOneMenu id="idGraficoFiltro"
-													value="#{relatorioAlunoMB.graficoFiltro}"
-													styleClass="form-control">
-													<f:selectItem itemLabel="Anual (Intervalo)" itemValue="1" />
-													<f:selectItem itemLabel="Tempo total (mês/ano - Intervalo)"
-														itemValue="2" />
-													<f:selectItem
-														itemLabel="Semestral (semestre/ano - Intervalo)"
-														itemValue="3" />
-													<f:selectItem itemLabel="Anual" itemValue="4" />
-													<f:selectItem itemLabel="Tempo total (mês/ano)"
-														itemValue="5" />
-													<f:selectItem itemLabel="Semestral (semestre/ano)"
-														itemValue="6" />
-													<p:ajax event="change" update="idGrafico panelFiltro"
-														listener="#{relatorioAlunoMB.selecionaFiltro}" />
-												</h:selectOneMenu>
-											</div>
-										</div>
-									</div>
-
-									<h:panelGroup id="panelFiltro">
-										<div class="col-md-1">
-											<h:outputLabel value="Início:" for="idAnoInicio"
-												styleClass="control-label"
-												rendered="#{relatorioAlunoMB.graficoFiltro.equals('1') || relatorioAlunoMB.graficoFiltro.equals('2') || relatorioAlunoMB.graficoFiltro.equals('3')}" />
-											<p:inputMask id="idAnoInicio"
-												value="#{relatorioAlunoMB.anoInicio}"
-												mask="9999" class="form-control" style="height: 33px;"
-												rendered="#{relatorioAlunoMB.graficoFiltro.equals('1') || relatorioAlunoMB.graficoFiltro.equals('2') || relatorioAlunoMB.graficoFiltro.equals('3')}">
-												<p:watermark
-													value="#{relatorioAlunoMB.anoInicio}"
-													for="idAnoInicio" />
-												<p:ajax event="change"
-													update="idGrafico panelFiltro messages"
-													listener="#{relatorioAlunoMB.selecionaFiltro}" />
-											</p:inputMask>
-										</div>
-
-										<div class="col-md-1">
-											<h:outputLabel value="Fim:" for="idAnoFim"
-												styleClass="control-label"
-												rendered="#{relatorioAlunoMB.graficoFiltro.equals('1') || relatorioAlunoMB.graficoFiltro.equals('2') || relatorioAlunoMB.graficoFiltro.equals('3')}" />
-											<p:inputMask id="idAnoFim"
-												value="#{relatorioAlunoMB.anoFim}"
-												mask="9999" class="form-control" style="height: 33px;"
-												rendered="#{relatorioAlunoMB.graficoFiltro.equals('1') || relatorioAlunoMB.graficoFiltro.equals('2') || relatorioAlunoMB.graficoFiltro.equals('3')}">
-												<p:watermark
-													value="#{relatorioAlunoMB.anoFim}"
-													for="idAnoFim" />
-												<p:ajax event="change"
-													update="idGrafico panelFiltro messages"
-													listener="#{relatorioAlunoMB.selecionaFiltro}" />
-											</p:inputMask>
-										</div>
-									</h:panelGroup>
 								</div>
 							</div>
-						</div>
+						</h:panelGroup>
+
+
+						<h:panelGroup rendered="#{!relatorioAlunoMB.alunos.isEmpty()}">
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<div class="row">
+
+										<div class="form-group">
+											<p:chart type="line" model="#{relatorioAlunoMB.grafico}"
+												id="idGrafico" style="width:100%;" responsive="true" />
+										</div>
+
+									</div>
+									<div class="row">
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<h:outputLabel value="Filtro do gráfico: "
+													for="idGraficoFiltro" styleClass="control-label" />
+												<div class="input-group">
+													<span class="input-group-addon"> <span
+														class="glyphicon glyphicon-tag"></span>
+													</span>
+													<h:selectOneMenu id="idGraficoFiltro"
+														value="#{relatorioAlunoMB.graficoFiltro}"
+														styleClass="form-control">
+														<f:selectItem itemLabel="Anual (Intervalo)" itemValue="1" />
+														<f:selectItem
+															itemLabel="Tempo total (mês/ano - Intervalo)"
+															itemValue="2" />
+														<f:selectItem
+															itemLabel="Semestral (semestre/ano - Intervalo)"
+															itemValue="3" />
+														<f:selectItem itemLabel="Anual" itemValue="4" />
+														<f:selectItem itemLabel="Tempo total (mês/ano)"
+															itemValue="5" />
+														<f:selectItem itemLabel="Semestral (semestre/ano)"
+															itemValue="6" />
+														<p:ajax event="change" update="idGrafico panelFiltro"
+															listener="#{relatorioAlunoMB.selecionaFiltro}" />
+													</h:selectOneMenu>
+												</div>
+											</div>
+										</div>
+
+										<h:panelGroup id="panelFiltro">
+											<div class="col-md-1">
+												<h:outputLabel value="Início:" for="idAnoInicio"
+													styleClass="control-label"
+													rendered="#{relatorioAlunoMB.graficoFiltro.equals('1') || relatorioAlunoMB.graficoFiltro.equals('2') || relatorioAlunoMB.graficoFiltro.equals('3')}" />
+												<p:inputMask id="idAnoInicio"
+													value="#{relatorioAlunoMB.anoInicio}" mask="9999"
+													class="form-control" style="height: 33px;"
+													rendered="#{relatorioAlunoMB.graficoFiltro.equals('1') || relatorioAlunoMB.graficoFiltro.equals('2') || relatorioAlunoMB.graficoFiltro.equals('3')}">
+													<p:watermark value="#{relatorioAlunoMB.anoInicio}"
+														for="idAnoInicio" />
+													<p:ajax event="change"
+														update="idGrafico panelFiltro messages"
+														listener="#{relatorioAlunoMB.selecionaFiltro}" />
+												</p:inputMask>
+											</div>
+
+											<div class="col-md-1">
+												<h:outputLabel value="Fim:" for="idAnoFim"
+													styleClass="control-label"
+													rendered="#{relatorioAlunoMB.graficoFiltro.equals('1') || relatorioAlunoMB.graficoFiltro.equals('2') || relatorioAlunoMB.graficoFiltro.equals('3')}" />
+												<p:inputMask id="idAnoFim"
+													value="#{relatorioAlunoMB.anoFim}" mask="9999"
+													class="form-control" style="height: 33px;"
+													rendered="#{relatorioAlunoMB.graficoFiltro.equals('1') || relatorioAlunoMB.graficoFiltro.equals('2') || relatorioAlunoMB.graficoFiltro.equals('3')}">
+													<p:watermark value="#{relatorioAlunoMB.anoFim}"
+														for="idAnoFim" />
+													<p:ajax event="change"
+														update="idGrafico panelFiltro messages"
+														listener="#{relatorioAlunoMB.selecionaFiltro}" />
+												</p:inputMask>
+											</div>
+										</h:panelGroup>
+									</div>
+								</div>
+							</div>
+						</h:panelGroup>
 					</h:panelGroup>
 				</div>
 
