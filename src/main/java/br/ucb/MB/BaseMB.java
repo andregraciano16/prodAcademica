@@ -8,8 +8,6 @@ import javax.faces.context.FacesContext;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import org.springframework.security.core.GrantedAuthority;
-
 import br.ucb.VO.UsuarioVO;
 import br.ucb.security.Seguranca;
 import br.ucb.security.UsuarioSistema;
@@ -37,8 +35,7 @@ public abstract class BaseMB implements Serializable{
 	public UsuarioSistema getUsuarioSistema(){
 		return new Seguranca().getUsuarioLogado();
 	}
-<<<<<<< HEAD
-	
+
 	public boolean isDiretor(){
 		Iterator<GrantedAuthority> iterator = getUsuarioSistema().getAuthorities().iterator();
 		if(iterator.next().getAuthority().equals("ROLE_DIRETOR")){
@@ -62,8 +59,5 @@ public abstract class BaseMB implements Serializable{
 		}
 		return Boolean.FALSE;
 	}
-=======
-*/
->>>>>>> branch 'master' of https://github.com/andregraciano16/prodAcademica.git
-	
+
 }
