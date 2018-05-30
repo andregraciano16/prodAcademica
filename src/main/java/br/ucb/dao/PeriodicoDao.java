@@ -4,4 +4,6 @@ import br.ucb.entity.ArtigoPeriodico;
 
 public interface PeriodicoDao  extends DaoGenerico<ArtigoPeriodico, Integer> {
 
+	ArtigoPeriodico buscarByIdProducao(Integer idProducaoAcademica);
+
 }

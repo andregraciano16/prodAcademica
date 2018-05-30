@@ -4,4 +4,6 @@ import br.ucb.entity.DesenvApp;
 
 public interface DesenvAppDao extends DaoGenerico<DesenvApp, Integer>{
 
+	DesenvApp buscarByIdProducao(Integer idProducaoAcademica);
+
 }

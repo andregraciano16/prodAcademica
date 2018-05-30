@@ -4,4 +4,6 @@ import br.ucb.entity.RelatorioPesquisa;
 
 public interface RelatorioPesquisaDao extends DaoGenerico<RelatorioPesquisa, Integer>{
 
+	RelatorioPesquisa buscarByIdProducao(Integer idProducaoAcademica);
+
 }

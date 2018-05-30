@@ -2,6 +2,8 @@ package br.ucb.dao;
 
 import br.ucb.entity.Livro;
 
-public interface LivroDao extends DaoGenerico<Livro, Integer> {	
+public interface LivroDao extends DaoGenerico<Livro, Integer> {
+
+	Livro buscarByidProducao(Integer idProducaoAcademica);	
 
 }

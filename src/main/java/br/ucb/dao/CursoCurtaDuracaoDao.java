@@ -4,4 +4,6 @@ import br.ucb.entity.CursoCurtaDuracao;
 
 public interface CursoCurtaDuracaoDao extends DaoGenerico<CursoCurtaDuracao, Integer> {
 
+	CursoCurtaDuracao buscarByIdProducao(Integer idProducaoAcademica);
+
 }
