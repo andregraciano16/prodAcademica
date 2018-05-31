@@ -21,9 +21,10 @@
 							</ol>
 
 						</div>
-
+							
+						<p:remoteCommand update="messages" autoRun="true" action="#{aprovarProducaoDiretorMB.buscar()}"/>
 						<p:messages id="messages" globalOnly="true" closable="true"
-							styleClass="mensagem-tela" />
+							styleClass="mensagem-tela" autoUpdate="true"/>
 						<br />
 					</div>
 					<h:panelGroup rendered="#{!menuMB.isDiretor()}">

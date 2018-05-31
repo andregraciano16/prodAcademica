@@ -61,8 +61,16 @@ public class AprovarProducaoProfessorMB extends BaseMB {
 	public void buscar() {
 		this.aprovaProducoes = this.producaoAcademicaDao
 				.listAprovaProfessor(this.docenteDao.getIdbyMatricula(user.getUsuario().getMatricula()));
-		this.aprovar = this.statusAprovacaoDao.findByDescricao("Aprovado").get(0);
-		this.reprovar = this.statusAprovacaoDao.findByDescricao("Reprovado").get(0);
+		try {
+			this.aprovar = this.statusAprovacaoDao.findByDescricao("Aprovado").get(0);
+			this.reprovar = this.statusAprovacaoDao.findByDescricao("Reprovado").get(0);
+		} catch (Exception e) {
+			setMessageError(
+					"Por favor, comunique ao diretor para adicionar os status 'Aprovado', 'Reprovado' e 'Pendente' na tela de Status da Aprovação  para prosseguir.");
+			this.aprovar = new StatusAprovacao();
+			this.reprovar = new StatusAprovacao();
+			this.aprovaProducoes = new ArrayList<AprovacaoProducaoVO>();
+		}
 
 	}
 
