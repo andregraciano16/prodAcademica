@@ -10,4 +10,6 @@ public interface AutorDao extends DaoGenerico<Autor, Integer> {
 
 	List<ProducaoAcademica> findProducaoByFiltro(ProdAcFiltro filtro);
 	
+	List<Autor> findAutorByIDProducao(Integer id);
+	
 }

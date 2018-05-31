@@ -71,4 +71,11 @@ public class AutorDaoImpl  extends DaoGenericoImpl<Autor, Integer> implements Au
 		return consulta.toString();
 	}
 
+	@Override
+	public List<Autor> findAutorByIDProducao(Integer id) {
+		Query query = getManager().createQuery(" SELECT t From Autor t where t.producaoAcademica.idProducaoAcademica = ?" );
+	    query.setParameter(1, id);
+		return  query.getResultList();
+	}
+
 }
