@@ -16,6 +16,7 @@ import br.ucb.enums.AcaoEnum;
 import br.ucb.enums.DivulgacaoEnum;
 import br.ucb.filtro.ProdAcFiltro;
 import br.ucb.util.DataUtil;
+import br.ucb.util.FacesUtil;
 
 @ManagedBean(name = "relatorioProdAcMB")
 @ViewScoped
@@ -53,7 +54,13 @@ public class RelatorioProdAcMB extends BaseMB {
 		}
 
 	}
-
+	
+	public String visualizar(ProducaoAcademica producao){
+		FacesUtil.getExternalContext().getRequestMap().put("acao", acaoEnum.VISUALIZAR);
+		FacesUtil.getExternalContext().getRequestMap().put("producao", producao);
+		return "/producaoAcademica.xhtml";
+	}
+	
 	public void limpar() {
 		this.filtro = new ProdAcFiltro();
 		buscar();

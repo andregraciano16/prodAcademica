@@ -1,6 +1,14 @@
 package br.ucb.MB;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -10,6 +18,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.NativeUploadedFile;
@@ -92,6 +103,7 @@ import br.ucb.entity.StatusProducao;
 import br.ucb.entity.TipoProducao;
 import br.ucb.entity.TrabalhoEmAnais;
 import br.ucb.entity.Traducao;
+import br.ucb.enums.AcaoEnum;
 import br.ucb.enums.DescisaoEnum;
 import br.ucb.enums.DisponibilidadeEnum;
 import br.ucb.enums.DivulgacaoEnum;
@@ -114,6 +126,7 @@ import br.ucb.enums.TipoEditoraEnum;
 import br.ucb.enums.TipoOrganizacaoEventoEnum;
 import br.ucb.security.Seguranca;
 import br.ucb.security.UsuarioSistema;
+import br.ucb.util.FacesUtil;
 import br.ucb.util.FileUtil;
 
 @ManagedBean(name = "producaoAcademicaMB")
@@ -122,6 +135,7 @@ public class ProducaoAcademicaMB extends BaseMB {
 
 	private static final long serialVersionUID = -8382150439301230737L;
 	private static final String ALUNO = "ALUNO";
+	private static final String PASTA_DESTINO_ARQUIVO = "D:\\teste";
 
 	private ProducaoAcademicaDao producaoAcDao;
 	private TipoProducaoDao      tipoProducaoDao;
@@ -180,6 +194,8 @@ public class ProducaoAcademicaMB extends BaseMB {
 	private Historico 			historico;
 	private HistoricoDao 		historicoDao;
 	private UsuarioSistema 		user;
+	private AcaoEnum acaoEnum;
+	private List<File> files;
 	
 	@PostConstruct
 	public void init() {
@@ -207,7 +223,121 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.historicoDao 	   = new HistoricoDaoImpl();
 		this.user 			   = new Seguranca().getUsuarioLogado();
 		initTiposProducao();
+		initDados();
 	}
+	
+	public void initDados(){
+		this.acaoEnum = (AcaoEnum) FacesUtil.getExternalContext().getRequestMap().get("acao");
+		this.producaoAcademica = (ProducaoAcademica) FacesUtil.getExternalContext().getRequestMap().get("producao");
+		if(this.producaoAcademica != null){
+			this.tipoProducao = this.producaoAcademica.getTipoProducao();
+			initTiposProducaoNewPage();
+			initAutores();
+			initArquivos();
+		}
+		if(this.acaoEnum == null){
+			this.acaoEnum = AcaoEnum.CADASTRAR;
+		}
+	}      
+	
+	private void initArquivos() {
+		if(this.producaoAcademica.getArquivo() != null){
+			String[] arquivos = this.producaoAcademica.getArquivo().split(";");
+			File arquivo;
+			this.files = new ArrayList<File>();
+			for (String string : arquivos) {
+				if(string != null && !string.isEmpty()){
+					arquivo = new File(PASTA_DESTINO_ARQUIVO + "\\" +string);
+					this.files.add(arquivo);
+				}
+			}
+		}
+	}
+
+	private void initAutores() {
+		List<Autor> autores = autorDao.findAutorByIDProducao(this.producaoAcademica.getIdProducaoAcademica());
+	    this.autoresVO = new ArrayList<AutorVO>();
+		for(Autor autor : autores){
+			if(autor.getTipoAutor().equals("PROFESSOR") || autor.getTipoAutor().equals("DIRETOR")){
+				Docente docente = docenteDao.findById(autor.getCodAutor());
+				this.autoresVO.add(montarAutorVO(docente));
+			} else if(autor.getTipoAutor().equals("ALUNO")){
+				Aluno aluno = alunoDao.findById(autor.getCodAutor());
+				this.autoresVO.add(montarAutorVO(aluno));
+			}
+		}
+	}
+	
+	private AutorVO montarAutorVO(Aluno aluno){
+		AutorVO vo = new AutorVO();
+		vo.setId(aluno.getIdAluno());
+		vo.setMatricula(aluno.getMatricula());
+		vo.setNome(aluno.getNome());
+		vo.setTipo("ALUNO");
+		return vo;
+	}
+	
+	private AutorVO montarAutorVO(Docente docente){
+		AutorVO vo = new AutorVO();
+		vo.setId(docente.getIdDocente());
+		vo.setMatricula(docente.getMatricula());
+		vo.setNome(docente.getNome());
+		vo.setTipo(docente.getTipoDocente().getTipo());
+		return vo;
+	}
+
+	private void initTiposProducaoNewPage(){
+		if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(1))){
+			this.livroDao = new LivroDaoImpl();
+			this.livro    = this.livroDao.buscarByidProducao(this.producaoAcademica.getIdProducaoAcademica());
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(2))){
+			this.jornalRevistaDao = new JornalRevistaDaoImpl(); 
+			this.jornalRevista    = this.jornalRevistaDao.buscarByIdProducao(this.producaoAcademica.getIdProducaoAcademica());
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(3))){
+			this.periodicoDao = new PeriodicoDaoImpl();
+			this.periodico    = this.periodicoDao.buscarByIdProducao(this.producaoAcademica.getIdProducaoAcademica());
+		} else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(4))){
+			this.trabalhoEmAnaisDao = new TrabalhoEmAnaisDaoImpl();
+			this.trabalhoEmAnais    = this.trabalhoEmAnaisDao.buscarByIdProducao(this.producaoAcademica.getIdProducaoAcademica());
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(5))){
+			this.traducaoDao = new TraducaoDaoImpl();
+			this.traducao    = this.traducaoDao.buscarByIdProducao(this.producaoAcademica.getIdProducaoAcademica());
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(6))){
+			this.servicosTecnicosDao = new ServicoTecnicosDaoImpl();
+			this.servicosTecnicos    = this.servicosTecnicosDao.buscarByIdProducao(this.producaoAcademica.getIdProducaoAcademica());
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(7))){
+			this.cartaMapaSimilaresDao = new CartasMapasSimilaresDaoImpl();
+			this.cartaMapaSimilares    = this.cartaMapaSimilaresDao.buscarByIdProducao(this.producaoAcademica.getIdProducaoAcademica());
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(8))){
+			this.cursoCurtaDuracaoDao = new CursoCurtaDuracaoDaoImpl();
+			this.cursoCurtaDuracao    = this.cursoCurtaDuracaoDao.buscarByIdProducao(this.producaoAcademica.getIdProducaoAcademica());
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(9))){
+			this.desenvAppDao = new DesenvAppDaoImpl();	
+			this.desenvApp    = this.desenvAppDao.buscarByIdProducao(this.producaoAcademica.getIdProducaoAcademica());
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(10))){
+			this.desenvDidaticoInstiDao = new DesenvDidaticoInstDaoImpl();
+			this.desenvDidaticoInst     = this.desenvDidaticoInstiDao.buscarByIdProducao(this.producaoAcademica.getIdProducaoAcademica());
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(11))){
+			this.desenvProdutoDao = new DesenvProdutoDaoImpl();
+			this.desenvProduto    = this.desenvProdutoDao.buscarByIdProducao(this.producaoAcademica.getIdProducaoAcademica());
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(12))){
+			this.desenvTecnicaDao = new DesenvTecnicaDaoImpl();
+			this.desenvTecnica    = this.desenvTecnicaDao.buscarByIdProducao(this.producaoAcademica.getIdProducaoAcademica());
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(13))){
+			this.editoriaDao = new EditoriaDaoImpl();
+			this.editoria    = this.editoriaDao.buscarByIdProducao(this.producaoAcademica.getIdProducaoAcademica());
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(14))){
+			this.organizEnventDao  = new OrganizacaoEventoDaoImpl();
+			this.organizacaoEvento = this.organizEnventDao.buscarByIdProducao(this.producaoAcademica.getIdProducaoAcademica());
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(15))){
+			this.relatorioPesquisaDao = new RelatorioPesquisaDaoImpl();
+			this.relatorioPesquisa    = this.relatorioPesquisaDao.buscarByIdProducao(this.producaoAcademica.getIdProducaoAcademica());
+		}else if(this.producaoAcademica.getTipoProducao().getIdTipoProducao().equals(new Integer(16))){
+		    this.apresentacaoTrabalhoDao = new ApresentacaoTrabalhoDaoImpl();
+			this.apresentacaoTrabalho    = this.apresentacaoTrabalhoDao.buscarByIdProducao(this.producaoAcademica.getIdProducaoAcademica());
+		}
+	}
+
 	
 	private void initTiposProducao(){
 		this.periodico          = new ArtigoPeriodico         ();
@@ -231,14 +361,18 @@ public class ProducaoAcademicaMB extends BaseMB {
 	public void upload(FileUploadEvent event) {
 		this.uploadFile = event.getFile();
 		try {
-			producaoAcademica.setArquivo("D:\\teste" + this.uploadFile.getFileName());
-			FileUtil.upload("D:\\teste", this.uploadFile.getFileName(), this.uploadFile.getInputstream());
+			producaoAcademica.setArquivo(PASTA_DESTINO_ARQUIVO + this.uploadFile.getFileName());
+			FileUtil.upload(PASTA_DESTINO_ARQUIVO, this.uploadFile.getFileName(), this.uploadFile.getInputstream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	    uploadFiles.add(this.uploadFile);
 	}
 	
+	public String download(File file) throws IOException {
+		return file.getAbsolutePath();
+	}
+    
 	public double convertBiteEmKBites(Long tamanho){
 		return tamanho / 1024;
 	}
@@ -570,8 +704,7 @@ public class ProducaoAcademicaMB extends BaseMB {
 				}
 			}
 		}
-	}
-	
+	}	
 	
 	public void cadastraHistorico(String mensagem, ProducaoAcademica producao) {
 		this.historico.setDataAlteracao(new Date());
@@ -936,6 +1069,14 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.apresentacaoTrabalho = apresentacaoTrabalho;
 	}
 	
+	public AcaoEnum getAcaoEnum() {
+		return this.acaoEnum;
+	}
+
+	public void setAcaoEnum(AcaoEnum acaoEnum) {
+		this.acaoEnum = acaoEnum;
+	}
+
 	public boolean isDiretor(){
 		Iterator<GrantedAuthority> iterator = user.getAuthorities().iterator();
 		if(iterator.next().getAuthority().equals("ROLE_DIRETOR")){
@@ -959,4 +1100,13 @@ public class ProducaoAcademicaMB extends BaseMB {
 		}
 		return Boolean.FALSE;
 	}
+
+	public List<File> getFiles() {
+		return this.files;
+	}
+
+	public void setFiles(List<File> files) {
+		this.files = files;
+	}
+
 }
