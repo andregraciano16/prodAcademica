@@ -27,6 +27,7 @@ import br.ucb.entity.TipoDocente;
 import br.ucb.enums.AcaoEnum;
 import br.ucb.security.Seguranca;
 import br.ucb.security.UsuarioSistema;
+import br.ucb.util.StringUtil;
 
 @ManagedBean(name = "docenteMB")
 @ViewScoped
@@ -47,7 +48,7 @@ public class DocenteMB extends BaseMB{
 	private Historico historico;
 	private HistoricoDao historicoDao;
 	private UsuarioSistema user;
-
+	private String confirmarSenha;
 	
 	@PostConstruct
 	public void init() {
@@ -61,14 +62,37 @@ public class DocenteMB extends BaseMB{
 	public void inicializar(){		
 		this.tipoDocente    = new TipoDocente(); 
 		this.docentes       = docenteDao.list();
-		this.docente        = new Docente();
+		if(this.docente == null){
+			this.docente = new Docente();
+			this.docente.setEndereco(new Endereco());
+		}
 		this.curso          = new Curso();
 		this.docentePesq    = new DocenteVO();
-		this.docente.setEndereco(new Endereco());
 		this.historico		= new Historico();
 		this.historicoDao 	= new HistoricoDaoImpl();
 		this.user 			= new Seguranca().getUsuarioLogado();
-		this.acaoEnum       = AcaoEnum.LISTAR;
+		if(this.acaoEnum == null){
+			this.acaoEnum = AcaoEnum.LISTAR;
+		}
+	}
+	
+	private boolean validarSenhaDocente(){
+		boolean isValido = Boolean.TRUE;
+		if(!StringUtil.isNotNullIsNotEmpty(this.docente.getSenha())){
+			setMessageError("Informe a senha");
+			isValido = Boolean.FALSE;
+		}
+		if(!StringUtil.isNotNullIsNotEmpty(this.confirmarSenha)){
+			setMessageError("Informe a confimração da senha");
+			isValido = Boolean.FALSE;
+		}
+		if(StringUtil.isNotNullIsNotEmpty(this.docente.getSenha()) && StringUtil.isNotNullIsNotEmpty(this.confirmarSenha)){
+			if(!this.docente.getSenha().equals(this.confirmarSenha)){
+				setMessageError("Senhas diferentes");
+				isValido = Boolean.FALSE;
+			}
+		}
+		return isValido;
 	}
 	
 	public void atualizar(){
@@ -82,26 +106,39 @@ public class DocenteMB extends BaseMB{
 	
 	public void habiliarNovo(){
 		this.acaoEnum = AcaoEnum.CADASTRAR;
+		this.docente = new Docente();
 	}
 	
 	public void editar(){
-		this.enderecoDao.save(this.docente.getEndereco());
-		this.docenteDao.update(this.docente);
-		cadastraHistorico("Foi alterado com sucesso.", this.docente);
-		setMessageSuccess("Atualizado com sucesso!");
+		if(StringUtil.isNotNullIsNotEmpty(this.confirmarSenha) && StringUtil.isNotNullIsNotEmpty(this.docente.getSenha())){
+			if(validarSenhaDocente()){
+				this.enderecoDao.save(this.docente.getEndereco());
+				this.docenteDao.update(this.docente);
+				cadastraHistorico("Foi alterado com sucesso.", this.docente);
+				setMessageSuccess("Atualizado com sucesso!");
+			}
+		}else{
+			this.enderecoDao.save(this.docente.getEndereco());
+			this.docenteDao.update(this.docente);
+			cadastraHistorico("Foi alterado com sucesso.", this.docente);
+			setMessageSuccess("Atualizado com sucesso!");			
+		}
 	}
 
 	public void cadastrar() {
-		this.docente.setDataCadastro(new Date());
-		this.tipoDocente = this.tipoDocenteDao.findByKey(TipoDocente.class, tipoDocente.getIdTipoDocente());
-		this.curso       = this.cursoDao.findById(curso.getIdCurso());
-		this.enderecoDao.save(this.docente.getEndereco());
-		this.docente.setCurso(this.curso);
-		this.docente.setTipoDocente(this.tipoDocente);
-		this.docente.setEndereco(this.enderecoDao.find(this.docente.getEndereco()));
-		this.docenteDao.save(this.docente);
-		cadastraHistorico("Foi cadastrado com sucesso.", this.docenteDao.getDocentebyMatricula(this.docente.getMatricula()));
-		setMessageSuccess("Cadastrado com sucesso!");
+		if(validarSenhaDocente()){
+			this.docente.setDataCadastro(new Date());
+			this.tipoDocente = this.tipoDocenteDao.findByKey(TipoDocente.class, tipoDocente.getIdTipoDocente());
+			this.curso       = this.cursoDao.findById(curso.getIdCurso());
+			this.enderecoDao.save(this.docente.getEndereco());
+			this.docente.setCurso(this.curso);
+			this.docente.setTipoDocente(this.tipoDocente);
+			this.docente.setEndereco(this.enderecoDao.find(this.docente.getEndereco()));
+			this.docenteDao.save(this.docente);
+			cadastraHistorico("Foi cadastrado com sucesso.", this.docenteDao.getDocentebyMatricula(this.docente.getMatricula()));
+			setMessageSuccess("Cadastrado com sucesso!");
+			this.acaoEnum = AcaoEnum.LISTAR;
+		}
 	}
 	
 	public void cadastraHistorico(String mensagem, Docente docente) {
@@ -147,7 +184,7 @@ public class DocenteMB extends BaseMB{
 	}
 	
 	public void voltar(){
-		inicializar();
+		this.acaoEnum = AcaoEnum.LISTAR;
 	}
 	
 	public void buscar(){
@@ -155,10 +192,8 @@ public class DocenteMB extends BaseMB{
 	}
 
 	public void limpar() {
-		inicializar();
+		this.docente = new Docente();
 	}
-	
-	
 	
 	public List<TipoDocente> getTipoDocentes(){
 		return tipoDocenteDao.list();
@@ -206,6 +241,14 @@ public class DocenteMB extends BaseMB{
 
 	public void setDocentePesq(DocenteVO docentePesq) {
 		this.docentePesq = docentePesq;
+	}
+
+	public String getConfirmarSenha() {
+		return this.confirmarSenha;
+	}
+
+	public void setConfirmarSenha(String confirmarSenha) {
+		this.confirmarSenha = confirmarSenha;
 	}	
 	
 }

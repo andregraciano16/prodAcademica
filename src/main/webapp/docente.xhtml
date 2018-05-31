@@ -339,6 +339,35 @@
 											</div>
 										</div>
 									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group">
+												<h:outputLabel value="Senha: " for="idSenha"
+													styleClass="control-label" />
+												<div class="input-group">
+													<span class="input-group-addon"> <span
+														class="glyphicon glyphicon-tag"></span>
+													</span>
+													<h:inputSecret value="#{docenteMB.docente.senha}" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}"
+														class="form-control" maxlength="10" id="idSenha" />
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group">
+												<h:outputLabel value="Confimar Senha: " for="idConfSenha"
+													styleClass="control-label" />
+												<div class="input-group">
+													<span class="input-group-addon"> <span
+														class="glyphicon glyphicon-tag"></span>
+													</span>
+													<h:inputSecret value="#{docenteMB.confirmarSenha}"
+														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}"
+														class="form-control" maxlength="10" id="idConfSenha" />
+												</div>
+											</div>
+										</div>
+									</div>
 									<br />
 									<div class="form-group">
 										<p:commandButton value="Salvar"
@@ -352,7 +381,7 @@
 											actionListener="#{docenteMB.limpar()}" update="@form" />
 											&nbsp;&nbsp;
 										<p:commandButton value="Voltar" title="Voltar"
-											class="btn btn-primary"
+											class="btn btn-primary" immediate="true"
 											actionListener="#{docenteMB.voltar()}" update="@form" />
 									</div>
 									<br />
