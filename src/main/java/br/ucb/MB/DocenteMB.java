@@ -49,6 +49,7 @@ public class DocenteMB extends BaseMB{
 	private HistoricoDao historicoDao;
 	private UsuarioSistema user;
 	private String confirmarSenha;
+	private String auxSenha;
 	
 	@PostConstruct
 	public void init() {
@@ -112,13 +113,14 @@ public class DocenteMB extends BaseMB{
 	public void editar(){
 		if(StringUtil.isNotNullIsNotEmpty(this.confirmarSenha) && StringUtil.isNotNullIsNotEmpty(this.docente.getSenha())){
 			if(validarSenhaDocente()){
-				this.enderecoDao.save(this.docente.getEndereco());
+				this.docente.setEndereco(this.docente.getEndereco());
 				this.docenteDao.update(this.docente);
 				cadastraHistorico("Foi alterado com sucesso.", this.docente);
 				setMessageSuccess("Atualizado com sucesso!");
 			}
 		}else{
-			this.enderecoDao.save(this.docente.getEndereco());
+			this.docente.setSenha(this.auxSenha);
+			this.docente.setEndereco(this.docente.getEndereco());
 			this.docenteDao.update(this.docente);
 			cadastraHistorico("Foi alterado com sucesso.", this.docente);
 			setMessageSuccess("Atualizado com sucesso!");			
@@ -170,6 +172,7 @@ public class DocenteMB extends BaseMB{
 	public void prepararEdicao(Docente docente){
 		this.docente = docente;
 		acaoEnum = AcaoEnum.EDITAR;
+		this.auxSenha = this.docente.getSenha();
 	}
 	
 	public void excluir(Docente tipo) {
