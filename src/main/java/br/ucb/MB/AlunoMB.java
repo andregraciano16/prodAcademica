@@ -54,6 +54,7 @@ public class AlunoMB extends BaseMB {
 	private UsuarioSistema user;
 	private DocenteDao docenteDao;
 	private String verificaSenha;
+	private String senhaAtual;
 	private String verificaMatricula;
 	private boolean resultado;
 
@@ -108,31 +109,32 @@ public class AlunoMB extends BaseMB {
 				setMessageError("Esta matricula já está cadastrada, por favor insira uma nova.");
 				
 			} else if (StringUtil.isNotNullIsNotEmpty(this.verificaSenha)
-					&& StringUtil.isNotNullIsNotEmpty(this.aluno.getSenha())) {
+					|| StringUtil.isNotNullIsNotEmpty(this.aluno.getSenha())) {
 				if (validarSenhaAluno()) {
-					
 					this.enderecoDao.update(this.endereco);
 					this.resultado = this.alunoDao.updateM(this.aluno);
 					if (this.resultado) {
 						cadastraHistorico("Foi alterado com sucesso.", this.aluno);
 						setMessageSuccess("Atualizado com sucesso.");
+						init();
 					} else
 						setMessageError("Houve um erro ao salvar no sistema.");
 				}
 			} else {
-				
+				this.aluno.setSenha(this.senhaAtual);
 				this.enderecoDao.update(this.endereco);
 				this.resultado = this.alunoDao.updateM(this.aluno);
 				if (this.resultado) {
 					cadastraHistorico("Foi alterado com sucesso.", this.aluno);
 					setMessageSuccess("Atualizado com sucesso.");
+					init();
 				} else
 					setMessageError("Houve um erro ao salvar no sistema.");
 			}
 		} else {
 			setMessageError("Preencha os campos corretamente.");
 		}
-		init();
+		
 
 	}
 
@@ -158,6 +160,7 @@ public class AlunoMB extends BaseMB {
 
 	public void prepararEdicao(Aluno aluno) {
 		this.aluno = aluno;
+		this.senhaAtual = aluno.getSenha();
 		this.endereco = aluno.getEndereco();
 		this.verificaMatricula = aluno.getMatricula();
 		acaoEnum = AcaoEnum.EDITAR;
