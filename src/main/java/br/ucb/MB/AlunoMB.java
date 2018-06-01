@@ -29,6 +29,7 @@ import br.ucb.entity.StatusAluno;
 import br.ucb.enums.AcaoEnum;
 import br.ucb.security.Seguranca;
 import br.ucb.security.UsuarioSistema;
+import br.ucb.util.StringUtil;
 
 @ManagedBean(name = "alunoMB")
 @ViewScoped
@@ -77,6 +78,7 @@ public class AlunoMB extends BaseMB {
 					setMessageSuccess("Cadastrado com sucesso.");
 					cadastraHistorico("Foi cadastrado com sucesso.",
 							this.alunoDao.getAlunobyMatricula(this.aluno.getMatricula()));
+					init();
 				} else
 					setMessageError("Houve um erro no sistema ao salvar.");
 			}
@@ -84,7 +86,7 @@ public class AlunoMB extends BaseMB {
 		} else {
 			setMessageError("Preencha os campos corretamente.");
 		}
-		init();
+		
 	}
 
 	public void excluir(Aluno aluno) {
@@ -104,11 +106,21 @@ public class AlunoMB extends BaseMB {
 		if (this.aluno != null && !verificaVazio(this.aluno, this.endereco)) {
 			if (!this.verificaMatricula.equals(this.aluno.getMatricula()) && this.alunos.contains(this.aluno)) {
 				setMessageError("Esta matricula já está cadastrada, por favor insira uma nova.");
-			} else if (this.aluno.getSenha().isEmpty()) {
-				setMessageError("Preencha o campo senha novamente.");
-			} else if (!this.aluno.getSenha().equals(verificaSenha)) {
-				setMessageError("Os campos de senha estão diferentes, por favor, insira novamente.");
+				
+			} else if (StringUtil.isNotNullIsNotEmpty(this.verificaSenha)
+					&& StringUtil.isNotNullIsNotEmpty(this.aluno.getSenha())) {
+				if (validarSenhaAluno()) {
+					
+					this.enderecoDao.update(this.endereco);
+					this.resultado = this.alunoDao.updateM(this.aluno);
+					if (this.resultado) {
+						cadastraHistorico("Foi alterado com sucesso.", this.aluno);
+						setMessageSuccess("Atualizado com sucesso.");
+					} else
+						setMessageError("Houve um erro ao salvar no sistema.");
+				}
 			} else {
+				
 				this.enderecoDao.update(this.endereco);
 				this.resultado = this.alunoDao.updateM(this.aluno);
 				if (this.resultado) {
@@ -122,6 +134,26 @@ public class AlunoMB extends BaseMB {
 		}
 		init();
 
+	}
+
+	private boolean validarSenhaAluno() {
+		boolean isValido = Boolean.TRUE;
+		if (!StringUtil.isNotNullIsNotEmpty(this.aluno.getSenha())) {
+			setMessageError("Informe a senha");
+			isValido = Boolean.FALSE;
+		}
+		if (!StringUtil.isNotNullIsNotEmpty(this.verificaSenha)) {
+			setMessageError("Informe a confimração da senha");
+			isValido = Boolean.FALSE;
+		}
+		if (StringUtil.isNotNullIsNotEmpty(this.aluno.getSenha())
+				&& StringUtil.isNotNullIsNotEmpty(this.verificaSenha)) {
+			if (!this.aluno.getSenha().equals(this.verificaSenha)) {
+				setMessageError("Senhas diferentes");
+				isValido = Boolean.FALSE;
+			}
+		}
+		return isValido;
 	}
 
 	public void prepararEdicao(Aluno aluno) {
