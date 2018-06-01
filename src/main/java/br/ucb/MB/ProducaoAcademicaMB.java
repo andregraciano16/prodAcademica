@@ -49,6 +49,7 @@ import br.ucb.dao.PeriodicoDao;
 import br.ucb.dao.ProducaoAcademicaDao;
 import br.ucb.dao.RelatorioPesquisaDao;
 import br.ucb.dao.ServicoTecnicosDao;
+import br.ucb.dao.StatusAprovacaoDao;
 import br.ucb.dao.StatusProducaoDao;
 import br.ucb.dao.TipoProducaoDao;
 import br.ucb.dao.TrabalhoEmAnaisDao;
@@ -74,6 +75,7 @@ import br.ucb.dao.impl.PeriodicoDaoImpl;
 import br.ucb.dao.impl.ProducaoAcademicaDaoImpl;
 import br.ucb.dao.impl.RelatorioPesquisaDaoImpl;
 import br.ucb.dao.impl.ServicoTecnicosDaoImpl;
+import br.ucb.dao.impl.StatusAprovacaoDaoImpl;
 import br.ucb.dao.impl.StatusProducaoDaoImpl;
 import br.ucb.dao.impl.TipoProducaoDaoImpl;
 import br.ucb.dao.impl.TrabalhoEmAnaisDaoImpl;
@@ -99,6 +101,7 @@ import br.ucb.entity.OrganizacaoEvento;
 import br.ucb.entity.ProducaoAcademica;
 import br.ucb.entity.RelatorioPesquisa;
 import br.ucb.entity.ServicosTecnicos;
+import br.ucb.entity.StatusAprovacao;
 import br.ucb.entity.StatusProducao;
 import br.ucb.entity.TipoProducao;
 import br.ucb.entity.TrabalhoEmAnais;
@@ -141,6 +144,7 @@ public class ProducaoAcademicaMB extends BaseMB {
 	private TipoProducaoDao      tipoProducaoDao;
 	private StatusProducaoDao    statusProducaoDao;
 	private LinhaPesquisaDao     linhaPesquisaDao;
+	private StatusAprovacaoDao	 statusAprovacaoDao;
 	private DocenteDao           docenteDao;
 	private JornalRevistaDao     jornalRevistaDao;
 	private PeriodicoDao         periodicoDao;
@@ -205,6 +209,7 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.producaoAcDao     = new ProducaoAcademicaDaoImpl();
 		this.producaoAcademica = new ProducaoAcademica       ();
 		this.linhaPesquisaDao  = new LinhaPesquisaDaoImpl    ();
+		this.statusAprovacaoDao= new StatusAprovacaoDaoImpl	 ();
 		this.statusProducaoDao = new StatusProducaoDaoImpl   ();
 		this.tipoProducaoDao   = new TipoProducaoDaoImpl     ();
 		this.linhaPesquisa     = new LinhaPesquisa           ();
@@ -843,6 +848,10 @@ public class ProducaoAcademicaMB extends BaseMB {
 
 	public List<LinhaPesquisa> getLinhas() {
 		return this.linhaPesquisaDao.list();
+	}
+	
+	public List<StatusAprovacao> getVariosStatusAprovacao() {
+		return this.statusAprovacaoDao.list();
 	}
 	
 	public Livro getLivro() {

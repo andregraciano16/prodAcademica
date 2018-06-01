@@ -90,7 +90,17 @@
 													<h:outputLabel for="idConceitoQualis" value="Conceito Qualis:" styleClass="control-label"/>
 								                    <div class="input-group">
 														 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
-														<h:inputText value="#{producaoAcademicaMB.producaoAcademica.conceitoQualis}" class= "form-control" maxlength="10" id="idConceitoQualis" disabled="#{producaoAcademicaMB.acaoEnum.codigo eq 0}"/>
+														<h:selectOneMenu id="idConceitoQualis" value="#{producaoAcademicaMB.producaoAcademica.divulgacao}" styleClass="form-control" disabled="#{producaoAcademicaMB.acaoEnum.codigo eq 0}">
+															<f:selectItem itemLabel="Nenhum" itemValue="Nenhum" />
+															<f:selectItem itemLabel="A1" itemValue="A1" />
+															<f:selectItem itemLabel="A2" itemValue="A2" />
+															<f:selectItem itemLabel="B1" itemValue="B1" />
+															<f:selectItem itemLabel="B2" itemValue="B2" />
+															<f:selectItem itemLabel="B3" itemValue="B3" />
+															<f:selectItem itemLabel="B4" itemValue="B4" />
+															<f:selectItem itemLabel="B5" itemValue="B5" />
+															<f:selectItem itemLabel="C" itemValue="C" />
+														</h:selectOneMenu>
 													</div>
 										        </div>
 											   <div class="col-md-2">
@@ -104,7 +114,18 @@
 													   </div>
 												   </div>
 												</div>
-												<div class="col-md-8">
+												<div class="col-md-4">
+					                                <div class="form-group">
+														<h:outputLabel for="idAprovacao" value="Status de Aprovação:" styleClass="control-label" />
+													      <div class="input-group">
+															 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+													         <h:selectOneMenu id="idAprovacao" value="#{producaoAcademicaMB.producaoAcademica.statusAprovacao}" styleClass="form-control" disabled="#{producaoAcademicaMB.acaoEnum.codigo eq 0}">
+																<f:selectItems itemLabel="#{tipo.descricao}" itemValue="#{tipo.idStatusAprovacao}" var="tipo" value="#{producaoAcademicaMB.getVariosStatusAprovacao()}" />
+													         </h:selectOneMenu>
+													   </div>
+												   </div>
+												</div>
+												<div class="col-md-4">
 											        <h:outputLabel for="idURL" value="URL:" styleClass="control-label"/>
 												    <div class="input-group">
 														 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
