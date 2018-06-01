@@ -21,17 +21,19 @@ import br.ucb.dao.impl.DocenteDaoImpl;
 
 public class AppUserDetailsService implements UserDetailsService{
 
-	private DocenteDao docenteDao = new DocenteDaoImpl();
-	private AlunoDao alunoDao = new AlunoDaoImpl();
+	private DocenteDao docenteDao;
+	private AlunoDao alunoDao;
 	
 	@Override
 	public UserDetails loadUserByUsername(String matricula) throws UsernameNotFoundException {
 		UsuarioVO usuario = null;
 		UsuarioSistema user = null;
 		UserDetails details = null;
+		docenteDao = new DocenteDaoImpl();
+		alunoDao = new AlunoDaoImpl();
 		//buscar docente
 		PasswordEncoder encoder =  PasswordEncoderFactories.createDelegatingPasswordEncoder();
-
+        
 		usuario = docenteDao.findByMatricula(matricula);
 	    if(usuario == null){
 	    	usuario = alunoDao.findByMatricula(matricula);
