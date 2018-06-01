@@ -1,14 +1,8 @@
 package br.ucb.MB;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -18,12 +12,12 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletResponse;
 
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.NativeUploadedFile;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -196,6 +190,7 @@ public class ProducaoAcademicaMB extends BaseMB {
 	private UsuarioSistema 		user;
 	private AcaoEnum acaoEnum;
 	private List<File> files;
+	private StreamedContent file;
 	
 	@PostConstruct
 	public void init() {
@@ -369,10 +364,12 @@ public class ProducaoAcademicaMB extends BaseMB {
 	    uploadFiles.add(this.uploadFile);
 	}
 	
-	public String download(File file) throws IOException {
-		return file.getAbsolutePath();
+		
+	public void download(File arq) {        
+		InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(arq.getAbsolutePath());
+        file = new DefaultStreamedContent(stream, "application/txt", "links.txt");
 	}
-    
+
 	public double convertBiteEmKBites(Long tamanho){
 		return tamanho / 1024;
 	}
@@ -1107,6 +1104,14 @@ public class ProducaoAcademicaMB extends BaseMB {
 
 	public void setFiles(List<File> files) {
 		this.files = files;
+	}
+
+	public StreamedContent getFile() {
+		return this.file;
+	}
+
+	public void setFile(StreamedContent file) {
+		this.file = file;
 	}
 
 }

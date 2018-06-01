@@ -297,8 +297,9 @@
 														        <h:outputText value="#{arq.name}" />
 														    </p:column>
 														    <p:column headerText="Ação" style="width:12%;text-align:center;">
-														 		<p:commandLink action="#{producaoAcademicaMB.download(arq)}" update="@form">
-															         <span class="glyphicon glyphicon-download" />
+														 		
+															    <p:commandLink value="Download" action="#{producaoAcademicaMB.download(arq)}" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+															        <p:fileDownload value="#{producaoAcademicaMB.file}" />
 															    </p:commandLink>
 															</p:column>
 														</p:dataTable>									    	
@@ -1471,6 +1472,15 @@
 							   </div>
 						</div>
 					</div>
+					<script type="text/javascript">
+						function start() {
+						    PF('statusDialog').show();
+						}
+						 
+						function stop() {
+						    PF('statusDialog').hide();
+						}
+				    </script>
 		    </h:form>
 	</ui:define>
 </ui:composition>
