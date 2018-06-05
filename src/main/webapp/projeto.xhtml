@@ -29,6 +29,10 @@
 					<h:panelGroup rendered="#{projetoMB.acaoEnum.getCodigo() != 3}"
 						id="panelCadastrar">
 						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3>Insira os dados</h3>
+							</div>
+							<br />
 							<div class="panel-body">
 
 								<div class="row">
@@ -478,7 +482,7 @@
 								<h:panelGroup styleClass="panel-no-border"
 									rendered="#{projetoMB.acaoEnum.getCodigo() == 1}">
 									<div class="form-group"
-										style="padding-top: 70px; text-align: right;">
+										style="padding-top: 70px;">
 
 										<p:commandButton value="Cadastrar" class="btn-primary btn-md"
 											action="#{projetoMB.cadastrar()}" process="@form"
@@ -490,14 +494,14 @@
 										&nbsp;&nbsp;
 										<p:commandButton value="Voltar" class="btn-primary btn-md"
 											action="#{projetoMB.limpar}" update="@form"
-											styleClass="btn btn-default" id="btnVoltarPrinc" />
+											styleClass="btn btn-primary" id="btnVoltarPrinc" />
 
 									</div>
 								</h:panelGroup>
 								<h:panelGroup styleClass="panel-no-border"
 									rendered="#{projetoMB.acaoEnum.getCodigo() == 2}">
 									<div class="form-group"
-										style="padding-top: 70px; text-align: right;">
+										style="padding-top: 70px;">
 										<p:commandButton value="Atualizar" class="btn-primary btn-md"
 											action="#{projetoMB.editar()}" update="@form"
 											styleClass="btn btn-primary" id="btnAtualizar" />
@@ -511,7 +515,7 @@
 								<h:panelGroup styleClass="panel-no-border"
 									rendered="#{projetoMB.acaoEnum.getCodigo() == 0}">
 									<div class="form-group"
-										style="padding-top: 70px; text-align: right;">
+										style="padding-top: 70px;">
 										<p:commandButton value="Editar" class="btn-primary btn-md"
 											action="#{projetoMB.prepararEdicao(projetoMB.projeto)}"
 											update="@form" styleClass="btn btn-primary" id="btnEditar"

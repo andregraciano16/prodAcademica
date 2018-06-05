@@ -20,7 +20,7 @@ public class ExternoDaoImpl extends DaoGenericoImpl<Externo, Integer> implements
 
 	@Override
 	public List<Externo> findByNome(String nome) {
-		Query query = getManager().createQuery(" From Externo e WHERE e.nome like ?1 ");
+		Query query = getManager().createQuery(" From Externo e WHERE e.nome like ?1 group by e.nome");
 		query.setParameter(1, "%"+ nome + "%");
 		
 		return query.getResultList();

@@ -98,6 +98,7 @@ public class ProjetoMB extends BaseMB {
 				if (this.resultado) {
 					cadastraHistorico("Foi cadastrado com sucesso.", this.projetoDao.find(this.projeto));
 					setMessageSuccess("Cadastrado com sucesso.");
+					init();
 				} else {
 					setMessageError("Houve um erro ao salvar no sistema.");
 				}
@@ -112,7 +113,6 @@ public class ProjetoMB extends BaseMB {
 		} else {
 			setMessageError("Preencha os campos corretamente.");
 		}
-		init();
 	}
 
 	public void excluir(Projeto projeto) {
@@ -136,6 +136,7 @@ public class ProjetoMB extends BaseMB {
 				if (this.resultado) {
 					cadastraHistorico("Foi alterado com sucesso.", this.projeto);
 					setMessageSuccess("Atualizado com sucesso.");
+					init();
 				} else {
 					setMessageError("Houve um erro ao salvar no sistema.");
 				}
@@ -149,7 +150,6 @@ public class ProjetoMB extends BaseMB {
 		} else {
 			setMessageError("Preencha os campos corretamente.");
 		}
-		init();
 
 	}
 

@@ -27,6 +27,10 @@
 
 					<h:panelGroup rendered="#{menuMB.isAluno()}">
 						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3>Insira os dados</h3>
+							</div>
+							<br />
 							<div class="panel-body">
 								<div class="row">
 									<div class="col-md-4">
@@ -345,7 +349,10 @@
 
 					<h:panelGroup id="painel" rendered="#{!menuMB.isAluno()}">
 						<div class="panel panel-default">
-
+							<div class="panel-heading">
+								<h3>Insira os dados</h3>
+							</div>
+							<br />
 							<div class="panel-body">
 								<div class="row">
 									<div class="col-md-4">
@@ -415,8 +422,7 @@
 												<span class="input-group-addon"> <span
 													class="glyphicon glyphicon-tag"></span>
 												</span>
-												<p:inputMask id="idDCelular"
-													styleClass="form-control"
+												<p:inputMask id="idDCelular" styleClass="form-control"
 													value="#{alterarMeusDadosMB.docente.celular}"
 													mask="99999-9999" maxlength="10"
 													converter="telefoneConverter" />
@@ -431,8 +437,7 @@
 												<span class="input-group-addon"> <span
 													class="glyphicon glyphicon-tag"></span>
 												</span>
-												<p:inputMask id="idDFixo"
-													styleClass="form-control"
+												<p:inputMask id="idDFixo" styleClass="form-control"
 													value="#{alterarMeusDadosMB.docente.telefoneFixo}"
 													mask="9999-9999" maxlength="9"
 													converter="telefoneConverter" />
