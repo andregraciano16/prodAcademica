@@ -1,8 +1,10 @@
 package br.ucb.MB;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -12,6 +14,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
@@ -370,10 +373,32 @@ public class ProducaoAcademicaMB extends BaseMB {
 	}
 	
 		
-	public void download(File arq) {        
-		InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(arq.getAbsolutePath());
-        file = new DefaultStreamedContent(stream, "application/txt", "links.txt");
-	}
+	public void download(File arq) {
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            ExternalContext externalContext = context.getExternalContext();
+
+            externalContext.responseReset();
+            
+            externalContext.setResponseContentType("application/octet-stream");
+            externalContext.setResponseHeader("Content-Disposition", "attachment;filename="+ arq.getName() );
+
+            FileInputStream inputStream = new FileInputStream(new File(arq.getAbsolutePath()));
+            OutputStream outputStream = externalContext.getResponseOutputStream();
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+
+            inputStream.close();
+            context.responseComplete();
+
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+    }
 
 	public double convertBiteEmKBites(Long tamanho){
 		return tamanho / 1024;
