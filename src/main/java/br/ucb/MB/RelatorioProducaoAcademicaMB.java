@@ -907,6 +907,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		qualis.set("B4", 0);
 		qualis.set("B5", 0);
 		qualis.set("C", 0);
+		qualis.set("Nenhum", 0);
 
 		// 0 - ano
 		// 1 - conceito qualis
@@ -933,6 +934,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 				qualis.set("B4", 0);
 				qualis.set("B5", 0);
 				qualis.set("C", 0);
+				qualis.set("Nenhum", 0);
 				qualis.set(producaoAcademica[1],
 						getQuantidadeProducaoQualis(listaSimples, producaoAcademica[0], producaoAcademica[1]));
 				ultimoAno = (Integer) producaoAcademica[0];
@@ -959,6 +961,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			qualis.set("B4", 0);
 			qualis.set("B5", 0);
 			qualis.set("C", 0);
+			qualis.set("Nenhum", 0);
 
 			qualis.setLabel("Não foram encontrados resultados");
 		} else {
@@ -985,6 +988,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		qualis.set("B4", 0);
 		qualis.set("B5", 0);
 		qualis.set("C", 0);
+		qualis.set("Nenhum", 0);
 
 		// 0 - ano
 		// 1 - conceito qualis
@@ -1011,6 +1015,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 				qualis.set("B4", 0);
 				qualis.set("B5", 0);
 				qualis.set("C", 0);
+				qualis.set("Nenhum", 0);
 				qualis.set(producaoAcademica[1],
 						getQuantidadeProducaoQualis(listaSimples, producaoAcademica[0], producaoAcademica[1]));
 				ultimoAno = (Integer) producaoAcademica[0];
@@ -1070,7 +1075,8 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			qualis.set("B4", 0);
 			qualis.set("B5", 0);
 			qualis.set("C", 0);
-
+			qualis.set("Nenhum", 0);
+			
 			producaoAcademica = listaSimples.get(0);
 			ultimoAno = (Integer) producaoAcademica[0];
 			ultimaNota = (String) producaoAcademica[1];
@@ -1115,6 +1121,8 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 								qualis.set("B4", 0);
 								qualis.set("B5", 0);
 								qualis.set("C", 0);
+								qualis.set("Nenhum", 0);
+								
 								qualis.set(producaoAcademica[1], getQuantidadeProducaoQualisAnos(listaSimples,
 										producaoAcademica[0], producaoAcademica[1]));
 								ultimoAno = (Integer) producaoAcademica[0];
@@ -1147,6 +1155,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 					qualis.set("B4", 0);
 					qualis.set("B5", 0);
 					qualis.set("C", 0);
+					qualis.set("Nenhum", 0);
 				}
 			}
 		}
@@ -1165,6 +1174,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			qualis.set("B4", 0);
 			qualis.set("B5", 0);
 			qualis.set("C", 0);
+			qualis.set("Nenhum", 0);
 			qualis.setLabel("Não foram encontrados resultados");
 		}
 
@@ -1214,6 +1224,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 			qualis.set("B4", 0);
 			qualis.set("B5", 0);
 			qualis.set("C", 0);
+			qualis.set("Nenhum", 0);
 
 			producaoAcademica = this.listaSimples.get(0);
 			ultimoAno = (Integer) producaoAcademica[0];
@@ -1259,6 +1270,8 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 								qualis.set("B4", 0);
 								qualis.set("B5", 0);
 								qualis.set("C", 0);
+								qualis.set("Nenhum", 0);
+								
 								qualis.set(producaoAcademica[1], getQuantidadeProducaoQualisAnos(this.listaSimples,
 										producaoAcademica[0], producaoAcademica[1]));
 								ultimoAno = (Integer) producaoAcademica[0];
@@ -1291,6 +1304,7 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 					qualis.set("B4", 0);
 					qualis.set("B5", 0);
 					qualis.set("C", 0);
+					qualis.set("Nenhum", 0);
 				}
 			}
 		}

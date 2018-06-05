@@ -65,7 +65,7 @@
 												</span>
 												<h:selectOneMenu id="idAtivo"
 													value="#{alterarMeusDadosMB.aluno.ativo}"
-													styleClass="form-control"
+													styleClass="form-control-select"
 													disabled="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}">
 													<f:selectItem itemLabel="Sim" itemValue="#{true}" />
 													<f:selectItem itemLabel="Não" itemValue="#{false}" />
@@ -189,7 +189,7 @@
 												</span>
 												<h:selectOneMenu id="idSelSex"
 													value="#{alterarMeusDadosMB.aluno.sexo}"
-													styleClass="form-control"
+													styleClass="form-control-select"
 													readonly="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}">
 													<f:selectItem itemLabel="--Selecione--" itemValue="" />
 													<f:selectItem itemLabel="Masculino" itemValue="M" />
@@ -209,7 +209,7 @@
 												</span>
 												<h:selectOneMenu
 													value="#{alterarMeusDadosMB.aluno.statusAluno}"
-													id="idStatusAluno" styleClass="form-control"
+													id="idStatusAluno" styleClass="form-control-select"
 													readonly="true">
 													<f:selectItem itemLabel="--Selecione--" itemValue="" />
 													<f:selectItems value="#{alterarMeusDadosMB.variosStatus}"
@@ -229,7 +229,7 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<h:selectOneMenu value="#{alterarMeusDadosMB.aluno.curso}"
-													id="idCurso" styleClass="form-control"
+													id="idCurso" styleClass="form-control-select"
 													readonly="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}">
 													<f:selectItem itemLabel="--Selecione--" itemValue="" />
 													<f:selectItems value="#{alterarMeusDadosMB.cursos}"
@@ -400,7 +400,7 @@
 												</span>
 												<h:selectOneMenu id="idDSelSex"
 													value="#{alterarMeusDadosMB.docente.sexo}"
-													styleClass="form-control">
+													styleClass="form-control-select">
 													<f:selectItem itemLabel="Masculino" itemValue="M" />
 													<f:selectItem itemLabel="Feminino" itemValue="F" />
 												</h:selectOneMenu>
@@ -416,6 +416,7 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<p:inputMask id="idDCelular"
+													styleClass="form-control"
 													value="#{alterarMeusDadosMB.docente.celular}"
 													mask="99999-9999" maxlength="10"
 													converter="telefoneConverter" />
@@ -431,6 +432,7 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<p:inputMask id="idDFixo"
+													styleClass="form-control"
 													value="#{alterarMeusDadosMB.docente.telefoneFixo}"
 													mask="9999-9999" maxlength="9"
 													converter="telefoneConverter" />
@@ -463,7 +465,7 @@
 												</span>
 												<h:selectOneMenu id="idDAtivo"
 													value="#{alterarMeusDadosMB.docente.ativo}"
-													styleClass="form-control">
+													styleClass="form-control-select">
 													<f:selectItem itemLabel="Sim" itemValue="#{true}" />
 													<f:selectItem itemLabel="Não" itemValue="#{false}" />
 												</h:selectOneMenu>
@@ -481,7 +483,7 @@
 												<p:inputMask id="idDDataNasc"
 													value="#{alterarMeusDadosMB.docente.dataNascimento}"
 													mask="99/99/9999"
-													styleClass="form-control-calendar input-group-calendar"
+													styleClass="form-control input-group-calendar"
 													converter="dataConverter" />
 											</div>
 										</div>
@@ -511,8 +513,8 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:selectOneMenu id="idDTipo"
-														value="#{alterarMeusDadosMB.tipoDocente.idTipoDocente}"
-														styleClass="form-control" disabled="true">
+														value="#{alterarMeusDadosMB.docente.tipoDocente.idTipoDocente}"
+														styleClass="form-control-select" disabled="true">
 														<f:selectItems itemLabel="#{tipo.tipo}"
 															itemValue="#{tipo.idTipoDocente}" var="tipo"
 															value="#{alterarMeusDadosMB.getTipoDocentes()}" />
@@ -532,7 +534,7 @@
 													</span>
 													<h:selectOneMenu id="idDCurso"
 														value="#{alterarMeusDadosMB.docente.curso}"
-														styleClass="form-control" disabled="true">
+														styleClass="form-control-select" disabled="true">
 														<f:selectItems itemLabel="#{c.nome}"
 															itemValue="#{c.idCurso}" var="c"
 															value="#{alterarMeusDadosMB.getCursos()}" />
@@ -665,7 +667,7 @@
 										action="#{alterarMeusDadosMB.editarDocente()}" update="@form"
 										class="btn btn-primary" />
 									&nbsp;&nbsp;
-									<p:commandButton value="Cancelar" class="btn btn-primary"
+									<p:commandButton value="Cancelar" class="btn btn-default"
 										immediate="true" actionListener="index" update="@form" />
 								</div>
 								<br /> <br /> <br />

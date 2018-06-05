@@ -43,7 +43,8 @@
 												</span>
 												<h:selectOneMenu id="idCoordenador"
 													value="#{projetoMB.selecionaCoordenador}"
-													styleClass="form-control">
+													styleClass="form-control-select"
+													readonly="#{projetoMB.acaoEnum.getCodigo() == 0}">
 													<f:selectItem itemLabel="Docente" itemValue="1" />
 													<f:selectItem itemLabel="Externo" itemValue="2" />
 													<p:ajax event="change"
@@ -181,9 +182,8 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<h:selectOneMenu value="#{projetoMB.projeto.statusProjeto}"
-													id="idStatusProjeto" styleClass="form-control"
+													id="idStatusProjeto" styleClass="form-control-select"
 													readonly="#{projetoMB.acaoEnum.getCodigo() == 0}">
-													<f:selectItem itemLabel="--Selecione--" itemValue="" />
 													<f:selectItems value="#{projetoMB.variosStatus}"
 														var="linhaSP" itemValue="#{linhaSP}"
 														itemLabel="#{linhaSP.descricao}" />
@@ -201,9 +201,8 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<h:selectOneMenu value="#{projetoMB.projeto.tipoProjeto}"
-													id="idTipoProjeto" styleClass="form-control"
+													id="idTipoProjeto" styleClass="form-control-select"
 													readonly="#{projetoMB.acaoEnum.getCodigo() == 0}">
-													<f:selectItem itemLabel="--Selecione--" itemValue="" />
 													<f:selectItems value="#{projetoMB.variosTipos}"
 														var="linhaTP" itemValue="#{linhaTP}"
 														itemLabel="#{linhaTP.descricao}" />
@@ -221,9 +220,8 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<h:selectOneMenu value="#{projetoMB.projeto.linhaPesquisa}"
-													id="idLinhaPesquisa" styleClass="form-control"
+													id="idLinhaPesquisa" styleClass="form-control-select"
 													readonly="#{projetoMB.acaoEnum.getCodigo() == 0}">
-													<f:selectItem itemLabel="--Selecione--" itemValue="" />
 													<f:selectItems value="#{projetoMB.linhasPesquisa}"
 														var="linhaLP" itemValue="#{linhaLP}"
 														itemLabel="#{linhaLP.descricao}" />
@@ -604,7 +602,7 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<h:selectOneMenu value="#{projetoMB.projeto.statusProjeto}"
-													id="idStatusProjetoPesq" styleClass="form-control"
+													id="idStatusProjetoPesq" styleClass="form-control-select"
 													readonly="#{projetoMB.acaoEnum.getCodigo() == 0}">
 													<f:selectItem itemLabel="--Selecione--" itemValue="" />
 													<f:selectItems value="#{projetoMB.variosStatus}"
@@ -624,7 +622,7 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<h:selectOneMenu value="#{projetoMB.projeto.tipoProjeto}"
-													id="idTipoProjetoPesq" styleClass="form-control"
+													id="idTipoProjetoPesq" styleClass="form-control-select"
 													readonly="#{projetoMB.acaoEnum.getCodigo() == 0}">
 													<f:selectItem itemLabel="--Selecione--" itemValue="" />
 													<f:selectItems value="#{projetoMB.variosTipos}"
@@ -644,7 +642,7 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<h:selectOneMenu value="#{projetoMB.projeto.linhaPesquisa}"
-													id="idLinhaPesquisaPesq" styleClass="form-control"
+													id="idLinhaPesquisaPesq" styleClass="form-control-select"
 													readonly="#{projetoMB.acaoEnum.getCodigo() == 0}">
 													<f:selectItem itemLabel="--Selecione--" itemValue="" />
 													<f:selectItems value="#{projetoMB.linhasPesquisa}"

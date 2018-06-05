@@ -63,7 +63,6 @@ public class AlterarMeusDadosMB extends BaseMB {
 	private boolean resultado;
 	private Docente docente;
 	private String confirmarSenha;
-	private String auxSenha;
 	private TipoDocenteDao tipoDocenteDao;
 	private TipoDocente tipoDocente;
 	private List<Docente> docentes;
@@ -172,7 +171,7 @@ public class AlterarMeusDadosMB extends BaseMB {
 				setMessageSuccess("Atualizado com sucesso!");
 			}
 		} else {
-			this.docente.setSenha(this.auxSenha);
+			this.docente.setSenha(this.senhaAtual);
 			this.docente.setEndereco(this.docente.getEndereco());
 			this.docenteDao.update(this.docente);
 			cadastraHistoricoDocente("Foi alterado com sucesso.", this.docente);

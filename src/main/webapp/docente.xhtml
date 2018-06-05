@@ -95,7 +95,7 @@
 													</span>
 													<h:selectOneMenu id="idSelSex"
 														value="#{docenteMB.docente.sexo}"
-														styleClass="form-control"
+														styleClass="form-control-select"
 														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}">
 														<f:selectItem itemLabel="Masculino" itemValue="M" />
 														<f:selectItem itemLabel="Feminino" itemValue="F" />
@@ -112,6 +112,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<p:inputMask id="idCelular"
+														styleClass="form-control"
 														value="#{docenteMB.docente.celular}" mask="99999-9999"
 														maxlength="10"
 														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}"
@@ -128,6 +129,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<p:inputMask id="idFixo"
+														styleClass="form-control"
 														value="#{docenteMB.docente.telefoneFixo}" mask="9999-9999"
 														maxlength="9"
 														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}"
@@ -162,7 +164,7 @@
 													</span>
 													<h:selectOneMenu id="idAtivo"
 														value="#{docenteMB.docente.ativo}"
-														styleClass="form-control"
+														styleClass="form-control-select"
 														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}">
 														<f:selectItem itemLabel="Sim" itemValue="#{true}" />
 														<f:selectItem itemLabel="Não" itemValue="#{false}" />
@@ -181,7 +183,7 @@
 													<p:inputMask id="idDataNasc"
 														value="#{docenteMB.docente.dataNascimento}"
 														mask="99/99/9999"
-														styleClass="form-control-calendar input-group-calendar"
+														styleClass="form-control input-group-calendar"
 														converter="dataConverter" />
 												</div>
 											</div>
@@ -214,7 +216,7 @@
 														</span>
 														<h:selectOneMenu id="idTipo"
 															value="#{docenteMB.tipoDocente.idTipoDocente}"
-															styleClass="form-control"
+															styleClass="form-control-select"
 															disabled="#{docenteMB.acaoEnum.getCodigo() == 0}">
 															<f:selectItems itemLabel="#{tipo.tipo}"
 																itemValue="#{tipo.idTipoDocente}" var="tipo"
@@ -235,7 +237,7 @@
 														</span>
 														<h:selectOneMenu id="idCurso"
 															value="#{docenteMB.curso.idCurso}"
-															styleClass="form-control"
+															styleClass="form-control-select"
 															disabled="#{docenteMB.acaoEnum.getCodigo() == 0}">
 															<f:selectItems itemLabel="#{c.nome}"
 																itemValue="#{c.idCurso}" var="c"
