@@ -319,7 +319,7 @@
 														    </p:column>
 														    <p:column headerText="Ação" style="width:12%;text-align:center;">
 														 		
-															    <p:commandLink value="Download" action="#{producaoAcademicaMB.download(arq)}" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+															    <p:commandLink value="Download" action="#{producaoAcademicaMB.download(arq)}" ajax="false" icon="ui-icon-arrowthick-1-s">
 															        <p:fileDownload value="#{producaoAcademicaMB.file}" />
 															    </p:commandLink>
 															</p:column>
@@ -1493,15 +1493,6 @@
 							   </div>
 						</div>
 					</div>
-					<script type="text/javascript">
-						function start() {
-						    PF('statusDialog').show();
-						}
-						 
-						function stop() {
-						    PF('statusDialog').hide();
-						}
-				    </script>
 		    </h:form>
 	</ui:define>
 </ui:composition>
