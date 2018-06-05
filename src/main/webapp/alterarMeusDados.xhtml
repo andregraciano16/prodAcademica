@@ -1,0 +1,681 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="./template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+	<ui:define name="Conteudo">
+		<h:form id="idFormulario">
+
+			<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<ol class="breadcrumb" style="color: blue; background: #30a5ff">
+								<div class="titulo-centro-grande">Alterar meus dados</div>
+							</ol>
+
+						</div>
+
+						<p:messages id="messages" globalOnly="true" closable="true"
+							styleClass="mensagem-tela" />
+						<br />
+					</div>
+
+					<h:panelGroup rendered="#{menuMB.isAluno()}">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-4">
+										<p:outputLabel for="idMatricula" value="Matricula:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alterarMeusDadosMB.aluno.matricula}"
+												class="form-control" maxlength="10" id="idMatricula"
+												readonly="true" />
+										</div>
+
+									</div>
+									<div class="col-md-4">
+										<p:outputLabel for="idNome" value="Nome:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alterarMeusDadosMB.aluno.nome}"
+												class="form-control" maxlength="45" id="idNome"
+												readonly="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Ativo: " for="idAtivo"
+												styleClass="control-label"></h:outputLabel>
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:selectOneMenu id="idAtivo"
+													value="#{alterarMeusDadosMB.aluno.ativo}"
+													styleClass="form-control"
+													disabled="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}">
+													<f:selectItem itemLabel="Sim" itemValue="#{true}" />
+													<f:selectItem itemLabel="Não" itemValue="#{false}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+
+								</div>
+								<div class="row">
+
+									<div class="col-md-4">
+										<p:outputLabel for="idDataNasc" value="Data Nascimento: "
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<p:inputMask id="idDataNasc"
+												value="#{alterarMeusDadosMB.aluno.dataNascimento}"
+												mask="99/99/9999" class="form-control"
+												converter="dataConverter"
+												readonly="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}">
+												<p:watermark value="Dia/Mês/Ano" for="idDataNasc" />
+											</p:inputMask>
+										</div>
+									</div>
+
+									<div class="col-md-4">
+										<p:outputLabel for="idCelular" value="Celular:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+
+											<p:inputMask id="idCelular" class="form-control"
+												value="#{alterarMeusDadosMB.aluno.celular}"
+												mask="99999-9999" maxlength="10"
+												readonly="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}"
+												converter="telefoneConverter" />
+										</div>
+									</div>
+									<div class="col-md-4">
+										<p:outputLabel for="idFixo" value="Telefone Fixo:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<p:inputMask id="idFixo" class="form-control"
+												value="#{alterarMeusDadosMB.aluno.telefoneFixo}"
+												mask="9999-9999" maxlength="9"
+												readonly="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}"
+												converter="telefoneConverter" />
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Email:" for="idEmail"
+												styleClass="control-label"></h:outputLabel>
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<p:inputText value="#{alterarMeusDadosMB.aluno.email}"
+													class="form-control" maxlength="50"
+													disabled="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}"
+													id="idEmail">
+												</p:inputText>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Senha:" for="idSenha"
+												styleClass="control-label"></h:outputLabel>
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputSecret id="idSenha" class="form-control"
+													name="password" type="password"
+													disabled="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}"
+													value="#{alterarMeusDadosMB.aluno.senha}" />
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Repita a senha:" for="idRSenha"
+												styleClass="control-label"></h:outputLabel>
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputSecret id="idRSenha" class="form-control"
+													name="password" type="password"
+													disabled="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}"
+													value="#{alterarMeusDadosMB.verificaSenha}" />
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+
+									<div class="col-md-4">
+										<div class="form-group">
+											<p:outputLabel for="idSelSex" value="Sexo:"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:selectOneMenu id="idSelSex"
+													value="#{alterarMeusDadosMB.aluno.sexo}"
+													styleClass="form-control"
+													readonly="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}">
+													<f:selectItem itemLabel="--Selecione--" itemValue="" />
+													<f:selectItem itemLabel="Masculino" itemValue="M" />
+													<f:selectItem itemLabel="Feminino" itemValue="F" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-4">
+										<div class="form-group">
+											<p:outputLabel for="idStatusAluno" value="Status do aluno:"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:selectOneMenu
+													value="#{alterarMeusDadosMB.aluno.statusAluno}"
+													id="idStatusAluno" styleClass="form-control"
+													readonly="true">
+													<f:selectItem itemLabel="--Selecione--" itemValue="" />
+													<f:selectItems value="#{alterarMeusDadosMB.variosStatus}"
+														var="linhaSA" itemValue="#{linhaSA}"
+														itemLabel="#{linhaSA.descricao}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-4">
+										<div class="form-group">
+											<p:outputLabel for="idCurso" value="Curso:"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:selectOneMenu value="#{alterarMeusDadosMB.aluno.curso}"
+													id="idCurso" styleClass="form-control"
+													readonly="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}">
+													<f:selectItem itemLabel="--Selecione--" itemValue="" />
+													<f:selectItems value="#{alterarMeusDadosMB.cursos}"
+														var="linhaC" itemValue="#{linhaC}"
+														itemLabel="#{linhaC.nome}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-4">
+										<p:outputLabel for="idEstado" value="Estado"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alterarMeusDadosMB.endereco.estado}"
+												class="form-control" maxlength="2" id="idEstado"
+												readonly="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+									<div class="col-md-4">
+										<p:outputLabel for="idCidade" value="Cidade:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alterarMeusDadosMB.endereco.cidade}"
+												class="form-control" maxlength="30" id="idCidade"
+												readonly="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+									<div class="col-md-4">
+										<p:outputLabel for="idBairro" value="Bairro:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alterarMeusDadosMB.endereco.bairro}"
+												class="form-control" maxlength="30" id="idBairro"
+												readonly="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-4">
+										<p:outputLabel for="idEndRua" value="Rua:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alterarMeusDadosMB.endereco.rua}"
+												class="form-control" maxlength="30" id="idEndRua"
+												readonly="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+									<div class="col-md-4">
+										<p:outputLabel for="idEndCompl" value="Complemento:"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText
+												value="#{alterarMeusDadosMB.endereco.complemento}"
+												class="form-control" maxlength="30" id="idEndCompl"
+												readonly="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+									<div class="col-md-4">
+										<p:outputLabel for="idEndNum" value="Número"
+											styleClass="control-label" />
+										<div class="input-group">
+											<span class="input-group-addon"> <span
+												class="glyphicon glyphicon-tag"></span>
+											</span>
+											<h:inputText value="#{alterarMeusDadosMB.endereco.numero}"
+												class="form-control" maxlength="11" id="idEndNum"
+												readonly="#{alterarMeusDadosMB.acaoEnum.getCodigo() == 0}" />
+										</div>
+									</div>
+								</div>
+								<br /> <br />
+								<div class="form-group">
+									<p:commandButton value="Atualizar" class="btn-primary btn-md"
+										action="#{alterarMeusDadosMB.editar()}" update="@form"
+										styleClass="btn btn-primary" id="btnAtualizar" />
+									&nbsp;&nbsp;
+									<p:commandButton value="Cancelar" class="btn-primary btn-md"
+										action="index" update="@form" styleClass="btn btn-default"
+										id="btnCancelar" />
+								</div>
+							</div>
+						</div>
+					</h:panelGroup>
+
+
+
+
+
+
+
+
+
+
+
+					<h:panelGroup id="painel" rendered="#{!menuMB.isAluno()}">
+						<div class="panel panel-default">
+
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Matricula:" for="idDMatricula"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputText value="#{alterarMeusDadosMB.docente.matricula}"
+													class="form-control" maxlength="10" disabled="true"
+													id="idDMatricula" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Nome:" for="idDNome"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputText value="#{alterarMeusDadosMB.docente.nome}"
+													class="form-control" maxlength="10" id="idDNome" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Situação:" for="idDSituacao"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputText value="#{alterarMeusDadosMB.docente.situacao}"
+													class="form-control" maxlength="10" id="idDSituacao" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Sexo:" for="idDSelSex"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:selectOneMenu id="idDSelSex"
+													value="#{alterarMeusDadosMB.docente.sexo}"
+													styleClass="form-control">
+													<f:selectItem itemLabel="Masculino" itemValue="M" />
+													<f:selectItem itemLabel="Feminino" itemValue="F" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Celular:" for="idDCelular"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<p:inputMask id="idDCelular"
+													value="#{alterarMeusDadosMB.docente.celular}"
+													mask="99999-9999" maxlength="10"
+													converter="telefoneConverter" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Telefone Fixo:" for="idDFixo"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<p:inputMask id="idDFixo"
+													value="#{alterarMeusDadosMB.docente.telefoneFixo}"
+													mask="9999-9999" maxlength="9"
+													converter="telefoneConverter" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Email:" for="idDEmail"
+												styleClass="control-label"></h:outputLabel>
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<p:inputText value="#{alterarMeusDadosMB.docente.email}"
+													class="form-control" id="idDEmail" maxlength="50">
+												</p:inputText>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Ativo: " for="idDAtivo"
+												styleClass="control-label"></h:outputLabel>
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:selectOneMenu id="idDAtivo"
+													value="#{alterarMeusDadosMB.docente.ativo}"
+													styleClass="form-control">
+													<f:selectItem itemLabel="Sim" itemValue="#{true}" />
+													<f:selectItem itemLabel="Não" itemValue="#{false}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Data Nascimento:"
+												styleClass="control-label"></h:outputLabel>
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<p:inputMask id="idDDataNasc"
+													value="#{alterarMeusDadosMB.docente.dataNascimento}"
+													mask="99/99/9999"
+													styleClass="form-control-calendar input-group-calendar"
+													converter="dataConverter" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Ramal: " for="idDRamal"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputText value="#{alterarMeusDadosMB.docente.ramal}"
+													class="form-control" maxlength="10" id="idDRamal" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<div class="form-group">
+												<h:outputLabel value="Tipo docente:" for="idDTipo"
+													styleClass="control-label" />
+												<div class="input-group">
+													<span class="input-group-addon"> <span
+														class="glyphicon glyphicon-tag"></span>
+													</span>
+													<h:selectOneMenu id="idDTipo"
+														value="#{alterarMeusDadosMB.tipoDocente.idTipoDocente}"
+														styleClass="form-control" disabled="true">
+														<f:selectItems itemLabel="#{tipo.tipo}"
+															itemValue="#{tipo.idTipoDocente}" var="tipo"
+															value="#{alterarMeusDadosMB.getTipoDocentes()}" />
+													</h:selectOneMenu>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<div class="form-group">
+												<h:outputLabel value="Curso:" for="idDCurso"
+													styleClass="control-label" />
+												<div class="input-group">
+													<span class="input-group-addon"> <span
+														class="glyphicon glyphicon-tag"></span>
+													</span>
+													<h:selectOneMenu id="idDCurso"
+														value="#{alterarMeusDadosMB.docente.curso}"
+														styleClass="form-control" disabled="true">
+														<f:selectItems itemLabel="#{c.nome}"
+															itemValue="#{c.idCurso}" var="c"
+															value="#{alterarMeusDadosMB.getCursos()}" />
+													</h:selectOneMenu>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Estado:" for="idDEstado"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputText
+													value="#{alterarMeusDadosMB.docente.endereco.estado}"
+													class="form-control" maxlength="10" id="idDEstado" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Cidade:" for="idDCidade"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputText
+													value="#{alterarMeusDadosMB.docente.endereco.cidade}"
+													class="form-control" maxlength="10" id="idDCidade" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Bairro:" for="idDBairro"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputText
+													value="#{alterarMeusDadosMB.docente.endereco.bairro}"
+													class="form-control" id="idDBairro" maxlength="10" />
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Rua: " for="idDEndRua"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputText
+													value="#{alterarMeusDadosMB.docente.endereco.rua}"
+													class="form-control" id="idDEndRua" maxlength="10" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Complemento: " for="idDEndCompl"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputText
+													value="#{alterarMeusDadosMB.docente.endereco.complemento}"
+													class="form-control" maxlength="10" id="idDEndCompl" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Número: " for="idDEndNum"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputText
+													value="#{alterarMeusDadosMB.docente.endereco.numero}"
+													class="form-control" maxlength="10" id="idDEndNum" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Senha: " for="idDSenha"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputSecret value="#{alterarMeusDadosMB.docente.senha}"
+													class="form-control" maxlength="10" id="idDSenha" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<h:outputLabel value="Confimar Senha: " for="idDConfSenha"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												<h:inputSecret value="#{alterarMeusDadosMB.confirmarSenha}"
+													class="form-control" maxlength="10" id="idDConfSenha" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<br />
+								<div class="form-group">
+									<p:commandButton value="Atualizar"
+										action="#{alterarMeusDadosMB.editarDocente()}" update="@form"
+										class="btn btn-primary" />
+									&nbsp;&nbsp;
+									<p:commandButton value="Cancelar" class="btn btn-primary"
+										immediate="true" actionListener="index" update="@form" />
+								</div>
+								<br /> <br /> <br />
+							</div>
+						</div>
+					</h:panelGroup>
+
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
