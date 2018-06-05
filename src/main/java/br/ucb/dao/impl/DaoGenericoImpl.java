@@ -84,8 +84,9 @@ public class DaoGenericoImpl<T extends Serializable, Key> implements DaoGenerico
 			manager.getTransaction().commit();
 		} catch (PersistenceException e) {
 			e.printStackTrace();
+			manager.getTransaction().rollback();
 			return false;
-			//manager.getTransaction().rollback();
+			
 		}
 		return true;
 	}
