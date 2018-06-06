@@ -35,12 +35,16 @@
 
 					<h:panelGroup rendered="#{menuMB.isDiretor()}">
 						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3>Cadastrar ou Pesquisar</h3>
+							</div>
+							<br />
 							<div class="panel-body">
 								<p:messages id="message" globalOnly="true" closable="true" />
 								<br /> <br />
 								<div class="row">
 
-									<div class="col-md-4">
+									<div class="col-md-8">
 										<p:outputLabel for="idNome" value="Nome:"
 											styleClass="control-label" />
 										<div class="input-group">
@@ -85,12 +89,10 @@
 									emptyMessage="Não foram encontrados registros"
 									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
-									<p:ajax event="rowEdit"
-										listener="#{externoMB.editar(item)}"
+									<p:ajax event="rowEdit" listener="#{externoMB.editar(item)}"
 										update="idFormulario:idTable" />
 
-									<p:ajax event="rowEditCancel"
-										listener="#{externoMB.cancela}"
+									<p:ajax event="rowEditCancel" listener="#{externoMB.cancela}"
 										update="idFormulario:idTable" />
 
 									<p:column headerText="Nome">

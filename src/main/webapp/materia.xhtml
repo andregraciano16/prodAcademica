@@ -31,6 +31,10 @@
 					</h:panelGroup>
 					<h:panelGroup rendered="#{menuMB.isDiretor()}">
 						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3>Cadastrar ou Pesquisar</h3>
+							</div>
+							<br />
 							<div class="panel-body">
 
 
@@ -70,7 +74,7 @@
 												class="glyphicon glyphicon-tag"></span>
 											</span>
 											<h:selectOneMenu value="#{materiaMB.materia.linhaPesquisa}"
-												id="idLinhasPesquisa" styleClass="form-control">
+												id="idLinhasPesquisa" styleClass="form-control-select">
 
 												<f:selectItem itemLabel="--Selecione--" itemValue="" />
 												<f:selectItems value="#{materiaMB.linhasPesquisa}"

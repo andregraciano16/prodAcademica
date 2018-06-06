@@ -41,6 +41,10 @@
 					<h:panelGroup rendered="#{menuMB.isDiretor()}">
 						<h:panelGroup rendered="#{alunoMB.acaoEnum.getCodigo() != 3}">
 							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3>Insira os dados</h3>
+								</div>
+								<br />
 								<div class="panel-body">
 									<div class="row">
 										<div class="col-md-4">
@@ -78,7 +82,8 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:selectOneMenu id="idAtivo"
-														value="#{alunoMB.aluno.ativo}" styleClass="form-control"
+														value="#{alunoMB.aluno.ativo}"
+														styleClass="form-control-select"
 														disabled="#{alunoMB.acaoEnum.getCodigo() == 0}">
 														<f:selectItem itemLabel="Sim" itemValue="#{true}" />
 														<f:selectItem itemLabel="Não" itemValue="#{false}" />
@@ -200,9 +205,9 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:selectOneMenu id="idSelSex"
-														value="#{alunoMB.aluno.sexo}" styleClass="form-control"
+														value="#{alunoMB.aluno.sexo}"
+														styleClass="form-control-select"
 														readonly="#{alunoMB.acaoEnum.getCodigo() == 0}">
-														<f:selectItem itemLabel="--Selecione--" itemValue="" />
 														<f:selectItem itemLabel="Masculino" itemValue="M" />
 														<f:selectItem itemLabel="Feminino" itemValue="F" />
 													</h:selectOneMenu>
@@ -219,9 +224,8 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:selectOneMenu value="#{alunoMB.aluno.statusAluno}"
-														id="idStatusAluno" styleClass="form-control"
+														id="idStatusAluno" styleClass="form-control-select"
 														readonly="#{alunoMB.acaoEnum.getCodigo() == 0}">
-														<f:selectItem itemLabel="--Selecione--" itemValue="" />
 														<f:selectItems value="#{alunoMB.variosStatus}"
 															var="linhaSA" itemValue="#{linhaSA}"
 															itemLabel="#{linhaSA.descricao}" />
@@ -239,9 +243,8 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:selectOneMenu value="#{alunoMB.aluno.curso}"
-														id="idCurso" styleClass="form-control"
+														id="idCurso" styleClass="form-control-select"
 														readonly="#{alunoMB.acaoEnum.getCodigo() == 0}">
-														<f:selectItem itemLabel="--Selecione--" itemValue="" />
 														<f:selectItems value="#{alunoMB.cursos}" var="linhaC"
 															itemValue="#{linhaC}" itemLabel="#{linhaC.nome}" />
 													</h:selectOneMenu>
@@ -327,8 +330,7 @@
 											</div>
 										</div>
 									</div>
-									<br />
-									<br />
+									<br /> <br />
 									<h:panelGroup styleClass="panel-no-border"
 										rendered="#{alunoMB.acaoEnum.getCodigo() == 1}">
 										<div class="form-group">

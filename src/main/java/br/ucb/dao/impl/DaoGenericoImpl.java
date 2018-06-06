@@ -23,6 +23,8 @@ public class DaoGenericoImpl<T extends Serializable, Key> implements DaoGenerico
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			manager.getTransaction().rollback();
+		} finally {
+			manager.close();
 		}
 	}
 
@@ -35,17 +37,24 @@ public class DaoGenericoImpl<T extends Serializable, Key> implements DaoGenerico
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			manager.getTransaction().rollback();
+		} finally {
+			manager.close();
 		}
 	}
 
 	public List<T> list() {
+
 		manager = JPAUtil.getEntityManaged();
-		return manager.createQuery("from " + getTypeClass().getName()).getResultList();
+		List<T> t = manager.createQuery("from " + getTypeClass().getName()).getResultList();
+		manager.close();
+		return t;
 	}
 
 	public T findByKey(Class<T> t, Key key) {
 		manager = JPAUtil.getEntityManaged();
-		return manager.find(t, key);
+		T t2 = manager.find(t, key);
+		manager.close();
+		return t2;
 	}
 
 	public void remove(T t) {
@@ -57,10 +66,11 @@ public class DaoGenericoImpl<T extends Serializable, Key> implements DaoGenerico
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			manager.getTransaction().rollback();
+		} finally {
+			manager.close();
 		}
 	}
 
-	
 	public boolean saveM(T t) {
 		try {
 			manager = JPAUtil.getEntityManaged();
@@ -70,8 +80,10 @@ public class DaoGenericoImpl<T extends Serializable, Key> implements DaoGenerico
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			return false;
-			//manager.getTransaction().rollback();
-			
+			// manager.getTransaction().rollback();
+
+		} finally {
+			manager.close();
 		}
 		return true;
 	}
@@ -84,8 +96,11 @@ public class DaoGenericoImpl<T extends Serializable, Key> implements DaoGenerico
 			manager.getTransaction().commit();
 		} catch (PersistenceException e) {
 			e.printStackTrace();
+			manager.getTransaction().rollback();
 			return false;
-			//manager.getTransaction().rollback();
+
+		} finally {
+			manager.close();
 		}
 		return true;
 	}
@@ -99,11 +114,14 @@ public class DaoGenericoImpl<T extends Serializable, Key> implements DaoGenerico
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			return false;
-			//manager.getTransaction().rollback();
-			
+			// manager.getTransaction().rollback();
+
+		} finally {
+			manager.close();
 		}
 		return true;
 	}
+
 	private Class<?> getTypeClass() {
 		Class<?> clazz = (Class<?>) ((ParameterizedType) this.getClass().getGenericSuperclass())
 				.getActualTypeArguments()[0];
@@ -111,7 +129,7 @@ public class DaoGenericoImpl<T extends Serializable, Key> implements DaoGenerico
 	}
 
 	public EntityManager getManager() {
-		if(this.manager == null){
+		if (this.manager == null || !this.manager.isOpen()) {
 			this.manager = JPAUtil.getEntityManaged();
 		}
 		return this.manager;
@@ -120,5 +138,5 @@ public class DaoGenericoImpl<T extends Serializable, Key> implements DaoGenerico
 	public void setManager(EntityManager manager) {
 		this.manager = manager;
 	}
-	
+
 }

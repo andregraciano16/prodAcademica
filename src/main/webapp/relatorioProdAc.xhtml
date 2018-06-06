@@ -48,7 +48,7 @@
 											        <div class="input-group">
 														<span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
 	   									                <p:inputMask id="idDataNasc" value="#{relatorioProdAcMB.filtro.dataCadastro}" mask="99/99/9999"
-										                             styleClass="form-control-calendar input-group-calendar" converter="dataConverter"/>
+										                             styleClass="form-control input-group-calendar" converter="dataConverter"/>
 													</div>
 									        	</div>
 									        </div>
@@ -68,7 +68,9 @@
 										</div>
 										<div class="form-group" style="text-align:right;">
 										    <p:commandButton value="Pesquisar" action="#{relatorioProdAcMB.buscar()}" update="@form" class="btn btn-primary" />
+											&nbsp;&nbsp;
 											<p:commandButton value="Limpar" title="Limpar" class="btn btn-primary-cinza" actionListener="#{relatorioProdAcMB.limpar()}" update="@form"/>
+										    &nbsp;&nbsp;
 										    <p:commandButton value="Novo" action="/producaoAcademica.xhtml" update="@form" class="btn btn-primary" />
 										</div>
 									</div> 
