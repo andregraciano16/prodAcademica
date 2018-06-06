@@ -42,7 +42,6 @@ public class DocenteMB extends BaseMB{
 	private List<Docente> docentes;
 	private TipoDocente tipoDocente;
 	private Curso curso;
-	private EnderecoDao enderecoDao;
     private AcaoEnum acaoEnum;
     private DocenteVO docentePesq;
 	private Historico historico;
@@ -56,7 +55,6 @@ public class DocenteMB extends BaseMB{
 		this.docenteDao     = new DocenteDaoImpl();
 		this.tipoDocenteDao = new TipoDocenteDaoImpl();
 		this.cursoDao       = new CursoDaoImpl();
-		this.enderecoDao    = new EnderecoDaoImpl();
 		inicializar();
 	}
 	
@@ -108,6 +106,7 @@ public class DocenteMB extends BaseMB{
 	public void habiliarNovo(){
 		this.acaoEnum = AcaoEnum.CADASTRAR;
 		this.docente = new Docente();
+		this.docente.setEndereco(new Endereco());
 	}
 	
 	public void editar(){
@@ -132,10 +131,8 @@ public class DocenteMB extends BaseMB{
 			this.docente.setDataCadastro(new Date());
 			this.tipoDocente = this.tipoDocenteDao.findByKey(TipoDocente.class, tipoDocente.getIdTipoDocente());
 			this.curso       = this.cursoDao.findById(curso.getIdCurso());
-			this.enderecoDao.save(this.docente.getEndereco());
 			this.docente.setCurso(this.curso);
 			this.docente.setTipoDocente(this.tipoDocente);
-			this.docente.setEndereco(this.enderecoDao.find(this.docente.getEndereco()));
 			this.docenteDao.save(this.docente);
 			cadastraHistorico("Foi cadastrado com sucesso.", this.docenteDao.getDocentebyMatricula(this.docente.getMatricula()));
 			setMessageSuccess("Cadastrado com sucesso!");

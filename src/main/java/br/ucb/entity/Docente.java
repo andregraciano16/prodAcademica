@@ -2,6 +2,7 @@ package br.ucb.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -64,7 +65,7 @@ public class Docente extends EntidadeBase implements Comparable<Docente> {
 	@JoinColumn(name = "id_tipoDocente")
 	private TipoDocente tipoDocente;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_endereco")
 	private Endereco endereco;
 
