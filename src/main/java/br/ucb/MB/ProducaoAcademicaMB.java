@@ -3,7 +3,6 @@ package br.ucb.MB;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +17,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.NativeUploadedFile;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
@@ -424,6 +422,7 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.producaoAcademica.setLinhaPesquisa(this.linhaPesquisaDao.findById(this.linhaPesquisa.getIdLinhaPesquisa()));
 		this.producaoAcademica.setTipoProducao(this.tipoProducao);
 		this.producaoAcademica.setStatusProducao(this.statusProducao);
+		this.producaoAcademica.setStatusAprovacao(this.statusAprovacaoDao.findById(new Integer(1)));
 		montarNomeArquivos();
 		salvarTipoProducao();
 		salvarAutores();
