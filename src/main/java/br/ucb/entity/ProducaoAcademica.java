@@ -28,9 +28,6 @@ public class ProducaoAcademica extends EntidadeBase implements Comparable<Produc
 	@Column(name = "descricao")
 	private String descricao;
 
-	@Column(name = "conceitoQualis")
-	private String conceitoQualis;
-
 	@Column(name = "arquivo")
 	private String arquivo;
 
@@ -46,7 +43,6 @@ public class ProducaoAcademica extends EntidadeBase implements Comparable<Produc
 
 	@Column(name = "observacao")
 	private String observacao;
-	
 	
 	@ManyToOne
 	@JoinColumn(name = "id_statusAprovacao")
@@ -114,14 +110,6 @@ public class ProducaoAcademica extends EntidadeBase implements Comparable<Produc
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-
-	public String getConceitoQualis() {
-		return this.conceitoQualis;
-	}
-
-	public void setConceitoQualis(String conceitoQualis) {
-		this.conceitoQualis = conceitoQualis;
 	}
 
 	public String getArquivo() {

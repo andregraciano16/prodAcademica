@@ -53,6 +53,17 @@ public class ArtigoPeriodico extends EntidadeBase {
 	@JoinColumn(name = "id_producaoAcademica")
 	private ProducaoAcademica producaoAcademica;
 	
+	@Column(name = "conceitoQualis")
+	private String qualis;
+	
+	public String getQualis() {
+		return this.qualis;
+	}
+
+	public void setQualis(String qualis) {
+		this.qualis = qualis;
+	}
+
 	public ProducaoAcademica getProducaoAcademica() {
 		return this.producaoAcademica;
 	}
