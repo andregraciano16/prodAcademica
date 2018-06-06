@@ -287,9 +287,9 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		@SuppressWarnings("unchecked")
 		List<Object[]> resultados = getManager()
 				.createQuery(
-						"select year(a.producaoAcademica.dataCadastro), a.producaoAcademica.qualis, a.producaoAcademica.dataCadastro "
-								+ "from Autor a " 
-								+ "where year(a.producaoAcademica.dataCadastro) between ?1 and ?2 "
+						"select year(a.producaoAcademica.dataCadastro), ap.qualis, a.producaoAcademica.dataCadastro "
+								+ "from Autor a, ProducaoAcademica p , ArtigoPeriodico ap  " 
+								+ "where p.idProducaoAcademica = ap.producaoAcademica.idProducaoAcademica and p.idProducaoAcademica = a.producaoAcademica.idProducaoAcademica and year(a.producaoAcademica.dataCadastro) between ?1 and ?2 "
 								+ "and a.codAutor = ?3 " + "order by year(a.producaoAcademica.dataCadastro) asc")
 				.setParameter(1, Integer.valueOf(anoInicio)).setParameter(2, Integer.valueOf(anoFim))
 				.setParameter(3, cod).getResultList();
