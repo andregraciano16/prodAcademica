@@ -235,6 +235,8 @@ public class ProducaoAcademicaMB extends BaseMB {
 			initTiposProducaoNewPage();
 			initAutores();
 			initArquivos();
+		}else{
+			this.producaoAcademica = new ProducaoAcademica();
 		}
 		if(this.acaoEnum == null){
 			this.acaoEnum = AcaoEnum.CADASTRAR;
