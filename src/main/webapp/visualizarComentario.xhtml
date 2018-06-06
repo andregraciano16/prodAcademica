@@ -35,7 +35,7 @@
 					<h:panelGroup rendered="#{menuMB.isDiretor()}">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-								<h3>Cadastrar ou Pesquisar</h3>
+								 <h:outputText value="Buscar comentários"/>
 							</div>
 							<br />
 								<div class="panel-body">
@@ -50,9 +50,11 @@
 													<span class="input-group-addon">
 														<span class="glyphicon glyphicon-tag"></span>
 													</span>
-   									                <p:calendar id="idCadastro" value="#{comentarioMB.comentario.dataCadastro}" 
-									                        pattern="dd/MM/yyyy" styleClass="form-control-calendar input-group-calendar" locale="pt"
-									                        readonlyInput="true" navigator="true"/>
+   									                <p:inputMask id="idCadastro"
+														value="#{comentarioMB.comentario.dataCadastro}" mask="99/99/9999"
+														class="form-control" converter="dataConverter">
+														<p:watermark value="Dia/Mês/Ano" for="idCadastro" />
+													</p:inputMask>
 												</div>
 								        	</div>
 								        </div>

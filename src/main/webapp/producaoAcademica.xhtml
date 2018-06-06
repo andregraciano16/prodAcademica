@@ -19,7 +19,8 @@
 							</div>
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h3>Insira os dados</h3>
+									<h:outputText value="Insira os dados" rendered="#{!(producaoAcademicaMB.acaoEnum.codigo eq 0)}"/>
+									<h:outputText value="Dados da produção" rendered="#{producaoAcademicaMB.acaoEnum.codigo eq 0}"/>
 								</div>
 								<br />
 								<div class="panel-body">
