@@ -20,22 +20,28 @@ public class ComentarioDaoImpl extends DaoGenericoImpl<Comentario, Integer> impl
 	}
 	
 	public void montarParametrs(Query query, Comentario comentario){
+		int contador = 0;
 		if(StringUtil.isNotNullIsNotEmpty(comentario.getTitulo())){
-			query.setParameter(1, "%"+ comentario.getTitulo() + "%");
+			contador++;
+			query.setParameter(contador, "%"+ comentario.getTitulo() + "%");
 		}
 		if(comentario.getDataCadastro() != null){
-			query.setParameter(2, "%"+ comentario.getDataCadastro() + "%");
+			contador++;
+			query.setParameter(contador, comentario.getDataCadastro());
 		}
 	}
 	
 	public String montarWhere(Comentario comentario){
+		int contador = 0;
 		StringBuilder consulta = new StringBuilder();
 		consulta.append(" WHERE 1=1 ");
 		if(StringUtil.isNotNullIsNotEmpty(comentario.getTitulo())){
-			consulta.append(" and t.titulo like ?1 ");
+			contador++;
+			consulta.append(" and t.titulo like ?" + contador);
 		}
 		if(comentario.getDataCadastro() != null){
-			consulta.append(" and date(t.dataCadastro) = date(?2) ");
+			contador++;
+			consulta.append(" and DATE(t.dataCadastro) = DATE_FORMAT(?"+contador+",'%Y-%m-%d') ");
 		}
 		return consulta.toString();
 	}
