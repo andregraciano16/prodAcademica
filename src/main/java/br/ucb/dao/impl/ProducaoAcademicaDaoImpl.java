@@ -128,7 +128,7 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		@SuppressWarnings("unchecked")
 		List<Object[]> resultados = getManager()
 				.createQuery(
-						"select year(pa.dataCadastro), pa.conceitoQualis, pa.dataCadastro from ProducaoAcademica pa order by year(pa.dataCadastro) asc")
+						"select year(pa.producaoAcademica.dataCadastro), pa.qualis, pa.producaoAcademica.dataCadastro from ArtigoPeriodico pa order by year(pa.producaoAcademica.dataCadastro) asc")
 				.getResultList();
 
 		return resultados;
@@ -151,7 +151,7 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		@SuppressWarnings("unchecked")
 		List<Object[]> resultados = getManager()
 				.createQuery(
-						"select year(pa.dataCadastro), pa.conceitoQualis, pa.dataCadastro from ProducaoAcademica pa where year(pa.dataCadastro) between ?1 and ?2 order by year(pa.dataCadastro) asc")
+						"select year(pa.producaoAcademica.dataCadastro), pa.qualis, pa.producaoAcademica.dataCadastro from ArtigoPeriodico pa where year(pa.producaoAcademica.dataCadastro) between ?1 and ?2 order by year(pa.producaoAcademica.dataCadastro) asc")
 				.setParameter(1, Integer.valueOf(anoInicio)).setParameter(2, Integer.valueOf(anoFim)).getResultList();
 
 		return resultados;
@@ -287,7 +287,7 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		@SuppressWarnings("unchecked")
 		List<Object[]> resultados = getManager()
 				.createQuery(
-						"select year(a.producaoAcademica.dataCadastro), a.producaoAcademica.conceitoQualis, a.producaoAcademica.dataCadastro "
+						"select year(a.producaoAcademica.dataCadastro), a.producaoAcademica.qualis, a.producaoAcademica.dataCadastro "
 								+ "from Autor a " 
 								+ "where year(a.producaoAcademica.dataCadastro) between ?1 and ?2 "
 								+ "and a.codAutor = ?3 " + "order by year(a.producaoAcademica.dataCadastro) asc")
@@ -301,7 +301,7 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 
 		@SuppressWarnings("unchecked")
 		List<Object[]> resultados = getManager().createQuery(
-				"select year(a.producaoAcademica.dataCadastro), a.producaoAcademica.conceitoQualis, a.producaoAcademica.dataCadastro "
+				"select year(a.producaoAcademica.dataCadastro), a.producaoAcademica.qualis, a.producaoAcademica.dataCadastro "
 						+ "from Autor a " 
 						+ "and a.codAutor = ?1 "
 						+ "order by year(a.producaoAcademica.dataCadastro) asc")
