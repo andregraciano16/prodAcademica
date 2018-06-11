@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Fetch;
 
 @Entity
 public class Projeto implements Serializable{
@@ -61,13 +64,16 @@ public class Projeto implements Serializable{
 	@JoinColumn(name = "id_externo")
 	private Externo externoResponsavel;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
+	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT) 
 	private List<Aluno> alunosParticipantes;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
+	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT) 
 	private List<Docente> docentesParticipantes;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
+	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT) 
 	private List<Externo> externoParticipantes;
 
 	public Integer getIdProjeto() {
