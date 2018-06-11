@@ -274,6 +274,7 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 				.setParameter(1, cod).getResultList();
 
 		for (Object[] obj : resultados) {
+			producao = new AprovacaoProducaoVO();
 			producao.setId((Integer) obj[0]);
 			producao.setTitulo((String) obj[1]);
 			producao.setDescricao((String) obj[2]);

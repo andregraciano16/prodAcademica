@@ -197,6 +197,9 @@ public class ProducaoAcademicaMB extends BaseMB {
 	private List<File> files;
 	private StreamedContent file;
 	
+	private String orientadorDesc;
+	private String coorientadorDesc;
+	
 	@PostConstruct
 	public void init() {
 		this.externoDao        = new ExternoDaoImpl          ();
@@ -261,12 +264,20 @@ public class ProducaoAcademicaMB extends BaseMB {
 		List<Autor> autores = autorDao.findAutorByIDProducao(this.producaoAcademica.getIdProducaoAcademica());
 	    this.autoresVO = new ArrayList<AutorVO>();
 		for(Autor autor : autores){
-			if(autor.getTipoAutor().equals("PROFESSOR") || autor.getTipoAutor().equals("DIRETOR")){
+			if((autor.getTipoAutor().equals("PROFESSOR") || autor.getTipoAutor().equals("DIRETOR")) && (autor.getTipoAcao().equals("AUTOR"))){
 				Docente docente = docenteDao.findById(autor.getCodAutor());
 				this.autoresVO.add(montarAutorVO(docente));
-			} else if(autor.getTipoAutor().equals("ALUNO")){
+			} else if(autor.getTipoAutor().equals("ALUNO")&& (autor.getTipoAcao().equals("AUTOR"))){
 				Aluno aluno = alunoDao.findById(autor.getCodAutor());
 				this.autoresVO.add(montarAutorVO(aluno));
+			}else if(autor.getTipoAcao().equals("COORIENTADOR")){
+				Docente docente = docenteDao.findById(autor.getCodAutor());
+				AutorVO vo = montarAutorVO(docente);
+				this.coorientadorDesc = vo.getMatricula() + " - " + vo.getNome();
+			}else if(autor.getTipoAcao().equals("ORIENTADOR")){
+				Docente docente = docenteDao.findById(autor.getCodAutor());
+				AutorVO vo = montarAutorVO(docente);
+				this.orientadorDesc = vo.getMatricula() + " - " + vo.getNome();
 			}
 		}
 	}
@@ -642,8 +653,14 @@ public class ProducaoAcademicaMB extends BaseMB {
 	}
 	
 	public Autor montarOrientador(String tipo, ProducaoAcademica pa){
-		if(this.coorientador != null){
-			Docente  docente = docenteDao.findById(this.coorientador.getCodAutor());
+		Autor participante = null;
+		if(tipo.equals("COORIENTADOR")){
+			participante = this.coorientador;
+		}else{
+			participante = this.orientador;
+		}
+		if(participante != null){
+			Docente  docente = docenteDao.findById(participante.getCodAutor());
 			if(docente != null){
 				Autor autor = new Autor();
 				autor.setCodAutor(docente.getIdDocente());
@@ -1131,6 +1148,22 @@ public class ProducaoAcademicaMB extends BaseMB {
 			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;
+	}
+
+	public String getOrientadorDesc() {
+		return this.orientadorDesc;
+	}
+
+	public void setOrientadorDesc(String orientadorDesc) {
+		this.orientadorDesc = orientadorDesc;
+	}
+
+	public String getCoorientadorDesc() {
+		return this.coorientadorDesc;
+	}
+
+	public void setCoorientadorDesc(String coorientadorDesc) {
+		this.coorientadorDesc = coorientadorDesc;
 	}
 
 	public List<File> getFiles() {
