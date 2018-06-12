@@ -23,7 +23,7 @@ public class ApresentacaoTrabalho extends EntidadeBase {
 	private Integer natureza;
 
 	@Column(name = "evento")
-	private Integer evento;
+	private String evento;
 	
 	@Column(name = "instituicaoPromotora")
 	private String instituicaoPromotora;
@@ -32,7 +32,7 @@ public class ApresentacaoTrabalho extends EntidadeBase {
 	private Integer idioma;
 
 	@Column(name = "local")
-	private Integer local;
+	private String local;
 
 	@Column(name = "cidade")
 	private String cidade;
@@ -60,14 +60,6 @@ public class ApresentacaoTrabalho extends EntidadeBase {
 		this.natureza = natureza;
 	}
 
-	public Integer getEvento() {
-		return this.evento;
-	}
-
-	public void setEvento(Integer evento) {
-		this.evento = evento;
-	}
-
 	public String getInstituicaoPromotora() {
 		return this.instituicaoPromotora;
 	}
@@ -82,14 +74,6 @@ public class ApresentacaoTrabalho extends EntidadeBase {
 
 	public void setIdioma(Integer idioma) {
 		this.idioma = idioma;
-	}
-
-	public Integer getLocal() {
-		return this.local;
-	}
-
-	public void setLocal(Integer local) {
-		this.local = local;
 	}
 
 	public String getCidade() {
@@ -115,5 +99,23 @@ public class ApresentacaoTrabalho extends EntidadeBase {
 	public void setProducaoAcademica(ProducaoAcademica producaoAcademica) {
 		this.producaoAcademica = producaoAcademica;
 	}
+
+	public String getEvento() {
+		return this.evento;
+	}
+
+	public void setEvento(String evento) {
+		this.evento = evento;
+	}
+
+	public String getLocal() {
+		return this.local;
+	}
+
+	public void setLocal(String local) {
+		this.local = local;
+	}
+	
+	
 	
 }
