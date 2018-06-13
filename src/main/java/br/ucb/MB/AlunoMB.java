@@ -103,13 +103,18 @@ public class AlunoMB extends BaseMB {
 	}
 
 	public void editar() {
-
+		
+		if (!this.verificaMatricula.equals(this.aluno.getMatricula())){
+			this.alunos.remove(this.aluno);
+		}
+		
 		if (this.aluno != null && !verificaVazio(this.aluno, this.endereco)) {
 			if (!this.verificaMatricula.equals(this.aluno.getMatricula()) && this.alunos.contains(this.aluno)) {
 				setMessageError("Esta matricula já está cadastrada, por favor insira uma nova.");
 				
 			} else if (StringUtil.isNotNullIsNotEmpty(this.verificaSenha)
 					|| StringUtil.isNotNullIsNotEmpty(this.aluno.getSenha())) {
+				
 				if (validarSenhaAluno()) {
 					this.enderecoDao.update(this.endereco);
 					this.resultado = this.alunoDao.updateM(this.aluno);
@@ -135,7 +140,10 @@ public class AlunoMB extends BaseMB {
 			setMessageError("Preencha os campos corretamente.");
 		}
 		
-
+		if(!this.verificaMatricula.equals(this.aluno.getMatricula())){
+			this.alunos = this.alunoDao.list();
+		}
+		
 	}
 
 	private boolean validarSenhaAluno() {
