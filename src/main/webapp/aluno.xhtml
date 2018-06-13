@@ -449,7 +449,7 @@
 										emptyMessage="Não foram encontrados registros"
 										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
-										<p:column headerText="Matrícula">
+										<p:column headerText="Matrícula" style="width:10%;">
 											<h:outputText value="#{item.matricula}" />
 										</p:column>
 
@@ -457,7 +457,7 @@
 											<h:outputText value="#{item.nome}" />
 										</p:column>
 
-										<p:column headerText="Data de Cadastro">
+										<p:column headerText="Data de Cadastro" style="width:9%;">
 
 											<p:cellEditor>
 
@@ -481,7 +481,7 @@
 											<h:outputText value="#{item.curso.nome}" />
 										</p:column>
 
-										<p:column headerText="Ativo">
+										<p:column headerText="Ativo" style="width:8%;">
 											<h:outputText
 												value="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}"
 												title="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}" />
