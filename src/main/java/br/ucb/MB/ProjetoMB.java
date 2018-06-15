@@ -11,10 +11,12 @@ import javax.faces.bean.ViewScoped;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import br.ucb.VO.AprovacaoProducaoVO;
 import br.ucb.dao.AlunoDao;
 import br.ucb.dao.DocenteDao;
 import br.ucb.dao.ExternoDao;
 import br.ucb.dao.HistoricoDao;
+import br.ucb.dao.ProducaoAcademicaDao;
 import br.ucb.dao.ProjetoDao;
 import br.ucb.dao.StatusProjetoDao;
 import br.ucb.dao.impl.ProjetoDaoImpl;
@@ -23,6 +25,7 @@ import br.ucb.dao.impl.DocenteDaoImpl;
 import br.ucb.dao.impl.ExternoDaoImpl;
 import br.ucb.dao.impl.HistoricoDaoImpl;
 import br.ucb.dao.impl.LinhaPesquisaDaoImpl;
+import br.ucb.dao.impl.ProducaoAcademicaDaoImpl;
 import br.ucb.dao.impl.StatusProjetoDaoImpl;
 import br.ucb.dao.impl.TipoProjetoDaoImpl;
 import br.ucb.entity.Projeto;
@@ -36,7 +39,6 @@ import br.ucb.entity.TipoProjeto;
 import br.ucb.enums.AcaoEnum;
 import br.ucb.security.Seguranca;
 import br.ucb.security.UsuarioSistema;
-import javassist.expr.Instanceof;
 
 @ManagedBean(name = "projetoMB")
 @ViewScoped
@@ -58,6 +60,11 @@ public class ProjetoMB extends BaseMB {
 	private List<Externo> externos;
 	private List<Externo> externosSelecionados;
 	private Externo externoSelecionado;
+	private List<AprovacaoProducaoVO> producoes;
+	private List<AprovacaoProducaoVO> producoesSelecionadas;
+	private List<AprovacaoProducaoVO> producoesAntigasSelecionadas;
+	private AprovacaoProducaoVO producaoSelecionada;
+	private ProducaoAcademicaDao producaoAcademicaDao;
 	private AlunoDao alunoDao;
 	private Aluno alunoSelecionado;
 	private Docente temp;
@@ -95,6 +102,8 @@ public class ProjetoMB extends BaseMB {
 				setMessageError("Escolha só um coordenador.");
 			} else {
 				resultado = this.projetoDao.saveM(this.projeto);
+				this.projeto = (Projeto) this.projetoDao.find(this.projeto);
+				salvaProducoesVinculadas();
 				if (this.resultado) {
 					cadastraHistorico("Foi cadastrado com sucesso.", this.projetoDao.find(this.projeto));
 					setMessageSuccess("Cadastrado com sucesso.");
@@ -121,7 +130,7 @@ public class ProjetoMB extends BaseMB {
 			setMessageSuccess("Excluído com sucesso.");
 		} else {
 			setMessageError(
-					"Houve um erro ao deletar no sistema. Por favor, apague o histórico e qualquer relação com este registro.");
+					"Houve um erro ao deletar no sistema. Por favor, apague o histórico, e/ou desvincule as produções acadêmicas com este projeto.");
 		}
 		init();
 	}
@@ -133,6 +142,8 @@ public class ProjetoMB extends BaseMB {
 				setMessageError("Escolha só um coordenador.");
 			} else {
 				this.resultado = this.projetoDao.updateM(this.projeto);
+				verificaProducoesVinculadas();
+				salvaProducoesVinculadas();
 				if (this.resultado) {
 					cadastraHistorico("Foi alterado com sucesso.", this.projeto);
 					setMessageSuccess("Atualizado com sucesso.");
@@ -153,12 +164,21 @@ public class ProjetoMB extends BaseMB {
 
 	}
 
+	private void verificaProducoesVinculadas() {
+		for (AprovacaoProducaoVO producao : producoesAntigasSelecionadas) {
+			this.producaoAcademicaDao.desvinculaProjeto(producao);
+		}
+	}
+
 	public void prepararEdicao(Projeto projeto) {
 		this.projeto = projeto;
 		this.docentesSelecionados = projeto.getDocentesParticipantes();
 		this.alunosSelecionados = projeto.getAlunosParticipantes();
 		this.externosSelecionados = projeto.getExternoParticipantes();
-
+		this.producoesSelecionadas = this.producaoAcademicaDao.getProducoesbyProjetoId(projeto.getIdProjeto());
+		this.producoesAntigasSelecionadas = new ArrayList<AprovacaoProducaoVO>(this.producoesSelecionadas.size());
+		for (AprovacaoProducaoVO item : this.producoesSelecionadas)
+			producoesAntigasSelecionadas.add(item);
 		if (this.projeto.getDocenteResponsavel() != null) {
 			this.selecionaCoordenador = "1";
 		} else {
@@ -172,6 +192,7 @@ public class ProjetoMB extends BaseMB {
 		this.docentesSelecionados = projeto.getDocentesParticipantes();
 		this.alunosSelecionados = projeto.getAlunosParticipantes();
 		this.externosSelecionados = projeto.getExternoParticipantes();
+		this.producoesSelecionadas = this.producaoAcademicaDao.getProducoesbyProjetoId(projeto.getIdProjeto());
 
 		if (this.projeto.getDocenteResponsavel() != null) {
 			this.selecionaCoordenador = "1";
@@ -208,14 +229,19 @@ public class ProjetoMB extends BaseMB {
 	}
 
 	public void guardaParticipanteAluno(Aluno selecionado) {
-		if (selecionado != null && this.alunos.contains(selecionado)) {
-			this.alunosSelecionados.add(selecionado);
-			this.alunos.remove(selecionado);
-		} else {
-			if (selecionado == null)
-				setMessageError("Esse aluno não existe.");
-			if (selecionado != null && this.alunosSelecionados.contains(selecionado))
-				setMessageError("Este aluno já foi selecionado.");
+
+		try {
+			if (selecionado != null && this.alunos.contains(selecionado)) {
+				this.alunosSelecionados.add(selecionado);
+				this.alunos.remove(selecionado);
+			} else {
+				if (selecionado == null)
+					setMessageError("Esse aluno não existe.");
+				if (selecionado != null && this.alunosSelecionados.contains(selecionado))
+					setMessageError("Este aluno já foi selecionado.");
+			}
+		} catch (Exception e) {
+			setMessageError("Esse aluno não existe.");
 		}
 
 	}
@@ -262,14 +288,18 @@ public class ProjetoMB extends BaseMB {
 	}
 
 	public void guardaParticipanteDocente(Docente selecionado) {
-		if (selecionado != null && this.docentes.contains(selecionado)) {
-			this.docentesSelecionados.add(selecionado);
-			this.docentes.remove(selecionado);
-		} else {
-			if (selecionado == null)
-				setMessageError("Esse docente não existe ou já é o reponsável pelo projeto.");
-			if (selecionado != null && this.docentesSelecionados.contains(selecionado))
-				setMessageError("Este docente já foi selecionado.");
+		try {
+			if (selecionado != null && this.docentes.contains(selecionado)) {
+				this.docentesSelecionados.add(selecionado);
+				this.docentes.remove(selecionado);
+			} else {
+				if (selecionado == null)
+					setMessageError("Esse docente não existe ou já é o reponsável pelo projeto.");
+				if (selecionado != null && this.docentesSelecionados.contains(selecionado))
+					setMessageError("Este docente já foi selecionado.");
+			}
+		} catch (Exception e) {
+			setMessageError("Esse docente não existe ou já é o reponsável pelo projeto.");
 		}
 
 	}
@@ -287,6 +317,42 @@ public class ProjetoMB extends BaseMB {
 			this.externos.add(this.tempE);
 			this.tempE = null;
 		}
+	}
+
+	public List<AprovacaoProducaoVO> escolheProducoes(String query) {
+		List<AprovacaoProducaoVO> producoesFiltradas = new ArrayList<AprovacaoProducaoVO>();
+
+		for (int i = 0; i < this.producoes.size(); i++) {
+			AprovacaoProducaoVO producao = this.producoes.get(i);
+			if (producao.getTitulo().toLowerCase().startsWith(query.toLowerCase())) {
+				producoesFiltradas.add(producao);
+			}
+		}
+
+		return producoesFiltradas;
+	}
+
+	public void guardaProducao(AprovacaoProducaoVO selecionada) {
+
+		try {
+			if (selecionada != null && this.producoes.contains(selecionada)) {
+				this.producoesSelecionadas.add(selecionada);
+				this.producoes.remove(selecionada);
+			} else {
+				if (selecionada == null)
+					setMessageError("Essa produção não existe ou já está vinculada a outro projeto");
+				if (selecionada != null && this.externosSelecionados.contains(selecionada))
+					setMessageError("Esta produção já foi selecionada.");
+			}
+		} catch (Exception e) {
+			setMessageError("Essa produção não existe ou já está vinculada a outro projeto");
+		}
+
+	}
+
+	public void removeProducao(AprovacaoProducaoVO selecionada) {
+		this.producoesSelecionadas.remove(selecionada);
+		this.producoes.add(selecionada);
 	}
 
 	public List<Externo> escolheExterno(String query) {
@@ -315,16 +381,20 @@ public class ProjetoMB extends BaseMB {
 		return externosFiltrados;
 	}
 
-	public void guardaParticipanteExterno(Externo selecionado) {	
-		
-		if (selecionado != null && this.externos.contains(selecionado)) {
-			this.externosSelecionados.add(selecionado);
-			this.externos.remove(selecionado);
-		} else {
-			if (selecionado == null)
-				setMessageError("Esse externo não existe ou já é o reponsável pelo projeto.");
-			if (selecionado != null && this.externosSelecionados.contains(selecionado))
-				setMessageError("Este externo já foi selecionado.");
+	public void guardaParticipanteExterno(Externo selecionado) {
+
+		try {
+			if (selecionado != null && this.externos.contains(selecionado)) {
+				this.externosSelecionados.add(selecionado);
+				this.externos.remove(selecionado);
+			} else {
+				if (selecionado == null)
+					setMessageError("Esse externo não existe ou já é o reponsável pelo projeto.");
+				if (selecionado != null && this.externosSelecionados.contains(selecionado))
+					setMessageError("Este externo já foi selecionado.");
+			}
+		} catch (Exception e) {
+			setMessageError("Esse externo não existe ou já é o reponsável pelo projeto.");
 		}
 
 	}
@@ -345,6 +415,7 @@ public class ProjetoMB extends BaseMB {
 				this.docentes = this.docenteDao.list();
 				this.alunos = this.alunoDao.list();
 				this.externos = this.externoDao.list();
+				this.producoes = this.producaoAcademicaDao.listAprovacaoProducaoVO();
 			} else {
 				this.projetos = this.projetoDao.findBySearch(this.projeto);
 				this.variosStatus = this.statusProjetoDao.list();
@@ -379,7 +450,6 @@ public class ProjetoMB extends BaseMB {
 		this.projeto.setTipoProjeto(null);
 		this.projeto.setDocenteResponsavel(null);
 		this.projeto.setExternoResponsavel(null);
-
 		this.projeto.setAlunosParticipantes(null);
 		this.projeto.setDocentesParticipantes(null);
 		this.projeto.setExternoParticipantes(null);
@@ -390,7 +460,10 @@ public class ProjetoMB extends BaseMB {
 		this.docentesSelecionados = new ArrayList<Docente>();
 		this.alunosSelecionados = new ArrayList<Aluno>();
 		this.externosSelecionados = new ArrayList<Externo>();
+		this.producoesSelecionadas = new ArrayList<AprovacaoProducaoVO>();
+		this.producoesAntigasSelecionadas = new ArrayList<AprovacaoProducaoVO>();
 		this.projetoDao = new ProjetoDaoImpl();
+		this.producaoAcademicaDao = new ProducaoAcademicaDaoImpl();
 		this.statusProjetoDao = new StatusProjetoDaoImpl();
 		this.tipoProjetoDao = new TipoProjetoDaoImpl();
 		this.linhaPesquisaDao = new LinhaPesquisaDaoImpl();
@@ -431,6 +504,12 @@ public class ProjetoMB extends BaseMB {
 
 		return false;
 
+	}
+
+	private void salvaProducoesVinculadas() {
+		for (AprovacaoProducaoVO producao : producoesSelecionadas) {
+			producaoAcademicaDao.aplicaProjeto(this.projeto, producao);
+		}
 	}
 
 	public void cadastraHistorico(String mensagem, Projeto projeto) {
@@ -658,6 +737,30 @@ public class ProjetoMB extends BaseMB {
 
 	public void setExternosSelecionados(List<Externo> externosSelecionados) {
 		this.externosSelecionados = externosSelecionados;
+	}
+
+	public List<AprovacaoProducaoVO> getProducoes() {
+		return producoes;
+	}
+
+	public void setProducoes(List<AprovacaoProducaoVO> producoes) {
+		this.producoes = producoes;
+	}
+
+	public List<AprovacaoProducaoVO> getProducoesSelecionadas() {
+		return producoesSelecionadas;
+	}
+
+	public void setProducoesSelecionadas(List<AprovacaoProducaoVO> producoesSelecionadas) {
+		this.producoesSelecionadas = producoesSelecionadas;
+	}
+
+	public AprovacaoProducaoVO getProducaoSelecionada() {
+		return producaoSelecionada;
+	}
+
+	public void setProducaoSelecionada(AprovacaoProducaoVO producaoSelecionada) {
+		this.producaoSelecionada = producaoSelecionada;
 	}
 
 	public boolean isDiretor() {

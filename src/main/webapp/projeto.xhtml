@@ -476,6 +476,69 @@
 										</p:dataTable>
 									</div>
 								</div>
+								
+								
+								<h:panelGroup id="panelProducoesVinculadas"
+									rendered="#{projetoMB.acaoEnum.getCodigo() != 0}">
+									<div class="row">
+										<div class="col-md-8">
+											<p:outputLabel for="idProdSel"
+												value="Produções Vinculadas:" styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+												
+												<p:autoComplete value="#{projetoMB.producaoSelecionada}"
+													maxlength="45" id="idProdSel"
+													completeMethod="#{projetoMB.escolheProducoes}"
+													effect="fade" var="prod" itemLabel="#{prod.titulo}"
+													itemValue="#{prod}" />
+											</div>
+
+										</div>
+
+										<br /> <br /> <br /> <br />&nbsp;&nbsp;&nbsp;
+										<p:commandButton value="Cadastrar Produção"
+											action="#{projetoMB.guardaProducao(projetoMB.producaoSelecionada)}"
+											update="@form" id="btnCadastrarParticipanteP" />
+
+									</div>
+								</h:panelGroup>
+
+								<div class="panel-body">
+									<div class="row">
+										<h3>Produções Vinculadas:</h3>
+										<p:dataTable id="tabelaProducao" var="item"
+											value="#{projetoMB.producoesSelecionadas}"
+											styleClass="table table-striped table-bordered table-hover"
+											paginator="true" rowsPerPageTemplate="10,20,30"
+											currentPageReportTemplate="{startRecord} de {endRecord}"
+											paginatorPosition="bottom"
+											emptyMessage="Não foram encontrados registros"
+											paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+											<p:column headerText="Código"
+												style="width:12%;text-align:center;">
+												<h:outputText value="#{item.id}"
+													title="#{item.id}" />
+											</p:column>
+											<p:column headerText="Título">
+												<h:outputText value="#{item.titulo}" title="#{item.titulo}" />
+											</p:column>
+
+											<p:column headerText="Remover"
+												style="width:12%;text-align:center;"
+												rendered="#{projetoMB.acaoEnum.getCodigo() != 0}">
+												<p:commandLink
+													action="#{projetoMB.removeProducao(item)}"
+													update="@form">
+													<span class="glyphicon glyphicon-remove" />
+												</p:commandLink>
+											</p:column>
+										</p:dataTable>
+									</div>
+								</div>
 
 
 								<br />

@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.ucb.VO.AprovacaoProducaoVO;
 import br.ucb.entity.ProducaoAcademica;
+import br.ucb.entity.Projeto;
 import br.ucb.filtro.ProdAcFiltro;
 
 public interface ProducaoAcademicaDao extends DaoGenerico<ProducaoAcademica, Integer> {
@@ -42,4 +43,14 @@ public interface ProducaoAcademicaDao extends DaoGenerico<ProducaoAcademica, Int
 	public List<Date> listSimpleProdFiltroMeu(String anoInicio, String anoFim, Integer cod);
 
 	public List<Date> listSimplesProdMeu(Integer cod);
+	
+	public List<AprovacaoProducaoVO> listAprovacaoProducaoVO();
+
+	public AprovacaoProducaoVO findByIdVO(Integer id);
+
+	public boolean aplicaProjeto(Projeto projeto, AprovacaoProducaoVO producao);
+
+	public List<AprovacaoProducaoVO> getProducoesbyProjetoId(Integer idProjeto);
+
+	public boolean desvinculaProjeto(AprovacaoProducaoVO producao);
 }
