@@ -471,6 +471,8 @@ public class RelatorioProducaoAcademicaMB extends BaseMB {
 		graficoBarraTipo.setExtender("removeLegend");
 
 		Axis yAxis = graficoBarra.getAxis(AxisType.Y);
+		yAxis.setTickFormat("%.0f");
+		yAxis.setTickInterval("1");
 		yAxis.setLabel("Qtd de produções");
 		yAxis.setMin(0);
 
