@@ -55,7 +55,7 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<h:inputText value="#{alunoMB.aluno.matricula}"
-													class="form-control" maxlength="10" id="idMatricula"
+													class="form-control" maxlength="20" id="idMatricula"
 													readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
 											</div>
 
@@ -68,7 +68,7 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<h:inputText value="#{alunoMB.aluno.nome}"
-													class="form-control" maxlength="45" id="idNome"
+													class="form-control" maxlength="150" id="idNome"
 													readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
 											</div>
 										</div>
@@ -121,7 +121,7 @@
 
 												<p:inputMask id="idCelular" class="form-control"
 													value="#{alunoMB.aluno.celular}" mask="99999-9999"
-													maxlength="10"
+													maxlength="12"
 													readonly="#{alunoMB.acaoEnum.getCodigo() == 0}"
 													converter="telefoneConverter" />
 											</div>
@@ -135,7 +135,7 @@
 												</span>
 												<p:inputMask id="idFixo" class="form-control"
 													value="#{alunoMB.aluno.telefoneFixo}" mask="9999-9999"
-													maxlength="9"
+													maxlength="12"
 													readonly="#{alunoMB.acaoEnum.getCodigo() == 0}"
 													converter="telefoneConverter" />
 											</div>
@@ -153,7 +153,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<p:inputText value="#{alunoMB.aluno.email}"
-														class="form-control" maxlength="50"
+														class="form-control" maxlength="255"
 														disabled="#{alunoMB.acaoEnum.getCodigo() == 0}"
 														id="idEmail">
 													</p:inputText>
@@ -170,7 +170,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:inputSecret id="idSenha" class="form-control"
-														name="password" type="password"
+														name="password" type="password" maxlength="30"
 														disabled="#{alunoMB.acaoEnum.getCodigo() == 0}"
 														value="#{alunoMB.aluno.senha}" />
 												</div>
@@ -186,7 +186,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:inputSecret id="idRSenha" class="form-control"
-														name="password" type="password"
+														name="password" type="password" maxlength="30"
 														disabled="#{alunoMB.acaoEnum.getCodigo() == 0}"
 														value="#{alunoMB.verificaSenha}" />
 												</div>
@@ -262,7 +262,7 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<h:inputText value="#{alunoMB.endereco.estado}"
-													class="form-control" maxlength="2" id="idEstado"
+													class="form-control" maxlength="50" id="idEstado"
 													readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
 											</div>
 										</div>
@@ -274,7 +274,7 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<h:inputText value="#{alunoMB.endereco.cidade}"
-													class="form-control" maxlength="30" id="idCidade"
+													class="form-control" maxlength="50" id="idCidade"
 													readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
 											</div>
 										</div>
@@ -286,7 +286,7 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<h:inputText value="#{alunoMB.endereco.bairro}"
-													class="form-control" maxlength="30" id="idBairro"
+													class="form-control" maxlength="50" id="idBairro"
 													readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
 											</div>
 										</div>
@@ -301,7 +301,7 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<h:inputText value="#{alunoMB.endereco.rua}"
-													class="form-control" maxlength="30" id="idEndRua"
+													class="form-control" maxlength="50" id="idEndRua"
 													readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
 											</div>
 										</div>
@@ -313,7 +313,7 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<h:inputText value="#{alunoMB.endereco.complemento}"
-													class="form-control" maxlength="30" id="idEndCompl"
+													class="form-control" maxlength="120" id="idEndCompl"
 													readonly="#{alunoMB.acaoEnum.getCodigo() == 0}" />
 											</div>
 										</div>
@@ -400,7 +400,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:inputText value="#{alunoMB.aluno.matricula}"
-														class="form-control" maxlength="10" id="idMatriculaPesq" />
+														class="form-control" maxlength="20" id="idMatriculaPesq" />
 												</div>
 											</div>
 										</div>
@@ -413,7 +413,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:inputText value="#{alunoMB.aluno.nome}"
-														class="form-control" maxlength="10" id="idNomePesq" />
+														class="form-control" maxlength="150" id="idNomePesq" />
 												</div>
 											</div>
 										</div>
