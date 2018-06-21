@@ -45,6 +45,14 @@ public class Projeto implements Serializable{
 	private String horasDedicadasSemana;
 	
 	@ManyToOne
+	@JoinColumn(name = "id_docente")
+	private Docente autorDocente;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_aluno")
+	private Aluno autorAluno;
+	
+	@ManyToOne
 	@JoinColumn(name = "id_tipoProjeto")
 	private TipoProjeto tipoProjeto;
 	

@@ -91,7 +91,7 @@ public class HistoricoMB extends BaseMB {
 
 		for (int i = 0; i < this.alunos.size(); i++) {
 			Aluno aluno = this.alunos.get(i);
-			if (aluno.getNome().toLowerCase().startsWith(query)) {
+			if (aluno.getNome().toLowerCase().startsWith(query.toLowerCase())) {
 				alunosFiltrados.add(aluno);
 			}
 		}
@@ -105,7 +105,7 @@ public class HistoricoMB extends BaseMB {
 
 		for (int i = 0; i < this.docentes.size(); i++) {
 			Docente docente = this.docentes.get(i);
-			if (docente.getNome().toLowerCase().startsWith(query)) {
+			if (docente.getNome().toLowerCase().startsWith(query.toLowerCase())) {
 				docentesFiltrados.add(docente);
 			}
 		}
@@ -119,7 +119,7 @@ public class HistoricoMB extends BaseMB {
 
 		for (int i = 0; i < this.producoes.size(); i++) {
 			ProducaoAcademica producao = this.producoes.get(i);
-			if (producao.getTitulo().toLowerCase().startsWith(query)) {
+			if (producao.getTitulo().toLowerCase().startsWith(query.toLowerCase())) {
 				producoesFiltradas.add(producao);
 			}
 		}
@@ -132,7 +132,7 @@ public class HistoricoMB extends BaseMB {
 
 		for (int i = 0; i < this.projetos.size(); i++) {
 			Projeto projeto = this.projetos.get(i);
-			if (projeto.getNome().toLowerCase().startsWith(query)) {
+			if (projeto.getNome().toLowerCase().startsWith(query.toLowerCase())) {
 				projetosFiltrados.add(projeto);
 			}
 		}
