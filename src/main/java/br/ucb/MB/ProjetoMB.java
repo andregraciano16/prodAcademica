@@ -408,7 +408,15 @@ public class ProjetoMB extends BaseMB {
 
 		if (this.projeto != null) {
 			if (verificaVazioPesq(this.projeto)) {
-				this.projetos = this.projetoDao.list();
+				if (isDiretor()) {
+					this.projetos = this.projetoDao.list();
+				} else if (isProfessor()) {
+					this.projetos = this.projetoDao
+							.findByAutorDocente(this.docenteDao.getDocentebyMatricula(getUsuario().getMatricula()));
+				} else {
+					this.projetos = this.projetoDao
+							.findByAutorAluno(this.alunoDao.getAlunobyMatricula(getUsuario().getMatricula()));
+				}
 				this.variosStatus = this.statusProjetoDao.list();
 				this.variosTipos = this.tipoProjetoDao.list();
 				this.linhasPesquisa = this.linhaPesquisaDao.list();
@@ -453,6 +461,8 @@ public class ProjetoMB extends BaseMB {
 		this.projeto.setAlunosParticipantes(null);
 		this.projeto.setDocentesParticipantes(null);
 		this.projeto.setExternoParticipantes(null);
+		this.projeto.setAutorDocente(null);
+		this.projeto.setAutorAluno(null);
 
 		this.variosTipos = new ArrayList<TipoProjeto>();
 		this.variosStatus = new ArrayList<StatusProjeto>();
@@ -488,6 +498,11 @@ public class ProjetoMB extends BaseMB {
 		projeto.setDocentesParticipantes(this.docentesSelecionados);
 		projeto.setAlunosParticipantes(this.alunosSelecionados);
 		projeto.setExternoParticipantes(this.externosSelecionados);
+		if (isDiscente()) {
+			projeto.setAutorAluno(this.alunoDao.getAlunobyMatricula(getUsuario().getMatricula()));
+		} else {
+			projeto.setAutorDocente(this.docenteDao.getDocentebyMatricula(getUsuario().getMatricula()));
+		}
 
 	}
 
@@ -521,9 +536,14 @@ public class ProjetoMB extends BaseMB {
 			this.historico.setAluno(this.alunoDao.getAlunobyMatricula(user.getUsuario().getMatricula()));
 		}
 
-		this.historico.setAlteracao("Projeto: " + projeto.getNome() + "\n" + mensagem + "\n" + "Responsável: "
-				+ this.historico.getDocente().getNome());
-		this.historicoDao.save(historico);
+		if (isAluno()) {
+			this.historico.setAlteracao("Projeto: " + projeto.getNome() + "\n" + mensagem + "\n" + "Responsável: "
+					+ this.historico.getAluno().getNome());
+		} else {
+			this.historico.setAlteracao("Projeto: " + projeto.getNome() + "\n" + mensagem + "\n" + "Responsável: "
+					+ this.historico.getDocente().getNome());
+			this.historicoDao.save(historico);
+		}
 	}
 
 	private boolean verificaVazio(Projeto projeto) {

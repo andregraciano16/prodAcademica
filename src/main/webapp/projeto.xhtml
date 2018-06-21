@@ -476,19 +476,19 @@
 										</p:dataTable>
 									</div>
 								</div>
-								
-								
+
+
 								<h:panelGroup id="panelProducoesVinculadas"
 									rendered="#{projetoMB.acaoEnum.getCodigo() != 0}">
 									<div class="row">
 										<div class="col-md-8">
-											<p:outputLabel for="idProdSel"
-												value="Produções Vinculadas:" styleClass="control-label" />
+											<p:outputLabel for="idProdSel" value="Produções Vinculadas:"
+												styleClass="control-label" />
 											<div class="input-group">
 												<span class="input-group-addon"> <span
 													class="glyphicon glyphicon-tag"></span>
 												</span>
-												
+
 												<p:autoComplete value="#{projetoMB.producaoSelecionada}"
 													maxlength="150" id="idProdSel"
 													completeMethod="#{projetoMB.escolheProducoes}"
@@ -520,8 +520,7 @@
 
 											<p:column headerText="Código"
 												style="width:12%;text-align:center;">
-												<h:outputText value="#{item.id}"
-													title="#{item.id}" />
+												<h:outputText value="#{item.id}" title="#{item.id}" />
 											</p:column>
 											<p:column headerText="Título">
 												<h:outputText value="#{item.titulo}" title="#{item.titulo}" />
@@ -530,8 +529,7 @@
 											<p:column headerText="Remover"
 												style="width:12%;text-align:center;"
 												rendered="#{projetoMB.acaoEnum.getCodigo() != 0}">
-												<p:commandLink
-													action="#{projetoMB.removeProducao(item)}"
+												<p:commandLink action="#{projetoMB.removeProducao(item)}"
 													update="@form">
 													<span class="glyphicon glyphicon-remove" />
 												</p:commandLink>
@@ -544,8 +542,7 @@
 								<br />
 								<h:panelGroup styleClass="panel-no-border"
 									rendered="#{projetoMB.acaoEnum.getCodigo() == 1}">
-									<div class="form-group"
-										style="padding-top: 70px;">
+									<div class="form-group" style="padding-top: 70px;">
 
 										<p:commandButton value="Cadastrar" class="btn-primary btn-md"
 											action="#{projetoMB.cadastrar()}" process="@form"
@@ -563,8 +560,7 @@
 								</h:panelGroup>
 								<h:panelGroup styleClass="panel-no-border"
 									rendered="#{projetoMB.acaoEnum.getCodigo() == 2}">
-									<div class="form-group"
-										style="padding-top: 70px;">
+									<div class="form-group" style="padding-top: 70px;">
 										<p:commandButton value="Atualizar" class="btn-primary btn-md"
 											action="#{projetoMB.editar()}" update="@form"
 											styleClass="btn btn-primary" id="btnAtualizar" />
@@ -577,8 +573,7 @@
 
 								<h:panelGroup styleClass="panel-no-border"
 									rendered="#{projetoMB.acaoEnum.getCodigo() == 0}">
-									<div class="form-group"
-										style="padding-top: 70px;">
+									<div class="form-group" style="padding-top: 70px;">
 										<p:commandButton value="Editar" class="btn-primary btn-md"
 											action="#{projetoMB.prepararEdicao(projetoMB.projeto)}"
 											update="@form" styleClass="btn btn-primary" id="btnEditar"
@@ -769,7 +764,7 @@
 									<p:column headerText="Ações" styleClass="coluna-acao">
 
 										<p:commandLink action="#{projetoMB.prepararEdicao(item)}"
-											update="@form" rendered="#{menuMB.isDiretor()}">
+											update="@form">
 											<span class="glyphicon glyphicon-pencil" />
 										</p:commandLink>
 										&nbsp;
@@ -779,18 +774,16 @@
 										</p:commandLink>
 										&nbsp;
 										<p:commandLink action="#{projetoMB.excluir(item)}"
-											update="@form" rendered="#{menuMB.isDiretor()}">
+											update="@form">
 											<span class="glyphicon glyphicon-trash" />
 
 
 											<p:confirm message="Tem certeza que deseja apagar?"
 												header="Aviso" icon="ui-icon-alert" />
-
 										</p:commandLink>
-
 									</p:column>
-
 								</p:dataTable>
+
 								<p:confirmDialog global="true">
 									<p:commandButton value="Sim" type="button" icon="ui-icon-check"
 										styleClass="ui-confirmdialog-yes" />
