@@ -16,6 +16,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.mail.Email;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.NativeUploadedFile;
 import org.primefaces.model.StreamedContent;
@@ -124,6 +125,7 @@ import br.ucb.enums.TipoEditoraEnum;
 import br.ucb.enums.TipoOrganizacaoEventoEnum;
 import br.ucb.security.Seguranca;
 import br.ucb.security.UsuarioSistema;
+import br.ucb.util.EmailUtil;
 import br.ucb.util.FacesUtil;
 import br.ucb.util.FileUtil;
 
@@ -435,13 +437,73 @@ public class ProducaoAcademicaMB extends BaseMB {
 		this.producaoAcademica.setLinhaPesquisa(this.linhaPesquisaDao.findById(this.linhaPesquisa.getIdLinhaPesquisa()));
 		this.producaoAcademica.setTipoProducao(this.tipoProducao);
 		this.producaoAcademica.setStatusProducao(this.statusProducao);
-		this.producaoAcademica.setStatusAprovacao(this.statusAprovacaoDao.findById(new Integer(1)));
+		if(isAluno()){
+			this.producaoAcademica.setStatusAprovacao(this.statusAprovacaoDao.findById(new Integer(1)));
+		}else{
+			this.producaoAcademica.setStatusAprovacao(this.statusAprovacaoDao.findById(new Integer(2)));
+		}
 		montarNomeArquivos();
 		salvarTipoProducao();
 		salvarAutores();
 		salvarExterno();
 		cadastraHistorico("Foi cadastrado com sucesso.",this.producaoAcDao.findByProdAc(this.producaoAcademica));
 		setMessageSuccess("Cadastrado com sucesso!");
+		try{
+			enviarEmail();
+		} catch(Exception e ) {
+			System.out.println("*****************************************************");
+			System.out.println("!!!!!!!  ***** PROBLEMA AO ENVIA EMAIL ***** !!!!!!!!");
+			System.out.println("*****************************************************");
+		}
+	}
+	
+	private void enviarEmail(){
+		String emailConteudo = null;
+		String email = null;
+		for (AutorVO autor : autoresVO) {
+			Docente docente  = this.docenteDao.findById(autor.getId());
+			if(docente != null){
+				email = docente.getEmail();
+				emailConteudo = montarEmail("Autor", docente.getNome(), this.producaoAcademica);
+			}else{
+				Aluno aluno = this.alunoDao.findById(autor.getId());
+				email = aluno.getEmail();
+				emailConteudo = montarEmail("Autor", aluno.getNome(), this.producaoAcademica);
+			}
+			EmailUtil emailUtil = new EmailUtil();
+			emailUtil.sendMail("an1213dre16@gmail.com", email, "ProdAc - Cadastro de Produção", emailConteudo);
+		}
+		
+		if(this.orientador != null){
+			Docente  docente = docenteDao.findById(this.orientador.getCodAutor());
+			email = docente.getEmail();
+			emailConteudo = montarEmail("Orientador", docente.getNome(), this.producaoAcademica);
+			EmailUtil emailUtil = new EmailUtil();
+			emailUtil.sendMail("an1213dre16@gmail.com", email, "ProdAc - Cadastro de Produção", emailConteudo);
+		}
+		if(this.coorientador != null){
+			Docente  docente = docenteDao.findById(this.orientador.getCodAutor());
+			emailConteudo = montarEmail("Coorientador", docente.getNome(), this.producaoAcademica);
+			email = docente.getEmail();
+			EmailUtil emailUtil = new EmailUtil();
+			emailUtil.sendMail("an1213dre16@gmail.com", email, "ProdAc - Cadastro de Produção", emailConteudo);
+		}
+		
+		
+	}
+	
+	private String montarEmail(String tipo, String nome, ProducaoAcademica pa){
+		StringBuilder sb = new StringBuilder();
+		sb.append("<p/>Prezado, " + nome + "<br/>");
+		sb.append("<br/><br/>");
+		sb.append("<p/>Uma Produção Acadêmica foi adicionada no sistema ProdAc e o senhor está participando da mesma como " + tipo);
+		sb.append("<br/>");
+		sb.append("<p/> Dados da produção: <br/>");
+		sb.append("Título: " + pa.getTitulo());
+		sb.append("Data cadastro: " + pa.getDataCadastro());
+		sb.append("Matricula do usuário que realizou o cadastro: " + getUsuario().getMatricula());
+		sb.append("<br/><br/><br/>Qualquer dúvida entre em contado com a direção do curso ou envie uma mensgem pelo sistema.");
+	    return sb.toString();	
 	}
 	
 	private void montarNomeArquivos(){

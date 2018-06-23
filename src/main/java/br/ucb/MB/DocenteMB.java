@@ -121,7 +121,11 @@ public class DocenteMB extends BaseMB{
 			this.docente.setSenha(this.auxSenha);
 			this.docente.setEndereco(this.docente.getEndereco());
 			this.docenteDao.update(this.docente);
-			cadastraHistorico("Foi alterado com sucesso.", this.docente);
+			try{
+				cadastraHistorico("Foi alterado com sucesso.", this.docente);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 			setMessageSuccess("Atualizado com sucesso!");			
 		}
 	}
