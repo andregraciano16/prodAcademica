@@ -72,7 +72,7 @@
 												</span>
 
 												<p:autoComplete value="#{historicoMB.historico.aluno}"
-													maxlength="45" id="idAlunoSel"
+													maxlength="150" id="idAlunoSel"
 													completeMethod="#{historicoMB.escolheAluno}" effect="fade"
 													var="aluno" itemLabel="#{aluno.nome}" itemValue="#{aluno}"
 													forceSelection="true"
@@ -89,7 +89,7 @@
 												</span>
 
 												<p:autoComplete value="#{historicoMB.historico.docente}"
-													maxlength="45" id="idDocenteSel"
+													maxlength="150" id="idDocenteSel"
 													completeMethod="#{historicoMB.escolheDocente}"
 													effect="fade" var="docente" itemLabel="#{docente.nome}"
 													itemValue="#{docente}" forceSelection="true"
@@ -110,7 +110,7 @@
 
 												<p:autoComplete
 													value="#{historicoMB.historico.producaoAcademica}"
-													maxlength="45" id="idProdSel"
+													maxlength="150" id="idProdSel"
 													completeMethod="#{historicoMB.escolheProducao}"
 													effect="fade" var="prod" itemLabel="#{prod.titulo}"
 													itemValue="#{prod}" forceSelection="true"
@@ -127,7 +127,7 @@
 												</span>
 
 												<p:autoComplete value="#{historicoMB.historico.projeto}"
-													maxlength="45" id="idProjetoSel"
+													maxlength="150" id="idProjetoSel"
 													completeMethod="#{historicoMB.escolheProjeto}"
 													effect="fade" var="projeto" itemLabel="#{projeto.nome}"
 													itemValue="#{projeto}" forceSelection="true"
@@ -147,7 +147,7 @@
 												<h:inputTextarea class="form-control"
 													value="#{historicoMB.historico.alteracao}" id="idAlteracao"
 													placeholder="Pesquise aqui a informação" rows="10"
-													readonly="#{historicoMB.acaoEnum.getCodigo() == 0}" />
+													readonly="true" />
 											</div>
 										</div>
 									</div>

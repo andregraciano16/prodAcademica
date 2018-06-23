@@ -820,9 +820,14 @@ public class ProducaoAcademicaMB extends BaseMB {
 			this.historico.setDocente(this.docenteDao.getDocentebyMatricula(user.getUsuario().getMatricula()));
 		}else{
 			this.historico.setAluno(this.alunoDao.getAlunobyMatricula(user.getUsuario().getMatricula()));
-		}		
-		this.historico.setAlteracao("Produção Acadêmica: " + producao.getTitulo() + "\n" + mensagem + "\n" + "Responsável: "
+		}	
+		if(isDiscente()){
+			this.historico.setAlteracao("Produção Acadêmica: " + producao.getTitulo() + "\n" + mensagem + "\n" + "Responsável: "
+					+ this.historico.getAluno().getNome());
+		}else{
+			this.historico.setAlteracao("Produção Acadêmica: " + producao.getTitulo() + "\n" + mensagem + "\n" + "Responsável: "
 				+ this.historico.getDocente().getNome());
+		}
 		this.historicoDao.save(historico);
 	}
 	

@@ -76,7 +76,7 @@
 
 												<p:autoComplete
 													value="#{projetoMB.projeto.docenteResponsavel}"
-													maxlength="45" id="idDocenteResp"
+													maxlength="150" id="idDocenteResp"
 													completeMethod="#{projetoMB.escolheDocente}" effect="fade"
 													readonly="#{projetoMB.acaoEnum.getCodigo() == 0}"
 													var="docente" itemLabel="#{docente.nome}"
@@ -108,7 +108,7 @@
 
 												<p:autoComplete
 													value="#{projetoMB.projeto.externoResponsavel}"
-													maxlength="45" id="idExternoResp"
+													maxlength="150" id="idExternoResp"
 													completeMethod="#{projetoMB.escolheExterno}" effect="fade"
 													readonly="#{projetoMB.acaoEnum.getCodigo() == 0}"
 													var="externo" itemLabel="#{externo.nome}"
@@ -135,7 +135,7 @@
 												class="glyphicon glyphicon-tag"></span>
 											</span>
 											<h:inputText value="#{projetoMB.projeto.nome}"
-												class="form-control" maxlength="100" id="idNome"
+												class="form-control" maxlength="150" id="idNome"
 												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}" />
 										</div>
 									</div>
@@ -150,7 +150,7 @@
 											</span>
 											<h:inputText
 												value="#{projetoMB.projeto.horasDedicadasSemana}"
-												class="form-control" maxlength="45" id="idHoras"
+												class="form-control" maxlength="4" id="idHoras"
 												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}"
 												converterMessage="Campo horas dedicadas é numérico.">
 												<f:convertNumber integerOnly="true" />
@@ -170,7 +170,7 @@
 												class="glyphicon glyphicon-tag"></span>
 											</span>
 											<h:inputText value="#{projetoMB.projeto.descricao}"
-												class="form-control" maxlength="45" id="idDesc"
+												class="form-control" maxlength="255" id="idDesc"
 												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}" />
 										</div>
 									</div>
@@ -262,7 +262,7 @@
 												class="glyphicon glyphicon-tag"></span>
 											</span>
 											<h:inputText value="#{projetoMB.projeto.orgaoFinanciador}"
-												class="form-control" maxlength="45" id="idOrgao"
+												class="form-control" maxlength="150" id="idOrgao"
 												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}" />
 										</div>
 									</div>
@@ -282,7 +282,7 @@
 												</span>
 
 												<p:autoComplete value="#{projetoMB.docenteSelecionado}"
-													maxlength="45" id="idDocenteSel"
+													maxlength="150" id="idDocenteSel"
 													completeMethod="#{projetoMB.escolheParticipanteDocente}"
 													effect="fade"
 													readonly="#{projetoMB.acaoEnum.getCodigo() == 0}"
@@ -358,7 +358,7 @@
 												</span>
 
 												<p:autoComplete value="#{projetoMB.alunoSelecionado}"
-													maxlength="45" id="idAlunoSel"
+													maxlength="150" id="idAlunoSel"
 													completeMethod="#{projetoMB.escolheParticipanteAluno}"
 													effect="fade" var="aluno" itemLabel="#{aluno.nome}"
 													itemValue="#{aluno}" forceSelection="true" />
@@ -427,7 +427,7 @@
 												</span>
 
 												<p:autoComplete value="#{projetoMB.externoSelecionado}"
-													maxlength="45" id="idExternoSel"
+													maxlength="150" id="idExternoSel"
 													completeMethod="#{projetoMB.escolheParticipanteExterno}"
 													effect="fade" var="externo" itemLabel="#{externo.nome}"
 													itemValue="#{externo}" />
@@ -478,11 +478,71 @@
 								</div>
 
 
+								<h:panelGroup id="panelProducoesVinculadas"
+									rendered="#{projetoMB.acaoEnum.getCodigo() != 0}">
+									<div class="row">
+										<div class="col-md-8">
+											<p:outputLabel for="idProdSel" value="Produções Vinculadas:"
+												styleClass="control-label" />
+											<div class="input-group">
+												<span class="input-group-addon"> <span
+													class="glyphicon glyphicon-tag"></span>
+												</span>
+
+												<p:autoComplete value="#{projetoMB.producaoSelecionada}"
+													maxlength="150" id="idProdSel"
+													completeMethod="#{projetoMB.escolheProducoes}"
+													effect="fade" var="prod" itemLabel="#{prod.titulo}"
+													itemValue="#{prod}" />
+											</div>
+
+										</div>
+
+										<br /> <br /> <br /> <br />&nbsp;&nbsp;&nbsp;
+										<p:commandButton value="Cadastrar Produção"
+											action="#{projetoMB.guardaProducao(projetoMB.producaoSelecionada)}"
+											update="@form" id="btnCadastrarParticipanteP" />
+
+									</div>
+								</h:panelGroup>
+
+								<div class="panel-body">
+									<div class="row">
+										<h3>Produções Vinculadas:</h3>
+										<p:dataTable id="tabelaProducao" var="item"
+											value="#{projetoMB.producoesSelecionadas}"
+											styleClass="table table-striped table-bordered table-hover"
+											paginator="true" rowsPerPageTemplate="10,20,30"
+											currentPageReportTemplate="{startRecord} de {endRecord}"
+											paginatorPosition="bottom"
+											emptyMessage="Não foram encontrados registros"
+											paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+											<p:column headerText="Código"
+												style="width:12%;text-align:center;">
+												<h:outputText value="#{item.id}" title="#{item.id}" />
+											</p:column>
+											<p:column headerText="Título">
+												<h:outputText value="#{item.titulo}" title="#{item.titulo}" />
+											</p:column>
+
+											<p:column headerText="Remover"
+												style="width:12%;text-align:center;"
+												rendered="#{projetoMB.acaoEnum.getCodigo() != 0}">
+												<p:commandLink action="#{projetoMB.removeProducao(item)}"
+													update="@form">
+													<span class="glyphicon glyphicon-remove" />
+												</p:commandLink>
+											</p:column>
+										</p:dataTable>
+									</div>
+								</div>
+
+
 								<br />
 								<h:panelGroup styleClass="panel-no-border"
 									rendered="#{projetoMB.acaoEnum.getCodigo() == 1}">
-									<div class="form-group"
-										style="padding-top: 70px;">
+									<div class="form-group" style="padding-top: 70px;">
 
 										<p:commandButton value="Cadastrar" class="btn-primary btn-md"
 											action="#{projetoMB.cadastrar()}" process="@form"
@@ -500,8 +560,7 @@
 								</h:panelGroup>
 								<h:panelGroup styleClass="panel-no-border"
 									rendered="#{projetoMB.acaoEnum.getCodigo() == 2}">
-									<div class="form-group"
-										style="padding-top: 70px;">
+									<div class="form-group" style="padding-top: 70px;">
 										<p:commandButton value="Atualizar" class="btn-primary btn-md"
 											action="#{projetoMB.editar()}" update="@form"
 											styleClass="btn btn-primary" id="btnAtualizar" />
@@ -514,8 +573,7 @@
 
 								<h:panelGroup styleClass="panel-no-border"
 									rendered="#{projetoMB.acaoEnum.getCodigo() == 0}">
-									<div class="form-group"
-										style="padding-top: 70px;">
+									<div class="form-group" style="padding-top: 70px;">
 										<p:commandButton value="Editar" class="btn-primary btn-md"
 											action="#{projetoMB.prepararEdicao(projetoMB.projeto)}"
 											update="@form" styleClass="btn btn-primary" id="btnEditar"
@@ -551,7 +609,7 @@
 													class="glyphicon glyphicon-tag"></span>
 												</span>
 												<h:inputText value="#{projetoMB.projeto.nome}"
-													class="form-control" maxlength="10" id="idNomePesq" />
+													class="form-control" maxlength="150" id="idNomePesq" />
 											</div>
 										</div>
 									</div>
@@ -566,7 +624,7 @@
 
 											<p:autoComplete
 												value="#{projetoMB.projeto.docenteResponsavel}"
-												maxlength="45" id="idDocenteRespPesq"
+												maxlength="150" id="idDocenteRespPesq"
 												completeMethod="#{projetoMB.escolheDocente}" effect="fade"
 												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}"
 												var="docente" itemLabel="#{docente.nome}"
@@ -584,7 +642,7 @@
 
 											<p:autoComplete
 												value="#{projetoMB.projeto.externoResponsavel}"
-												maxlength="45" id="idExternoRespPesq"
+												maxlength="150" id="idExternoRespPesq"
 												completeMethod="#{projetoMB.escolheExterno}" effect="fade"
 												readonly="#{projetoMB.acaoEnum.getCodigo() == 0}"
 												var="externo" itemLabel="#{externo.nome}"
@@ -706,7 +764,7 @@
 									<p:column headerText="Ações" styleClass="coluna-acao">
 
 										<p:commandLink action="#{projetoMB.prepararEdicao(item)}"
-											update="@form" rendered="#{menuMB.isDiretor()}">
+											update="@form">
 											<span class="glyphicon glyphicon-pencil" />
 										</p:commandLink>
 										&nbsp;
@@ -716,18 +774,16 @@
 										</p:commandLink>
 										&nbsp;
 										<p:commandLink action="#{projetoMB.excluir(item)}"
-											update="@form" rendered="#{menuMB.isDiretor()}">
+											update="@form">
 											<span class="glyphicon glyphicon-trash" />
 
 
 											<p:confirm message="Tem certeza que deseja apagar?"
 												header="Aviso" icon="ui-icon-alert" />
-
 										</p:commandLink>
-
 									</p:column>
-
 								</p:dataTable>
+
 								<p:confirmDialog global="true">
 									<p:commandButton value="Sim" type="button" icon="ui-icon-check"
 										styleClass="ui-confirmdialog-yes" />

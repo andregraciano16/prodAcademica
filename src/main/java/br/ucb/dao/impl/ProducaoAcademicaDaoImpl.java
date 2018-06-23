@@ -10,11 +10,12 @@ import javax.persistence.Query;
 import br.ucb.VO.AprovacaoProducaoVO;
 import br.ucb.dao.ProducaoAcademicaDao;
 import br.ucb.entity.ProducaoAcademica;
+import br.ucb.entity.Projeto;
 import br.ucb.entity.StatusAprovacao;
 import br.ucb.filtro.ProdAcFiltro;
-import br.ucb.util.DataUtil;
 
-public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica, Integer> implements ProducaoAcademicaDao {
+public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica, Integer>
+		implements ProducaoAcademicaDao {
 
 	@Override
 	public ProducaoAcademica findById(Integer id) {
@@ -36,9 +37,9 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		String where = montarWhereFiltro(filtro);
 		Query query = getManager().createQuery(" From ProducaoAcademica t " + where);
 		montarParametrsFiltro(query, filtro);
-		return  query.getResultList();
+		return query.getResultList();
 	}
-	
+
 	private void montarParametrsFiltro(Query query, ProdAcFiltro filtro) {
 		int contador = 1;
 		if (filtro.getDescricao() != null && !filtro.getDescricao().isEmpty()) {
@@ -49,11 +50,11 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 			query.setParameter(contador, "%" + filtro.getTitulo() + "%");
 			contador++;
 		}
-		if(filtro.getDataCadastro() != null){
-			query.setParameter(contador, filtro.getDataCadastro());	
+		if (filtro.getDataCadastro() != null) {
+			query.setParameter(contador, filtro.getDataCadastro());
 			contador++;
 		}
-		if(filtro.getCodigo() != null){
+		if (filtro.getCodigo() != null) {
 			query.setParameter(contador, filtro.getCodigo());
 			contador++;
 		}
@@ -68,10 +69,10 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		if (filtro.getTitulo() != null && !filtro.getTitulo().isEmpty()) {
 			consulta.append(" and t.titulo like ? ");
 		}
-		if(filtro.getDataCadastro() != null){
-			consulta.append(" and DATE(t.dataCadastro) = DATE_FORMAT(?,'%Y-%m-%d')  ");			
+		if (filtro.getDataCadastro() != null) {
+			consulta.append(" and DATE(t.dataCadastro) = DATE_FORMAT(?,'%Y-%m-%d')  ");
 		}
-		if(filtro.getCodigo() != null){
+		if (filtro.getCodigo() != null) {
 			consulta.append(" and t.idProducaoAcademica = ? ");
 		}
 		return consulta.toString();
@@ -170,32 +171,30 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 	}
 
 	public List<Date> listSimpleProdFiltroMeu(String anoInicio, String anoFim, Integer cod) {
-		
+
 		List<Date> resultados = getManager()
 				.createQuery(
-						"select a.producaoAcademica.dataCadastro "
-								+ "from Autor a " 
+						"select a.producaoAcademica.dataCadastro " + "from Autor a "
 								+ "where year(a.producaoAcademica.dataCadastro) between ?1 and ?2 "
-								+ "and a.codAutor = ?3 " + "order by year(a.producaoAcademica.dataCadastro) asc", Date.class)
+								+ "and a.codAutor = ?3 " + "order by year(a.producaoAcademica.dataCadastro) asc",
+						Date.class)
 				.setParameter(1, Integer.valueOf(anoInicio)).setParameter(2, Integer.valueOf(anoFim))
 				.setParameter(3, cod).getResultList();
 
 		return resultados;
 	}
-	
+
 	public List<Date> listSimplesProdMeu(Integer cod) {
 
-		List<Date> resultados = getManager().createQuery(
-				"select a.producaoAcademica.dataCadastro "
-						+ "from Autor a " 
-						+ "where a.codAutor = ?1 "
+		List<Date> resultados = getManager()
+				.createQuery("select a.producaoAcademica.dataCadastro " + "from Autor a " + "where a.codAutor = ?1 "
 						+ "order by year(a.producaoAcademica.dataCadastro) asc", Date.class)
 				.setParameter(1, cod).getResultList();
 
 		return resultados;
 
 	}
-	
+
 	@Override
 	public List<AprovacaoProducaoVO> listAprovaDiretor() {
 
@@ -290,7 +289,7 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 		List<Object[]> resultados = getManager()
 				.createQuery(
 						"select year(a.producaoAcademica.dataCadastro), ap.qualis, a.producaoAcademica.dataCadastro "
-								+ "from Autor a, ProducaoAcademica p , ArtigoPeriodico ap  " 
+								+ "from Autor a, ProducaoAcademica p , ArtigoPeriodico ap  "
 								+ "where p.idProducaoAcademica = ap.producaoAcademica.idProducaoAcademica and p.idProducaoAcademica = a.producaoAcademica.idProducaoAcademica and year(a.producaoAcademica.dataCadastro) between ?1 and ?2 "
 								+ "and a.codAutor = ?3 " + "order by year(a.producaoAcademica.dataCadastro) asc")
 				.setParameter(1, Integer.valueOf(anoInicio)).setParameter(2, Integer.valueOf(anoFim))
@@ -302,14 +301,124 @@ public class ProducaoAcademicaDaoImpl extends DaoGenericoImpl<ProducaoAcademica,
 	public List<Object[]> listSimpleQualisMeu(Integer cod) {
 
 		@SuppressWarnings("unchecked")
-		List<Object[]> resultados = getManager().createQuery(
-				"select year(a.producaoAcademica.dataCadastro), a.producaoAcademica.qualis, a.producaoAcademica.dataCadastro "
-						+ "from Autor a " 
-						+ "and a.codAutor = ?1 "
-						+ "order by year(a.producaoAcademica.dataCadastro) asc")
+		List<Object[]> resultados = getManager()
+				.createQuery(
+						"select year(a.producaoAcademica.dataCadastro), a.producaoAcademica.qualis, a.producaoAcademica.dataCadastro "
+								+ "from Autor a " + "and a.codAutor = ?1 "
+								+ "order by year(a.producaoAcademica.dataCadastro) asc")
 				.setParameter(1, cod).getResultList();
 
 		return resultados;
+
+	}
+
+	@Override
+	public List<AprovacaoProducaoVO> listAprovacaoProducaoVO() {
+		// Lista de Objetos
+		// [0] - idProducaoAcademica
+		// [1] - titulo
+		// [2] - descricao
+		// [3] - statusProducao
+
+		AprovacaoProducaoVO producao = new AprovacaoProducaoVO();
+		List<AprovacaoProducaoVO> producoes = new ArrayList<AprovacaoProducaoVO>();
+
+		@SuppressWarnings("unchecked")
+		List<Object[]> resultados = getManager()
+				.createQuery(
+						"select pa.idProducaoAcademica, pa.titulo, pa.descricao, pa.statusAprovacao from ProducaoAcademica pa where pa.projeto = null order by pa.dataCadastro asc")
+				.getResultList();
+
+		for (Object[] obj : resultados) {
+			producao = new AprovacaoProducaoVO();
+			producao.setId((Integer) obj[0]);
+			producao.setTitulo((String) obj[1]);
+			producao.setDescricao((String) obj[2]);
+			producao.setStatusAprovacao((StatusAprovacao) obj[3]);
+			producoes.add(producao);
+		}
+		return producoes;
+	}
+
+	@Override
+	public AprovacaoProducaoVO findByIdVO(Integer id) {
+		AprovacaoProducaoVO producao = new AprovacaoProducaoVO();
+		Query query = getManager().createQuery(
+				"select pa.idProducaoAcademica, pa.titulo, pa.descricao, pa.statusAprovacao from ProducaoAcademica pa  WHERE pa.idProducaoAcademica like ?1 ");
+		query.setParameter(1, id);
+
+		Object[] obj = (Object[]) query.getSingleResult();
+		producao.setId((Integer) obj[0]);
+		producao.setTitulo((String) obj[1]);
+		producao.setDescricao((String) obj[2]);
+		producao.setStatusAprovacao((StatusAprovacao) obj[3]);
+		return producao;
+
+	}
+
+	@Override
+	public boolean aplicaProjeto(Projeto projeto, AprovacaoProducaoVO producao) {
+
+		try {
+			ProducaoAcademica producaoAcademica = getManager().find(ProducaoAcademica.class, producao.getId());
+			getManager().getTransaction().begin();
+			producaoAcademica.setProjeto(projeto);
+			getManager().getTransaction().commit();
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			getManager().getTransaction().rollback();
+			return false;
+		} finally {
+			getManager().close();
+		}
+		return true;
+
+	}
+
+	@Override
+	public List<AprovacaoProducaoVO> getProducoesbyProjetoId(Integer idProjeto) {
+		// Lista de Objetos
+		// [0] - idProducaoAcademica
+		// [1] - titulo
+		// [2] - descricao
+		// [3] - statusProducao
+
+		AprovacaoProducaoVO producao = new AprovacaoProducaoVO();
+		List<AprovacaoProducaoVO> producoes = new ArrayList<AprovacaoProducaoVO>();
+
+		@SuppressWarnings("unchecked")
+		List<Object[]> resultados = getManager()
+				.createQuery(
+						"select pa.idProducaoAcademica, pa.titulo, pa.descricao, pa.statusAprovacao from ProducaoAcademica pa where pa.projeto.idProjeto = ?1 order by pa.dataCadastro asc")
+				.setParameter(1, idProjeto).getResultList();
+
+		for (Object[] obj : resultados) {
+			producao = new AprovacaoProducaoVO();
+			producao.setId((Integer) obj[0]);
+			producao.setTitulo((String) obj[1]);
+			producao.setDescricao((String) obj[2]);
+			producao.setStatusAprovacao((StatusAprovacao) obj[3]);
+			producoes.add(producao);
+		}
+		return producoes;
+	}
+
+	@Override
+	public boolean desvinculaProjeto(AprovacaoProducaoVO producao) {
+
+		try {
+			ProducaoAcademica producaoAcademica = getManager().find(ProducaoAcademica.class, producao.getId());
+			getManager().getTransaction().begin();
+			producaoAcademica.setProjeto(null);
+			getManager().getTransaction().commit();
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			getManager().getTransaction().rollback();
+			return false;
+		} finally {
+			getManager().close();
+		}
+		return true;
 
 	}
 

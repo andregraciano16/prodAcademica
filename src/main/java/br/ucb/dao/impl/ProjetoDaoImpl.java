@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.Query;
 
 import br.ucb.dao.ProjetoDao;
+import br.ucb.entity.Aluno;
+import br.ucb.entity.Docente;
 import br.ucb.entity.Projeto;
 
 
@@ -116,5 +118,16 @@ public class ProjetoDaoImpl extends DaoGenericoImpl<Projeto, Integer> implements
 		return (Projeto) query.getResultList().get(0);
 	}
 
-
+	public List<Projeto> findByAutorDocente(Docente docente){
+		
+		List<Projeto> projetos = getManager().createQuery(" from Projeto p WHERE p.autorDocente = ?1 OR p.docenteResponsavel = ?1").setParameter(1, docente).getResultList();
+		return projetos;
+	}
+	
+	public List<Projeto> findByAutorAluno(Aluno aluno){
+		List<Projeto> projetos = getManager().createQuery(" from Projeto p WHERE p.autorAluno = ?1").setParameter(1, aluno).getResultList();
+		return projetos;
+	}
+	
+	
 }

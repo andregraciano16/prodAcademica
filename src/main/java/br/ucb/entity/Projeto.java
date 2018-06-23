@@ -45,6 +45,14 @@ public class Projeto implements Serializable{
 	private String horasDedicadasSemana;
 	
 	@ManyToOne
+	@JoinColumn(name = "id_docenteAutor")
+	private Docente autorDocente;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_aluno")
+	private Aluno autorAluno;
+	
+	@ManyToOne
 	@JoinColumn(name = "id_tipoProjeto")
 	private TipoProjeto tipoProjeto;
 	
@@ -186,6 +194,22 @@ public class Projeto implements Serializable{
 
 	public void setExternoParticipantes(List<Externo> externoParticipantes) {
 		this.externoParticipantes = externoParticipantes;
+	}
+
+	public Docente getAutorDocente() {
+		return autorDocente;
+	}
+
+	public void setAutorDocente(Docente autorDocente) {
+		this.autorDocente = autorDocente;
+	}
+
+	public Aluno getAutorAluno() {
+		return autorAluno;
+	}
+
+	public void setAutorAluno(Aluno autorAluno) {
+		this.autorAluno = autorAluno;
 	}
 
 	public boolean equals(Object obj) {

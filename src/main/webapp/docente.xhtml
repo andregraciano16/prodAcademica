@@ -65,7 +65,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:inputText value="#{docenteMB.docente.nome}"
-														class="form-control" maxlength="10"
+														class="form-control" maxlength="45"
 														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}"
 														id="idNome" />
 												</div>
@@ -462,24 +462,24 @@
 										emptyMessage="Não foram encontrados registros"
 										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
-										<p:column headerText="Código">
+										<p:column headerText="Código" style="width:6%;">
 											<h:outputText value="#{item.idDocente}"
 												title="#{item.idDocente}" />
 										</p:column>
-										<p:column headerText="Matricula">
+										<p:column headerText="Matricula" style="width:8%;">
 											<h:outputText value="#{item.matricula}"
 												title="#{item.matricula}" />
 										</p:column>
 										<p:column headerText="Nome">
 											<h:outputText value="#{item.nome}" title="#{item.nome}" />
 										</p:column>
-										<p:column headerText="Email">
+										<p:column headerText="Email" style="width:23%;">
 											<h:outputText value="#{item.email}" title="#{item.email}" />
 										</p:column>
-										<p:column headerText="Ramal">
+										<p:column headerText="Ramal" style="width:6%;">
 											<h:outputText value="#{item.ramal}" title="#{item.ramal}" />
 										</p:column>
-										<p:column headerText="Ativo">
+										<p:column headerText="Ativo" style="width:8%;">
 											<h:outputText
 												value="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}"
 												title="#{item.ativo eq  'true' ? 'ATIVO' : 'INATIVO'}" />
@@ -499,7 +499,7 @@
 											<p:commandLink action="#{docenteMB.excluir(item)}"
 												update="@form">
 												<span class="glyphicon glyphicon-trash" />
-												<p:confirm message="Tem certeza que deseja excluir?"
+												<p:confirm message="Tem certeza que deseja inativar?"
 														header="Aviso" icon="ui-icon-alert" />
 											</p:commandLink>
 										</p:column>

@@ -53,7 +53,7 @@
 												class="glyphicon glyphicon-tag"></span>
 											</span>
 											<h:inputText value="#{tipoProjetoMB.tipoProjeto.tipo}"
-												class="form-control" maxlength="45" id="idTipo"
+												class="form-control" maxlength="100" id="idTipo"
 												validatorMessage="O Tipo não pode ser maior que 45 caracteres." />
 										</div>
 									</div>
@@ -67,7 +67,7 @@
 												class="glyphicon glyphicon-tag"></span>
 											</span>
 											<h:inputText value="#{tipoProjetoMB.tipoProjeto.descricao}"
-												class="form-control" maxlength="45" id="idDescricao"
+												class="form-control" maxlength="100" id="idDescricao"
 												validatorMessage="A descrição não pode ser maior que 45 caracteres." />
 										</div>
 									</div>
@@ -126,8 +126,8 @@
 
 											<f:facet name="input">
 												<p:inputText value="#{item.tipo}" style="width:100%"
-													maxlength="45" id="idEditTipo"
-													validatorMessage="O tipo não pode ser maior que 45 caracteres." />
+													maxlength="100" id="idEditTipo"
+													validatorMessage="O tipo não pode ser maior que 100 caracteres." />
 											</f:facet>
 
 										</p:cellEditor>
@@ -145,8 +145,8 @@
 
 											<f:facet name="input">
 												<p:inputText value="#{item.descricao}" style="width:100%"
-													maxlength="45" id="idEditDescricao"
-													validatorMessage="A descrição não pode ser maior que 45 caracteres." />
+													maxlength="100" id="idEditDescricao"
+													validatorMessage="A descrição não pode ser maior que 100 caracteres." />
 											</f:facet>
 
 										</p:cellEditor>
