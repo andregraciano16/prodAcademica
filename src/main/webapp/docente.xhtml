@@ -50,7 +50,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:inputText value="#{docenteMB.docente.matricula}"
-														class="form-control" maxlength="10"
+														class="form-control" maxlength="20"
 														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}"
 														id="idMatricula" />
 												</div>
@@ -65,7 +65,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:inputText value="#{docenteMB.docente.nome}"
-														class="form-control" maxlength="45"
+														class="form-control" maxlength="150"
 														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}"
 														id="idNome" />
 												</div>
@@ -80,7 +80,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:inputText value="#{docenteMB.docente.situacao}"
-														class="form-control" maxlength="10"
+														class="form-control" maxlength="12"
 														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}"
 														id="idSituacao" />
 												</div>
@@ -151,7 +151,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<p:inputText value="#{docenteMB.docente.email}"
-														class="form-control" id="idEmail" maxlength="50"
+														class="form-control" id="idEmail" maxlength="255"
 														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}">
 													</p:inputText>
 												</div>
@@ -202,7 +202,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:inputText value="#{docenteMB.docente.ramal}"
-														class="form-control" maxlength="10"
+														class="form-control" maxlength="12"
 														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}"
 														id="idRamal" />
 												</div>
@@ -261,7 +261,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:inputText value="#{docenteMB.docente.endereco.estado}"
-														class="form-control" maxlength="10"
+														class="form-control" maxlength="50"
 														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}"
 														id="idEstado" />
 												</div>
@@ -276,7 +276,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:inputText value="#{docenteMB.docente.endereco.cidade}"
-														class="form-control" maxlength="10"
+														class="form-control" maxlength="50"
 														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}"
 														id="idCidade" />
 												</div>
@@ -291,7 +291,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:inputText value="#{docenteMB.docente.endereco.bairro}"
-														class="form-control" id="idBairro" maxlength="10"
+														class="form-control" id="idBairro" maxlength="50"
 														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}" />
 												</div>
 											</div>
@@ -308,7 +308,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:inputText value="#{docenteMB.docente.endereco.rua}"
-														class="form-control" id="idEndRua" maxlength="10"
+														class="form-control" id="idEndRua" maxlength="50"
 														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}" />
 												</div>
 											</div>
@@ -323,7 +323,7 @@
 													</span>
 													<h:inputText
 														value="#{docenteMB.docente.endereco.complemento}"
-														class="form-control" maxlength="10"
+														class="form-control" maxlength="120"
 														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}"
 														id="idEndCompl" />
 												</div>
@@ -354,7 +354,7 @@
 														class="glyphicon glyphicon-tag"></span>
 													</span>
 													<h:inputSecret value="#{docenteMB.docente.senha}" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}"
-														class="form-control" maxlength="10" id="idSenha" />
+														class="form-control" maxlength="30" id="idSenha" />
 												</div>
 											</div>
 										</div>
@@ -368,7 +368,7 @@
 													</span>
 													<h:inputSecret value="#{docenteMB.confirmarSenha}"
 														disabled="#{docenteMB.acaoEnum.getCodigo() == 0}"
-														class="form-control" maxlength="10" id="idConfSenha" />
+														class="form-control" maxlength="30" id="idConfSenha" />
 												</div>
 											</div>
 										</div>
