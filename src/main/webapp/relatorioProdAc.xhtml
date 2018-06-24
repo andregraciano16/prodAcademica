@@ -96,7 +96,9 @@
 									               <h:outputText value="#{item.descricao}" title="#{item.descricao}" />
 										       </p:column>
 										       <p:column headerText="Data Cadastro">
-									               <h:outputText value="#{item.dataCadastro}" title="#{relatorioProdAcMB.getFomataDataCadastro(item.dataCadastro)}" />
+									               <h:outputText value="#{item.dataCadastro}" title="#{relatorioProdAcMB.getFomataDataCadastro(item.dataCadastro)}">
+									               		<f:convertDateTime pattern="dd/MM/yyyy"/>
+									               </h:outputText>
 										       </p:column>
 										       <p:column headerText="Divulgação">
 									               <h:outputText value="#{relatorioProdAcMB.getDescrDivulgacao(item.divulgacao)}" title="#{relatorioProdAcMB.getDescrDivulgacao(item.divulgacao)}" />
