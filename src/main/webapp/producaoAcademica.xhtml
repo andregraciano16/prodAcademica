@@ -49,7 +49,7 @@
 											       <h:outputLabel for="idObservacao" value="Observação:" styleClass="control-label"/>
 											       <div class="input-group">
 											    	 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
-											         <h:inputText value="#{producaoAcademicaMB.producaoAcademica.observacao}" class= "form-control" maxlength="300" id="idObservacao" disabled="#{producaoAcademicaMB.acaoEnum.codigo eq 0}"/>
+											         <h:inputText value="#{producaoAcademicaMB.producaoAcademica.observacao}" class= "form-control" maxlength="255" id="idObservacao" disabled="#{producaoAcademicaMB.acaoEnum.codigo eq 0}"/>
 											    </div>
 											</div>
 										</div>
@@ -107,7 +107,7 @@
 											        <h:outputLabel for="idURL" value="URL:" styleClass="control-label"/>
 												    <div class="input-group">
 														 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
-													     <h:inputText value="#{producaoAcademicaMB.producaoAcademica.URL}" class= "form-control" maxlength="100" id="idURL" disabled="#{producaoAcademicaMB.acaoEnum.codigo eq 0}"/>
+													     <h:inputText value="#{producaoAcademicaMB.producaoAcademica.URL}" class= "form-control" maxlength="255" id="idURL" disabled="#{producaoAcademicaMB.acaoEnum.codigo eq 0}"/>
 												    </div>
 												</div>
 										</div><br/>
@@ -642,7 +642,7 @@
 														     <h:outputLabel for="idTitulosDosAnais" value="Titulos dos Anais:" styleClass="control-label"/>
 															 <div class="input-group">
 																 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
-															     <h:inputText value="#{producaoAcademicaMB.trabalhoEmAnais.tituloDosAnais}" class= "form-control" maxlength="50" id="idTitulosDosAnais" disabled="#{producaoAcademicaMB.acaoEnum.codigo eq 0}"/>
+															     <h:inputText value="#{producaoAcademicaMB.trabalhoEmAnais.tituloDosAnais}" class= "form-control" maxlength="100" id="idTitulosDosAnais" disabled="#{producaoAcademicaMB.acaoEnum.codigo eq 0}"/>
 															 </div>
 													    </div>
 												  </div><br/>
@@ -1454,7 +1454,7 @@
 														   <h:outputLabel for="idInstPromotoraApres" value="Instituição Promotora:" styleClass="control-label"/>
 														   <div class="input-group">
 															  <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
-															  <h:inputText value="#{producaoAcademicaMB.apresentacaoTrabalho.instituicaoPromotora}" class= "form-control" maxlength="50" id="idInstPromotoraApres" disabled="#{producaoAcademicaMB.acaoEnum.codigo eq 0}"/>
+															  <h:inputText value="#{producaoAcademicaMB.apresentacaoTrabalho.instituicaoPromotora}" class= "form-control" maxlength="150" id="idInstPromotoraApres" disabled="#{producaoAcademicaMB.acaoEnum.codigo eq 0}"/>
 												           </div>
 													 </div>
 											     </div><br/>
