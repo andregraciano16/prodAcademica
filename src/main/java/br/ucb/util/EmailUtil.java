@@ -74,7 +74,7 @@ public class EmailUtil {
 			//Setando o assunto
 			msg.setSubject(subject);
 			//Setando o conteúdo/corpo do email
-			msg.setContent(message,"text/plain");
+			msg.setContent(message,"text/html");
 		} catch (Exception e) {
 			System.out.println(">> Erro: Completar Mensagem");
 			e.printStackTrace();

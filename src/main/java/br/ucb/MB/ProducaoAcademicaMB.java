@@ -125,6 +125,7 @@ import br.ucb.enums.TipoEditoraEnum;
 import br.ucb.enums.TipoOrganizacaoEventoEnum;
 import br.ucb.security.Seguranca;
 import br.ucb.security.UsuarioSistema;
+import br.ucb.util.DataUtil;
 import br.ucb.util.EmailUtil;
 import br.ucb.util.FacesUtil;
 import br.ucb.util.FileUtil;
@@ -499,9 +500,9 @@ public class ProducaoAcademicaMB extends BaseMB {
 		sb.append("<p/>Uma Produção Acadêmica foi adicionada no sistema ProdAc e o senhor está participando da mesma como " + tipo);
 		sb.append("<br/>");
 		sb.append("<p/> Dados da produção: <br/>");
-		sb.append("Título: " + pa.getTitulo());
-		sb.append("Data cadastro: " + pa.getDataCadastro());
-		sb.append("Matricula do usuário que realizou o cadastro: " + getUsuario().getMatricula());
+		sb.append("<br/>Título: " + pa.getTitulo());
+		sb.append("<br/>Data cadastro: " + DataUtil.convertDateInString(pa.getDataCadastro(), "dd/MM/yyyy"));
+		sb.append("<br/>Matricula do usuário que realizou o cadastro: " + getUsuario().getMatricula());
 		sb.append("<br/><br/><br/>Qualquer dúvida entre em contado com a direção do curso ou envie uma mensgem pelo sistema.");
 	    return sb.toString();	
 	}
