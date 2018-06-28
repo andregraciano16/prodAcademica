@@ -49,6 +49,8 @@ public class DocenteMB extends BaseMB{
 	private UsuarioSistema user;
 	private String confirmarSenha;
 	private String auxSenha;
+	private int qtdProfessor;
+	private int qtdDiretor;
 	
 	@PostConstruct
 	public void init() {
@@ -61,6 +63,7 @@ public class DocenteMB extends BaseMB{
 	public void inicializar(){		
 		this.tipoDocente    = new TipoDocente(); 
 		this.docentes       = docenteDao.list();
+		recolheTipoDocente();
 		if(this.docente == null){
 			this.docente = new Docente();
 			this.docente.setEndereco(new Endereco());
@@ -75,6 +78,17 @@ public class DocenteMB extends BaseMB{
 		}
 	}
 	
+	private void recolheTipoDocente() {
+		for(Docente docente : this.docentes){
+			if(docente.getTipoDocente().getTipo().equals("DIRETOR")){
+				this.qtdDiretor++;
+			}else{
+				this.qtdProfessor++;
+			}
+		}
+		
+	}
+
 	private boolean validarSenhaDocente(){
 		boolean isValido = Boolean.TRUE;
 		if(!StringUtil.isNotNullIsNotEmpty(this.docente.getSenha())){
@@ -253,6 +267,22 @@ public class DocenteMB extends BaseMB{
 
 	public void setConfirmarSenha(String confirmarSenha) {
 		this.confirmarSenha = confirmarSenha;
+	}
+
+	public int getQtdProfessor() {
+		return qtdProfessor;
+	}
+
+	public void setQtdProfessor(int qtdProfessor) {
+		this.qtdProfessor = qtdProfessor;
+	}
+
+	public int getQtdDiretor() {
+		return qtdDiretor;
+	}
+
+	public void setQtdDiretor(int qtdDiretor) {
+		this.qtdDiretor = qtdDiretor;
 	}	
 	
 }
