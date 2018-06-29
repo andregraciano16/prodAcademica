@@ -185,7 +185,7 @@
 													</span>
 													<p:inputMask id="idDataNasc"
 														value="#{docenteMB.docente.dataNascimento}"
-														mask="99/99/9999"
+														mask="99/99/9999" disabled="#{docenteMB.acaoEnum.getCodigo() == 0}"
 														styleClass="form-control input-group-calendar"
 														converter="dataConverter" />
 												</div>
