@@ -17,6 +17,30 @@
 			<!--/.row-->
 
 			<div class="panel panel-container">
+			<h:panelGroup rendered="#{menuMB.isAluno()}">
+				<div class="row">
+					<div class="col-xs-6 col-md-3 col-lg-6 no-padding">
+						<div class="panel panel-teal panel-widget border-right">
+							<div class="row no-padding">
+								<em class="fa fa-xl fa fa-copy color-blue"></em>
+								<div class="large">#{relatorioProdAcMB.producoes.size()}</div>
+								<div class="text-muted">Produções</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6 col-md-3 col-lg-6 no-padding">
+						<div class="panel panel-blue panel-widget border-right">
+							<div class="row no-padding">
+								<em class="fa fa-xl fa fa-clipboard color-orange"></em>
+								<div class="large">#{projetoMB.projetos.size()}</div>
+								<div class="text-muted">Projetos</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</h:panelGroup>
+				<!--/.row-->
+				<h:panelGroup rendered="#{!menuMB.isAluno()}">
 				<div class="row">
 					<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
 						<div class="panel panel-teal panel-widget border-right">
@@ -36,32 +60,34 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-						<div class="panel panel-orange panel-widget border-right">
-							<div class="row no-padding">
-								<em class="fa fa-xl fa-users color-teal"></em>
-								<div class="large">#{alunoMB.alunos.size() +
-									docenteMB.docentes.size() + projetoMB.externos.size()}</div>
-								<div class="text-muted">Usuários</div>
+					
+						<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+							<div class="panel panel-orange panel-widget border-right">
+								<div class="row no-padding">
+									<em class="fa fa-xl fa-users color-teal"></em>
+									<div class="large">#{alunoMB.alunos.size() +
+										docenteMB.docentes.size() + projetoMB.externos.size()}</div>
+									<div class="text-muted">Usuários</div>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
-						<div class="panel panel-red panel-widget ">
-							<div class="row no-padding">
-								<em class="fa fa-xl fa-search color-red"></em>
-								<h:panelGroup rendered="#{menuMB.isDiretor()}">
-									<div class="large">#{aprovarProducaoDiretorMB.aprovaProducoes.size()}</div>
-								</h:panelGroup>
-								<h:panelGroup rendered="#{menuMB.isProfessor()}">
-									<div class="large">#{aprovarProducaoProfessorMB.aprovaProducoes.size()}</div>
-								</h:panelGroup>
-								<div class="text-muted">Produções pendentes</div>
+
+						<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+							<div class="panel panel-red panel-widget ">
+								<div class="row no-padding">
+									<em class="fa fa-xl fa-search color-red"></em>
+									<h:panelGroup rendered="#{menuMB.isDiretor()}">
+										<div class="large">#{aprovarProducaoDiretorMB.aprovaProducoes.size()}</div>
+									</h:panelGroup>
+									<h:panelGroup rendered="#{menuMB.isProfessor()}">
+										<div class="large">#{aprovarProducaoProfessorMB.aprovaProducoes.size()}</div>
+									</h:panelGroup>
+									<div class="text-muted">Produções pendentes</div>
+								</div>
 							</div>
 						</div>
-					</div>
 				</div>
-				<!--/.row-->
+				</h:panelGroup>
 			</div>
 			<div class="row">
 				<div class="col-md-12">
