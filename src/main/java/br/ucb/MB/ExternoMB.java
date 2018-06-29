@@ -87,6 +87,7 @@ public class ExternoMB extends BaseMB {
 				setMessageError("Houve um erro ao salvar no sistema.");
 			}
 
+			
 		} else {
 			setMessageError("Descrição não pode ficar vazia.");
 		}

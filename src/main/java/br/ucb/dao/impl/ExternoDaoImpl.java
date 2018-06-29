@@ -20,16 +20,22 @@ public class ExternoDaoImpl extends DaoGenericoImpl<Externo, Integer> implements
 
 	@Override
 	public List<Externo> findByNome(String nome) {
+		List<Externo> list = new ArrayList<Externo>();
 		Query query = getManager().createQuery(" From Externo e WHERE e.nome like ?1 group by e.nome");
 		query.setParameter(1, "%"+ nome + "%");
+		list =  query.getResultList();
+		getManager().close();
 		
-		return query.getResultList();
+		return list;
 	}
 	
 
 	public List<Externo> listDistinct() {
+		List<Externo> list = new ArrayList<Externo>();
 		Query query = getManager().createQuery("FROM Externo e group by e.nome");
+		list =  query.getResultList();
+		getManager().close();
 		
-		return query.getResultList();
+		return list;
 	}
 }
