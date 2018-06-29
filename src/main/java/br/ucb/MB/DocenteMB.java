@@ -211,6 +211,8 @@ public class DocenteMB extends BaseMB{
 
 	public void limpar() {
 		this.docente = new Docente();
+		this.docentePesq = new DocenteVO();
+		buscar();
 	}
 	
 	public List<TipoDocente> getTipoDocentes(){
