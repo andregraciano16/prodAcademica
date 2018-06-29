@@ -6,7 +6,7 @@
 	<ui:define name="Conteudo">
 
 		<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-			
+
 			<!--/.row-->
 
 			<div class="row">
@@ -40,7 +40,8 @@
 						<div class="panel panel-orange panel-widget border-right">
 							<div class="row no-padding">
 								<em class="fa fa-xl fa-users color-teal"></em>
-								<div class="large">#{alunoMB.alunos.size() + docenteMB.docentes.size() + projetoMB.externos.size()}</div>
+								<div class="large">#{alunoMB.alunos.size() +
+									docenteMB.docentes.size() + projetoMB.externos.size()}</div>
 								<div class="text-muted">Usuários</div>
 							</div>
 						</div>
@@ -49,7 +50,12 @@
 						<div class="panel panel-red panel-widget ">
 							<div class="row no-padding">
 								<em class="fa fa-xl fa-search color-red"></em>
-								<div class="large">#{aprovarProducaoDiretorMB.aprovaProducoes.size()}</div>
+								<h:panelGroup rendered="#{menuMB.isDiretor()}">
+									<div class="large">#{aprovarProducaoDiretorMB.aprovaProducoes.size()}</div>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{menuMB.isProfessor()}">
+									<div class="large">#{aprovarProducaoProfessorMB.aprovaProducoes.size()}</div>
+								</h:panelGroup>
 								<div class="text-muted">Produções pendentes</div>
 							</div>
 						</div>
@@ -61,37 +67,26 @@
 				<div class="col-md-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							Site Traffic Overview
-							<ul class="pull-right panel-settings panel-button-tab-right">
-								<li class="dropdown"><a class="pull-right dropdown-toggle"
-									data-toggle="dropdown" href="#"> <em class="fa fa-cogs"></em>
-								</a>
-									<ul class="dropdown-menu dropdown-menu-right">
-										<li>
-											<ul class="dropdown-settings">
-												<li><a href="#"> <em class="fa fa-cog"></em>
-														Settings 1
-												</a></li>
-												<li class="divider"></li>
-												<li><a href="#"> <em class="fa fa-cog"></em>
-														Settings 2
-												</a></li>
-												<li class="divider"></li>
-												<li><a href="#"> <em class="fa fa-cog"></em>
-														Settings 3
-												</a></li>
-											</ul>
-										</li>
-									</ul></li>
-							</ul>
-							<span
-								class="pull-right clickable panel-toggle panel-button-tab-left"><em
-								class="fa fa-toggle-up"></em></span>
+							<em class="glyphicon glyphicon-list-alt" />&nbsp;&nbsp;&nbsp;
+							<h:outputLabel style="font-size: 23px;"> Acompanhamento do
+							Sistema</h:outputLabel>
 						</div>
 						<div class="panel-body">
 							<div class="canvas-wrapper">
-								<canvas class="main-chart" id="line-chart" height="200"
-									width="600"></canvas>
+								<em class="fa fa-xl fa-user-tie"></em> &nbsp;&nbsp;&nbsp;&nbsp;
+								<h:outputLabel style="font-size: 19px;">Total de Diretores Cadastrados: #{docenteMB.qtdDiretor}</h:outputLabel>
+								<br />
+								<br /> <em class="fa fa-xl fa-chalkboard-teacher"></em>
+								&nbsp;&nbsp;&nbsp;
+								<h:outputLabel style="font-size: 19px;">Total de Professores Cadastrados: #{docenteMB.qtdProfessor}</h:outputLabel>
+								<br />
+								<br /> <em class="fa fa-xl fa-user-graduate"></em>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<h:outputLabel style="font-size: 19px;">Total de Alunos Cadastrados: #{alunoMB.alunos.size()}</h:outputLabel>
+								<br />
+								<br /> <em class="fa fa-xl fa-user-tag"></em>
+								&nbsp;&nbsp;&nbsp;
+								<h:outputLabel style="font-size: 19px;">Total de Externos Cadastrados: #{externoMB.externos.size()}</h:outputLabel>
 							</div>
 						</div>
 					</div>
