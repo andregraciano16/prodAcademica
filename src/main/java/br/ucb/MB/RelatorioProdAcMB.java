@@ -120,6 +120,12 @@ public class RelatorioProdAcMB extends BaseMB {
 		return "/producaoAcademica.xhtml";
 	}
 	
+	public String editar(ProducaoAcademica producao){
+		FacesUtil.getExternalContext().getRequestMap().put("acao", acaoEnum.EDITAR);
+		FacesUtil.getExternalContext().getRequestMap().put("producao", producao);
+		return "/producaoAcademica.xhtml";
+	}
+	
 	public void limpar() {
 		this.filtro = new ProdAcFiltro();
 		buscar();

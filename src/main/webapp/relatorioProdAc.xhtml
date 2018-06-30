@@ -104,10 +104,17 @@
 									               <h:outputText value="#{relatorioProdAcMB.getDescrDivulgacao(item.divulgacao)}" title="#{relatorioProdAcMB.getDescrDivulgacao(item.divulgacao)}" />
 										       </p:column>
 												<p:column headerText="Ação" style="width:12%;text-align:center;">
-													<p:commandLink action="#{relatorioProdAcMB.visualizar(item)}"
-														update="@form">
-														<span class="glyphicon glyphicon-search" />
-													</p:commandLink>
+													<div class="form-group">
+														<p:commandLink action="#{relatorioProdAcMB.visualizar(item)}"
+															update="@form">
+															<span class="glyphicon glyphicon-search" />
+														</p:commandLink>
+														&nbsp;&nbsp;
+														<p:commandLink action="#{relatorioProdAcMB.editar(item)}"
+															update="@form">
+															<span class="glyphicon glyphicon-pencil" />
+														</p:commandLink>
+													</div>
 											    </p:column>
 											</p:dataTable>
 							 	     </div>

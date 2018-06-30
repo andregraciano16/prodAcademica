@@ -71,7 +71,7 @@
 													<h:outputLabel for="idTipo" value="Tipo Producao:" styleClass="control-label" />
 											        <div class="input-group">
 														 <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
-												        <h:selectOneMenu id="idTipo" value="#{producaoAcademicaMB.tipoProducao.idTipoProducao}" styleClass="form-control-select" disabled="#{producaoAcademicaMB.acaoEnum.codigo eq 0}">
+												        <h:selectOneMenu id="idTipo" value="#{producaoAcademicaMB.tipoProducao.idTipoProducao}" styleClass="form-control-select" disabled="#{producaoAcademicaMB.acaoEnum.codigo eq 0 or producaoAcademicaMB.acaoEnum.codigo eq 2}">
 															<f:selectItems itemLabel="#{tipo.tipo}" itemValue="#{tipo.idTipoProducao}" var="tipo" value="#{producaoAcademicaMB.getTipo()}" />
 														    <p:ajax process="@this" partialSubmit="true" event="valueChange" update="paineis"/>
 												        </h:selectOneMenu>
