@@ -7,6 +7,7 @@ import br.ucb.entity.Aluno;
 
 public interface AlunoDao extends DaoGenerico<Aluno, Integer>{
 
+	Aluno findByMatriculaAluno(String matricula);
 
 	Aluno findById(Integer integer);
 

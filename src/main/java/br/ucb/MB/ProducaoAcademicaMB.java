@@ -539,7 +539,7 @@ public class ProducaoAcademicaMB extends BaseMB {
 	private void montarAutores(ProducaoAcademica pa){
 		Autor autorCad;
 		for (AutorVO autor : autoresVO) {
-			Docente docente  = this.docenteDao.findById(autor.getId());
+			Docente docente  = this.docenteDao.findByMatriculaDocente(autor.getMatricula());
 			if(docente != null){
 				autorCad = new Autor();
 				autorCad.setCodAutor(docente.getIdDocente());
@@ -548,7 +548,7 @@ public class ProducaoAcademicaMB extends BaseMB {
 				autorCad.setProducaoAcademica(pa);
 				this.autores.add(autorCad);
 			}else{
-				Aluno aluno = this.alunoDao.findById(autor.getId());
+				Aluno aluno = this.alunoDao.findByMatriculaAluno(autor.getMatricula());
 				autorCad = new Autor();
 				autorCad.setCodAutor(aluno.getIdAluno());
 				autorCad.setTipoAutor("ALUNO");

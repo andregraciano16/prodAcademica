@@ -71,6 +71,17 @@ public class DocenteDaoImpl extends DaoGenericoImpl<Docente, Integer> implements
 		}
 		return usuario;
 	}
+	
+	@Override
+	public Docente findByMatriculaDocente(String matricula) {
+		Query query = getManager().createQuery(" from Docente t  WHERE t.matricula like ?1 ");
+		query.setParameter(1, matricula);
+		try{
+		   return (Docente) query.getSingleResult();
+		}catch(NoResultException e){ 
+			return  null;
+		}
+	}
 
 	@Override
 	public List<Docente> listFiltro(String anoInicio, String anoFim) {

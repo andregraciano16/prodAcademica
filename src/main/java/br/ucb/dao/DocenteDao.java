@@ -21,4 +21,6 @@ public interface DocenteDao extends DaoGenerico<Docente, Integer> {
 	Docente getDocentebyMatricula(String matricula);
 	
 	String getNomebyMatricula(String matricula);
+
+	Docente findByMatriculaDocente(String matricula);
 }

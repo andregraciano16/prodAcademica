@@ -137,6 +137,17 @@ public class AlunoDaoImpl extends DaoGenericoImpl<Aluno, Integer> implements Alu
 
 
 	@Override
+	public Aluno findByMatriculaAluno(String matricula) {
+		Query query = getManager().createQuery(" from Aluno t  WHERE t.matricula like ?1 ");
+		query.setParameter(1, matricula);
+		try{
+		   return (Aluno) query.getSingleResult();
+		}catch(NoResultException e){ 
+		   return null;	
+		}
+	}
+	
+	@Override
 	public List<Aluno> listFiltro(String anoInicio, String anoFim) {
 		@SuppressWarnings("unchecked")
 		List<Aluno> resultados = getManager()
